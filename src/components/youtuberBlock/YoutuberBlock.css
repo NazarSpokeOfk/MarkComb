@@ -1,0 +1,119 @@
+.youtuber__block{
+    position: relative;
+    border: 1px solid #000;
+    border-radius: 97px;
+    max-width: 1300px;
+    max-height: 374px;
+    margin: 0 auto;
+    z-index: -1;
+  }
+  .youtubers{
+    margin-top: 130px;
+  }
+  .youtuber__image{
+    position: absolute;
+    left: 61.5%;
+    bottom:0%;
+    border-radius: 97px;
+    width: 500px;
+    height: 375px;
+    z-index: -1;
+    border: 1px solid black;
+  }
+  
+  .youtuber__information{
+    display: flex;
+    align-items: flex-start; 
+    margin: 10px 100px; 
+  }
+  
+  .youtuber__name{
+    margin-top: 60px;
+    margin-left: 100px;
+    display: inline-block;
+    font-weight: 700;
+    font-size: 25px;
+    color: #000;
+    margin-bottom: 0;
+  }
+  .pulse{
+    animation: pulse 1.5s infinite;
+  }
+  .youtuber__definitions{
+    width: 30%;
+  }
+  .youtuber__definition{
+    text-align: left; /* Текст выравнивается по левому краю */
+    font-weight: 300;
+    font-size: 25px;
+    color: #000;
+    margin-bottom: 50px;
+  }
+  
+  .statistic{
+    font-weight: 300;
+    font-size: 25px;
+    color: #060606;
+    margin-bottom:30px; 
+    transition: all 0.4s;
+  }
+  #subs{
+    padding-bottom: 150px;
+  }
+  .none{
+    opacity: 1;
+    transition: 0.2s all;
+  }
+  .youtuber__stats{
+    width: 30%;
+  }
+  
+  .youtuber__button{
+    border: 1px solid #000;
+    border-radius: 97px;
+    width: 230px;
+    height: 102px;
+    margin-top: 70px;
+    margin-left: 300px;
+    margin-bottom: 100px;
+    font-weight: 600;
+  
+    font-size: 23px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: all 0.5s ease;
+      span{
+        color: var(--main-red-col);
+      }
+  }
+  
+  
+  .youtuber__button.success {
+    width: 630px;
+    color: #000;
+    border-color: rgba(24, 160, 115, 0.838);
+  }
+  
+  .youtuber__button.fail {
+    width: 630px;
+    color: #000;
+    border-color: rgba(255, 0, 0, 0.838);
+  }
+
+  .footer__purpose{
+    margin-top: 20px;
+    text-decoration: none;
+    color: black;
+  }
+
+  @keyframes pulse {
+    0% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.5;
+    }
+  }

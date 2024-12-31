@@ -1,0 +1,15 @@
+{
+  "type": "module",
+  "main": "index.js",
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "pg": "^8.13.1"
+  },
+  "scripts": {
+    "dev": "nodemon app.js"
+  }
+}

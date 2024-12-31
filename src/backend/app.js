@@ -1,0 +1,30 @@
+import express from "./node_modules/express/index.js"
+import createTables from "./db/setup.js";
+
+import pool from "./db/index.js";
+
+import userRouter from "./routers/userRouter.js";
+import purchasesRouter from "./routers/purchasesRouter.js";
+
+
+const app = express();
+
+const PORT = process.env.port || 5001;
+
+app.use(express.json())
+
+app.use('/api',purchasesRouter)
+app.use('/api',userRouter)
+
+async function initializeApp(){
+    try{
+        await createTables(pool);
+        app.listen(PORT,()=>{
+            console.log('Сервер запущен на порте:',PORT)
+        });
+    } catch (error) {
+        console.log("Возникла ошибка в Intialize app:",error)
+    }
+}
+
+initializeApp()

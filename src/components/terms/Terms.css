@@ -1,0 +1,146 @@
+body {
+    margin: 0;
+  }
+  
+  .container {
+    width: 100%;
+    max-width: 1920px;
+    margin: 0 auto; /* центрирует контейнер */
+    padding: 0 20px; /* добавь отступы по бокам, чтобы контейнер не прилегал к краям */
+    box-sizing: border-box;
+  }
+  :root {
+    --main-red-col: #ff0000;
+  }
+  * {
+    font-family: "Inter", sans-serif;
+  }
+  
+  header {
+    padding: 20px 0;
+    background-color: #f6f5f5;
+    max-height: 52px;
+  }
+
+  .none{
+    opacity: 1;
+    transition: 0.2s all;
+  }
+  
+  .header__link {
+    text-transform: uppercase;
+    margin-right: 96px;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    color: #000;
+    span {
+      transition: all 0.6s;
+    }
+    &:last-child {
+      margin-right: 0px;
+    }
+  }
+  .header__link:hover {
+    span {
+      color: var(--main-red-col);
+    }
+  }
+  .header__links {
+    margin-left: 20px;
+    display: flex;
+    margin-top: -35px;
+    justify-content: center;
+    a {
+      text-decoration: none;
+    }
+  }
+  
+  .logo {
+    margin-top: -10px; /* Увеличь значение, если нужно больше места сверху */
+    margin-left: 60px;
+    font-size: 40px;
+    font-weight: 800;
+    max-width: 150px;
+  }
+  .logo span {
+    color: #ff0000;
+  } /*# sourceMappingURL=style.css.map */
+  
+  .terms__title{
+      text-align: center;
+      margin-top: 10%;
+      background-color: #E7E3E3;
+      padding: 1%;
+      width: auto;
+  }
+  
+  .terms__container{
+      border: 1px solid black;
+      max-width: 50%;
+      margin-left: 25%;
+      margin-top: 5%;
+      border-radius: 35px;
+      padding-bottom: 3%;
+  }
+  
+  .terms-company__name{
+      text-align: center;
+  }
+  
+  .terms__subtitle{
+      margin-left: 3%;
+  }
+  
+  .terms__defenition{
+      margin-left: 3%;
+      font-size: 20px;
+      padding-right: 3%;
+      margin-top: 30px;
+      line-height: 30px;
+      span{
+        font-weight: 700;
+      }
+  }
+  
+  .footer__container{
+    margin-top: 5%;
+    display: flex;
+    border: 1px solid black;
+    justify-content: space-between;
+    &:nth-child(1){
+      padding-left: 105px;
+    }
+  }
+  
+  .footer__logo{
+    font-weight: 600;
+    font-size: 20px;
+  }
+  
+  .footer__terms{
+    font-weight: 500;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  .footer__purpose{
+    font-weight: 500;
+    font-size: 20px;
+    cursor: pointer;  
+  }
+  
+  .footer__button{
+    border: 1px solid #000;
+    border-radius: 11px;
+    background-color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    
+    width: 232px;
+    height: 31px;
+    margin-top: 15px;
+    margin-right: 30px;
+  }
+  
+  

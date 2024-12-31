@@ -1,0 +1,471 @@
+body {
+  margin: 0;
+}
+
+.container {
+  width: 100%;
+  max-width: 1920px;
+  margin: 0 auto; /* центрирует контейнер */
+  padding: 0 20px; /* добавь отступы по бокам, чтобы контейнер не прилегал к краям */
+  box-sizing: border-box;
+}
+:root{
+  --main-red-col: #FF0000;
+}
+* {
+  font-family: "Inter", sans-serif;
+}
+
+header {
+  padding: 20px 0;
+  background-color: #F6F5F5;
+  max-height: 52px;
+}
+
+.header__link{
+  text-transform: uppercase;
+  margin-right: 96px;
+  font-weight: 700;
+  font-size: 20px;
+  text-align: center;
+  color: #000;
+  span{
+    transition:all 0.6s;
+  }
+  &:last-child{
+    margin-right: 0px;
+  }
+}
+.header__link:hover.highlight {
+  color: var(--main-red-col);
+}
+
+.header__links {
+  margin-left: 20px;
+  display: flex;
+  margin-top: -35px;
+  justify-content: center;
+  a{
+    text-decoration: none;
+  }
+}
+
+.logo {
+  margin-top: -10px; /* Увеличь значение, если нужно больше места сверху */
+  margin-left: 60px;
+  font-size: 40px;
+  font-weight: 800;
+  max-width: 150px;
+}
+.logo span{
+    color: black;
+}
+.logo:hover{
+  span{
+    color: var(--main-red-col);
+  }
+}
+
+.search__main{
+  padding-left: 50px;
+  font-size: 30px;
+  display: block;
+  width: 65%;
+  margin: 0 auto;
+  margin-top: 60px;
+  min-height: 40px;
+  border-radius: 100px;
+  margin-bottom: 60px;
+  border: 1px solid black;
+}
+
+.login{
+  margin-top: 96px;
+  margin-left: 1450px;
+  a{
+    text-decoration: none;
+  }
+}
+
+.log__in{
+  font-weight: 300;
+  font-size: 22px;
+  color: #000;
+}
+
+.sign__in{
+  font-weight: 300;
+  font-size: 22px;
+  color: #000;
+
+}
+
+.buttons{
+  display: flex;
+  align-items: center;
+  width: 100px;
+  height: 75px;
+  margin-left: 1450px;
+  margin-top: -130px;
+}
+
+.search__filters{
+  border: none;
+  background: white;
+  margin-top: 20px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  img{
+    width: 40px;
+    height: 40px;
+   }
+}
+
+.search__glass{
+  border: none;
+  background: white;
+  cursor: pointer;
+  margin-top: 20px;
+  margin-left: 10px;
+  width: 40px;
+  height: 30px;
+  img{
+    max-width: 30px;
+    max-height: 30px;
+  }
+}
+
+
+.target-audence__title{
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 25px;
+  color: #0d0d0d;
+  
+  span{
+    color: var(--main-red-col);
+  }
+}
+.target__audence{
+  margin-left: 300px;
+  margin-top: 90px;
+}
+.number__of__subs{
+  margin-left: 300px;
+}
+.filters {
+  max-height: 0;
+  overflow: hidden; /* Прячем содержимое */
+  opacity: 0; /* Для плавного появления */
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+
+.filters.active {
+  max-height: 1000px; /* Укажите примерную максимальную высоту фильтров */
+  opacity: 1; /* Показываем элемент */
+}
+
+.content__type{
+  margin-left: 300px;
+  margin-top: 90px;
+}
+#youth{
+  grid-row: 2; 
+  grid-column: 2;
+}
+#older{
+  grid-row: 2; 
+  grid-column: 3;
+}
+.filter__block{
+  min-width: 250px;
+  height: 30px;
+  border: 1px solid black;
+  border-radius: 97px;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+.filter__block.filteractive{
+  border: 1.3px solid var(--main-red-col);
+  min-width: 250px;
+  height: 30px;
+  border-radius: 97px;
+  cursor: pointer;
+  transition: all 0.5s ease;
+
+  text-align: left;
+  font-weight: 300;
+  font-size: 26px;
+  color: #0d0d0d;
+  padding-left: 50px;
+  align-items: center;
+  padding-bottom: 5px;
+}
+
+.target-audence__blocks{
+  display: grid;
+  grid-template-columns: repeat(3,350px);
+  grid-template-rows: repeat(2,65px);
+  column-gap: 10px;
+  /* row-gap: 10px; */
+}
+.filter__block{
+  text-align: left;
+  font-weight: 300;
+  font-size: 26px;
+  color: #0d0d0d;
+  padding-left: 50px;
+  align-items: center;
+  padding-bottom: 5px;
+}
+
+#last{
+  grid-column: 3;
+  grid-row: 2;
+}
+
+#adults{
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.number__ofsubs__blocks{
+  display: grid;
+  grid-template-columns: repeat(4,350px);
+  grid-template-rows: repeat(2,65px);
+  column-gap: 10px;
+}
+
+.content__type__blocks{
+  display: grid;
+  grid-template-columns: repeat(3,350px);
+  grid-template-rows: repeat(4,65px);
+  column-gap: 30px;
+}
+
+.number__of__subs{
+  margin-top: 90px;
+}
+
+
+.filter__block__subs{
+  font-size: 36px;
+  text-align: left;
+  font-weight: 300;
+  font-size: 26px;
+  color: #0d0d0d;
+  padding-left: 50px;
+  min-width: 150px;
+  height: 30px;
+  border: 1px solid black;
+  border-radius: 97px;  
+  padding-bottom: 5px;
+  padding-top: 5px;
+  cursor: pointer;
+}
+#mediumplus{
+  grid-column: 1;
+  grid-row: 2;
+}
+#hi{
+  grid-column: 2;
+  grid-row: 2;
+}
+#hiplus{
+  grid-column: 3;
+  grid-row: 2;
+}
+#highest{
+  grid-column: 4;
+  grid-row: 2;
+}
+
+.filter__divider{
+  margin-top: 20px;
+  height: 1px;
+}
+
+.modal{
+  background-color: #fff;
+  position: absolute;
+  left: 35%;
+  top: 50%;
+  border: 2px solid black;
+  opacity: 0;
+  display: none;
+  transition: all 0.6s ease;
+}
+/* Полупрозрачная подложка */
+.modal__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный серый фон */
+  display: flex; /* Центрируем модалку */
+  justify-content: center;
+  align-items: center;
+  /* Поверх всего */
+}
+
+/* Модальное окно */
+.modal__block {
+  position: relative;
+  background-color: #fff;
+  padding: 20px;
+  width: 450px;
+  height: 700px;
+  border-radius: 10px;
+  z-index: 1001; /* Модалка поверх подложки */
+}
+
+.modal__title{
+  font-size: 40px;
+  text-align: center;
+}
+
+.modal__input{
+  border: 2px solid #000;
+  border-radius: 16px;
+  width: 300px;
+  height: 50px;
+  margin-left: 10%;
+  padding-left: 33px;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.modal__button{
+  border-radius: 16px;
+  width: 350px;
+  height: 70px;
+  background-color: #3ED65A;
+  border: none;
+  color: white;
+  font-size: 20px;
+
+  margin-left: 9%;
+  margin-top: 25px;
+}
+
+.modal__checkbox {
+  position: absolute;
+  left: -400px;
+  top: 82px;
+  appearance: none; /* Убираем стандартный стиль чекбокса */
+  width: 22px;
+  height: 22px;
+  border: 2px solid #000;
+  border-radius: 20%; /* Делаем чекбокс круглым */
+  background-color: #fff;
+  cursor: pointer;
+  position: relative; /* Для псевдоэлемента */
+}
+
+
+.modal__checkbox:checked::after {
+  content: ''; /* Добавляем псевдоэлемент */
+  position: absolute;
+  top: -1px;
+  left: 4px;
+  width: 6px;
+  height: 12px;
+  border: solid #4CAF50; /* Цвет галочки */
+  border-width: 0 4px 4px 0;
+  transform: rotate(45deg); /* Поворачиваем, чтобы создать галочку */
+}
+
+.modal-checkbox__text{
+  margin-top: 7%;
+  font-size: 14px;
+  font-weight: 300;
+  text-align: center;
+}
+
+.modal-other__title{
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 20px;
+  font-weight:400;
+}
+.modal-other__button{
+  position: relative;
+  margin-top: 0;
+  margin-left: 40%;
+  font-size: 18px;
+  color: black;
+  text-decoration: none;
+}
+
+.text {
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.text.hidden {
+  opacity: 0;
+}
+.modal-other__button::before{
+  content: '';
+  display: block;
+  width: 110%; /* Подчеркивание будет по ширине текста */
+  height: 1px; /* Толщина линии */
+  background-color: #000; /* Цвет линии */
+  position: absolute;
+  bottom: -3px; /* Сдвиг под текст */
+  left: 0;
+}
+
+.modal-continue__buttons{
+  margin-top: 5%;
+  margin-left: 15%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.modal-continue__button{
+  position: relative;
+  max-width: 300px;
+  min-height: 70px;
+  border: 1px solid #000;
+  border-radius: 16px;
+  background-color: white;
+  a{
+      text-decoration: none;
+      color: #000;
+      font-size: 17px;
+  }
+
+  img{
+      width: 50px;
+      height: 50px;
+      margin-left: -200px;
+      padding-top: 5px;
+  }
+}
+
+.modal-continue__text{
+  position: absolute;
+  top: 25px;
+  left: 85px;
+}
+
+.placeholder__fail::placeholder{
+  color: red;
+}
+
+.modal__close{
+  position: absolute;
+  left: 1250px;
+  top: 220px;
+  background-color:rgba(0, 0, 0, 0.01);
+  color: white;
+  border: none;
+  font-size: 50px;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}

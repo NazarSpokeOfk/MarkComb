@@ -1,0 +1,213 @@
+body {
+    margin: 0;
+  }
+  
+  .container {
+    width: 100%;
+    max-width: 1920px;
+    margin: 0 auto; /* центрирует контейнер */
+    padding: 0 20px; /* добавь отступы по бокам, чтобы контейнер не прилегал к краям */
+    box-sizing: border-box;
+  }
+  :root {
+    --main-red-col: #ff0000;
+  }
+  * {
+    font-family: "Inter", sans-serif;
+  }
+  
+  header {
+    padding: 20px 0;
+    background-color: #f6f5f5;
+    max-height: 52px;
+  }
+  
+  .header__link {
+    text-transform: uppercase;
+    margin-right: 96px;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    color: #000;
+    span {
+      transition: all 0.6s;
+    }
+    &:last-child {
+      margin-right: 0px;
+    }
+  }
+  .header__link:hover {
+    span {
+      color: var(--main-red-col);
+    }
+  }
+  .header__links {
+    margin-left: 20px;
+    display: flex;
+    margin-top: -35px;
+    justify-content: center;
+    a {
+      text-decoration: none;
+    }
+  }
+  
+  .logo {
+    margin-top: -10px; /* Увеличь значение, если нужно больше места сверху */
+    margin-left: 60px;
+    font-size: 40px;
+    font-weight: 800;
+    max-width: 150px;
+  }
+  .logo span {
+    color: #ff0000;
+  } /*# sourceMappingURL=style.css.map */
+  
+ .profile_photo-circle{
+    margin-left: 43%;
+    margin-top: 5%;
+ } 
+
+ .profile_name{
+    margin-left: 48%;
+    font-size: 40px;
+    margin-bottom: 0;
+ }
+
+.profile__edit-button{
+    background-color: #fff;
+    border: none;
+    margin-left: 53.5%;
+    position: absolute;
+    top: 45.5%;
+    cursor: pointer;
+    img{
+        width: 40px;
+        height: 40px;
+    }
+}
+
+.profile_balance-title{
+    font-size: 40px;
+    margin-left: 20%;
+    text-transform: uppercase;
+    span{
+        color: var(--main-red-col);
+    }
+}
+
+.profile_balance-amount{
+    font-size: 40px;
+    margin-left: 23%; 
+    margin-bottom: 0;
+}
+
+.profile_uses-title{
+    font-size: 40px;
+    margin-left: 70%; 
+    text-transform: uppercase;
+    margin-top: -7%;
+    margin-bottom: 10%;
+}
+
+.profile_uses-amount{
+  font-size: 40px;
+  margin-left: 70%; 
+  margin-top: -7.5%;
+}
+
+.info_block-title{
+  margin-top: 7%;
+  text-transform: uppercase;
+  margin-left: 20.5%; 
+  font-size: 40px;
+  span{
+    color: var(--main-red-col);
+  }
+}
+
+.info_block-email{
+  margin-left: 20.5%; 
+  font-size: 25px;
+  span{
+    color:var(--main-red-col)
+  }
+}
+
+.info_block-password{
+  margin-left: 20.5%; 
+  font-size: 25px;
+  span{
+    color:var(--main-red-col)
+  }
+}
+
+.footer__container{
+  margin-top: 5%;
+  display: flex;
+  border: 1px solid black;
+  justify-content: space-between;
+  &:nth-child(1){
+    padding-left: 105px;
+  }
+}
+
+.footer__logo{
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.footer__terms{
+  font-weight: 500;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.footer__purpose{
+  font-weight: 500;
+  font-size: 20px;
+  cursor: pointer;  
+}
+
+.footer__button{
+  border: 1px solid #000;
+  border-radius: 11px;
+  background-color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  
+  width: 232px;
+  height: 31px;
+  margin-top: 15px;
+  margin-right: 30px;
+}
+
+.email__edit-button{
+  position: absolute;
+  margin-left: 40%;
+  margin-top: -3.5%;
+  background-color: #fff;
+  border:none;
+  cursor: pointer;
+  img{
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.password__edit-button{
+  position: absolute;
+  margin-left: 33%;
+  margin-top: -3.5%;
+  background-color: #fff;
+  border:none;
+  cursor: pointer;
+  img{
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.none{
+  opacity: 1;
+  transition: 0.2s all;
+}
