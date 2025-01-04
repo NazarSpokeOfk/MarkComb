@@ -1,3 +1,4 @@
+import cors from "./node_modules/cors/lib/index.js"
 import express from "./node_modules/express/index.js"
 import createTables from "./db/setup.js";
 
@@ -8,6 +9,8 @@ import purchasesRouter from "./routers/purchasesRouter.js";
 
 
 const app = express();
+
+app.use(cors())
 
 const PORT = process.env.port || 5001;
 

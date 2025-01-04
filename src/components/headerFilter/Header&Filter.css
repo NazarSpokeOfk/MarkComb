@@ -316,7 +316,7 @@ header {
   background-color: #fff;
   padding: 20px;
   width: 450px;
-  height: 700px;
+  height: 750px;
   border-radius: 10px;
   z-index: 1001; /* Модалка поверх подложки */
 }
@@ -337,6 +337,10 @@ header {
   margin-bottom: 15px;
 }
 
+/* .fail{
+  background-color: red;
+} */
+
 .modal__button{
   border-radius: 16px;
   width: 350px;
@@ -348,6 +352,20 @@ header {
 
   margin-left: 9%;
   margin-top: 25px;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  10% { transform: translateX(-15px); }
+  20% { transform: translateX(30px); }
+  30% { transform: translateX(-15px); }
+  40% { transform: translateX(15px); }
+  50% { transform: translateX(0); }
+  100% { transform: translateX(0); }
+}
+
+.shake-animation {
+  animation: shake 1.6s;
 }
 
 .modal__checkbox {

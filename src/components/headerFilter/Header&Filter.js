@@ -1,48 +1,56 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { useState, useEffect , useRef } from "react";
+import { useState, useEffect } from "react";
 import React from "react";
+import { ToastContainer , toast } from "react-toastify";
 
+import DataToDB from "../../dataToDB/dataToDB";
 import Request from "../../requests/Requests";
 import SimilarChannel from "../../requests/SimilarChannel";
 
 import "./Header&Filter.css";
+import "react-toastify/dist/ReactToastify.css";
 
+import microsoftImage from "../../images/Microsoft.png"
+import googleImage from "../../images/Google.png"
 import Loading from "../../images/loading-gif.gif";
 import FilterBtnImg from "../../icons/filters.png";
 import SearchBtn from "../../icons/magnifing_glass.png";
 
-const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLoggedIn,}) => {
+const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLoggedIn,setUserData}) => {
+
+  const dataToDB = new DataToDB(setIsLoggedIn,setUserData);
+
   const request = new Request();
   const similarChannel = new SimilarChannel();
 
   const { t } = useTranslation();
 
-  // const searchRef = useRef(null);
-  // const imgRef = useRef(null);
-  // const modalRef = useRef(null);
-  // const inputRef = useRef(null);
-  // const filtersRef = useRef(null);
-  // const openFiltersRef = useRef(null)
+  const [entryMethod,setEntryMethod] = useState('')
 
-  const [formData, setFormData] = useState({
+  const [signInData, setSignInData] = useState({
     email: "",
     password: "",
     username: "",
-    balance: 0,
-    uses: 0,
   });
+
+  const [logInData, setLogInData] = useState({
+    email: "",
+    password: "",
+  });
+  
+
   const [isChecked, setIsChecked] = useState(false);
 
-  const handleSimilarSearchClick = async (
-    theme = "",
-    Audience = "",
-    subsQuantity = 0,
-    offset = 0
-  ) => {
+
+  const logInErrorToast = () => {
+    toast.error("Firstly,create or log in to existing account")
+  }
+
+  const handleSimilarSearchClick = async (theme = "",Audience = "",subsQuantity = 0,offset = 0) => {
     try {
       if (!isLoggedIn) {
-        alert("Firstly,you need to Log in or Register");
+        logInErrorToast();
         return;
       }
 
@@ -101,32 +109,67 @@ const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLogg
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const modal = document.querySelector(".modal"),
-    input = document.querySelector(".modal__input");
+    input = document.querySelector(".modal__input"),
+    modalBtn = document.querySelector(".modal__button")
   let failTimeout, elseFailTimeout, closeTimeout, openTimeout;
 
-  const validateFormData = (e) => {
-    if (
-      formData.email === "" ||
-      !isChecked ||
-      !emailRegex.test(formData.email) ||
-      !formData.password
-    ) {
+  const handleLogIn = (e) => {
+    if(!logInData.email || !logInData.password){
       setIsLoggedIn(false);
       e.preventDefault();
-      input.placeholder = "Please, fill the field and checkbox";
-      input.classList.add("placeholder__fail");
+      modalBtn.classList.add("shake-animation")
       failTimeout = setTimeout(() => {
-        input.classList.remove("placeholder__fail");
-        input.placeholder = "email";
-      }, 2000);
+        modalBtn.classList.remove("shake-animation");
+      }, 4000);
+    } else {dataToDB.validateLogIn(logInData,closeModal)}
+  }
+  const validateFormData = async (e) => {
+    if (
+      signInData.email === "" ||
+      !isChecked ||
+      !emailRegex.test(signInData.email) ||
+      !signInData.password ||
+      !signInData.username
+    ) {
+      
+      setIsLoggedIn(false);
+      e.preventDefault();
+      modalBtn.classList.add("shake-animation")
+      failTimeout = setTimeout(() => {
+        modalBtn.classList.remove("shake-animation");
+      }, 4000);
+
     } else {
-      setIsLoggedIn(true);
-      modal.style.opacity = "0";
-      elseFailTimeout = setTimeout(() => {
-        modal.style.display = "none";
-      }, 200);
-      document.body.style.overflow = "";
-      input.value = "";
+      try {
+
+        const response = await fetch("http://localhost:5001/api/user", {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(signInData),
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          console.log("Пользователь создан", result);
+
+          setIsLoggedIn(true);
+          setUserData(result)
+          modal.style.opacity = "0";
+          elseFailTimeout = setTimeout(() => {
+            modal.style.display = "none";
+          }, 200);
+          document.body.style.overflow = "";
+          input.value = "";
+        } 
+        else {
+          setIsLoggedIn(false);
+          console.log("Ошибка при создании пользователя.");
+        }
+      } catch (error) {
+        console.log("Возникла ошибка при регистрации.", error);
+      }
     }
   };
 
@@ -204,23 +247,39 @@ const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLogg
         </div>
       </header>
 
-      <section className="login">
-        <a onClick={openModal} href="#" className="log__in">
-          {t("Log in")} /
-        </a>
-        <a href="#" className="sign__in">
-          {t("Sign in")}
-        </a>
+      <section className="login"> {
+        isLoggedIn ? 
+        <a onClick={() => {
+          setUserData("")
+          setIsLoggedIn(false)
+        } }
+          href="#" className="log__in">
+          {t("Log out")}
+        </a> 
+        : (
+          <><a onClick={() => {
+            setEntryMethod('logIn');
+            openModal();
+          } }
+            href="#" className="log__in">
+            {t("Log in")} /
+          </a><a onClick={() => {
+            setEntryMethod('SignIn');
+            openModal();
+          } }
+            href="#" className="sign__in">
+              {t("Sign in")}
+            </a></>
+        )
+        }
       </section>
 
       <section className="search">
         <div className="container">
           <form
             className="maininput"
-            onSubmit={(e) =>
-              isLoggedIn
-                ? request.handleSearch(e, setChannelData)
-                : alert("Firstly,you need to log in")
+            onSubmit={(e) => 
+              isLoggedIn ? request.handleSearch(e, setChannelData) : alert("Firstly,you need to log in")
             }
           >
             <input className="search__main" type="text" />
@@ -258,12 +317,14 @@ const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLogg
                 className="filter__block"
                 onClick={() => handleSimilarSearchClick("", "Kids")}
               >
+                <ToastContainer />
                 {t("Kids")}
               </div>
               <div
                 className="filter__block"
                 onClick={() => handleSimilarSearchClick("", "Teenagers")}
               >
+                <ToastContainer />
                 {t("Teenagers")}
               </div>
               <div
@@ -271,6 +332,7 @@ const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLogg
                 className="filter__block"
                 onClick={() => handleSimilarSearchClick("", "Youth")}
               >
+                <ToastContainer />
                 {t("Youth")}
               </div>
               <div
@@ -278,6 +340,7 @@ const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLogg
                 className="filter__block"
                 onClick={() => handleSimilarSearchClick("", "Adults")}
               >
+                <ToastContainer />
                 {t("Adults")}
               </div>
               <div
@@ -285,6 +348,7 @@ const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLogg
                 className="filter__block"
                 onClick={() => handleSimilarSearchClick("", "OlderGeneration")}
               >
+                <ToastContainer />
                 {t("Older generation")}
               </div>
             </div>
@@ -301,6 +365,7 @@ const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLogg
                 id="low"
                 className="filter__block"
               >
+                <ToastContainer />
                 0-1K
               </div>
               <div
@@ -308,6 +373,7 @@ const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLogg
                 id="lowplus"
                 className="filter__block"
               >
+                <ToastContainer />
                 1-10K
               </div>
               <div
@@ -315,6 +381,7 @@ const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLogg
                 id="medium"
                 className="filter__block"
               >
+                <ToastContainer />
                 10-100K
               </div>
               <div
@@ -322,6 +389,7 @@ const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLogg
                 id="mediumplus"
                 className="filter__block"
               >
+                <ToastContainer />
                 100-500K
               </div>
               <div
@@ -331,6 +399,7 @@ const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLogg
                 id="hi"
                 className="filter__block"
               >
+                <ToastContainer />
                 1-5M
               </div>
               <div
@@ -340,6 +409,7 @@ const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLogg
                 id="hiplus"
                 className="filter__block"
               >
+                <ToastContainer />
                 5-10M
               </div>
               <div
@@ -349,6 +419,7 @@ const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLogg
                 id="highest"
                 className="filter__block"
               >
+                <ToastContainer />
                 10M-20M
               </div>
             </div>
@@ -364,6 +435,7 @@ const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLogg
                 className="filter__block"
                 onClick={() => handleSimilarSearchClick("Comedy")}
               >
+                <ToastContainer />
                 {t("Comedy")}
               </div>
               <div
@@ -371,6 +443,7 @@ const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLogg
                 onClick={() => handleSimilarSearchClick("Entertainment")}
                 data-id="24"
               >
+                <ToastContainer />
                 {t("Entertainment")}
               </div>
               <div
@@ -378,6 +451,7 @@ const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLogg
                 onClick={() => handleSimilarSearchClick("News&Commentary")}
                 data-id="25"
               >
+                <ToastContainer />
                 {t("News&Commentary")}
               </div>
               <div
@@ -385,6 +459,7 @@ const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLogg
                 onClick={() => handleSimilarSearchClick("Vlogs")}
                 data-id="21"
               >
+                <ToastContainer />
                 {t("Vlogs")}
               </div>
               <div
@@ -392,6 +467,7 @@ const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLogg
                 onClick={() => handleSimilarSearchClick("Fitness&Health")}
                 data-id="17"
               >
+                <ToastContainer />
                 {t("Fitness&Health")}
               </div>
               <div
@@ -399,6 +475,7 @@ const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLogg
                 onClick={() => handleSimilarSearchClick("gaming")}
                 data-id="20"
               >
+                <ToastContainer />
                 {t("Gaming")}
               </div>
               <div
@@ -406,6 +483,7 @@ const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLogg
                 onClick={() => handleSimilarSearchClick("Animation")}
                 data-id="1"
               >
+                <ToastContainer />
                 {t("Animation")}
               </div>
               <div
@@ -413,6 +491,7 @@ const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLogg
                 onClick={() => handleSimilarSearchClick("Music")}
                 data-id="10"
               >
+                <ToastContainer />
                 {t("Music")}
               </div>
               <div
@@ -420,6 +499,7 @@ const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLogg
                 onClick={() => handleSimilarSearchClick("Travel")}
                 data-id="19"
               >
+                <ToastContainer />
                 {t("Travel")}
               </div>
               <div
@@ -427,6 +507,7 @@ const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLogg
                 onClick={() => handleSimilarSearchClick("Education")}
                 data-id="27"
               >
+                <ToastContainer />
                 {t("Education")}
               </div>
             </div>
@@ -442,7 +523,7 @@ const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLogg
               X
             </button>
             <div className="modal__block">
-              <h2 className="modal__title">{t("Welcome")}</h2>
+              <h2 className="modal__title">{entryMethod == "logIn" ? t("Welcome back") : t("Welcome.")}</h2>
               <input
                 required
                 name="email"
@@ -450,11 +531,32 @@ const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLogg
                 maxLength={255}
                 placeholder={t("email")}
                 className="modal__input"
-                value={formData.email}
-                onChange={(e) =>
-                  setFormData({ ...formData, email: e.target.value })
-                }
+                value={ entryMethod === "logIn" ? logInData.email : signInData.email}
+                onChange={(e) => {
+                  const {value} = e.target;
+                  if(entryMethod === "logIn"){
+                    setLogInData((prevData) => ({ ...prevData, email: value }));
+                  } else {
+                    setSignInData((prevData) => ({ ...prevData, email: value }));
+                  }
+                }}
               />
+              {
+                entryMethod == "logIn" ? null : (
+                  <input
+                required
+                name="username"
+                type="text"
+                maxLength={50}
+                placeholder={t("username")}
+                className="modal__input"
+                value={signInData.username}
+                onChange={(e) =>
+                  setSignInData({ ...signInData, username: e.target.value })
+                }
+                  />
+              )}
+
               <input
                 required
                 name="password"
@@ -462,13 +564,18 @@ const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLogg
                 maxLength={255}
                 placeholder={t("password")}
                 className="modal__input"
-                value={formData.password}
-                onChange={(e) =>
-                  setFormData({ ...formData, password: e.target.value })
-                }
+                value={ entryMethod == "logIn" ? logInData.password : signInData.password}
+                onChange={(e) => {
+                  const {value} = e.target;
+                  if(entryMethod === "logIn"){
+                    setLogInData((prevData) => ({...prevData , password : value}))
+                  } else {
+                    setSignInData((prevData) => ({...prevData,password : value}))
+                  }
+                }}
               />
               <button
-                onClick={validateFormData}
+                onClick={(e) => { entryMethod == "logIn" ? handleLogIn(e) : validateFormData(e)}}
                 type="submit"
                 className="modal__button"
               >
@@ -495,14 +602,14 @@ const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLogg
               </div>
               <div className="modal-continue__buttons">
                 <button className="modal-continue__button">
-                  <img src="./icons/Google.png" alt="google" />
+                  <img src={googleImage} alt="google" />
                   <a className="modal-continue__text" href="#">
                     {t("Continue with")} Google
                   </a>
                 </button>
 
                 <button className="modal-continue__button">
-                  <img src="./icons/Microsoft.png" alt="microsoft" />
+                  <img src={microsoftImage} alt="microsoft" />
                   <a className="modal-continue__text" href="#">
                     {t("Continue with")} Microsoft
                   </a>

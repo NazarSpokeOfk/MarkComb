@@ -1,12 +1,13 @@
 async function createTables(pool) {
     try{
         const createUsersTable = `CREATE TABLE IF NOT EXISTS users (
-        user_id SERIAL PRIMARY KEY,
-        email VARCHAR(255) NOT NULL,
+        user_id SERIAL,
+        email VARCHAR(255) NOT NULL UNIQUE,
         password VARCHAR(255) NOT NULL,
-        username VARCHAR(50) NOT NULL,
+        username VARCHAR(50),
         balance BigInt DEFAULT 0,
-        uses BigInt DEFAULT 0
+        uses BigInt DEFAULT 0,
+        PRIMARY KEY(user_id)
         )`;
 
         const createPurchasesTable = `CREATE TABLE IF NOT EXISTS purchases_channels(

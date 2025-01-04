@@ -15,10 +15,12 @@ function App() {
   const [channelData, setChannelData] = useState(null);
   const [SimilarChannelData, setSimilarChannelData] = useState(null);
   const [isLoggedIn,setIsLoggedIn] = useState(false)
-  // const subsCount
+  const [userData,setUserData] = useState({})
+
   useEffect(()=>{
-    console.log('isLoggedIn:',isLoggedIn)
-  })
+    console.log("Данные пользователя:",userData)
+  },[userData])
+
   return (
     <Router>
       <Routes>
@@ -41,12 +43,15 @@ function App() {
                   setSimilarChannelData={setSimilarChannelData}
                   setIsLoggedIn={setIsLoggedIn}
                   isLoggedIn = {isLoggedIn}
+                  setUserData = {setUserData}
+                  userData = {setUserData}
                 />
               </ErrorBoundary>
               <ErrorBoundary>
                 <YoutuberBlock
                   channelData={channelData}
                   SimilarChannelData={SimilarChannelData}
+                  userData = {userData}
                 />
                 ;
               </ErrorBoundary>

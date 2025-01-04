@@ -19,38 +19,52 @@ class PurchasesController {
 
   async addPurchase(req, res) {
     const { id } = req.params; // Получаем id пользователя из параметров
-    const { uses } = req.body; // Получаем количество "использований" из тела запроса
-    const { thumbnail, email, channel_name } = req.body;
+    const { uses, thumbnail, email, channelName } = req.body; // Получаем данные из тела запроса
   
     try {
-      
+      // Проверяем, существует ли пользователь
       const userCheck = await pool.query(`SELECT * FROM users WHERE user_id = $1`, [id]);
       if (userCheck.rows.length === 0) {
         return res.status(404).json({ message: "Пользователь не найден" });
       }
   
-      const user = userCheck.rows[0];
+      // Проверяем, существует ли покупка для указанного канала
+      const channelsCheck = await pool.query(
+        `SELECT * FROM purchases_channels WHERE channel_name = $1 AND user_id = $2`,
+        [channelName, id]
+      );
   
-      
-      if (user.uses < uses) {
-        return res.status(402).json({ message: "Недостаточно использований на балансе!" });
+      if (channelsCheck.rows.length > 0) {
+        // Если канал уже куплен, возвращаем соответствующий ответ
+        return res
+          .status(409)
+          .json({ message: "У вас уже приобретены данные этого канала!" });
       }
   
-     
+      const user = userCheck.rows[0];
+  
+      // Проверяем, достаточно ли использований на балансе
+      if (user.uses < uses) {
+        return res
+          .status(402)
+          .json({ message: "Недостаточно использований на балансе!" });
+      }
+  
+      // Обновляем баланс использований
       const updateUses = await pool.query(
         `UPDATE users SET uses = uses - $1 WHERE user_id = $2 RETURNING *`,
         [uses, id]
       );
   
-      
+      // Добавляем покупку в таблицу purchases_channels
       const purchase = await pool.query(
-        `INSERT INTO purchases_channels (user_id, thumbnail, email, channel_name) 
+        `INSERT INTO purchases_channels (user_id, channel_name, thumbnail, email) 
          VALUES ($1, $2, $3, $4) 
-         RETURNING *`,
-        [id, thumbnail, email, channel_name]
+         RETURNING thumbnail, email, channel_name`,
+        [id, channelName, thumbnail, email]
       );
   
-      
+      // Возвращаем результат клиенту
       res.json({
         message: "Вы успешно приобрели данные ютубера",
         purchase: purchase.rows[0],
@@ -61,6 +75,7 @@ class PurchasesController {
       res.status(500).json({ message: "Ошибка сервера", error: error.message });
     }
   }
+  
   
 
   async deletePurchase(req, res) {

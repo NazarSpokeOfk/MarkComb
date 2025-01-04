@@ -5,6 +5,7 @@ import UserController from "../controllers/userController.js";
 
 const userController = new UserController
 
+router.post('/login' , (req,res) => userController.getUserByPassword(req,res))
 router.get('/users', (req,res) => userController.getAllUsers(req,res))
 router.post('/Uses/:id',(req,res) => userController.addUses(req,res))
 router.post('/user', (req,res) =>userController.addUser(req,res))

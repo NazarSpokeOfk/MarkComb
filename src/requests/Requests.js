@@ -28,8 +28,6 @@ class Request{
       }
   
       const subsCount = data.items[0].statistics.subscriberCount;
-      console.log(response)
-      console.log(subsCount)
       return subsCount;
     } catch (error) {
       console.error("Error fetching subscriber count:", error.message);

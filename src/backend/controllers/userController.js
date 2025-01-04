@@ -10,6 +10,25 @@ class UserController{
         }
     }
 
+    async getUserByPassword(req,res){
+        const {email,password} = req.body;
+        try{
+            const user = await pool.query(`SELECT user_id,email,password,username,balance,uses FROM users WHERE email = $1 AND password = $2`,
+                [email,password]
+            )
+            const userId = await user.rows[0].user_id
+            const userChannels = await pool.query(`SELECT channel_name FROM purchases_channels WHERE user_id = $1`,[userId])
+            // console.log(userChannels.rows)
+            if (user.rows.length === 0) {
+                return res.status(400).json({ message: "Ошибка! Неверный пароль или пользователь не найден." });
+            }
+            res.json({ message: "Успешный вход", user: user.rows[0] , channels : userChannels.rows });
+        } catch (error) {
+            console.log('Возникла ошибка в getUserById:',error)
+            res.status(500).json({message : "Возникла ошибка при входе", error : error.message})
+        }
+    }
+
     async addUser(req,res){
         const {email,password,username} = req.body;
         try{
