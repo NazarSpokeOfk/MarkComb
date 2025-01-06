@@ -1,47 +1,66 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { toast } from "react-toastify";
 
 import "./Purchases.css";
 import SmoothEffect from "../smoothText";
 
-import binBtn from "../../icons/bin.svg"
-import youtuberPic from "../../images/image 65.jpg"
+import binBtn from "../../icons/bin.svg";
+import noDataFound from "../../images/No results found.png";
 
-const Puchases = () => {
+import DataToDB from "../../dataToDB/dataToDB";
 
-  const {t, i18n} = useTranslation()
+const Purchases = ({userData,setUserData}) => {
+  const dataToDb = new DataToDB(true);
+  const blocksRef = useRef([]),
+    binButtonsRef = useRef([]),
+    titlesRef = useRef([null]);
+
+  const { t, i18n } = useTranslation();
+
+  useEffect(() => {
+    console.log("Данные,пришедшие в Purchases:", userData);
+  });
 
   const changeLanguage = (lang) => {
-      i18n.changeLanguage(lang)
-  }
+    i18n.changeLanguage(lang);
+  };
+
+  const removePurchase = async (index, user_id, channelName) => {
+    try {
+      await toast.promise(
+        dataToDb.deletePurchaseData(channelName, user_id),
+        {
+          pending: "Removing channel...",
+          success: "Channel has successfully removed!",
+          error: "There was an error during removing channel!",
+        }
+      );
+  
+      setUserData((prevData) => ({
+        ...prevData,
+        channels: prevData.channels.filter((_, i) => i !== index),
+      }));
+    } catch (error) {
+      console.error("Error removing channel:", error);
+    }
+  };
+  
+  
+
   useEffect(() => {
-    //Переписать
-    const block = document.querySelector("#second"),
-      binButton = document.querySelector("#second_btn");
-
-    let timer;
-
-    binButton.addEventListener("click", () => {
-      block.classList.add("unactive");
-    });
-
-    const title = document.querySelectorAll(".title");
-
-    title.forEach((title) => {
-      timer = setInterval(() => {
+    let timers = [];
+    titlesRef.current.forEach((title, index) => {
+      let timer = setInterval(() => {
         title.classList.add("active");
-      }, 50);
+      }, 50 * index);
+      timers.push(timer);
     });
 
-    return () => {
-      clearTimeout(timer);
-
-      binButton.removeEventListener("click", () => {
-        block.classList.add("unactive");
-      });
-    };
+    return () => timers.forEach(clearInterval);
   }, []);
+
   return (
     <>
       <header>
@@ -52,16 +71,17 @@ const Puchases = () => {
             </Link>
           </div>
           <div className="header__links">
-
             <Link to="/purchases" className="header__link">
-                {t('purc')}<span className="highlight">{t('hases')}</span>
+              {t("purc")}
+              <span className="highlight">{t("hases")}</span>
             </Link>
-
             <Link to="/promotion" className="header__link">
-                {t('prom')}<span>{t('otion')}</span>
+              {t("prom")}
+              <span>{t("otion")}</span>
             </Link>
-            <Link to="/purchase" className="header__link">         
-                {t('purch')}<span>{t('ase')}</span>
+            <Link to="/purchase" className="header__link">
+              {t("purch")}
+              <span>{t("ase")}</span>
             </Link>
           </div>
         </div>
@@ -69,56 +89,46 @@ const Puchases = () => {
 
       <section className="recent">
         <div className="container">
-          <h2 className="title none">
-              {t('rec')}<span>{t('ent')}</span>
+          <h2 ref={(el) => (titlesRef.current[0] = el)} className="title none">
+            {t("rec")}
+            <span>{t("ent")}</span>
           </h2>
-          <div className="recent__block">
-            <h3 className="recent-block__name">Риса за творчество</h3>
-            <h3 className="recent-block__email">
-              em<span>ail</span> : example
-            </h3>
-            <button className="recent-block__bin">
-              <img src={binBtn}alt="bin" className="bin" />
-            </button>
-            <img
-              src={youtuberPic}
-              alt="youtuber picture"
-              className="recent-block__thumbnail"
-            />
-          </div>
-
-          <h2 className="title none">
-              {t('ot')}<span>{t('her')}</span>
-          </h2>
-          <div className="recent__block">
-            <h3 className="recent-block__name">Риса за творчество</h3>
-            <h3 className="recent-block__email">
-              em<span>ail</span> : example
-            </h3>
-            <button className="recent-block__bin">
-            <img src={binBtn} alt="bin" className="bin" />
-            </button>
-            <img
-              src={youtuberPic}
-              alt="youtuber picture"
-              className="recent-block__thumbnail"
-            />
-          </div>
-
-          <div id="second" className="recent__block">
-            <h3 className="recent-block__name">Риса за творчество</h3>
-            <h3 className="recent-block__email">
-              em<span>ail</span> : example
-            </h3>
-            <button id="second_btn" className="recent-block__bin">
-              <img src={binBtn} alt="bin" className="bin" />
-            </button>
-            <img
-              src={youtuberPic}
-              alt="youtuber picture"
-              className="recent-block__thumbnail"
-            />
-          </div>
+          {userData?.channels?.length > 0 ? (
+            userData?.channels.map((channel, index) => (
+              <div
+                ref={(el) => (blocksRef.current[index] = el)}
+                className="recent__block"
+                key={index}
+              >
+                <h3 className="recent-block__name">{channel?.channel_name}</h3>
+                <h3 className="recent-block__email">
+                  em<span>ail</span> : {channel?.email}
+                </h3>
+                <button
+                  onClick={() =>
+                    removePurchase(
+                      index,
+                      userData.user.user_id,
+                      channel.channel_name
+                    )
+                  }
+                  className="recent-block__bin"
+                >
+                  <img src={binBtn} alt="bin" className="bin" />
+                </button>
+                <img
+                  src={channel?.thumbnail}
+                  alt="youtuber picture"
+                  className="recent-block__thumbnail"
+                />
+              </div>
+            ))
+          ) : (
+            <>
+              <p className="no_available">No channels available.</p>
+              <img className="no_available_img" src={noDataFound} alt="no data found" />
+            </>
+          )}
         </div>
       </section>
 
@@ -126,10 +136,10 @@ const Puchases = () => {
         <div className="footer__container">
           <h3 className="footer__logo">MK,2024</h3>
           <Link to="/terms" className="footer__terms none">
-            {t('Terms of service')}
+            {t("Terms of service")}
           </Link>
           <Link to="/purpose" className="footer__purpose none">
-          {t('Our purpose')}
+            {t("Our purpose")}
           </Link>
           <button
             onClick={() => {
@@ -156,4 +166,5 @@ const Puchases = () => {
     </>
   );
 };
-export default Puchases;
+
+export default Purchases;

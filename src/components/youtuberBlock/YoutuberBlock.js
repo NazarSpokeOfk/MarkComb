@@ -13,22 +13,13 @@ import "react-toastify/dist/ReactToastify.css";
 
 import YoutuberImg from "../../images/MrBeast.webp";
 
-const YoutuberBlock = ({ channelData, SimilarChannelData, userData }) => {
+const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn }) => {
+
   const { t, i18n } = useTranslation();
   const [btnsState, setBtnsState] = useState({});
   const isProcessingRef = useRef({});
 
   const dataToDB = new DataToDB(true);
-
-  // const [puchasedData,setPurchasedData] = useState({
-  //   thumbnail : "",
-  //   email : "",
-  //   channelName : ""
-  // })
-
-  useEffect(() => {
-    console.log("SimilarChannelData:", SimilarChannelData);
-  }, [SimilarChannelData]);
 
   const logInErrorToast = () => {
     toast.error(t("Firstly, find the youtuber whose contact details you want to get"));
@@ -41,24 +32,28 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData }) => {
 
   const handleButtonClick = async (data, buttonId) => {
     let timeout1, timeout2, timeout3;
-
+  
     if (!data?.channelId) {
-      logInErrorToast()
+      logInErrorToast();
       return;
     }
-
+  
     if (isProcessingRef.current[buttonId]) return;
-
+  
     isProcessingRef.current[buttonId] = true;
-
+  
+    // Обновление состояния кнопки для начала обработки
     setBtnsState((prev) => ({
       ...prev,
       [buttonId]: { isProcessing: true },
     }));
+  
+    // Проверка перед выполнением, чтобы не дублировать запросы
     if (btnsState[buttonId]?.isProcessing) return;
-
+  
     try {
       const result = await GetData(data.channelId);
+  
       if (!result || result.length === 0) {
         setBtnsState((prev) => ({
           ...prev,
@@ -70,24 +65,33 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData }) => {
         isProcessingRef.current[buttonId] = false;
         return;
       }
-      // setPurchasedData({
-      //   thumbnail: channelData?.[0]?.thumbnail || "",
-      //   email: result?.[0] || "",
-      //   channelName: channelData?.[0]?.title || "",
-      // });
-
-      // Передача данных в validatePurchaseData из стейта
-      
-      dataToDB.validatePurchaseData(
-        {
-          thumbnail: channelData?.[0]?.thumbnail || "",
-          email: result?.[0] || "",
-          channelName: channelData?.[0]?.title || "",
-          uses: 1,
-        },
-        userData.user.user_id
-      );
-
+  
+      // В зависимости от buttonId выполняем разную логику
+      if (buttonId === 1) {
+        // Для buttonId === 1 передаем данные из SimilarChannelData
+        dataToDB.validatePurchaseData(
+          {
+            thumbnail: SimilarChannelData?.[0]?.thumbnail || "",
+            email: result?.[0] || "",
+            channelName: SimilarChannelData?.[0]?.title || "",
+            uses: 1,
+          },
+          userData?.user?.user_id
+        );
+      } else {
+        // Логика для других buttonId (если нужно, добавь другие условия)
+        dataToDB.validatePurchaseData(
+          {
+            thumbnail: channelData?.[0]?.thumbnail || "",
+            email: result?.[0] || "",
+            channelName: channelData?.[0]?.title || "",
+            uses: 1,
+          },
+          userData?.user?.user_id
+        );
+      }
+  
+      // Обновляем состояние кнопки после выполнения запроса
       setBtnsState((prev) => ({
         ...prev,
         [buttonId]: {
@@ -109,11 +113,13 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData }) => {
         }));
       }, 2000);
     }
+  
+    // Очистка таймаутов
     return () => {
       clearTimeout(timeout1);
       clearTimeout(timeout2);
       clearTimeout(timeout3);
-    }
+    };
   };
   
 
@@ -123,11 +129,11 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData }) => {
         <div className="container">
           <div
             className={`youtuber__block ${
-              channelData ? "youtuber__block" : "pulse"
+              isLoggedIn && channelData ? "youtuber__block" : "pulse"
             }`}
           >
             <div className="youtuber__name none">
-              {channelData ? channelData?.[0]?.title : "?"}
+              { isLoggedIn && channelData ? channelData?.[0]?.title : "?"}
             </div>
             <div className="youtuber__information">
               <div className="youtuber__definitions">
@@ -144,18 +150,18 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData }) => {
 
               <div className="youtuber__stats">
                 <h4 className="statistic none">
-                  {channelData ? channelData?.[0]?.targetAudience : "?"}
+                  { isLoggedIn && channelData ? channelData?.[0]?.targetAudience : "?"}
                 </h4>
                 <h4 className="statistic none">
-                  {channelData ? channelData?.[0].subsCount : "?"}
+                  { isLoggedIn && channelData ? channelData?.[0].subsCount : "?"}
                 </h4>
                 <h4 className="statistic none">
-                  {channelData ? channelData?.[0]?.genre : "?"}
+                  { isLoggedIn && channelData ? channelData?.[0]?.genre : "?"}
                 </h4>
               </div>
             </div>
             <img
-              src={channelData?.[0]?.thumbnail || YoutuberImg}
+              src={isLoggedIn && channelData?.[0]?.thumbnail || YoutuberImg}
               alt="MrBeast"
               className="youtuber__image"
             />
@@ -163,8 +169,7 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData }) => {
 
           <button
             className={`youtuber__button ${btnsState[0]?.class || ""}`}
-            onClick={(e) => {
-              console.log("channelData:", channelData);
+            onClick={() => {
               if (
                 userData.channels &&
                 userData.channels.some(
@@ -174,7 +179,7 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData }) => {
                 alreadyHave()
                 return;
               } else {
-                handleButtonClick(channelData?.[0], 0);
+                isLoggedIn ? handleButtonClick(channelData?.[0], 0) : toast.error("You need to log in firstly");
               }
             }}
           >
@@ -187,11 +192,11 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData }) => {
           <ToastContainer />
           <div
             className={`youtuber__block ${
-              SimilarChannelData ? "youtuber__block" : "pulse"
+              userData && SimilarChannelData ? "youtuber__block" : "pulse"
             }`}
           >
             <div className="youtuber__name none">
-              {SimilarChannelData ? SimilarChannelData?.[0]?.title : "?"}
+              {userData && SimilarChannelData ? SimilarChannelData?.[0]?.title : "?"}
             </div>
             <div className="youtuber__information">
               <div className="youtuber__definitions">
@@ -208,24 +213,24 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData }) => {
 
               <div className="youtuber__stats">
                 <h4 className="statistic none">
-                  {SimilarChannelData
+                  { userData && SimilarChannelData
                     ? SimilarChannelData?.[0]?.genre?.[0]
                     : "?"}
                 </h4>
                 <h4 className="statistic none">
-                  {SimilarChannelData
+                  { userData && SimilarChannelData
                     ? SimilarChannelData?.[0]?.subsCount
                     : "?"}
                 </h4>
                 <h4 className="statistic none">
-                  {SimilarChannelData
+                  {userData && SimilarChannelData
                     ? SimilarChannelData?.[0]?.genre?.[1]
                     : "?"}
                 </h4>
               </div>
             </div>
             <img
-              src={SimilarChannelData?.[0]?.thumbnail || YoutuberImg}
+              src={userData && SimilarChannelData?.[0]?.thumbnail || YoutuberImg}
               alt="MrBeast"
               className="youtuber__image"
             />
@@ -237,7 +242,7 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData }) => {
               if (
                 userData.channels &&
                 userData.channels.some(
-                  (channel) => channel.channel_name === e.target.value
+                  (channel) => channel.channel_name === channelData?.[0].title
                 )
               ) {
                 alreadyHave()

@@ -2,7 +2,7 @@ import pool from "../db/index.js";
 
 class PurchasesController {
   async getPurchases(req, res) {
-    const  id  = req.params.id; //Возможна ошибка из за фигурных скобок
+    const  id  = req.params.id; 
     try {
       const purchases = await pool.query(
         `SELECT * FROM purchases_channels WHERE user_id = $1`,
@@ -81,6 +81,7 @@ class PurchasesController {
   async deletePurchase(req, res) {
     const {channelName} = req.body;
     const id = req.params.id
+    console.log("Id и channelName:",id,channelName)
     try {
       const deleteOperation = await pool.query(
         `DELETE FROM purchases_channels WHERE user_id = $1 AND channel_name = $2 RETURNING *`,

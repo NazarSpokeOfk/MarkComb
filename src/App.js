@@ -1,6 +1,9 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useState , useEffect} from "react";
 
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 import Profile from "./components/profile/Profile";
 import ErrorBoundary from "./errorBoundary/ErrorBoundary";
 import HeaderFilter from "./components/headerFilter/Header&Filter";
@@ -20,6 +23,7 @@ function App() {
   useEffect(()=>{
     console.log("Данные пользователя:",userData)
   },[userData])
+  
 
   return (
     <Router>
@@ -28,7 +32,11 @@ function App() {
           path="/purchases"
           element={
             <ErrorBoundary>
-              <Purchases />
+              <Purchases 
+                userData = {userData}
+                setUserData = {setUserData}
+              />
+              <ToastContainer/>
             </ErrorBoundary>
           }
         />
@@ -52,6 +60,7 @@ function App() {
                   channelData={channelData}
                   SimilarChannelData={SimilarChannelData}
                   userData = {userData}
+                  isLoggedIn = {isLoggedIn}
                 />
                 ;
               </ErrorBoundary>

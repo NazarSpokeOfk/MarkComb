@@ -335,15 +335,7 @@ body {
     }
   }
 
-  .footer__container{
-    margin-top: 5%;
-    display: flex;
-    border: 1px solid black;
-    justify-content: space-between;
-    &:nth-child(1){
-      padding-left: 105px;
-    }
-  }
+  
 
   .footer__logo{
     font-weight: 600;

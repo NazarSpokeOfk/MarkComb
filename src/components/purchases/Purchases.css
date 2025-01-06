@@ -100,10 +100,11 @@ body {
   }
 
   .recent-block__thumbnail{
+    border-radius: 30px;
     position: absolute;
     width: 300px;
     height: 300px;
-    left: 510px;
+    left: 506px;
     top: 0.5px;
   }
 
@@ -151,4 +152,18 @@ body {
     margin-top: 20px;
     text-decoration: none;
     color: black;
+  }
+
+  .footer__container{
+    margin-top: 50%;
+  }
+
+  .no_available{
+    text-align: center;
+    font-size: 25px;
+    font-weight: 500;
+  }
+
+  .no_available_img{
+    margin-left: 40%;
   }

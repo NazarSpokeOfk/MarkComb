@@ -17,7 +17,7 @@ class UserController{
                 [email,password]
             )
             const userId = await user.rows[0].user_id
-            const userChannels = await pool.query(`SELECT channel_name FROM purchases_channels WHERE user_id = $1`,[userId])
+            const userChannels = await pool.query(`SELECT channel_name,email,created_at,thumbnail FROM purchases_channels WHERE user_id = $1`,[userId])
             // console.log(userChannels.rows)
             if (user.rows.length === 0) {
                 return res.status(400).json({ message: "Ошибка! Неверный пароль или пользователь не найден." });

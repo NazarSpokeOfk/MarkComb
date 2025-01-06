@@ -103,7 +103,7 @@ class Request{
   getCatById = (id) => {
     let targetAudience;
      const entry = Object.entries(this.Categories).find(([key,value]) => value === Number(id))
-    switch(entry[1]){
+    switch(entry?.[1]){
       case 1 :
         targetAudience = "Kids,teenagers,youth,adults,older generation"
       break;

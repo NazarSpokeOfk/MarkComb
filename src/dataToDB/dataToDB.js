@@ -11,12 +11,32 @@ class DataToDB {
       channelName: "",
     };
   
+    async deletePurchaseData(channelName, user_id) {
+        console.log("Данные для удаления:", channelName, user_id);
+        try {
+            const response = await fetch(`http://localhost:5001/api/rmpurchase/${user_id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify({ channelName: channelName })  // Передаем как объект в JSON
+            });
+    
+            if (response.ok) {
+                return Promise.resolve()
+            } else {
+                return Promise.reject()
+            }
+        } catch (error) {
+            console.log('Ошибка!', error);
+        }
+    }
     
     
     async validatePurchaseData(data,user_id){
-
         try {
-            console.log("Данные, переданные в validatePurchaseData:",data,user_id)
+            console.log("ID пользователя, переданный в validatePurchaseData:",user_id)
+            console.log("Данные, переданные в validatePurchaseData:",data)
             const response = await fetch(`http://localhost:5001/api/purchase/${user_id}`, {
                 method : "POST",
                 headers : {
@@ -47,7 +67,7 @@ class DataToDB {
 
                 if(response.ok){
                     const result = await response.json()
-                    // console.log("Успешный вход!",result)
+                    console.log("Успешный вход!",result)
                     this.setIsLoggedIn(true);
                     this.setUserData(result)
                     closeModal()

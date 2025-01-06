@@ -1,4 +1,7 @@
 import Request from "./Requests";
+
+import { toast } from "react-toastify";
+
 class SimilarChannel {
   request = new Request();
   apiKey = "AIzaSyAdpuNLLn_Wnq_L4mioZYahKgSDAJdcBC4";
@@ -183,7 +186,7 @@ class SimilarChannel {
     console.log('filteredChannel:',filteredChannel)
 
     if (!filteredChannel) {
-      throw new Error("Нет подходящих каналов.");
+      toast.error("There is no matching channels")
     }
   
     const resultArray = [

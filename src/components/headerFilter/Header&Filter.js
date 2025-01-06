@@ -517,7 +517,6 @@ const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLogg
       </section>
 
       <section className="modal">
-        <div className="container">
           <div className="modal__overlay">
             <button onClick={closeModal} className="modal__close">
               X
@@ -617,7 +616,6 @@ const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLogg
               </div>
             </div>
           </div>
-        </div>
       </section>
     </>
   );
