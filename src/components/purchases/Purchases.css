@@ -160,10 +160,64 @@ body {
 
   .no_available{
     text-align: center;
-    font-size: 25px;
+    font-size: 30px;
     font-weight: 500;
   }
 
   .no_available_img{
-    margin-left: 40%;
+    margin-left: 42%;
+    width: 300px;
+    height: 410px;
   }
+
+  .magnifying_glass{
+    position: absolute;
+    top: 500px;
+    right: 700px;
+    width: 250px;
+    height: 250px;
+    animation: rotate 4s linear infinite;
+    transform: translate(100px, 0);
+  }
+
+  
+
+  @keyframes rotate {
+    0% {
+      transform: translate(70px, 0);
+    }
+    10% {
+      transform: translate(87px, 50px);
+    }
+    20% {
+      transform: translate(50px, 87px);
+    }
+    30% {
+      transform: translate(0, 100px);
+    }
+    40% {
+      transform: translate(-50px, 87px);
+    }
+    50% {
+      transform: translate(-87px, 50px);
+    }
+    60% {
+      transform: translate(-100px, 0);
+    }
+    70% {
+      transform: translate(-87px, -50px);
+    }
+    80% {
+      transform: translate(-50px, -87px);
+    }
+    90% {
+      transform: translate(10, -100px);
+    }
+    100% {
+      transform: translate(70px, 0);
+    }
+  }
+  
+  
+  
+  

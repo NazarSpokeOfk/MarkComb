@@ -1,53 +1,97 @@
 import { useTranslation } from "react-i18next";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+
+import { toast } from "react-toastify";
+
+import Request from "../../requests/Requests";
 
 import "./Promotion.css";
 import SmoothEffect from "../smoothText";
 
-import videoPic from "../../images/VideoPic.png";
 import buttonIcon from "../../icons/morefilters.png";
+import noDataFound from "../../images/No results found.png";
 import glass from "../../icons/magnifing_glass.png";
 
-const Promotion = (isLoggedIn) => {
-  
+const Promotion = ({ isLoggedIn, userData }) => {
+  const request = new Request();
 
-  const {t, i18n} = useTranslation()
+  const [channelName, setChannelName] = useState("");
+  const [videoData, setVideoData] = useState({});
+  const [activeIndex, setActiveIndex] = useState(null);
+  const [isExpanded,setIsExpanded] = useState(false)
+
+  useEffect(() => {
+    console.log("videoData:", videoData);
+  }, [videoData]);
+
+  const textRef = useRef([]),
+    secondTextRef = useRef([]),
+    secondYouTubersContainerRef = useRef(),
+    triggerBtnRef = useRef(),
+    titleRef = useRef(),
+    inputRef = useRef(""),
+    membersRef = useRef([]);
+
+  const { t, i18n } = useTranslation();
 
   const changeLanguage = (lang) => {
-      i18n.changeLanguage(lang)
+    i18n.changeLanguage(lang);
+  };
+
+  const handleToggle = () => {
+    secondYouTubersContainerRef.current.classList.toggle("active");
+    triggerBtnRef.current.classList.toggle("rotate");
+  };
+
+  let timer;
+  timer = setInterval(() => {
+    if (titleRef.current) {
+      titleRef.current.classList.add("active");
+    }
+  }, 50);
+
+  let channelsFirstPart, channelsSecondPart;
+  if (userData && userData?.channels?.length > 5) {
+    channelsFirstPart = userData?.channels?.slice(0, 5);
+    channelsSecondPart = userData?.channels?.slice(5);
   }
-  useEffect(() => {
-    //Переписать
-    let timer;
 
-    const moreYoutubers = document.querySelector(".list__container__more");
-    const triggerBtn = document.querySelector(".list-container__button");
+  const toggleMemberListStyle = (index, currentGroup) => {
+    const normalizedIndex = index + (currentGroup === 2 ? 5 : 0);
+    setActiveIndex(normalizedIndex);
+  };
 
-    // Выносим обработчик в переменную
-    const handleToggle = () => {
-      moreYoutubers.classList.toggle("active");
-      triggerBtn.classList.toggle("rotate");
-    };
-
-    // Добавляем обработчик
-    triggerBtn.addEventListener("click", handleToggle);
-
-    const titleElements = document.querySelectorAll(".title");
-    titleElements.forEach((title) => {
-      timer = setInterval(() => {
-        title.classList.add("active");
-      }, 50);
-    });
-
-    return () => {
-      // Удаляем обработчик
-      triggerBtn.removeEventListener("click", handleToggle);
-
-      // Очищаем таймер
-      clearInterval(timer);
-    };
-  }, []); // Добавьте [] в зависимости, чтобы useEffect срабатывал только один раз при монтировании
+  const resultBlock = (videoData) => {
+    return (
+      <>
+        {videoData ? (
+          <div
+            onClick={() => {
+              request
+                .getAnalitics(videoData.videoId)
+                .then((result) => {
+                  setVideoData((prevData)=>({...prevData,result}));
+                });
+                setIsExpanded(true)
+            }}
+            className={`search-suggested__block ${isExpanded ? "active" : ""}`}
+          >
+            <h2 className="suggested-block__name">{videoData?.title}</h2>
+            <img
+              src={videoData?.thumbnail}
+              alt="video image"
+              className={`suggested-block__img ${isExpanded ? "imgActive" : ""}`}
+            />
+            <h2 className="suggested-block__views"> { videoData?.result ? "views :" + videoData.result.views : "" }</h2>
+            <h2 className="suggested-block__likes">{ videoData?.result ? "likes :" + videoData.result.likes : "" }</h2>
+          </div>
+        ) : (
+          <h2>Look for something!</h2>
+        )}
+      </>
+    );
+  };
 
   return (
     <>
@@ -59,16 +103,18 @@ const Promotion = (isLoggedIn) => {
             </Link>
           </div>
           <div className="header__links">
-
             <Link to="/purchases" className="header__link">
-                {t('purc')}<span className="highlight">{t('hases')}</span>
+              {t("purc")}
+              <span className="highlight">{t("hases")}</span>
             </Link>
 
             <Link to="/promotion" className="header__link">
-                {t('prom')}<span>{t('otion')}</span>
+              {t("prom")}
+              <span>{t("otion")}</span>
             </Link>
-            <Link to="/purchase" className="header__link">         
-                {t('purch')}<span>{t('ase')}</span>
+            <Link to="/purchase" className="header__link">
+              {t("purch")}
+              <span>{t("ase")}</span>
             </Link>
           </div>
         </div>
@@ -76,58 +122,98 @@ const Promotion = (isLoggedIn) => {
 
       <section className="list">
         <div className="container">
-          <h1 className="title none">
-              {t('li')}<span>{t('st')}</span>
+          <h1 ref={titleRef} className="title none">
+            {t("li")}
+            <span>{t("st")}</span>
           </h1>
           <div className="list__container">
-            <h2 className="list-container__member">{isLoggedIn.isLoggedIn ? "Риса за творчество" : "Firstly,log in to your account"}</h2>
-            <h2 className="list-container__member">{isLoggedIn.isLoggedIn ? "MrBeast" : ""}</h2>
-            <h2 className="list-container__member">{isLoggedIn.isLoggedIn ? "A4" : ""}</h2>
-            <h2 className="list-container__member">{isLoggedIn.isLoggedIn ? "Heronwater" : ""}</h2>
-            <h2 className="list-container__member hidden">{isLoggedIn.isLoggedIn ? "Звездный капитан" : ""}</h2>
+            {isLoggedIn && channelsFirstPart
+              ? channelsFirstPart.map((channel, index) => (
+                  <h2
+                    key={index}
+                    ref={(el) => (membersRef.current[index] = el)}
+                    onClick={() => {
+                      toggleMemberListStyle(index, 1);
+                      setChannelName(channel?.channel_name);
+                      setVideoData({});
+                    }}
+                    className={`list-container__member ${
+                      activeIndex === index ? "active" : ""
+                    }`}
+                  >
+                    {channel?.channel_name}
+                  </h2>
+                ))
+              : <><p className="no_available">You have no purchases.</p></>}
             <br />
           </div>
 
-          <button className="list-container__button">
+          <button
+            ref={triggerBtnRef}
+            onClick={handleToggle}
+            className="list-container__button"
+          >
             <img src={buttonIcon} alt="moreyoutubers" />
           </button>
 
-          <div className="list__container__more">
-            <h2 className="list-container__member">{isLoggedIn.isLoggedIn ? "Риса за творчество" : ""}</h2>
-            <h2 className="list-container__member">{isLoggedIn.isLoggedIn ? "MrBeast" : ""}</h2>
-            <h2 className="list-container__member">{isLoggedIn.isLoggedIn ? "A4" : ""}</h2>
-            <h2 className="list-container__member">{isLoggedIn.isLoggedIn ? "Heronwater" : ""}</h2>
-            <h2 className="list-container__member hidden">{isLoggedIn.isLoggedIn ? "Звездный капитан" : ""}</h2>
+          <div
+            ref={secondYouTubersContainerRef}
+            className="list__container__more"
+          >
+            {isLoggedIn && channelsSecondPart
+              ? channelsSecondPart.map((channel, index) => (
+                  <h2
+                    onClick={() => {
+                      toggleMemberListStyle(index, 2);
+                      setChannelName(channel?.channel_name);
+                      setVideoData({});
+                    }}
+                    key={index}
+                    className={`list-container__member ${
+                      activeIndex === index + 5 ? "active" : ""
+                    }`}
+                  >
+                    {channel?.channel_name}
+                  </h2>
+                ))
+              : "Log in firstly."}
             <br />
           </div>
         </div>
       </section>
 
       <section className="search">
-        <input type="text" className="search__input" />
-        <button className="search-input__button">
+        <input type="text" className="search__input" ref={inputRef} />
+        <button
+          onClick={() => {
+            const inputValue = inputRef.current.value;
+              toast.promise(
+                request.channelAndVideoSearch(channelName, inputValue),
+                {
+                  pending:"Searching video...",
+                  success:"We found the video!",
+                  error : "There is no such video in this channel"
+                }
+              )
+              .then((result) => {
+                setVideoData(result);
+              });
+          }}
+          className="search-input__button"
+        >
           <img src={glass} alt="find" />
         </button>
-        <div className="search-suggested__block">
-          <h2 className="suggested-block__name">
-            ROCKET - Mansplain | Реакция и разбор
-          </h2>
-          <img
-            src={videoPic}
-            alt="video image"
-            className="suggested-block__img"
-          />
-        </div>
+        {videoData.title ? resultBlock(videoData) : ""}
       </section>
 
-      <section className="footer">
+      <section id="promotion" className="footer">
         <div className="footer__container">
           <h3 className="footer__logo">MK,2024</h3>
           <Link to="/terms" className="footer__terms">
-            {t('Terms of service')}
+            {t("Terms of service")}
           </Link>
           <Link to="/purpose" className="footer__purpose">
-          {t('Our purpose')}
+            {t("Our purpose")}
           </Link>
           <button
             onClick={() => {
@@ -151,7 +237,6 @@ const Promotion = (isLoggedIn) => {
           </button>
         </div>
       </section>
-      
     </>
   );
 };

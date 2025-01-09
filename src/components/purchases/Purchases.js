@@ -8,6 +8,7 @@ import SmoothEffect from "../smoothText";
 
 import binBtn from "../../icons/bin.svg";
 import noDataFound from "../../images/No results found.png";
+import glass from "../../images/magnifying glass.png"
 
 import DataToDB from "../../dataToDB/dataToDB";
 
@@ -19,9 +20,6 @@ const Purchases = ({userData,setUserData}) => {
 
   const { t, i18n } = useTranslation();
 
-  useEffect(() => {
-    console.log("Данные,пришедшие в Purchases:", userData);
-  });
 
   const changeLanguage = (lang) => {
     i18n.changeLanguage(lang);
@@ -125,14 +123,15 @@ const Purchases = ({userData,setUserData}) => {
             ))
           ) : (
             <>
-              <p className="no_available">No channels available.</p>
+              <p className="no_available">You have no purchases.</p>
               <img className="no_available_img" src={noDataFound} alt="no data found" />
+              <img className = "magnifying_glass" src={glass} alt="no data found" />
             </>
           )}
         </div>
       </section>
 
-      <section className="footer">
+      <section  className="footer">
         <div className="footer__container">
           <h3 className="footer__logo">MK,2024</h3>
           <Link to="/terms" className="footer__terms none">

@@ -52,7 +52,6 @@ function App() {
                   setIsLoggedIn={setIsLoggedIn}
                   isLoggedIn = {isLoggedIn}
                   setUserData = {setUserData}
-                  userData = {setUserData}
                 />
               </ErrorBoundary>
               <ErrorBoundary>
@@ -60,6 +59,7 @@ function App() {
                   channelData={channelData}
                   SimilarChannelData={SimilarChannelData}
                   userData = {userData}
+                  setUserData = {setUserData}
                   isLoggedIn = {isLoggedIn}
                 />
                 ;
@@ -72,6 +72,7 @@ function App() {
           element={
             <ErrorBoundary>
               <Promotion 
+              userData = {userData}
               isLoggedIn = {isLoggedIn}
               />
             </ErrorBoundary>

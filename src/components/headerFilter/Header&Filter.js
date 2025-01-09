@@ -19,6 +19,7 @@ import SearchBtn from "../../icons/magnifing_glass.png";
 
 const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLoggedIn,setUserData}) => {
 
+  
   const dataToDB = new DataToDB(setIsLoggedIn,setUserData);
 
   const request = new Request();

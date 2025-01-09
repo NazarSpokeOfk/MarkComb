@@ -46,6 +46,8 @@ class DataToDB {
             })
             if(response.ok){
                 const result = await response.json()
+                console.log(result)
+                this.setUserData((prevData)=>({...prevData, channels : [...prevData.channels,result.purchase]}))
                 console.log('Успешная покупка!', result)
             } else {
                 console.log('Возникла ошибка при покупке данных. Возможно, недостаточно использований на балансе.')

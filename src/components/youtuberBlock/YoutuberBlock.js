@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -13,13 +13,13 @@ import "react-toastify/dist/ReactToastify.css";
 
 import YoutuberImg from "../../images/MrBeast.webp";
 
-const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn }) => {
+const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn , setUserData }) => {
 
   const { t, i18n } = useTranslation();
   const [btnsState, setBtnsState] = useState({});
   const isProcessingRef = useRef({});
 
-  const dataToDB = new DataToDB(true);
+  const dataToDB = new DataToDB(true,setUserData);
 
   const logInErrorToast = () => {
     toast.error(t("Firstly, find the youtuber whose contact details you want to get"));
@@ -66,9 +66,7 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
         return;
       }
   
-      // В зависимости от buttonId выполняем разную логику
       if (buttonId === 1) {
-        // Для buttonId === 1 передаем данные из SimilarChannelData
         dataToDB.validatePurchaseData(
           {
             thumbnail: SimilarChannelData?.[0]?.thumbnail || "",
@@ -79,7 +77,6 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
           userData?.user?.user_id
         );
       } else {
-        // Логика для других buttonId (если нужно, добавь другие условия)
         dataToDB.validatePurchaseData(
           {
             thumbnail: channelData?.[0]?.thumbnail || "",
@@ -91,7 +88,6 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
         );
       }
   
-      // Обновляем состояние кнопки после выполнения запроса
       setBtnsState((prev) => ({
         ...prev,
         [buttonId]: {
@@ -238,11 +234,11 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
 
           <button
             className={`youtuber__button ${btnsState[1]?.class || ""}`}
-            onClick={(e) => {
+            onClick={() => {
               if (
                 userData.channels &&
                 userData.channels.some(
-                  (channel) => channel.channel_name === channelData?.[0].title
+                  (channel) => channel.channel_name === SimilarChannelData[0].title
                 )
               ) {
                 alreadyHave()
