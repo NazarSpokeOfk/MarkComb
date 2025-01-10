@@ -259,8 +259,15 @@ class Request {
       }
       const videoData = await resForVideosSearch.json();
 
+      let triplet
+      
+      if(videoData?.items?.[0]?.snippet?.title.length > 30){
+         triplet = "..."
+      } else {
+        triplet = ""
+      }
       const finalVideoData = {
-        title: videoData?.items?.[0]?.snippet?.title,
+        title: videoData?.items?.[0]?.snippet?.title.slice(0,35) + triplet,
         thumbnail: videoData?.items?.[0]?.snippet?.thumbnails?.medium?.url,
         videoId : videoData?.items?.[0]?.id?.videoId
       };

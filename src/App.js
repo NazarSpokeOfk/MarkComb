@@ -75,6 +75,7 @@ function App() {
               userData = {userData}
               isLoggedIn = {isLoggedIn}
               />
+              <ToastContainer/>
             </ErrorBoundary>
           }
         />

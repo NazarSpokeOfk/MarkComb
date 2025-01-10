@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import React from "react";
-import { ToastContainer , toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 
 import DataToDB from "../../dataToDB/dataToDB";
 import Request from "../../requests/Requests";
@@ -11,23 +11,27 @@ import SimilarChannel from "../../requests/SimilarChannel";
 import "./Header&Filter.css";
 import "react-toastify/dist/ReactToastify.css";
 
-import microsoftImage from "../../images/Microsoft.png"
-import googleImage from "../../images/Google.png"
+import microsoftImage from "../../images/Microsoft.png";
+import googleImage from "../../images/Google.png";
 import Loading from "../../images/loading-gif.gif";
 import FilterBtnImg from "../../icons/filters.png";
 import SearchBtn from "../../icons/magnifing_glass.png";
 
-const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLoggedIn,setUserData}) => {
-
-  
-  const dataToDB = new DataToDB(setIsLoggedIn,setUserData);
+const HeaderFilter = ({
+  setChannelData,
+  setSimilarChannelData,
+  setIsLoggedIn,
+  isLoggedIn,
+  setUserData,
+}) => {
+  const dataToDB = new DataToDB(setIsLoggedIn, setUserData);
 
   const request = new Request();
   const similarChannel = new SimilarChannel();
 
   const { t } = useTranslation();
 
-  const [entryMethod,setEntryMethod] = useState('')
+  const [entryMethod, setEntryMethod] = useState("");
 
   const [signInData, setSignInData] = useState({
     email: "",
@@ -39,16 +43,19 @@ const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLogg
     email: "",
     password: "",
   });
-  
 
   const [isChecked, setIsChecked] = useState(false);
 
-
   const logInErrorToast = () => {
-    toast.error("Firstly,create or log in to existing account")
-  }
+    toast.error("Firstly,create or log in to existing account");
+  };
 
-  const handleSimilarSearchClick = async (theme = "",Audience = "",subsQuantity = 0,offset = 0) => {
+  const handleSimilarSearchClick = async (
+    theme = "",
+    Audience = "",
+    subsQuantity = 0,
+    offset = 0
+  ) => {
     try {
       if (!isLoggedIn) {
         logInErrorToast();
@@ -111,19 +118,21 @@ const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLogg
 
   const modal = document.querySelector(".modal"),
     input = document.querySelector(".modal__input"),
-    modalBtn = document.querySelector(".modal__button")
+    modalBtn = document.querySelector(".modal__button");
   let failTimeout, elseFailTimeout, closeTimeout, openTimeout;
 
   const handleLogIn = (e) => {
-    if(!logInData.email || !logInData.password){
+    if (!logInData.email || !logInData.password) {
       setIsLoggedIn(false);
       e.preventDefault();
-      modalBtn.classList.add("shake-animation")
+      modalBtn.classList.add("shake-animation");
       failTimeout = setTimeout(() => {
         modalBtn.classList.remove("shake-animation");
       }, 4000);
-    } else {dataToDB.validateLogIn(logInData,closeModal)}
-  }
+    } else {
+      dataToDB.validateLogIn(logInData, closeModal);
+    }
+  };
   const validateFormData = async (e) => {
     if (
       signInData.email === "" ||
@@ -132,17 +141,14 @@ const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLogg
       !signInData.password ||
       !signInData.username
     ) {
-      
       setIsLoggedIn(false);
       e.preventDefault();
-      modalBtn.classList.add("shake-animation")
+      modalBtn.classList.add("shake-animation");
       failTimeout = setTimeout(() => {
         modalBtn.classList.remove("shake-animation");
       }, 4000);
-
     } else {
       try {
-
         const response = await fetch("http://localhost:5001/api/user", {
           method: "POST",
           headers: {
@@ -156,15 +162,14 @@ const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLogg
           console.log("Пользователь создан", result);
 
           setIsLoggedIn(true);
-          setUserData(result)
+          setUserData(result);
           modal.style.opacity = "0";
           elseFailTimeout = setTimeout(() => {
             modal.style.display = "none";
           }, 200);
           document.body.style.overflow = "";
           input.value = "";
-        } 
-        else {
+        } else {
           setIsLoggedIn(false);
           console.log("Ошибка при создании пользователя.");
         }
@@ -248,39 +253,53 @@ const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLogg
         </div>
       </header>
 
-      <section className="login"> {
-        isLoggedIn ? 
-        <a onClick={() => {
-          setUserData("")
-          setIsLoggedIn(false)
-        } }
-          href="#" className="log__in">
-          {t("Log out")}
-        </a> 
-        : (
-          <><a onClick={() => {
-            setEntryMethod('logIn');
-            openModal();
-          } }
-            href="#" className="log__in">
-            {t("Log in")} /
-          </a><a onClick={() => {
-            setEntryMethod('SignIn');
-            openModal();
-          } }
-            href="#" className="sign__in">
+      <section className="login">
+        {" "}
+        {isLoggedIn ? (
+          <a
+            onClick={() => {
+              setUserData("");
+              setIsLoggedIn(false);
+            }}
+            href="#"
+            className="log__in"
+          >
+            {t("Log out")}
+          </a>
+        ) : (
+          <>
+            <a
+              onClick={() => {
+                setEntryMethod("logIn");
+                openModal();
+              }}
+              href="#"
+              className="log__in"
+            >
+              {t("Log in")} /
+            </a>
+            <a
+              onClick={() => {
+                setEntryMethod("SignIn");
+                openModal();
+              }}
+              href="#"
+              className="sign__in"
+            >
               {t("Sign in")}
-            </a></>
-        )
-        }
+            </a>
+          </>
+        )}
       </section>
 
       <section className="search">
         <div className="container">
           <form
             className="maininput"
-            onSubmit={(e) => 
-              isLoggedIn ? request.handleSearch(e, setChannelData) : alert("Firstly,you need to log in")
+            onSubmit={(e) =>
+              isLoggedIn
+                ? request.handleSearch(e, setChannelData)
+                : alert("Firstly,you need to log in")
             }
           >
             <input className="search__main" type="text" />
@@ -518,32 +537,35 @@ const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLogg
       </section>
 
       <section className="modal">
-          <div className="modal__overlay">
-            <button onClick={closeModal} className="modal__close">
-              X
-            </button>
-            <div className="modal__block">
-              <h2 className="modal__title">{entryMethod == "logIn" ? t("Welcome back") : t("Welcome.")}</h2>
+        <div className="modal__overlay">
+          <button onClick={closeModal} className="modal__close">
+            X
+          </button>
+          <div className="modal__block">
+            <h2 className="modal__title">
+              {entryMethod == "logIn" ? t("Welcome back") : t("Welcome")}
+            </h2>
+            <input
+              required
+              name="email"
+              type="email"
+              maxLength={255}
+              placeholder={t("email")}
+              className="modal__input"
+              value={
+                entryMethod === "logIn" ? logInData.email : signInData.email
+              }
+              onChange={(e) => {
+                const { value } = e.target;
+                if (entryMethod === "logIn") {
+                  setLogInData((prevData) => ({ ...prevData, email: value }));
+                } else {
+                  setSignInData((prevData) => ({ ...prevData, email: value }));
+                }
+              }}
+            />
+            {entryMethod == "logIn" ? null : (
               <input
-                required
-                name="email"
-                type="email"
-                maxLength={255}
-                placeholder={t("email")}
-                className="modal__input"
-                value={ entryMethod === "logIn" ? logInData.email : signInData.email}
-                onChange={(e) => {
-                  const {value} = e.target;
-                  if(entryMethod === "logIn"){
-                    setLogInData((prevData) => ({ ...prevData, email: value }));
-                  } else {
-                    setSignInData((prevData) => ({ ...prevData, email: value }));
-                  }
-                }}
-              />
-              {
-                entryMethod == "logIn" ? null : (
-                  <input
                 required
                 name="username"
                 type="text"
@@ -554,69 +576,85 @@ const HeaderFilter = ({setChannelData,setSimilarChannelData,setIsLoggedIn,isLogg
                 onChange={(e) =>
                   setSignInData({ ...signInData, username: e.target.value })
                 }
-                  />
-              )}
-
-              <input
-                required
-                name="password"
-                type="text"
-                maxLength={255}
-                placeholder={t("password")}
-                className="modal__input"
-                value={ entryMethod == "logIn" ? logInData.password : signInData.password}
-                onChange={(e) => {
-                  const {value} = e.target;
-                  if(entryMethod === "logIn"){
-                    setLogInData((prevData) => ({...prevData , password : value}))
-                  } else {
-                    setSignInData((prevData) => ({...prevData,password : value}))
-                  }
-                }}
               />
-              <button
-                onClick={(e) => { entryMethod == "logIn" ? handleLogIn(e) : validateFormData(e)}}
-                type="submit"
-                className="modal__button"
-              >
-                {t("Continue")}
-              </button>
+            )}
+
+            <input
+              required
+              name="password"
+              type="text"
+              maxLength={255}
+              placeholder={t("password")}
+              className="modal__input"
+              value={
+                entryMethod == "logIn"
+                  ? logInData.password
+                  : signInData.password
+              }
+              onChange={(e) => {
+                const { value } = e.target;
+                if (entryMethod === "logIn") {
+                  setLogInData((prevData) => ({
+                    ...prevData,
+                    password: value,
+                  }));
+                } else {
+                  setSignInData((prevData) => ({
+                    ...prevData,
+                    password: value,
+                  }));
+                }
+              }}
+            />
+            <button
+              onClick={(e) => {
+                entryMethod == "logIn" ? handleLogIn(e) : validateFormData(e);
+              }}
+              type="submit"
+              className="modal__button"
+            >
+              {t("Continue")}
+            </button>
+            {entryMethod === "logIn" ? (
+              ""
+            ) : (
               <input
                 className="modal__checkbox"
                 type="checkbox"
                 checked={isChecked}
                 onChange={(e) => setIsChecked(e.target.checked)}
               />
-              <h3 className="modal-checkbox__text">
-                {t("I have read the")}{" "}
-                <Link to="/terms">{t("user agreement")}</Link>{" "}
-                {t("and accept all its terms and conditions")}
+            )}
+            <h3 className="modal-checkbox__text">
+              {t("I have read the")}{" "}
+              <Link to="/terms">{t("user agreement")}</Link>{" "}
+              {t("and accept all its terms and conditions")}
+            </h3>
+            <div className="modal-other__buttons">
+              <h3 className="modal-other__title">
+                {t("Don’t have an account?")}
               </h3>
-              <div className="modal-other__buttons">
-                <h3 className="modal-other__title">
-                  {t("Don’t have an account?")}
-                </h3>
-                <Link to="/profile" href="#" className="modal-other__button">
-                  {t("Register")}
-                </Link>
-              </div>
-              <div className="modal-continue__buttons">
-                <button className="modal-continue__button">
-                  <img src={googleImage} alt="google" />
-                  <a className="modal-continue__text" href="#">
-                    {t("Continue with")} Google
-                  </a>
-                </button>
+              <Link to="/profile" href="#" className="modal-other__button">
+                {t("Register")}
+              </Link>
+            </div>
+            <div className="modal-continue__buttons">
+              <button className="modal-continue__button">
+                <img src={googleImage} alt="google" />
+                <a className="modal-continue__text" href="#">
+                  {t("Continue with")} Google
+                </a>
+              </button>
 
-                <button className="modal-continue__button">
-                  <img src={microsoftImage} alt="microsoft" />
-                  <a className="modal-continue__text" href="#">
-                    {t("Continue with")} Microsoft
-                  </a>
-                </button>
-              </div>
+              <button className="modal-continue__button">
+                <img src={microsoftImage} alt="microsoft" />
+                <a className="modal-continue__text" href="#">
+                  {t("Continue with")} Microsoft
+                </a>
+              </button>
             </div>
           </div>
+        </div>
       </section>
     </>
   );

@@ -10,8 +10,9 @@ import "./Promotion.css";
 import SmoothEffect from "../smoothText";
 
 import buttonIcon from "../../icons/morefilters.png";
-import noDataFound from "../../images/No results found.png";
 import glass from "../../icons/magnifing_glass.png";
+import like from "../../icons/like.png";
+import views from "../../icons/views.png";
 
 const Promotion = ({ isLoggedIn, userData }) => {
   const request = new Request();
@@ -19,15 +20,13 @@ const Promotion = ({ isLoggedIn, userData }) => {
   const [channelName, setChannelName] = useState("");
   const [videoData, setVideoData] = useState({});
   const [activeIndex, setActiveIndex] = useState(null);
-  const [isExpanded,setIsExpanded] = useState(false)
+  const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
     console.log("videoData:", videoData);
   }, [videoData]);
 
-  const textRef = useRef([]),
-    secondTextRef = useRef([]),
-    secondYouTubersContainerRef = useRef(),
+  const secondYouTubersContainerRef = useRef(),
     triggerBtnRef = useRef(),
     titleRef = useRef(),
     inputRef = useRef(""),
@@ -44,8 +43,7 @@ const Promotion = ({ isLoggedIn, userData }) => {
     triggerBtnRef.current.classList.toggle("rotate");
   };
 
-  let timer;
-  timer = setInterval(() => {
+  setInterval(() => {
     if (titleRef.current) {
       titleRef.current.classList.add("active");
     }
@@ -68,23 +66,45 @@ const Promotion = ({ isLoggedIn, userData }) => {
         {videoData ? (
           <div
             onClick={() => {
-              request
-                .getAnalitics(videoData.videoId)
-                .then((result) => {
-                  setVideoData((prevData)=>({...prevData,result}));
-                });
-                setIsExpanded(true)
+              request.getAnalitics(videoData.videoId).then((result) => {
+                setVideoData((prevData) => ({ ...prevData, result }));
+              });
+              setIsExpanded(true);
             }}
             className={`search-suggested__block ${isExpanded ? "active" : ""}`}
           >
             <h2 className="suggested-block__name">{videoData?.title}</h2>
             <img
               src={videoData?.thumbnail}
-              alt="video image"
-              className={`suggested-block__img ${isExpanded ? "imgActive" : ""}`}
+              alt="a video thumbnail"
+              className={`suggested-block__img ${
+                isExpanded ? "imgActive" : ""
+              }`}
             />
-            <h2 className="suggested-block__views"> { videoData?.result ? "views :" + videoData.result.views : "" }</h2>
-            <h2 className="suggested-block__likes">{ videoData?.result ? "likes :" + videoData.result.likes : "" }</h2>
+            <h2 className="suggested-block__views">
+              {" "}
+              {videoData?.result && (
+                <>
+                  <img src={views} alt="eye" className="views" />{" "}
+                  <div className="views__text">{videoData.result.views}</div>
+                </>
+              )}
+            </h2>
+            <h2 className="suggested-block__likes">
+              {videoData?.result && (
+                <>
+                  <img src={like} alt="eye" className="like" />{" "}
+                  <div className="likes__text">{videoData.result.likes}</div>
+                </>
+              )}
+            </h2>
+            {videoData?.result && (
+              <>
+                <button className="suggested-block__getDetailedAnalitics">
+                  Get detailed analitics
+                </button>
+              </>
+            )}
           </div>
         ) : (
           <h2>Look for something!</h2>
@@ -127,34 +147,42 @@ const Promotion = ({ isLoggedIn, userData }) => {
             <span>{t("st")}</span>
           </h1>
           <div className="list__container">
-            {isLoggedIn && channelsFirstPart
-              ? channelsFirstPart.map((channel, index) => (
-                  <h2
-                    key={index}
-                    ref={(el) => (membersRef.current[index] = el)}
-                    onClick={() => {
-                      toggleMemberListStyle(index, 1);
-                      setChannelName(channel?.channel_name);
-                      setVideoData({});
-                    }}
-                    className={`list-container__member ${
-                      activeIndex === index ? "active" : ""
-                    }`}
-                  >
-                    {channel?.channel_name}
-                  </h2>
-                ))
-              : <><p className="no_available">You have no purchases.</p></>}
+            {isLoggedIn && channelsFirstPart ? (
+              channelsFirstPart.map((channel, index) => (
+                <h2
+                  key={index}
+                  ref={(el) => (membersRef.current[index] = el)}
+                  onClick={() => {
+                    toggleMemberListStyle(index, 1);
+                    setChannelName(channel?.channel_name);
+                    setVideoData({});
+                    setIsExpanded(false);
+                  }}
+                  className={`list-container__member ${
+                    activeIndex === index ? "active" : ""
+                  }`}
+                >
+                  {channel?.channel_name}
+                </h2>
+              ))
+            ) : (
+              <>
+                <p className="no_available">You have no purchases.</p>
+              </>
+            )}
             <br />
           </div>
-
-          <button
-            ref={triggerBtnRef}
-            onClick={handleToggle}
-            className="list-container__button"
-          >
-            <img src={buttonIcon} alt="moreyoutubers" />
-          </button>
+          {userData ? (
+            <button
+              ref={triggerBtnRef}
+              onClick={handleToggle}
+              className="list-container__button"
+            >
+              <img src={buttonIcon} alt="moreyoutubers" />
+            </button>
+          ) : (
+            ""
+          )}
 
           <div
             ref={secondYouTubersContainerRef}
@@ -176,7 +204,7 @@ const Promotion = ({ isLoggedIn, userData }) => {
                     {channel?.channel_name}
                   </h2>
                 ))
-              : "Log in firstly."}
+              : "Why are you clicked?"}
             <br />
           </div>
         </div>
@@ -187,22 +215,28 @@ const Promotion = ({ isLoggedIn, userData }) => {
         <button
           onClick={() => {
             const inputValue = inputRef.current.value;
-              toast.promise(
-                request.channelAndVideoSearch(channelName, inputValue),
-                {
-                  pending:"Searching video...",
-                  success:"We found the video!",
-                  error : "There is no such video in this channel"
-                }
-              )
-              .then((result) => {
-                setVideoData(result);
-              });
+            if (channelName) {
+              toast
+                .promise(
+                  request.channelAndVideoSearch(channelName, inputValue),
+                  {
+                    pending: "Searching video...",
+                    success: "We found the video!",
+                    error: "There is no such video in this channel",
+                  }
+                )
+                .then((result) => {
+                  setVideoData(result);
+                });
+            } else {
+              toast.error("Log in firstly!");
+            }
           }}
           className="search-input__button"
         >
           <img src={glass} alt="find" />
         </button>
+
         {videoData.title ? resultBlock(videoData) : ""}
       </section>
 
