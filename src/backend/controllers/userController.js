@@ -1,4 +1,5 @@
 import pool from "../db/index.js";
+import verifyCaptcha from "./authController.js";
 
 class UserController{
     async getAllUsers(req,res){
@@ -13,7 +14,7 @@ class UserController{
     async getUserByPassword(req,res){
         const {email,password} = req.body;
         try{
-            const user = await pool.query(`SELECT user_id,email,password,username,balance,uses FROM users WHERE email = $1 AND password = $2`,
+            const user = await pool.query(`SELECT user_id,email,password,username,uses FROM users WHERE email = $1 AND password = $2`,
                 [email,password]
             )
             const userId = await user.rows[0].user_id
@@ -30,8 +31,19 @@ class UserController{
     }
 
     async addUser(req,res){
-        const {email,password,username} = req.body;
+        const {email,password,username} = req.body.signInData;
+        const {recaptchaValue} = req.body
+
+
+            if(!recaptchaValue){
+                return res.status(400).json({message : "Вы не прошли CAPTCHA"})
+            }
+
         try{
+            const isCaptchaValid = await verifyCaptcha(recaptchaValue)
+            if(!isCaptchaValid){
+                return res.status(400).json({message : "Ошибка проверки CAPTCHA"})
+            }
             const addUser = await pool.query(`INSERT INTO users(email,password,username) VALUES ($1,$2,$3) RETURNING *`,
                 [email,password,username]
             );
@@ -44,11 +56,12 @@ class UserController{
 
     async updateUser(req, res) {
         const id = parseInt(req.params.id, 10);
-        const { email, password, username , balance } = req.body;
+        const { email, password, username } = req.body;
     
         try {
+
             const updateUser = await pool.query(
-                `UPDATE users SET email = $1, username = $2 , balance = $5 
+                `UPDATE users SET email = $1, username = $2
                  WHERE user_id = $3 AND password = $4 
                  RETURNING *`,
                 [email,username, id, password , balance]
@@ -86,8 +99,7 @@ class UserController{
 
     async addUses(req, res) {
         const { id } = req.params;
-        const { password, uses } = req.body; 
-        const costPerUse = 10; 
+        const { password, uses} = req.body; 
     
         try {
            
@@ -100,21 +112,12 @@ class UserController{
                 return res.status(404).json({ message: 'Пользователь не найден или пароль неверный' });
             }
     
-            const user = userCheck.rows[0];
-            const totalCost = uses * costPerUse; 
-    
-            
-            if (user.balance < totalCost) {
-                return res.status(402).json({ message: 'Недостаточно средств на балансе' });
-            }
-    
-           
             const updateUser = await pool.query(
                 `UPDATE users 
-                 SET uses = uses + $1, balance = balance - $2 
-                 WHERE user_id = $3 
+                 SET uses = uses + $1
+                 WHERE user_id = $2
                  RETURNING *`,
-                [uses, totalCost, id]
+                [uses, id]
             );
     
             res.json({
@@ -122,10 +125,12 @@ class UserController{
                 updatedUser: updateUser.rows[0],
             });
         } catch (error) {
-            console.log('Возникла ошибка в addPurchase:', error);
+            console.log('Возникла ошибка в addUses:', error);
             res.status(500).json({ message: 'Ошибка сервера', error: error.message });
         }
     }
+
+    // async verifyCaptcha (req,res)
     
 }
 

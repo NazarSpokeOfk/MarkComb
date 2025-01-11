@@ -188,6 +188,11 @@ body {
     margin-left: 18%;
     transition: 0.6s all;
     position: relative;
+    cursor: pointer;
+  }
+
+  .search-suggested__block:hover{
+    transform: scale(1.02);
   }
   .active{
     height: auto;

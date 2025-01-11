@@ -23,7 +23,7 @@ const Promotion = ({ isLoggedIn, userData }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
-    console.log("videoData:", videoData);
+    console.log("userData:", userData);
   }, [videoData]);
 
   const secondYouTubersContainerRef = useRef(),
@@ -53,6 +53,8 @@ const Promotion = ({ isLoggedIn, userData }) => {
   if (userData && userData?.channels?.length > 5) {
     channelsFirstPart = userData?.channels?.slice(0, 5);
     channelsSecondPart = userData?.channels?.slice(5);
+  } else {
+    channelsFirstPart = userData?.channels
   }
 
   const toggleMemberListStyle = (index, currentGroup) => {

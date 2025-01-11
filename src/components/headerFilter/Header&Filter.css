@@ -318,7 +318,7 @@ header {
   background-color: #fff;
   padding: 20px;
   width: 450px;
-  height: 750px;
+  height: 850px;
   border-radius: 10px;
   z-index: 1001; /* Модалка поверх подложки */
 }
@@ -374,7 +374,7 @@ header {
 .modal__checkbox {
   position: absolute;
   left: -400px;
-  top: 82px;
+  top: 181px;
   appearance: none; /* Убираем стандартный стиль чекбокса */
   width: 22px;
   height: 22px;
@@ -489,4 +489,8 @@ header {
   width: 50px;
   height: 50px;
   cursor: pointer;
+}
+.captcha{
+  margin-left: 15%;
+  margin-top: 5%;
 }

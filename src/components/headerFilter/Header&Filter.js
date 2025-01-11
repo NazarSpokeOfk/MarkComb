@@ -2,7 +2,9 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import React from "react";
+
 import { ToastContainer, toast } from "react-toastify";
+import ReCAPTCHA from "react-google-recaptcha";
 
 import DataToDB from "../../dataToDB/dataToDB";
 import Request from "../../requests/Requests";
@@ -31,6 +33,8 @@ const HeaderFilter = ({
 
   const { t } = useTranslation();
 
+  const [recaptchaValue,setRecaptchaValue] = useState(null)
+
   const [entryMethod, setEntryMethod] = useState("");
 
   const [signInData, setSignInData] = useState({
@@ -48,6 +52,10 @@ const HeaderFilter = ({
 
   const logInErrorToast = () => {
     toast.error("Firstly,create or log in to existing account");
+  };
+
+  const handleRecaptchaChange = (value) => {
+    setRecaptchaValue(value);
   };
 
   const handleSimilarSearchClick = async (
@@ -139,7 +147,8 @@ const HeaderFilter = ({
       !isChecked ||
       !emailRegex.test(signInData.email) ||
       !signInData.password ||
-      !signInData.username
+      !signInData.username ||
+      !recaptchaValue
     ) {
       setIsLoggedIn(false);
       e.preventDefault();
@@ -154,8 +163,9 @@ const HeaderFilter = ({
           headers: {
             "Content-type": "application/json",
           },
-          body: JSON.stringify(signInData),
+          body: JSON.stringify({signInData,recaptchaValue}),
         });
+        console.log({signInData,recaptchaValue})
 
         if (response.ok) {
           const result = await response.json();
@@ -625,6 +635,10 @@ const HeaderFilter = ({
                 onChange={(e) => setIsChecked(e.target.checked)}
               />
             )}
+            <ReCAPTCHA className="captcha"
+            sitekey="6LcxnbQqAAAAALV-GfKKoJPxRVIshbTjTa5izOVr"
+            onChange={handleRecaptchaChange}
+              />  
             <h3 className="modal-checkbox__text">
               {t("I have read the")}{" "}
               <Link to="/terms">{t("user agreement")}</Link>{" "}
@@ -639,7 +653,7 @@ const HeaderFilter = ({
               </Link>
             </div>
             <div className="modal-continue__buttons">
-              <button className="modal-continue__button">
+              <button type="submit" className="modal-continue__button">
                 <img src={googleImage} alt="google" />
                 <a className="modal-continue__text" href="#">
                   {t("Continue with")} Google
