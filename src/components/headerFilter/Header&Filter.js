@@ -4,17 +4,14 @@ import { useState, useEffect } from "react";
 import React from "react";
 
 import { ToastContainer, toast } from "react-toastify";
-import ReCAPTCHA from "react-google-recaptcha";
 
-import DataToDB from "../../dataToDB/dataToDB";
 import Request from "../../requests/Requests";
 import SimilarChannel from "../../requests/SimilarChannel";
+import Modal from "../modal/Modal";
 
 import "./Header&Filter.css";
 import "react-toastify/dist/ReactToastify.css";
 
-import microsoftImage from "../../images/Microsoft.png";
-import googleImage from "../../images/Google.png";
 import Loading from "../../images/loading-gif.gif";
 import FilterBtnImg from "../../icons/filters.png";
 import SearchBtn from "../../icons/magnifing_glass.png";
@@ -26,36 +23,18 @@ const HeaderFilter = ({
   isLoggedIn,
   setUserData,
 }) => {
-  const dataToDB = new DataToDB(setIsLoggedIn, setUserData);
-
+  
   const request = new Request();
   const similarChannel = new SimilarChannel();
 
-  const { t } = useTranslation();
-
-  const [recaptchaValue,setRecaptchaValue] = useState(null)
-
+  const [isModalOpened, setIsModalOpened] = useState(false);
+  
   const [entryMethod, setEntryMethod] = useState("");
 
-  const [signInData, setSignInData] = useState({
-    email: "",
-    password: "",
-    username: "",
-  });
-
-  const [logInData, setLogInData] = useState({
-    email: "",
-    password: "",
-  });
-
-  const [isChecked, setIsChecked] = useState(false);
+  const { t } = useTranslation();
 
   const logInErrorToast = () => {
     toast.error("Firstly,create or log in to existing account");
-  };
-
-  const handleRecaptchaChange = (value) => {
-    setRecaptchaValue(value);
   };
 
   const handleSimilarSearchClick = async (
@@ -110,11 +89,11 @@ const HeaderFilter = ({
 
   let loadingTimer;
   const setLoading = (selector) => {
-    const element = document.querySelector(`.${selector}`); // Ищем элемент по классу
+    const element = document.querySelector(`.${selector}`);
     if (element) {
-      const img = element.querySelector("img"); // Находим вложенное изображение
+      const img = element.querySelector("img");
       if (img) {
-        img.src = Loading; // Указываем путь к GIF
+        img.src = Loading;
         loadingTimer = setTimeout(() => {
           img.src = SearchBtn;
         }, 500);
@@ -122,90 +101,6 @@ const HeaderFilter = ({
     }
   };
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  const modal = document.querySelector(".modal"),
-    input = document.querySelector(".modal__input"),
-    modalBtn = document.querySelector(".modal__button");
-  let failTimeout, elseFailTimeout, closeTimeout, openTimeout;
-
-  const handleLogIn = (e) => {
-    if (!logInData.email || !logInData.password) {
-      setIsLoggedIn(false);
-      e.preventDefault();
-      modalBtn.classList.add("shake-animation");
-      failTimeout = setTimeout(() => {
-        modalBtn.classList.remove("shake-animation");
-      }, 4000);
-    } else {
-      dataToDB.validateLogIn(logInData, closeModal);
-    }
-  };
-  const validateFormData = async (e) => {
-    if (
-      signInData.email === "" ||
-      !isChecked ||
-      !emailRegex.test(signInData.email) ||
-      !signInData.password ||
-      !signInData.username ||
-      !recaptchaValue
-    ) {
-      setIsLoggedIn(false);
-      e.preventDefault();
-      modalBtn.classList.add("shake-animation");
-      failTimeout = setTimeout(() => {
-        modalBtn.classList.remove("shake-animation");
-      }, 4000);
-    } else {
-      try {
-        const response = await fetch("http://localhost:5001/api/user", {
-          method: "POST",
-          headers: {
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify({signInData,recaptchaValue}),
-        });
-        // console.log({signInData,recaptchaValue})
-
-        if (response.ok) {
-          const result = await response.json();
-          console.log("Пользователь создан", result);
-
-          setIsLoggedIn(true);
-          setUserData(result);
-          modal.style.opacity = "0";
-          elseFailTimeout = setTimeout(() => {
-            modal.style.display = "none";
-          }, 200);
-          document.body.style.overflow = "";
-          input.value = "";
-        } else {
-          setIsLoggedIn(false);
-          console.log("Ошибка при создании пользователя.");
-        }
-      } catch (error) {
-        console.log("Возникла ошибка при регистрации.", error);
-      }
-    }
-  };
-
-  const closeModal = () => {
-    modal.style.opacity = "0";
-    closeTimeout = setTimeout(() => {
-      modal.style.display = "none";
-    }, 200);
-    document.body.style.overflow = "";
-    input.value = "";
-  };
-
-  const openModal = () => {
-    modal.style.opacity = "0.5";
-    openTimeout = setTimeout(() => {
-      modal.style.opacity = "1";
-    }, 20);
-    modal.style.display = "block";
-    document.body.style.overflow = "hidden";
-  };
 
   const openFilters = () => {
     const filters = document.querySelector(".filters");
@@ -215,6 +110,7 @@ const HeaderFilter = ({
       console.error("Элемент 'filters' не найден");
     }
   };
+
   useEffect(() => {
     const FilterBtn = document.querySelectorAll(".filter__block");
 
@@ -281,7 +177,7 @@ const HeaderFilter = ({
             <a
               onClick={() => {
                 setEntryMethod("logIn");
-                openModal();
+                setIsModalOpened(true)
               }}
               href="#"
               className="log__in"
@@ -291,7 +187,7 @@ const HeaderFilter = ({
             <a
               onClick={() => {
                 setEntryMethod("SignIn");
-                openModal();
+                setIsModalOpened(true);
               }}
               href="#"
               className="sign__in"
@@ -546,130 +442,15 @@ const HeaderFilter = ({
         <hr className="filter__divider" />
       </section>
 
-      <section className="modal">
-        <div className="modal__overlay">
-          <button onClick={closeModal} className="modal__close">
-            X
-          </button>
-          <div className="modal__block">
-            <h2 className="modal__title">
-              {entryMethod == "logIn" ? t("Welcome back") : t("Welcome")}
-            </h2>
-            <input
-              required
-              name="email"
-              type="email"
-              maxLength={255}
-              placeholder={t("email")}
-              className="modal__input"
-              value={
-                entryMethod === "logIn" ? logInData.email : signInData.email
-              }
-              onChange={(e) => {
-                const { value } = e.target;
-                if (entryMethod === "logIn") {
-                  setLogInData((prevData) => ({ ...prevData, email: value }));
-                } else {
-                  setSignInData((prevData) => ({ ...prevData, email: value }));
-                }
-              }}
-            />
-            {entryMethod == "logIn" ? null : (
-              <input
-                required
-                name="username"
-                type="text"
-                maxLength={50}
-                placeholder={t("username")}
-                className="modal__input"
-                value={signInData.username}
-                onChange={(e) =>
-                  setSignInData({ ...signInData, username: e.target.value })
-                }
-              />
-            )}
-
-            <input
-              required
-              name="password"
-              type="text"
-              maxLength={255}
-              placeholder={t("password")}
-              className="modal__input"
-              value={
-                entryMethod == "logIn"
-                  ? logInData.password
-                  : signInData.password
-              }
-              onChange={(e) => {
-                const { value } = e.target;
-                if (entryMethod === "logIn") {
-                  setLogInData((prevData) => ({
-                    ...prevData,
-                    password: value,
-                  }));
-                } else {
-                  setSignInData((prevData) => ({
-                    ...prevData,
-                    password: value,
-                  }));
-                }
-              }}
-            />
-            <button
-              onClick={(e) => {
-                entryMethod == "logIn" ? handleLogIn(e) : validateFormData(e);
-              }}
-              type="submit"
-              className="modal__button"
-            >
-              {t("Continue")}
-            </button>
-            {entryMethod === "logIn" ? (
-              ""
-            ) : (
-              <input
-                className="modal__checkbox"
-                type="checkbox"
-                checked={isChecked}
-                onChange={(e) => setIsChecked(e.target.checked)}
-              />
-            )}
-            <ReCAPTCHA className="captcha"
-            sitekey="6LcxnbQqAAAAALV-GfKKoJPxRVIshbTjTa5izOVr"
-            onChange={handleRecaptchaChange}
-              />  
-            <h3 className="modal-checkbox__text">
-              {t("I have read the")}{" "}
-              <Link to="/terms">{t("user agreement")}</Link>{" "}
-              {t("and accept all its terms and conditions")}
-            </h3>
-            <div className="modal-other__buttons">
-              <h3 className="modal-other__title">
-                {t("Don’t have an account?")}
-              </h3>
-              <Link to="/profile" href="#" className="modal-other__button">
-                {t("Register")}
-              </Link>
-            </div>
-            <div className="modal-continue__buttons">
-              <button type="submit" className="modal-continue__button">
-                <img src={googleImage} alt="google" />
-                <a className="modal-continue__text" href="#">
-                  {t("Continue with")} Google
-                </a>
-              </button>
-
-              <button className="modal-continue__button">
-                <img src={microsoftImage} alt="microsoft" />
-                <a className="modal-continue__text" href="#">
-                  {t("Continue with")} Microsoft
-                </a>
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
+      {isModalOpened ? (
+        <Modal
+          isModalOpened={isModalOpened}
+          setIsModalOpened={setIsModalOpened}
+          entryMethod = {entryMethod}
+          setIsLoggedIn={setIsLoggedIn}
+          setUserData={setUserData}
+        />
+      ) : null}
     </>
   );
 };

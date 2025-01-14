@@ -20,10 +20,6 @@ function App() {
   const [isLoggedIn,setIsLoggedIn] = useState(false)
   const [userData,setUserData] = useState({})
 
-  useEffect(()=>{
-    console.log("Данные пользователя:",userData)
-  },[userData])
-  
 
   return (
     <Router>

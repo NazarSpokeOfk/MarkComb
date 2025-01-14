@@ -1,9 +1,13 @@
 import bcrypt from "bcrypt";
-import joi from "joi"
 
 import pool from "../db/index.js";
 import verifyCaptcha from "./authController.js";
 import Joi from "joi";
+
+import MailVerification from "../mailVerification.js";
+
+const mailVerification = new MailVerification();
+
 class UserController {
   async getAllUsers(req, res) {
     try {
@@ -65,7 +69,7 @@ class UserController {
   }
 
   async addUser(req, res) {
-    const { email, password, username } = req.body.signInData;
+    const { email, password, username , verificationCode } = req.body.signInData;
     const { recaptchaValue } = req.body;
 
     if (!recaptchaValue) {
@@ -77,7 +81,17 @@ class UserController {
       if (!isCaptchaValid) {
         return res.status(400).json({ message: "Ошибка проверки CAPTCHA" });
       }
+
+      await mailVerification.sendVerificationCode(email)
+
+      const result = await mailVerification.verifyCode(email,verificationCode)
+
+      if (!result.success) {
+        return res.status(400).json({ message: result.message });
+      
+      }
       this.validateInput({email,password,username})
+
       const hashedPassword = await this.hashPassword(password);
 
       const addUser = await pool.query(

@@ -1,7 +1,8 @@
 class DataToDB {
-    constructor(setIsLoggedIn,setUserData) {
+    constructor(setIsLoggedIn,setUserData,setIsModalOpened) {
       this.setIsLoggedIn = setIsLoggedIn; 
       this.setUserData = setUserData;
+      this.setIsModalOpened = setIsModalOpened
     }
   
     makePurchaseForm = {
@@ -57,7 +58,32 @@ class DataToDB {
         }
     }
 
-    async validateLogIn(data , closeModal) {
+    async validateSignIn(data,recaptchaValue){
+        try {
+            const response = await fetch("http://localhost:5001/api/user", {
+              method: "POST",
+              headers: {
+                "Content-type": "application/json",
+              },
+              body: JSON.stringify({ data, recaptchaValue }),
+            });
+            
+            if (response.ok) {
+              const result = await response.json();
+              console.log("Пользователь создан", result);
+    
+              this.setIsLoggedIn(true)
+              this.setUserData(result);
+            } else {
+              this.setIsLoggedIn(false);
+              console.log("Ошибка при создании пользователя.");
+            }
+          } catch (error) {
+            console.log("Возникла ошибка при регистрации.", error);
+          }
+    }
+
+    async validateLogIn(data) {
             try{
                 const response = await fetch(`http://localhost:5001/api/login` , {
                     method : "POST",
@@ -72,7 +98,7 @@ class DataToDB {
                     console.log("Успешный вход!",result)
                     this.setIsLoggedIn(true);
                     this.setUserData(result)
-                    closeModal()
+                    this.setIsModalOpened(false)
                 } else {
                     this.setIsLoggedIn(false); 
                     console.log('Не удалось войти в аккаунт. Возможно неправильный пароль или email')
