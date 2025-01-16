@@ -1,0 +1,71 @@
+.modal__block-verif {
+    position: relative;
+    background-color: #fff;
+    padding: 20px;
+    width: 600px;
+    height: 300px;
+    border-radius: 10px;
+    z-index: 1001; /* Модалка поверх подложки */
+}
+
+.modal__title-verif{
+    font-size: 40px;
+    text-align: left;
+}
+
+.modal__input-verif{
+    border: 4px solid #000;
+    border-radius: 16px;
+    width: 400px;
+    height: 50px;
+    padding-left: 33px;
+    font-size: 18px;
+    margin-left: 10%;
+    position: relative;
+}
+
+.modal__verif-button{
+    position: absolute;
+    border: none;
+    background-color: #fff;
+    font-size: 20px;
+    width: 40px;
+    height: 40px;
+    right: 170px;
+    top: 187px;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+.modal__verif-button:hover{
+    transform: scale(1.05);
+}
+
+
+.next_btn-img{
+    width: 40px;
+    height: 40px;
+}
+
+.modal__overlay-verif{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный серый фон */
+    display: flex; /* Центрируем модалку */
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    transform: scale(0.9);
+    opacity: 0;
+    /* Поверх всего */
+}
+
+.modal__overlay-verif.open{
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    transform: scale(1);
+    opacity: 1;
+    /* Поверх всего */
+}

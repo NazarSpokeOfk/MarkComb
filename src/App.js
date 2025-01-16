@@ -20,6 +20,16 @@ function App() {
   const [isLoggedIn,setIsLoggedIn] = useState(false)
   const [userData,setUserData] = useState({})
 
+  const [signInData, setSignInData] = useState({
+    email: "",
+    password: "",
+    username: "",
+    recaptchaValue : ""
+  });
+  const [logInData, setLogInData] = useState({
+    email: "",
+    password: "",
+  });
 
   return (
     <Router>
@@ -48,6 +58,10 @@ function App() {
                   setIsLoggedIn={setIsLoggedIn}
                   isLoggedIn = {isLoggedIn}
                   setUserData = {setUserData}
+                  signInData = {signInData}
+                  setSignInData = {setSignInData}
+                  logInData = {logInData}
+                  setLogInData = {setLogInData}
                 />
               </ErrorBoundary>
               <ErrorBoundary>

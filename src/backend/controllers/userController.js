@@ -69,8 +69,8 @@ class UserController {
   }
 
   async addUser(req, res) {
-    const { email, password, username , verificationCode } = req.body.signInData;
-    const { recaptchaValue } = req.body;
+    const { email, password, username , verification_code , recaptchaValue } = req.body.data;
+    console.log("Главные данные:",email, password, username , recaptchaValue , verification_code)
 
     if (!recaptchaValue) {
       return res.status(400).json({ message: "Вы не прошли CAPTCHA" });
@@ -82,9 +82,7 @@ class UserController {
         return res.status(400).json({ message: "Ошибка проверки CAPTCHA" });
       }
 
-      await mailVerification.sendVerificationCode(email)
-
-      const result = await mailVerification.verifyCode(email,verificationCode)
+      const result = await mailVerification.verifyCode(email,verification_code)
 
       if (!result.success) {
         return res.status(400).json({ message: result.message });

@@ -58,14 +58,15 @@ class DataToDB {
         }
     }
 
-    async validateSignIn(data,recaptchaValue){
+    async validateSignIn(data){
         try {
+            console.log({data})
             const response = await fetch("http://localhost:5001/api/user", {
               method: "POST",
               headers: {
                 "Content-type": "application/json",
               },
-              body: JSON.stringify({ data, recaptchaValue }),
+              body: JSON.stringify({data}),
             });
             
             if (response.ok) {
@@ -74,12 +75,15 @@ class DataToDB {
     
               this.setIsLoggedIn(true)
               this.setUserData(result);
+              return Promise.resolve()
             } else {
               this.setIsLoggedIn(false);
               console.log("Ошибка при создании пользователя.");
+              return Promise.reject()
             }
           } catch (error) {
             console.log("Возникла ошибка при регистрации.", error);
+            return Promise.reject()
           }
     }
 
@@ -98,16 +102,20 @@ class DataToDB {
                     console.log("Успешный вход!",result)
                     this.setIsLoggedIn(true);
                     this.setUserData(result)
-                    this.setIsModalOpened(false)
+                    return Promise.resolve()
                 } else {
                     this.setIsLoggedIn(false); 
                     console.log('Не удалось войти в аккаунт. Возможно неправильный пароль или email')
+                    return Promise.reject()
                 }
             } 
             catch (error) {
                 console.log("Возникла ошибка при входе:",error)
+                return Promise.reject()
             }
       }
     }
+
+    
   export default DataToDB;
   

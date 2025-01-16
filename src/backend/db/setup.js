@@ -9,6 +9,12 @@ async function createTables(pool) {
         PRIMARY KEY(user_id)
         )`;
 
+        const createUserVerificationTable = `CREATE TABLE IF NOT EXISTS user_verifications (
+        email VARCHAR(255) PRIMARY KEY,
+        verification_code VARCHAR(10) NOT NULL,
+        verification_expiry TIMESTAMP NOT NULL 
+        )`
+
         const createPurchasesTable = `CREATE TABLE IF NOT EXISTS purchases_channels(
             transaction_id SERIAL PRIMARY KEY,
             user_id INTEGER REFERENCES users(user_id) ON DELETE CASCADE,
@@ -23,6 +29,9 @@ async function createTables(pool) {
 
         await pool.query(createPurchasesTable)
         console.log('Таблица с покупками создана.')
+
+        await pool.query(createUserVerificationTable)
+        console.log('Таблица верификации создана.')
 
     } catch(error){
         console.log('Возникла ошибка в setup.js:',error)

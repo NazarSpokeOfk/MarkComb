@@ -8,6 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import Request from "../../requests/Requests";
 import SimilarChannel from "../../requests/SimilarChannel";
 import Modal from "../modal/Modal";
+import VerifModal from "../modal/VerifModal";
 
 import "./Header&Filter.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -22,12 +23,16 @@ const HeaderFilter = ({
   setIsLoggedIn,
   isLoggedIn,
   setUserData,
+  signInData,
+  setSignInData,
+  logInData,
+  setLogInData
 }) => {
-  
   const request = new Request();
   const similarChannel = new SimilarChannel();
 
   const [isModalOpened, setIsModalOpened] = useState(false);
+  const [isDataFilledIn, setIsDataFilledIn] = useState(false);
   
   const [entryMethod, setEntryMethod] = useState("");
 
@@ -36,6 +41,8 @@ const HeaderFilter = ({
   const logInErrorToast = () => {
     toast.error("Firstly,create or log in to existing account");
   };
+
+  
 
   const handleSimilarSearchClick = async (
     theme = "",
@@ -449,6 +456,21 @@ const HeaderFilter = ({
           entryMethod = {entryMethod}
           setIsLoggedIn={setIsLoggedIn}
           setUserData={setUserData}
+          setIsDataFilledIn={setIsDataFilledIn}
+          logInData={logInData}
+          setLogInData={setLogInData}
+          signInData={signInData}
+          setSignInData={setSignInData}
+        />
+      ) : null}
+      {isDataFilledIn ? (
+        <VerifModal
+        isDataFilledIn={isDataFilledIn}
+        setSignInData = {setSignInData}
+        signInData = {signInData}
+        setUserData = {setUserData}
+        setIsLoggedIn = {setIsLoggedIn}
+        isLoggedIn={isLoggedIn}
         />
       ) : null}
     </>

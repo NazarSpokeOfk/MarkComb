@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
+
 import DataToDB from "../../dataToDB/dataToDB";
 import ReCAPTCHA from "react-google-recaptcha";
 import microsoftImage from "../../images/Microsoft.png";
@@ -15,32 +16,26 @@ const Modal = ({
   isModalOpened,
   setIsModalOpened,
   entryMethod,
+  setIsDataFilledIn,
+  logInData,
+  setLogInData,
+  signInData,
+  setSignInData
 }) => {
   useEffect(() => {
-    console.log("isModalOpened?", isModalOpened);
+    console.log("signInData?", signInData);
   }, [isModalOpened]);
   const { t } = useTranslation();
 
   const [isChecked, setIsChecked] = useState(false);
   const [recaptchaValue, setRecaptchaValue] = useState(null);
-  const [isDataFilledIn, setIsDataFilledIn] = useState(false);
-  const [signInData, setSignInData] = useState({
-    email: "",
-    password: "",
-    username: "",
-    verificationCode: "",
-  });
-  const [logInData, setLogInData] = useState({
-    email: "",
-    password: "",
-  });
-
+  
   const modalRef = useRef(null);
 
   const dataToDB = new DataToDB(setIsLoggedIn, setUserData, setIsModalOpened);
 
   const handleRecaptchaChange = (value) => {
-    setRecaptchaValue(value);
+    setSignInData((prevData) => ({...prevData,recaptchaValue:value}));
   };
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -57,7 +52,12 @@ const Modal = ({
         modalBtn.classList.remove("shake-animation");
       }, 4000);
     } else {
-      dataToDB.validateLogIn(logInData);
+      dataToDB.validateLogIn(logInData).then(()=>{
+        modalRef.current.classList.remove("open");
+        setTimeout(() => {
+          setIsModalOpened(false);
+        }, 600);
+      })
     }
   };
 
@@ -68,7 +68,7 @@ const Modal = ({
       !emailRegex.test(signInData.email) ||
       !signInData.password ||
       !signInData.username ||
-      !recaptchaValue
+      !signInData.recaptchaValue
     ) {
       setIsLoggedIn(false);
       e.preventDefault();
@@ -77,13 +77,11 @@ const Modal = ({
         modalBtn.classList.remove("shake-animation");
       }, 4000);
     } else {
-      setIsDataFilledIn(true);
-      dataToDB.validateSignIn(signInData, recaptchaValue).then(() => {
         modalRef.current.classList.remove("open");
         setTimeout(() => {
           setIsModalOpened(false);
+          setIsDataFilledIn(true);
         }, 600);
-      });
     }
   };
 
