@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 import { Link , useNavigate } from "react-router-dom";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import "./Purchase.css";
 import SmoothEffect from "../smoothText";
@@ -36,7 +37,12 @@ const Purchase = (isLoggedIn) => {
   })
   return (
     <>
-      <header>
+    <HelmetProvider>
+    <Helmet>
+          <title>Purchase uses</title>
+          <meta name="description" content="Main page of the markcomb" />
+    </Helmet>
+    <header>
         <div className="container">
           <div className="logo">
             <Link to="/">
@@ -179,6 +185,7 @@ const Purchase = (isLoggedIn) => {
           </button>
         </div>
       </section>
+    </HelmetProvider>
     </>
   );
 };

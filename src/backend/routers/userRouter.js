@@ -48,9 +48,11 @@ const registerLimiter = rateLimit({
   });
 import verifController from "../controllers/verifController.js";
 import UserController from "../controllers/userController.js";
+import googleAuthController from "../controllers/googleAuthController.js";
+
 const userController = new UserController
 
-
+router.post('/auth/google' , (req,res) => googleAuthController(req,res))
 router.post('/login' , logInLimiter, (req,res) => userController.getUserByPassword(req,res))
 router.post('/verification', (req,res) => verifController(req,res))
 router.get('/users', (req,res) => userController.getAllUsers(req,res))

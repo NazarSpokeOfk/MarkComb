@@ -31,6 +31,10 @@ function App() {
     password: "",
   });
 
+  useEffect(()=>{
+    console.log("userData",userData)
+  })
+
   return (
     <Router>
       <Routes>

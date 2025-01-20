@@ -39,7 +39,7 @@
   background-color: #fff;
   padding: 20px;
   width: 450px;
-  height: 950px;
+  height: auto;
   border-radius: 10px;
   z-index: 1001; /* Модалка поверх подложки */
 }

@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import React from "react";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import { ToastContainer, toast } from "react-toastify";
 
@@ -26,14 +27,14 @@ const HeaderFilter = ({
   signInData,
   setSignInData,
   logInData,
-  setLogInData
+  setLogInData,
 }) => {
   const request = new Request();
   const similarChannel = new SimilarChannel();
 
   const [isModalOpened, setIsModalOpened] = useState(false);
   const [isDataFilledIn, setIsDataFilledIn] = useState(false);
-  
+
   const [entryMethod, setEntryMethod] = useState("");
 
   const { t } = useTranslation();
@@ -41,8 +42,6 @@ const HeaderFilter = ({
   const logInErrorToast = () => {
     toast.error("Firstly,create or log in to existing account");
   };
-
-  
 
   const handleSimilarSearchClick = async (
     theme = "",
@@ -108,7 +107,6 @@ const HeaderFilter = ({
     }
   };
 
-
   const openFilters = () => {
     const filters = document.querySelector(".filters");
     if (filters) {
@@ -143,336 +141,348 @@ const HeaderFilter = ({
 
   return (
     <>
-      <header>
-        <div className="container">
-          <div className="logo">
-            M<span>K</span>
-          </div>
-          <div className="header__links">
-            <Link to="/purchases" className="header__link">
-              {t("purc")}
-              <span className="highlight">{t("hases")}</span>
-            </Link>
+      <HelmetProvider>
+        <Helmet>
+          <title>Main page</title>
+          <meta name="description" content="Main page of the markcomb" />
+        </Helmet>
+        <header>
+          <div className="container">
+            <div className="logo">
+              M<span>K</span>
+            </div>
+            <div className="header__links">
+              <Link to="/purchases" className="header__link">
+                {t("purc")}
+                <span className="highlight">{t("hases")}</span>
+              </Link>
 
-            <Link to="/promotion" className="header__link">
-              {t("prom")}
-              <span>{t("otion")}</span>
-            </Link>
-            <Link to="/purchase" className="header__link">
-              {t("purch")}
-              <span>{t("ase")}</span>
-            </Link>
+              <Link to="/promotion" className="header__link">
+                {t("prom")}
+                <span>{t("otion")}</span>
+              </Link>
+              <Link to="/purchase" className="header__link">
+                {t("purch")}
+                <span>{t("ase")}</span>
+              </Link>
+            </div>
           </div>
-        </div>
-      </header>
+        </header>
 
-      <section className="login">
-        {" "}
-        {isLoggedIn ? (
-          <a
-            onClick={() => {
-              setUserData("");
-              setIsLoggedIn(false);
-            }}
-            href="#"
-            className="log__in"
-          >
-            {t("Log out")}
-          </a>
-        ) : (
-          <>
+        <section className="login">
+          {" "}
+          {isLoggedIn ? (
             <a
               onClick={() => {
-                setEntryMethod("logIn");
-                setIsModalOpened(true)
+                setUserData("");
+                setIsLoggedIn(false);
               }}
               href="#"
               className="log__in"
             >
-              {t("Log in")} /
+              {t("Log out")}
             </a>
-            <a
-              onClick={() => {
-                setEntryMethod("SignIn");
-                setIsModalOpened(true);
-              }}
-              href="#"
-              className="sign__in"
-            >
-              {t("Sign in")}
-            </a>
-          </>
-        )}
-      </section>
-
-      <section className="search">
-        <div className="container">
-          <form
-            className="maininput"
-            onSubmit={(e) =>
-              isLoggedIn
-                ? request.handleSearch(e, setChannelData)
-                : alert("Firstly,you need to log in")
-            }
-          >
-            <input className="search__main" type="text" />
-            <div className="buttons">
-              <button
-                onClick={openFilters}
-                type="button"
-                className="search__filters"
-              >
-                <img src={FilterBtnImg} alt="search_filters" />
-              </button>
-              <button
+          ) : (
+            <>
+              <a
                 onClick={() => {
-                  setLoading("search__glass");
+                  setEntryMethod("logIn");
+                  setIsModalOpened(true);
                 }}
-                type="submit"
-                className="search__glass"
+                href="#"
+                className="log__in"
               >
-                <img src={SearchBtn} alt="search_button" />
-              </button>
-            </div>
-          </form>
-        </div>
-      </section>
+                {t("Log in")} /
+              </a>
+              <a
+                onClick={() => {
+                  setEntryMethod("SignIn");
+                  setIsModalOpened(true);
+                }}
+                href="#"
+                className="sign__in"
+              >
+                {t("Sign in")}
+              </a>
+            </>
+          )}
+        </section>
 
-      <section className="filters">
-        <div className="container">
-          <div className="target__audence">
-            <h2 className="target-audence__title text">
-              {t("target")}
-              <span> {t("audience")}</span>
-            </h2>
-            <div className="target-audence__blocks">
-              <div
-                className="filter__block"
-                onClick={() => handleSimilarSearchClick("", "Kids")}
-              >
-                <ToastContainer />
-                {t("Kids")}
+        <section className="search">
+          <div className="container">
+            <form
+              className="maininput"
+              onSubmit={(e) =>
+                isLoggedIn
+                  ? request.handleSearch(e, setChannelData)
+                  : alert("Firstly,you need to log in")
+              }
+            >
+              <input className="search__main" type="text" />
+              <div className="buttons">
+                <button
+                  onClick={openFilters}
+                  type="button"
+                  className="search__filters"
+                >
+                  <img src={FilterBtnImg} alt="search_filters" />
+                </button>
+                <button
+                  onClick={() => {
+                    setLoading("search__glass");
+                  }}
+                  type="submit"
+                  className="search__glass"
+                >
+                  <img src={SearchBtn} alt="search_button" />
+                </button>
               </div>
-              <div
-                className="filter__block"
-                onClick={() => handleSimilarSearchClick("", "Teenagers")}
-              >
-                <ToastContainer />
-                {t("Teenagers")}
+            </form>
+          </div>
+        </section>
+
+        <section className="filters">
+          <div className="container">
+            <div className="target__audence">
+              <h2 className="target-audence__title text">
+                {t("target")}
+                <span> {t("audience")}</span>
+              </h2>
+              <div className="target-audence__blocks">
+                <div
+                  className="filter__block"
+                  onClick={() => handleSimilarSearchClick("", "Kids")}
+                >
+                  <ToastContainer />
+                  {t("Kids")}
+                </div>
+                <div
+                  className="filter__block"
+                  onClick={() => handleSimilarSearchClick("", "Teenagers")}
+                >
+                  <ToastContainer />
+                  {t("Teenagers")}
+                </div>
+                <div
+                  id="youth"
+                  className="filter__block"
+                  onClick={() => handleSimilarSearchClick("", "Youth")}
+                >
+                  <ToastContainer />
+                  {t("Youth")}
+                </div>
+                <div
+                  id="adults"
+                  className="filter__block"
+                  onClick={() => handleSimilarSearchClick("", "Adults")}
+                >
+                  <ToastContainer />
+                  {t("Adults")}
+                </div>
+                <div
+                  id="older"
+                  className="filter__block"
+                  onClick={() =>
+                    handleSimilarSearchClick("", "OlderGeneration")
+                  }
+                >
+                  <ToastContainer />
+                  {t("Older generation")}
+                </div>
               </div>
-              <div
-                id="youth"
-                className="filter__block"
-                onClick={() => handleSimilarSearchClick("", "Youth")}
-              >
-                <ToastContainer />
-                {t("Youth")}
+            </div>
+
+            <div className="number__of__subs">
+              <h2 className="target-audence__title">
+                {t("number of")}
+                <span> {t("subscribers")}</span>
+              </h2>
+              <div className="number__ofsubs__blocks">
+                <div
+                  onClick={() => handleSimilarSearchClick("", "", 1000, 0)}
+                  id="low"
+                  className="filter__block"
+                >
+                  <ToastContainer />
+                  0-1K
+                </div>
+                <div
+                  onClick={() => handleSimilarSearchClick("", "", 10000, 1000)}
+                  id="lowplus"
+                  className="filter__block"
+                >
+                  <ToastContainer />
+                  1-10K
+                </div>
+                <div
+                  onClick={() =>
+                    handleSimilarSearchClick("", "", 100000, 10000)
+                  }
+                  id="medium"
+                  className="filter__block"
+                >
+                  <ToastContainer />
+                  10-100K
+                </div>
+                <div
+                  onClick={() =>
+                    handleSimilarSearchClick("", "", 500000, 100000)
+                  }
+                  id="mediumplus"
+                  className="filter__block"
+                >
+                  <ToastContainer />
+                  100-500K
+                </div>
+                <div
+                  onClick={() =>
+                    handleSimilarSearchClick("", "", 5000000, 1000000)
+                  }
+                  id="hi"
+                  className="filter__block"
+                >
+                  <ToastContainer />
+                  1-5M
+                </div>
+                <div
+                  onClick={() =>
+                    handleSimilarSearchClick("", "", 10000000, 5000000)
+                  }
+                  id="hiplus"
+                  className="filter__block"
+                >
+                  <ToastContainer />
+                  5-10M
+                </div>
+                <div
+                  onClick={() =>
+                    handleSimilarSearchClick("", "", 20000000, 10000000)
+                  }
+                  id="highest"
+                  className="filter__block"
+                >
+                  <ToastContainer />
+                  10M-20M
+                </div>
               </div>
-              <div
-                id="adults"
-                className="filter__block"
-                onClick={() => handleSimilarSearchClick("", "Adults")}
-              >
-                <ToastContainer />
-                {t("Adults")}
-              </div>
-              <div
-                id="older"
-                className="filter__block"
-                onClick={() => handleSimilarSearchClick("", "OlderGeneration")}
-              >
-                <ToastContainer />
-                {t("Older generation")}
+            </div>
+
+            <div className="content__type">
+              <h2 className="target-audence__title">
+                {t("content")}
+                <span> {t("type")}</span>
+              </h2>
+              <div className="content__type__blocks">
+                <div
+                  className="filter__block"
+                  onClick={() => handleSimilarSearchClick("Comedy")}
+                >
+                  <ToastContainer />
+                  {t("Comedy")}
+                </div>
+                <div
+                  className="filter__block"
+                  onClick={() => handleSimilarSearchClick("Entertainment")}
+                  data-id="24"
+                >
+                  <ToastContainer />
+                  {t("Entertainment")}
+                </div>
+                <div
+                  className="filter__block"
+                  onClick={() => handleSimilarSearchClick("News&Commentary")}
+                  data-id="25"
+                >
+                  <ToastContainer />
+                  {t("News&Commentary")}
+                </div>
+                <div
+                  className="filter__block"
+                  onClick={() => handleSimilarSearchClick("Vlogs")}
+                  data-id="21"
+                >
+                  <ToastContainer />
+                  {t("Vlogs")}
+                </div>
+                <div
+                  className="filter__block"
+                  onClick={() => handleSimilarSearchClick("Fitness&Health")}
+                  data-id="17"
+                >
+                  <ToastContainer />
+                  {t("Fitness&Health")}
+                </div>
+                <div
+                  className="filter__block"
+                  onClick={() => handleSimilarSearchClick("gaming")}
+                  data-id="20"
+                >
+                  <ToastContainer />
+                  {t("Gaming")}
+                </div>
+                <div
+                  className="filter__block"
+                  onClick={() => handleSimilarSearchClick("Animation")}
+                  data-id="1"
+                >
+                  <ToastContainer />
+                  {t("Animation")}
+                </div>
+                <div
+                  className="filter__block"
+                  onClick={() => handleSimilarSearchClick("Music")}
+                  data-id="10"
+                >
+                  <ToastContainer />
+                  {t("Music")}
+                </div>
+                <div
+                  className="filter__block"
+                  onClick={() => handleSimilarSearchClick("Travel")}
+                  data-id="19"
+                >
+                  <ToastContainer />
+                  {t("Travel")}
+                </div>
+                <div
+                  className="filter__block"
+                  onClick={() => handleSimilarSearchClick("Education")}
+                  data-id="27"
+                >
+                  <ToastContainer />
+                  {t("Education")}
+                </div>
               </div>
             </div>
           </div>
+          <hr className="filter__divider" />
+        </section>
 
-          <div className="number__of__subs">
-            <h2 className="target-audence__title">
-              {t("number of")}
-              <span> {t("subscribers")}</span>
-            </h2>
-            <div className="number__ofsubs__blocks">
-              <div
-                onClick={() => handleSimilarSearchClick("", "", 1000, 0)}
-                id="low"
-                className="filter__block"
-              >
-                <ToastContainer />
-                0-1K
-              </div>
-              <div
-                onClick={() => handleSimilarSearchClick("", "", 10000, 1000)}
-                id="lowplus"
-                className="filter__block"
-              >
-                <ToastContainer />
-                1-10K
-              </div>
-              <div
-                onClick={() => handleSimilarSearchClick("", "", 100000, 10000)}
-                id="medium"
-                className="filter__block"
-              >
-                <ToastContainer />
-                10-100K
-              </div>
-              <div
-                onClick={() => handleSimilarSearchClick("", "", 500000, 100000)}
-                id="mediumplus"
-                className="filter__block"
-              >
-                <ToastContainer />
-                100-500K
-              </div>
-              <div
-                onClick={() =>
-                  handleSimilarSearchClick("", "", 5000000, 1000000)
-                }
-                id="hi"
-                className="filter__block"
-              >
-                <ToastContainer />
-                1-5M
-              </div>
-              <div
-                onClick={() =>
-                  handleSimilarSearchClick("", "", 10000000, 5000000)
-                }
-                id="hiplus"
-                className="filter__block"
-              >
-                <ToastContainer />
-                5-10M
-              </div>
-              <div
-                onClick={() =>
-                  handleSimilarSearchClick("", "", 20000000, 10000000)
-                }
-                id="highest"
-                className="filter__block"
-              >
-                <ToastContainer />
-                10M-20M
-              </div>
-            </div>
-          </div>
-
-          <div className="content__type">
-            <h2 className="target-audence__title">
-              {t("content")}
-              <span> {t("type")}</span>
-            </h2>
-            <div className="content__type__blocks">
-              <div
-                className="filter__block"
-                onClick={() => handleSimilarSearchClick("Comedy")}
-              >
-                <ToastContainer />
-                {t("Comedy")}
-              </div>
-              <div
-                className="filter__block"
-                onClick={() => handleSimilarSearchClick("Entertainment")}
-                data-id="24"
-              >
-                <ToastContainer />
-                {t("Entertainment")}
-              </div>
-              <div
-                className="filter__block"
-                onClick={() => handleSimilarSearchClick("News&Commentary")}
-                data-id="25"
-              >
-                <ToastContainer />
-                {t("News&Commentary")}
-              </div>
-              <div
-                className="filter__block"
-                onClick={() => handleSimilarSearchClick("Vlogs")}
-                data-id="21"
-              >
-                <ToastContainer />
-                {t("Vlogs")}
-              </div>
-              <div
-                className="filter__block"
-                onClick={() => handleSimilarSearchClick("Fitness&Health")}
-                data-id="17"
-              >
-                <ToastContainer />
-                {t("Fitness&Health")}
-              </div>
-              <div
-                className="filter__block"
-                onClick={() => handleSimilarSearchClick("gaming")}
-                data-id="20"
-              >
-                <ToastContainer />
-                {t("Gaming")}
-              </div>
-              <div
-                className="filter__block"
-                onClick={() => handleSimilarSearchClick("Animation")}
-                data-id="1"
-              >
-                <ToastContainer />
-                {t("Animation")}
-              </div>
-              <div
-                className="filter__block"
-                onClick={() => handleSimilarSearchClick("Music")}
-                data-id="10"
-              >
-                <ToastContainer />
-                {t("Music")}
-              </div>
-              <div
-                className="filter__block"
-                onClick={() => handleSimilarSearchClick("Travel")}
-                data-id="19"
-              >
-                <ToastContainer />
-                {t("Travel")}
-              </div>
-              <div
-                className="filter__block"
-                onClick={() => handleSimilarSearchClick("Education")}
-                data-id="27"
-              >
-                <ToastContainer />
-                {t("Education")}
-              </div>
-            </div>
-          </div>
-        </div>
-        <hr className="filter__divider" />
-      </section>
-
-      {isModalOpened ? (
-        <Modal
-          isModalOpened={isModalOpened}
-          setIsModalOpened={setIsModalOpened}
-          entryMethod = {entryMethod}
-          setIsLoggedIn={setIsLoggedIn}
-          setUserData={setUserData}
-          setIsDataFilledIn={setIsDataFilledIn}
-          logInData={logInData}
-          setLogInData={setLogInData}
-          signInData={signInData}
-          setSignInData={setSignInData}
-        />
-      ) : null}
-      {isDataFilledIn ? (
-        <VerifModal
-        isDataFilledIn={isDataFilledIn}
-        setSignInData = {setSignInData}
-        signInData = {signInData}
-        setUserData = {setUserData}
-        setIsLoggedIn = {setIsLoggedIn}
-        isLoggedIn={isLoggedIn}
-        />
-      ) : null}
+        {isModalOpened ? (
+          <Modal
+            isModalOpened={isModalOpened}
+            setIsModalOpened={setIsModalOpened}
+            entryMethod={entryMethod}
+            setIsLoggedIn={setIsLoggedIn}
+            setUserData={setUserData}
+            setIsDataFilledIn={setIsDataFilledIn}
+            logInData={logInData}
+            setLogInData={setLogInData}
+            signInData={signInData}
+            setSignInData={setSignInData}
+          />
+        ) : null}
+        {isDataFilledIn ? (
+          <VerifModal
+            isDataFilledIn={isDataFilledIn}
+            setSignInData={setSignInData}
+            signInData={signInData}
+            setUserData={setUserData}
+            setIsLoggedIn={setIsLoggedIn}
+            isLoggedIn={isLoggedIn}
+          />
+        ) : null}
+      </HelmetProvider>
     </>
   );
 };

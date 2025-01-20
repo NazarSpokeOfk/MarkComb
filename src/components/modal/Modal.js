@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
+import GoogleLoginButton from "../googleLogInButton/GoogleLogInButton";
 
 import DataToDB from "../../dataToDB/dataToDB";
 import ReCAPTCHA from "react-google-recaptcha";
@@ -20,7 +21,7 @@ const Modal = ({
   logInData,
   setLogInData,
   signInData,
-  setSignInData
+  setSignInData,
 }) => {
   useEffect(() => {
     console.log("signInData?", signInData);
@@ -29,13 +30,13 @@ const Modal = ({
 
   const [isChecked, setIsChecked] = useState(false);
   const [recaptchaValue, setRecaptchaValue] = useState(null);
-  
+
   const modalRef = useRef(null);
 
   const dataToDB = new DataToDB(setIsLoggedIn, setUserData, setIsModalOpened);
 
   const handleRecaptchaChange = (value) => {
-    setSignInData((prevData) => ({...prevData,recaptchaValue:value}));
+    setSignInData((prevData) => ({ ...prevData, recaptchaValue: value }));
   };
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -52,12 +53,12 @@ const Modal = ({
         modalBtn.classList.remove("shake-animation");
       }, 4000);
     } else {
-      dataToDB.validateLogIn(logInData).then(()=>{
+      dataToDB.validateLogIn(logInData).then(() => {
         modalRef.current.classList.remove("open");
         setTimeout(() => {
           setIsModalOpened(false);
         }, 600);
-      })
+      });
     }
   };
 
@@ -77,11 +78,11 @@ const Modal = ({
         modalBtn.classList.remove("shake-animation");
       }, 4000);
     } else {
-        modalRef.current.classList.remove("open");
-        setTimeout(() => {
-          setIsModalOpened(false);
-          setIsDataFilledIn(true);
-        }, 600);
+      modalRef.current.classList.remove("open");
+      setTimeout(() => {
+        setIsModalOpened(false);
+        setIsDataFilledIn(true);
+      }, 600);
     }
   };
 
@@ -208,21 +209,23 @@ const Modal = ({
               {t("Register")}
             </Link>
           </div>
-          <div className="modal-continue__buttons">
-            <button type="submit" className="modal-continue__button">
-              <img src={googleImage} alt="google" />
-              <a className="modal-continue__text" href="#">
-                {t("Continue with")} Google
-              </a>
-            </button>
+          {entryMethod === "logIn" ? (
+            <div className="modal-continue__buttons">
+              <button type="submit" className="modal-continue__button">
+                <GoogleLoginButton
+                  setIsLoggedIn={setIsLoggedIn}
+                  setUserData={setUserData}
+                />
+              </button>
 
-            <button className="modal-continue__button">
-              <img src={microsoftImage} alt="microsoft" />
-              <a className="modal-continue__text" href="#">
-                {t("Continue with")} Microsoft
-              </a>
-            </button>
-          </div>
+              <button className="modal-continue__button">
+                <img src={microsoftImage} alt="microsoft" />
+                <a className="modal-continue__text" href="#">
+                  {t("Continue with")} Microsoft
+                </a>
+              </button>
+            </div>
+          ) : null}
         </div>
       </div>
     </section>

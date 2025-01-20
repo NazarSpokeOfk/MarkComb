@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-
+import { Helmet, HelmetProvider } from "react-helmet-async";
 import { toast } from "react-toastify";
 
 import Request from "../../requests/Requests";
@@ -117,7 +117,12 @@ const Promotion = ({ isLoggedIn, userData }) => {
 
   return (
     <>
-      <header>
+    <HelmetProvider>
+    <Helmet>
+          <title>Promotion</title>
+          <meta name="description" content="Main page of the markcomb" />
+    </Helmet>
+    <header>
         <div className="container">
           <div className="logo">
             <Link to="/">
@@ -273,6 +278,7 @@ const Promotion = ({ isLoggedIn, userData }) => {
           </button>
         </div>
       </section>
+    </HelmetProvider>
     </>
   );
 };

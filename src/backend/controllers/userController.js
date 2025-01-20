@@ -1,8 +1,9 @@
 import bcrypt from "bcrypt";
+import Joi from "joi";
 
 import pool from "../db/index.js";
 import verifyCaptcha from "./authController.js";
-import Joi from "joi";
+import generateJWT from "../generateJWT.js";
 
 import MailVerification from "../mailVerification.js";
 
@@ -43,6 +44,8 @@ class UserController {
         return res.status(400).json({ message: "Неверный пароль!" });
       }
 
+      const token = generateJWT(user)
+
       const userId = await user.user_id;
 
       const userChannels = await pool.query(
@@ -50,8 +53,16 @@ class UserController {
         [userId]
       );
 
+      res.cookie("sessionToken", token , {
+        httpOnly : false,
+        secure : process.env.NODE_ENV === "development",
+        maxAge : 3600000,
+        sameSite : "strict"
+      })
+
       res.json({
         message: "Успешный вход",
+        token,
         user: {
           user_id: user.user_id,
           email: user.email,
@@ -60,6 +71,7 @@ class UserController {
         },
         channels: userChannels.rows,
       });
+
     } catch (error) {
       console.log("Возникла ошибка в getUserById:", error);
       res
