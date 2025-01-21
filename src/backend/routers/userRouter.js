@@ -49,15 +49,20 @@ const registerLimiter = rateLimit({
 import verifController from "../controllers/verifController.js";
 import UserController from "../controllers/userController.js";
 import googleAuthController from "../controllers/googleAuthController.js";
+import verifyJWT from "../controllers/verifyJWT.js";
 
 const userController = new UserController
 
+router.post('/Uses/:id',(req,res) => userController.addUses(req,res))
+router.post('/user', (req,res) =>userController.addUser(req,res))
 router.post('/auth/google' , (req,res) => googleAuthController(req,res))
 router.post('/login' , logInLimiter, (req,res) => userController.getUserByPassword(req,res))
 router.post('/verification', (req,res) => verifController(req,res))
+
+router.get('/loginbyid/:id' , (req,res) => userController.getUserByUserId(req,res))
+router.get('/cookie' , (req,res) => verifyJWT(req,res))
 router.get('/users', (req,res) => userController.getAllUsers(req,res))
-router.post('/Uses/:id',(req,res) => userController.addUses(req,res))
-router.post('/user', (req,res) =>userController.addUser(req,res))
+
 router.put('/update/:id',updateLimiter, (req,res) =>userController.updateUser(req,res))
 router.delete('/user/:id', (req,res) =>userController.deleteUser(req,res))
 

@@ -1,6 +1,6 @@
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 
-const GoogleLoginButton = ({setIsLoggedIn,setUserData}) => {
+const GoogleLoginButton = ({setIsLoggedIn,setUserData,setIsModalOpened}) => {
   const handleSuccess = async (response) => {
     const credential = response.credential
     console.log("Вход с помощью google.", response);
@@ -21,6 +21,7 @@ const GoogleLoginButton = ({setIsLoggedIn,setUserData}) => {
         console.log(data);
         setIsLoggedIn(true)
         setUserData(data)
+        setIsModalOpened(false)
       })
       .catch((error) => {
         console.log("Ошибка в google log in:", error);
@@ -36,6 +37,9 @@ const GoogleLoginButton = ({setIsLoggedIn,setUserData}) => {
         <GoogleLogin
         onSuccess={handleSuccess}
         onError={handleError}
+        style={{
+          backgroundColor : "#FFF"
+        }}
         />
     </GoogleOAuthProvider>
   )

@@ -34,7 +34,7 @@ class UserController {
       }
 
       const user = userResult.rows[0];
-      
+
       const isPasswordValid = await this.comparePassword(
         password,
         user.password
@@ -44,7 +44,7 @@ class UserController {
         return res.status(400).json({ message: "Неверный пароль!" });
       }
 
-      const token = generateJWT(user)
+      const token = generateJWT(user);
 
       const userId = await user.user_id;
 
@@ -52,13 +52,16 @@ class UserController {
         `SELECT channel_name,email,created_at,thumbnail FROM purchases_channels WHERE user_id = $1`,
         [userId]
       );
-
-      res.cookie("sessionToken", token , {
-        httpOnly : false,
-        secure : process.env.NODE_ENV === "development",
-        maxAge : 3600000,
-        sameSite : "strict"
-      })
+      try {
+        res.cookie("sessionToken", token, {
+          httpOnly: false,
+          secure: false,
+          maxAge: 3600000,
+          sameSite: "lax",
+        });
+      } catch (error) {
+        console.log("Ошибка при загрузке куки на сайт.", error);
+      }
 
       res.json({
         message: "Успешный вход",
@@ -71,9 +74,48 @@ class UserController {
         },
         channels: userChannels.rows,
       });
-
     } catch (error) {
-      console.log("Возникла ошибка в getUserById:", error);
+      console.log("Возникла ошибка в getUserByPassword:", error);
+      res
+        .status(500)
+        .json({ message: "Возникла ошибка при входе", error: error.message });
+    }
+  }
+
+  async getUserByUserId(req, res) {
+    const user_id = req.params.id;
+
+    try {
+      const userResult = await pool.query(
+        `SELECT user_id,email,password,username,uses FROM users WHERE user_id = $1`,
+        [user_id]
+      );
+      
+      const user = userResult.rows[0];
+
+      if (userResult.rows.length === 0) {
+        return res.status(400).json({
+          message: "Ошибка! Пользователь не найден.",
+        });
+      }
+
+      const userChannels = await pool.query(
+        `SELECT channel_name,email,created_at,thumbnail FROM purchases_channels WHERE user_id = $1`,
+        [user_id]
+      );
+
+      res.json({
+        message: "Успешный вход",
+        user: {
+          user_id: user.user_id,
+          email: user.email,
+          username: user.username,
+          uses: user.uses,
+        },
+        channels: userChannels.rows,
+      });
+    } catch (error) {
+      console.log("ошибка в входе по id", error);
       res
         .status(500)
         .json({ message: "Возникла ошибка при входе", error: error.message });
@@ -81,8 +123,16 @@ class UserController {
   }
 
   async addUser(req, res) {
-    const { email, password, username , verification_code , recaptchaValue } = req.body.data;
-    console.log("Главные данные:",email, password, username , recaptchaValue , verification_code)
+    const { email, password, username, verification_code, recaptchaValue } =
+      req.body.data;
+    console.log(
+      "Главные данные:",
+      email,
+      password,
+      username,
+      recaptchaValue,
+      verification_code
+    );
 
     if (!recaptchaValue) {
       return res.status(400).json({ message: "Вы не прошли CAPTCHA" });
@@ -94,13 +144,15 @@ class UserController {
         return res.status(400).json({ message: "Ошибка проверки CAPTCHA" });
       }
 
-      const result = await mailVerification.verifyCode(email,verification_code)
+      const result = await mailVerification.verifyCode(
+        email,
+        verification_code
+      );
 
       if (!result.success) {
         return res.status(400).json({ message: result.message });
-      
       }
-      this.validateInput({email,password,username})
+      this.validateInput({ email, password, username });
 
       const hashedPassword = await this.hashPassword(password);
 
@@ -190,7 +242,7 @@ class UserController {
       res.json({ message: "Пользователь удален", user: user.rows[0] });
     } catch (error) {
       console.log("Возникла ошибка в deleteUser:", error);
-      res.status(500).json({message:"Возникла ошибка сервера."})
+      res.status(500).json({ message: "Возникла ошибка сервера." });
     }
   }
 
@@ -237,14 +289,14 @@ class UserController {
   }
 
   userSchema = Joi.object({
-    email : Joi.string().email().required(),
-    password : Joi.string().min(5).required(),
-    username : Joi.string().alphanum().min(3).max(30).required()
-  })
+    email: Joi.string().email().required(),
+    password: Joi.string().min(5).required(),
+    username: Joi.string().alphanum().min(3).max(30).required(),
+  });
 
-  validateInput(input){
-    const {error} = this.userSchema.validate(input);
-    if(error) throw new Error(error.details[0].message)
+  validateInput(input) {
+    const { error } = this.userSchema.validate(input);
+    if (error) throw new Error(error.details[0].message);
   }
 }
 

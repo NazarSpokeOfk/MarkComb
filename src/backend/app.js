@@ -1,3 +1,4 @@
+import cookieParser from "cookie-parser";
 import cors from "./node_modules/cors/lib/index.js"
 import express from "./node_modules/express/index.js"
 import createTables from "./db/setup.js";
@@ -11,11 +12,17 @@ import purchasesRouter from "./routers/purchasesRouter.js";
 const app = express();
 
 
-app.use(cors())
-
+app.use(
+    cors({
+      origin: "http://localhost:3000", 
+      credentials: true, 
+    })
+  );
 const PORT = process.env.port || 5001;
 
 app.use(express.json())
+
+app.use(cookieParser())
 
 app.use('/api',purchasesRouter)
 app.use('/api',userRouter)

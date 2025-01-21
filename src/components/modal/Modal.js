@@ -6,8 +6,7 @@ import GoogleLoginButton from "../googleLogInButton/GoogleLogInButton";
 
 import DataToDB from "../../dataToDB/dataToDB";
 import ReCAPTCHA from "react-google-recaptcha";
-import microsoftImage from "../../images/Microsoft.png";
-import googleImage from "../../images/Google.png";
+
 
 import "./Modal.css";
 
@@ -29,7 +28,6 @@ const Modal = ({
   const { t } = useTranslation();
 
   const [isChecked, setIsChecked] = useState(false);
-  const [recaptchaValue, setRecaptchaValue] = useState(null);
 
   const modalRef = useRef(null);
 
@@ -97,7 +95,7 @@ const Modal = ({
   }, [isModalOpened]);
 
   return (
-    <section className={`modal ${isModalOpened ? "active" : ""}`}>
+    <section className={`modal ${isModalOpened  ? "active" : ""}`}>
       <div ref={modalRef} className="modal__overlay">
         <button
           onClick={() => {
@@ -212,18 +210,19 @@ const Modal = ({
           {entryMethod === "logIn" ? (
             <div className="modal-continue__buttons">
               <button type="submit" className="modal-continue__button">
-                <GoogleLoginButton
+                <GoogleLoginButton 
+                  setIsModalOpened = {setIsModalOpened}
                   setIsLoggedIn={setIsLoggedIn}
                   setUserData={setUserData}
                 />
               </button>
 
-              <button className="modal-continue__button">
+              {/* <button className="modal-continue__button">
                 <img src={microsoftImage} alt="microsoft" />
                 <a className="modal-continue__text" href="#">
                   {t("Continue with")} Microsoft
                 </a>
-              </button>
+              </button> */}
             </div>
           ) : null}
         </div>

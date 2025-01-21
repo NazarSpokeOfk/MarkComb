@@ -1,0 +1,22 @@
+const checkCookies = async (setIsLoggedIn, setUserData) => {
+    try {
+        const response = await fetch("http://localhost:5001/api/cookie", {
+          method: "GET",
+          credentials: "include",  
+        });
+      
+        if (!response.ok) {
+          console.log("Ошибка при входе по куки. Статус:", response.status);
+          setIsLoggedIn(false);
+          return; 
+        }
+      
+        const result = await response.json(); 
+        setIsLoggedIn(true);
+        setUserData(result); 
+      } catch (error) {
+        console.error("Ошибка при обработке входа по куки:", error);
+        setIsLoggedIn(false); 
+      }
+};
+export default checkCookies;

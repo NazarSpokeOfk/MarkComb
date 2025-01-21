@@ -10,6 +10,7 @@ import Request from "../../requests/Requests";
 import SimilarChannel from "../../requests/SimilarChannel";
 import Modal from "../modal/Modal";
 import VerifModal from "../modal/VerifModal";
+import checkCookies from "../../checkCookies/checkCookies";
 
 import "./Header&Filter.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -115,6 +116,10 @@ const HeaderFilter = ({
       console.error("Элемент 'filters' не найден");
     }
   };
+
+  useEffect(()=>{
+    checkCookies(setIsLoggedIn,setUserData)
+  },[])
 
   useEffect(() => {
     const FilterBtn = document.querySelectorAll(".filter__block");
