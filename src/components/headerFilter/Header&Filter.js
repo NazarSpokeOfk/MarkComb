@@ -29,6 +29,7 @@ const HeaderFilter = ({
   setSignInData,
   logInData,
   setLogInData,
+  userData,
 }) => {
   const request = new Request();
   const similarChannel = new SimilarChannel();
@@ -117,9 +118,9 @@ const HeaderFilter = ({
     }
   };
 
-  useEffect(()=>{
-    checkCookies(setIsLoggedIn,setUserData)
-  },[])
+  useEffect(() => {
+    checkCookies(setIsLoggedIn, setUserData);
+  }, []);
 
   useEffect(() => {
     const FilterBtn = document.querySelectorAll(".filter__block");
@@ -175,7 +176,9 @@ const HeaderFilter = ({
         </header>
 
         <section className="login">
-          {" "}
+        {isLoggedIn ? (
+            <Link className="profile__name" to={"/profile"}>{userData.user.username}</Link>
+          ) : null}{" "}
           {isLoggedIn ? (
             <a
               onClick={() => {

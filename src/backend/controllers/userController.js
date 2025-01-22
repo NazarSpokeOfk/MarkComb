@@ -71,6 +71,7 @@ class UserController {
           email: user.email,
           username: user.username,
           uses: user.uses,
+          password : user.password
         },
         channels: userChannels.rows,
       });
@@ -111,6 +112,7 @@ class UserController {
           email: user.email,
           username: user.username,
           uses: user.uses,
+          password : user.password
         },
         channels: userChannels.rows,
       });

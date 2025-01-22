@@ -8,7 +8,6 @@ const verifyJWT = async (req,res) => {
 
     try{
         const decoded = jwt.verify(token , process.env.JWT_SECRET);
-        console.log("decoded:",decoded)
         const userData = {
             email : decoded.email,
             user_id : decoded.user_id
@@ -21,7 +20,6 @@ const verifyJWT = async (req,res) => {
         const result = await response.json()
 
         if(response.ok){
-            console.log("Успешный вход!",result)
             return res.json(result)
         } else {
             console.log('Не удалось войти в аккаунт. Возможно неправильный пароль или email')

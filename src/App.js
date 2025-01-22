@@ -31,7 +31,10 @@ function App() {
     password: "",
   });
 
-  
+  useEffect(()=>{
+    console.log("isLoggedIn:",isLoggedIn)
+    console.log(userData)
+  },[isLoggedIn])
 
   return (
     <Router>
@@ -64,6 +67,7 @@ function App() {
                   setSignInData = {setSignInData}
                   logInData = {logInData}
                   setLogInData = {setLogInData}
+                  userData={userData}
                 />
               </ErrorBoundary>
               <ErrorBoundary>
@@ -121,7 +125,7 @@ function App() {
         path="/profile"
         element = {
           <ErrorBoundary>
-            <Profile/>
+            <Profile userData = {userData}/>
           </ErrorBoundary>
         }
         />
