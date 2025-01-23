@@ -177,7 +177,7 @@ const HeaderFilter = ({
 
         <section className="login">
         {isLoggedIn ? (
-            <Link className="profile__name" to={"/profile"}>{userData.user.username}</Link>
+            <Link className="profile__name" to={"/profile"}>{userData?.user?.username}</Link>
           ) : null}{" "}
           {isLoggedIn ? (
             <a

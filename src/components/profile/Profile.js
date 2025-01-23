@@ -2,14 +2,66 @@ import "./profile.css";
 import Edit from "../../images/image 70.png";
 
 import SmoothEffect from "../smoothText";
+import VerifPassword from "../modal/verifPassword.js";
 
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import { useState, useEffect } from "react";
 
-const Profile = ({userData}) => {
+const Profile = ({ userData, setUserData }) => {
   const { t, i18n } = useTranslation();
-  document.body.style.overflow = "";
+  const [isNameChanged, setIsNameChanged] = useState(false);
+  const [localName, setLocalName] = useState(userData?.user?.username || "");
+  const [isPasswordChanged, setIsPasswordChanged] = useState(false);
+  const [localPassword, setLocalPassword] = useState(
+      userData?.user?.password || ""
+  );
+  const [changedData, setChangedData] = useState({
+    username: "",
+    newPassword: "",
+    oldPassword: "",
+    user_id: userData?.user?.user_id,
+    changeMethod: "",
+  });
+
+  useEffect(()=>{
+    console.log("changedData:",changedData)
+  },[changedData])
+
+
+
+  const handleNameChange = (e) => {
+    const value = e.target.value;
+    setLocalName(value);
+    setChangedData((prevData) => ({
+      ...prevData,
+      username: value,
+    }));
+  };
+
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+    setLocalPassword(value);
+    setChangedData((prevData) => ({
+      ...prevData,
+      newPassword: value,
+    }));
+  };
+
+  const checkWhatChange = () => {
+    if (changedData.username != "" && changedData.password === "") {
+      setChangedData((prevData) => ({ ...prevData, changeMethod: "username" }));
+    } else if (changedData.username != "" && changedData.password != "") {
+      setChangedData((prevData) => ({
+        ...prevData,
+        changeMethod: "username&password",
+      }));
+    } else if (changedData.password != "" && changedData.username === "") {
+      setChangedData((prevData) => ({ ...prevData, changeMethod: "password" }));
+    } 
+  };
+
   return (
     <>
       <HelmetProvider>
@@ -41,48 +93,101 @@ const Profile = ({userData}) => {
           </div>
         </header>
 
-
-        <section class="profile">
-          <div class="container">
-            <button class="username__edit-button">
+        <section className="profile">
+          <div className="container">
+            <button
+              onClick={() => {
+                setIsNameChanged(true);
+              }}
+              className={`username__edit-button ${
+                isNameChanged ? "unactive" : ""
+              }`}
+            >
               <img src={Edit} alt="edit" />
             </button>
 
-            <h1 class="profile_name">{userData ? userData?.user?.username : "Log in firstly"}</h1>
+            {isNameChanged ? (
+              <input
+                className="name__input"
+                value={localName}
+                onChange={handleNameChange}
+                type="text"
+                placeholder="Enter your new username"
+              />
+            ) : (
+              <h1 className="profile_name">
+                {userData ? userData?.user?.username : "Log in firstly"}
+              </h1>
+            )}
 
-            <h2 class="profile_uses-title none">{t("uses")}</h2>
-            <h3 class="profile_uses-amount">{userData ? userData?.user?.uses : ""}</h3>
+            <h2 className="profile_uses-title none">{t("uses")}</h2>
+            <h3 className="profile_uses-amount">
+              {userData ? userData?.user?.uses : ""}
+            </h3>
 
-            <div class="info_block">
-              <h3 class="info_block-title none">
+            <div className="info_block">
+              <h3 className="info_block-title none">
                 {t("in")}
                 <span>{t("fo")}</span>
               </h3>
-              <h2 class="info_block-email none">
+              <h2 className="info_block-email none">
                 {t("EM")}
-                <span>{t("AIL")}</span> : {userData ? userData?.user?.email : ""}
+                <span>{t("AIL")}</span> :{" "}
+                {userData ? userData?.user?.email : ""}
               </h2>
-              <button class="email__edit-button">
-                <img src={Edit} alt="edit" />
-              </button>
-              <h2 class="info_block-password none">
-                {t("PASS")}
-                <span>{t("WORD")}</span> : {userData ? userData?.user?.password : "null"}
-              </h2>
-              <button class="password__edit-button">
+              {isPasswordChanged ? (
+                <input
+                  className="password__input"
+                  value={localPassword}
+                  onChange={handlePasswordChange}
+                  type="text"
+                  placeholder="Enter your new password"
+                />
+              ) : (
+                <h2 className="info_block-password none">
+                  {t("PASS")}
+                  <span>{t("WORD")}</span> :{" "}
+                  *****
+                </h2>
+              )}
+              <button
+                onClick={() => {
+                  setIsPasswordChanged(true);
+                }}
+                className={`password__edit-button ${
+                  isPasswordChanged ? "unactive" : ""
+                }`}
+              >
                 <img src={Edit} alt="edit" />
               </button>
             </div>
+
+            <button
+              onClick={() => {
+                checkWhatChange();
+              }}
+              className="save__button"
+            >
+              Save
+            </button>
           </div>
         </section>
 
-        <section class="footer">
-          <div class="footer__container">
-            <h3 class="footer__logo">MK,2024</h3>
-            <Link to="/terms" class="footer__terms">
+        {changedData.changeMethod ? (
+          <VerifPassword
+            changedData={changedData}
+            setChangedData={setChangedData}
+            setUserData={setUserData}
+          />
+        ) : null}
+
+        <section className="footer">
+          <div className="footer__container">
+            <h3 className="footer__logo">MK,2024</h3>
+            <Link to="/terms" className="footer__terms">
               {t("Terms of Service")}
             </Link>
-            <Link to="/purpose" class="footer__purpose">
+            <Link to="/purpose" className="footer__purpose">
               {t("Our Purpose")}
             </Link>
             <button

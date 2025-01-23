@@ -6,6 +6,7 @@ import verifyCaptcha from "./authController.js";
 import generateJWT from "../generateJWT.js";
 
 import MailVerification from "../mailVerification.js";
+import { use } from "i18next";
 
 const mailVerification = new MailVerification();
 
@@ -20,6 +21,7 @@ class UserController {
   }
 
   async getUserByPassword(req, res) {
+    console.log("Вход по паролю")
     const { email, password } = req.body;
     try {
       const userResult = await pool.query(
@@ -34,7 +36,7 @@ class UserController {
       }
 
       const user = userResult.rows[0];
-
+      console.log("КАБИНЕТ ПОЛЬЗОВАТЕЛя:",user)
       const isPasswordValid = await this.comparePassword(
         password,
         user.password
@@ -71,7 +73,7 @@ class UserController {
           email: user.email,
           username: user.username,
           uses: user.uses,
-          password : user.password
+          password: user.password,
         },
         channels: userChannels.rows,
       });
@@ -91,7 +93,7 @@ class UserController {
         `SELECT user_id,email,password,username,uses FROM users WHERE user_id = $1`,
         [user_id]
       );
-      
+
       const user = userResult.rows[0];
 
       if (userResult.rows.length === 0) {
@@ -112,7 +114,7 @@ class UserController {
           email: user.email,
           username: user.username,
           uses: user.uses,
-          password : user.password
+          password: user.password,
         },
         channels: userChannels.rows,
       });
@@ -127,15 +129,6 @@ class UserController {
   async addUser(req, res) {
     const { email, password, username, verification_code, recaptchaValue } =
       req.body.data;
-    console.log(
-      "Главные данные:",
-      email,
-      password,
-      username,
-      recaptchaValue,
-      verification_code
-    );
-
     if (!recaptchaValue) {
       return res.status(400).json({ message: "Вы не прошли CAPTCHA" });
     }
@@ -145,7 +138,6 @@ class UserController {
       if (!isCaptchaValid) {
         return res.status(400).json({ message: "Ошибка проверки CAPTCHA" });
       }
-
       const result = await mailVerification.verifyCode(
         email,
         verification_code
@@ -174,47 +166,82 @@ class UserController {
 
   async updateUser(req, res) {
     const id = parseInt(req.params.id, 10);
-    const { email, password, username } = req.body;
-
+    const { newPassword, oldPassword, username, changeMethod } = req.body;
+    console.log(req.body);
+  
     try {
       const userResult = await pool.query(
         `SELECT password FROM users WHERE user_id = $1`,
         [id]
       );
-
+  
       if (userResult.rows.length === 0) {
         return res.status(400).json({
           message: "Ошибка! Неверный пароль или пользователь не найден.",
         });
       }
-
+  
+      this.validateInput({ username, newPassword, oldPassword }, "update");
+  
       const storedHash = userResult.rows[0].password;
-
-      const isPasswordValid = await this.comparePassword(password, storedHash);
-
+      const isPasswordValid = await this.comparePassword(oldPassword, storedHash);
+  
       if (!isPasswordValid) {
         return res.status(400).json({ message: "Неправильный пароль!" });
       }
-
-      const updateUser = await pool.query(
-        `UPDATE users SET email = $1, username = $2
-                 WHERE user_id = $3 
-                 RETURNING *`,
-        [email, username, id]
-      );
-
+  
+      let hashedPassword;
+      let updateUser;
+  
+      if (changeMethod === "password" && !username) {
+        delete req.body.username;
+        hashedPassword = await this.hashPassword(newPassword);
+        if (!hashedPassword) {
+          return res.status(400).json({ message: "Ошибка хеширования пароля" });
+        }
+        console.log("New hashed password:", hashedPassword);
+        updateUser = await pool.query(
+          `UPDATE users SET password = $1 WHERE user_id = $2 RETURNING *`,
+          [hashedPassword, id]
+        );
+      } else if (changeMethod === "username") {
+        updateUser = await pool.query(
+          `UPDATE users SET username = $1 WHERE user_id = $2 RETURNING *`,
+          [username, id]
+        );
+      } else if (changeMethod === "username&password") {
+        hashedPassword = await this.hashPassword(newPassword);
+        if (!hashedPassword) {
+          return res.status(400).json({ message: "Ошибка хеширования пароля" });
+        }
+        console.log("New hashed password for both:", hashedPassword);
+        updateUser = await pool.query(
+          `UPDATE users SET username = $1, password = $2 WHERE user_id = $3 RETURNING *`,
+          [username, hashedPassword, id]
+        );
+      } else {
+        return res
+          .status(400)
+          .json({ message: "Некорректный метод изменения данных" });
+      }
+  
+      if (updateUser.rows.length === 0) {
+        return res.status(400).json({ message: "Ошибка обновления данных" });
+      }
+  
       res.json({
         message: "Данные пользователя успешно обновлены",
         user: updateUser.rows[0],
       });
     } catch (error) {
-      console.log("Возникла ошибка в updateUser:", error);
+      console.error("Возникла ошибка в updateUser:", error);
       res.status(500).json({
         message: "Ошибка изменения пользователя",
         error: error.message,
       });
     }
   }
+  
 
   async deleteUser(req, res) {
     const id = parseInt(req.params.id, 10);
@@ -296,9 +323,22 @@ class UserController {
     username: Joi.string().alphanum().min(3).max(30).required(),
   });
 
-  validateInput(input) {
-    const { error } = this.userSchema.validate(input);
-    if (error) throw new Error(error.details[0].message);
+  userUpdateSchema = Joi.object({
+    oldPassword: Joi.string().min(5).required(),
+    newPassword: Joi.string().min(5).required(),
+    username: Joi.string().alphanum().min(3).max(30).optional().allow(''),  // Добавляем allow('') чтобы разрешить пустое значение
+  });
+  
+
+  validateInput(input, method) {
+    console.log(method)
+    if (method === "update") {
+      const { error } = this.userUpdateSchema.validate(input);
+      if (error) throw new Error(error.details[0].message);
+    } else {
+      const { error } = this.userSchema.validate(input);
+      if (error) throw new Error(error.details[0].message);
+    }
   }
 }
 

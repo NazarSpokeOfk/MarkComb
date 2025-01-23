@@ -62,8 +62,9 @@ class MailVerification {
       const verif = await pool.query(`SELECT * FROM user_verifications WHERE email = $1 AND verification_code = $2 AND verification_expiry  > NOW()`,
         [email,code]
       )
+      console.log("verif:",verif)
       if(verif.rowCount === 0){
-        return res.status(400).json({message : "Вы ввели неверный код подтверждения."})
+        console.log("Не правильный код")
       }  
     } catch (error) {
       console.log(error)

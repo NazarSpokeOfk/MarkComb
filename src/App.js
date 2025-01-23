@@ -125,7 +125,10 @@ function App() {
         path="/profile"
         element = {
           <ErrorBoundary>
-            <Profile userData = {userData}/>
+            <Profile 
+            userData = {userData}
+            setUserData={setUserData}
+            />
           </ErrorBoundary>
         }
         />

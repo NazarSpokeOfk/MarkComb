@@ -23,7 +23,7 @@ const Modal = ({
   setSignInData,
 }) => {
   useEffect(() => {
-    console.log("signInData?", signInData);
+    console.log("entryMethod", entryMethod);
   }, [isModalOpened]);
   const { t } = useTranslation();
 
@@ -216,13 +216,6 @@ const Modal = ({
                   setUserData={setUserData}
                 />
               </button>
-
-              {/* <button className="modal-continue__button">
-                <img src={microsoftImage} alt="microsoft" />
-                <a className="modal-continue__text" href="#">
-                  {t("Continue with")} Microsoft
-                </a>
-              </button> */}
             </div>
           ) : null}
         </div>
