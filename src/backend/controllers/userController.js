@@ -244,7 +244,7 @@ class UserController {
 
   async deleteUser(req, res) {
     const id = parseInt(req.params.id, 10);
-    const { password } = req.body;
+    const password  = req.body.data;
     try {
       const userResult = await pool.query(
         `SELECT password FROM users WHERE user_id = $1`,
@@ -266,8 +266,15 @@ class UserController {
         `DELETE FROM users WHERE user_id = $1 RETURNING *`,
         [id]
       );
+      
+      res.clearCookie("sessionToken", {
+        path: "/", // Убедись, что путь совпадает с тем, что использовался при установке
+        secure: false, // Если secure был false, то указывай его так же
+        sameSite: "lax", // Указание sameSite, если это нужно
+      });
 
       res.json({ message: "Пользователь удален", user: user.rows[0] });
+
     } catch (error) {
       console.log("Возникла ошибка в deleteUser:", error);
       res.status(500).json({ message: "Возникла ошибка сервера." });

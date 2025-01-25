@@ -12,6 +12,7 @@ class SimilarChannel {
       const idUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(
         theme
       )}&type=video&maxResults=1&key=${this.apiKey}`;
+      
       const result = await fetch(
         `https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&maxResults=1&q=${theme}&key=${this.apiKey}`
       );

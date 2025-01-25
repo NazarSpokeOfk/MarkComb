@@ -63,7 +63,7 @@ router.get('/loginbyid/:id' , (req,res) => userController.getUserByUserId(req,re
 router.get('/cookie' , (req,res) => verifyJWT(req,res))
 router.get('/users', (req,res) => userController.getAllUsers(req,res))
 
-router.put('/update/:id', (req,res) =>userController.updateUser(req,res))
+router.put('/update/:id', updateLimiter , (req,res) =>userController.updateUser(req,res))
 router.delete('/user/:id', (req,res) =>userController.deleteUser(req,res))
 
 export default router

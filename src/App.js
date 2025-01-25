@@ -128,6 +128,7 @@ function App() {
             <Profile 
             userData = {userData}
             setUserData={setUserData}
+            setIsLoggedIn={setIsLoggedIn}
             />
           </ErrorBoundary>
         }

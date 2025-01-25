@@ -23,7 +23,7 @@ const verifyJWT = async (req,res) => {
             return res.json(result)
         } else {
             console.log('Не удалось войти в аккаунт. Возможно неправильный пароль или email')
-            return Promise.reject("Выблядок")
+            console.log("Выблядок")
         }
         
     } catch (error) {

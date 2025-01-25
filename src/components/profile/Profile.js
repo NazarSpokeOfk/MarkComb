@@ -9,13 +9,14 @@ import { useTranslation } from "react-i18next";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useState, useEffect } from "react";
 
-const Profile = ({ userData, setUserData }) => {
+const Profile = ({ userData, setUserData , setIsLoggedIn }) => {
   const { t, i18n } = useTranslation();
   const [isNameChanged, setIsNameChanged] = useState(false);
   const [localName, setLocalName] = useState(userData?.user?.username || "");
   const [isPasswordChanged, setIsPasswordChanged] = useState(false);
+  const [isAccountWillBeDeleted,setIsAccountWillBeDeleted] = useState(false)
   const [localPassword, setLocalPassword] = useState(
-      userData?.user?.password || ""
+    userData?.user?.password || ""
   );
   const [changedData, setChangedData] = useState({
     username: "",
@@ -24,12 +25,6 @@ const Profile = ({ userData, setUserData }) => {
     user_id: userData?.user?.user_id,
     changeMethod: "",
   });
-
-  useEffect(()=>{
-    console.log("changedData:",changedData)
-  },[changedData])
-
-
 
   const handleNameChange = (e) => {
     const value = e.target.value;
@@ -51,14 +46,14 @@ const Profile = ({ userData, setUserData }) => {
 
   const checkWhatChange = () => {
     if (changedData.username != "" && changedData.newPassword === "") {
-      console.log("username")
+      console.log("username");
       setChangedData((prevData) => ({ ...prevData, changeMethod: "username" }));
     } else if (changedData.username != "" && changedData.newPassword != "") {
       setChangedData((prevData) => ({
         ...prevData,
         changeMethod: "username&password",
       }));
-    } else if (changedData.password != "" && changedData.username === "") {
+    } else if (changedData.newPassword != "" && changedData.username === "") {
       setChangedData((prevData) => ({ ...prevData, changeMethod: "password" }));
     } 
   };
@@ -147,8 +142,7 @@ const Profile = ({ userData, setUserData }) => {
               ) : (
                 <h2 className="info_block-password none">
                   {t("PASS")}
-                  <span>{t("WORD")}</span> :{" "}
-                  *****
+                  <span>{t("WORD")}</span> : *****
                 </h2>
               )}
               <button
@@ -167,18 +161,30 @@ const Profile = ({ userData, setUserData }) => {
               onClick={() => {
                 checkWhatChange();
               }}
-              className="save__button"
+              className="edit__button"
             >
               Save
             </button>
           </div>
+          <button
+            onClick={() => {
+              setIsAccountWillBeDeleted(true)
+            }}
+            id="delete"
+            className="edit__button"
+          >
+            <span>Delete</span> profile
+          </button>
         </section>
 
-        {changedData.changeMethod ? (
+        {changedData.changeMethod || isAccountWillBeDeleted ? (
           <VerifPassword
             changedData={changedData}
             setChangedData={setChangedData}
             setUserData={setUserData}
+            isAccountWillBeDeleted = {isAccountWillBeDeleted}
+            setIsLoggedIn={setIsLoggedIn}
+            setIsAccountWillBeDeleted = {setIsAccountWillBeDeleted}
           />
         ) : null}
 

@@ -103,7 +103,6 @@ class DataToDB {
   }
 
   async validateLogIn(data) {
-    console.log(this.setUserData)
     try {
       const response = await fetch(`http://localhost:5001/api/login`, {
         method: "POST",
@@ -148,7 +147,6 @@ class DataToDB {
 
       if(response.ok){
         const result = await response.json()
-        console.log(this.setUserData)
         this.setUserData(result)
         console.log(result)
         return Promise.resolve()
@@ -158,6 +156,30 @@ class DataToDB {
     
     } catch (error) {
         console.log("Возникла ошибка в изменении данных профиля:",error)
+    }
+  }
+
+  async deleteProfile(data,userId){
+    console.log("Данные, пришедшие в deleteProfile:",userId,data)
+    try{
+      const response = await fetch(`http://localhost:5001/api/user/${userId}` , {
+        method : "DELETE",
+        credentials : "include",
+        headers : {
+          "Content-type" : "application/json"
+        },
+        body : JSON.stringify({data})
+      })
+      if(response.ok){
+        const result = await response.json()
+        this.setIsLoggedIn(false)
+        this.setUserData({})
+        return result
+      } else {
+        console.log("Не удалось удалить ваш профиль!")
+      }
+    } catch (error) {
+      console.log("Возникла ошибка в deleteProfile:",error)
     }
   }
 }
