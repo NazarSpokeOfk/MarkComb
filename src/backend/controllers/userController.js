@@ -6,7 +6,6 @@ import verifyCaptcha from "./authController.js";
 import generateJWT from "../generateJWT.js";
 
 import MailVerification from "../mailVerification.js";
-import { use } from "i18next";
 
 const mailVerification = new MailVerification();
 
@@ -325,7 +324,7 @@ class UserController {
 
   userUpdateSchema = Joi.object({
     oldPassword: Joi.string().min(5).required(),
-    newPassword: Joi.string().min(5).required(),
+    newPassword: Joi.string().min(5).optional().allow(''),
     username: Joi.string().alphanum().min(3).max(30).optional().allow(''),  // Добавляем allow('') чтобы разрешить пустое значение
   });
   

@@ -6,7 +6,7 @@ import { google } from "googleapis";
 const CLIENT_ID = '867104217256-63f1fg6mlqf501r974ud4nkvaks3ik1b.apps.googleusercontent.com';
 const CLIENT_SECRET = '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';
 const REDIRECT_URI = 'https://developers.google.com/oauthplayground';
-const REFRESH_TOKEN = '1//04Z9YlasN7aayCgYIARAAGAQSNwF-L9IraXHcJxqdZx0t927hnyNo2UXRBENruBnB4v2CHSdQLQgf46rIPWRxsWT4Copa-UNIiAs';
+const REFRESH_TOKEN = '1//04aat8yOE73QhCgYIARAAGAQSNwF-L9IrOkbSAMkdiHPbM33ka7mrL7mi9RUgbbZ-SGr58bQQ4gy7bKfLR4kJ1d6BFWdfPkN807s';
 
 const oAuth2Client = new google.auth.OAuth2(
   CLIENT_ID,
@@ -26,7 +26,7 @@ class MailVerification {
         clientId: CLIENT_ID,
         clientSecret: CLIENT_SECRET,
         refreshToken: REFRESH_TOKEN,
-        accessToken: accessToken.token,
+        accessToken: accessToken.token, // Получаем свежий токен
       },
     });
   }

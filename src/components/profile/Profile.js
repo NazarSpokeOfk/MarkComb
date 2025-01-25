@@ -50,9 +50,10 @@ const Profile = ({ userData, setUserData }) => {
   };
 
   const checkWhatChange = () => {
-    if (changedData.username != "" && changedData.password === "") {
+    if (changedData.username != "" && changedData.newPassword === "") {
+      console.log("username")
       setChangedData((prevData) => ({ ...prevData, changeMethod: "username" }));
-    } else if (changedData.username != "" && changedData.password != "") {
+    } else if (changedData.username != "" && changedData.newPassword != "") {
       setChangedData((prevData) => ({
         ...prevData,
         changeMethod: "username&password",
