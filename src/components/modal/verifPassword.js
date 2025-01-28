@@ -9,6 +9,7 @@ const VerifPassword = ({
   isAccountWillBeDeleted,
   setIsLoggedIn,
   setIsAccountWillBeDeleted,
+  csrfToken
 }) => {
   const dataToDB = new DataToDB(setIsLoggedIn, setUserData, true);
 
@@ -45,7 +46,8 @@ const VerifPassword = ({
               if (isAccountWillBeDeleted) {
                 dataToDB.deleteProfile(
                   changedData?.oldPassword,
-                  changedData?.user_id
+                  changedData?.user_id,
+                  csrfToken
                 );
                 setTimeout(()=>{
                   setIsAccountWillBeDeleted(false) //Костыль ебучий сука блять

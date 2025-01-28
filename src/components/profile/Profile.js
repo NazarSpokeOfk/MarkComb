@@ -9,7 +9,7 @@ import { useTranslation } from "react-i18next";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useState, useEffect } from "react";
 
-const Profile = ({ userData, setUserData , setIsLoggedIn }) => {
+const Profile = ({ userData, setUserData , setIsLoggedIn , csrfToken }) => {
   const { t, i18n } = useTranslation();
   const [isNameChanged, setIsNameChanged] = useState(false);
   const [localName, setLocalName] = useState(userData?.user?.username || "");
@@ -185,6 +185,7 @@ const Profile = ({ userData, setUserData , setIsLoggedIn }) => {
             isAccountWillBeDeleted = {isAccountWillBeDeleted}
             setIsLoggedIn={setIsLoggedIn}
             setIsAccountWillBeDeleted = {setIsAccountWillBeDeleted}
+            csrfToken = {csrfToken}
           />
         ) : null}
 

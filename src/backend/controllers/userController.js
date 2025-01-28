@@ -1,5 +1,7 @@
 import bcrypt from "bcrypt";
 import Joi from "joi";
+import session from "express-session";
+import crypto from "crypto";
 
 import pool from "../db/index.js";
 import verifyCaptcha from "./authController.js";
@@ -20,7 +22,7 @@ class UserController {
   }
 
   async getUserByPassword(req, res) {
-    console.log("Вход по паролю")
+    console.log("Вход по паролю");
     const { email, password } = req.body;
     try {
       const userResult = await pool.query(
@@ -35,7 +37,8 @@ class UserController {
       }
 
       const user = userResult.rows[0];
-      console.log("КАБИНЕТ ПОЛЬЗОВАТЕЛя:",user)
+
+      console.log("КАБИНЕТ ПОЛЬЗОВАТЕЛя:", user);
       const isPasswordValid = await this.comparePassword(
         password,
         user.password
@@ -64,9 +67,14 @@ class UserController {
         console.log("Ошибка при загрузке куки на сайт.", error);
       }
 
+      const csrfToken = crypto.randomBytes(16).toString("hex");
+      req.session.csrfToken = csrfToken;
+      
+
       res.json({
         message: "Успешный вход",
         token,
+        csrfToken,
         user: {
           user_id: user.user_id,
           email: user.email,
@@ -167,31 +175,34 @@ class UserController {
     const id = parseInt(req.params.id, 10);
     const { newPassword, oldPassword, username, changeMethod } = req.body;
     console.log(req.body);
-  
+
     try {
       const userResult = await pool.query(
         `SELECT password FROM users WHERE user_id = $1`,
         [id]
       );
-  
+
       if (userResult.rows.length === 0) {
         return res.status(400).json({
           message: "Ошибка! Неверный пароль или пользователь не найден.",
         });
       }
-  
+
       this.validateInput({ username, newPassword, oldPassword }, "update");
-  
+
       const storedHash = userResult.rows[0].password;
-      const isPasswordValid = await this.comparePassword(oldPassword, storedHash);
-  
+      const isPasswordValid = await this.comparePassword(
+        oldPassword,
+        storedHash
+      );
+
       if (!isPasswordValid) {
         return res.status(400).json({ message: "Неправильный пароль!" });
       }
-  
+
       let hashedPassword;
       let updateUser;
-  
+
       if (changeMethod === "password" && !username) {
         delete req.body.username;
         hashedPassword = await this.hashPassword(newPassword);
@@ -223,11 +234,11 @@ class UserController {
           .status(400)
           .json({ message: "Некорректный метод изменения данных" });
       }
-  
+
       if (updateUser.rows.length === 0) {
         return res.status(400).json({ message: "Ошибка обновления данных" });
       }
-  
+
       res.json({
         message: "Данные пользователя успешно обновлены",
         user: updateUser.rows[0],
@@ -240,11 +251,18 @@ class UserController {
       });
     }
   }
-  
 
   async deleteUser(req, res) {
     const id = parseInt(req.params.id, 10);
-    const password  = req.body.data;
+    const password = req.body.data;
+
+    const tokenFromClient = req.headers["x-csrf-token"];
+    const tokenFromSession = req.session.csrfToken;
+
+    if (tokenFromClient !== tokenFromSession) {
+      return res.status(403).send('CSRF token mismatch');
+    }
+
     try {
       const userResult = await pool.query(
         `SELECT password FROM users WHERE user_id = $1`,
@@ -266,7 +284,7 @@ class UserController {
         `DELETE FROM users WHERE user_id = $1 RETURNING *`,
         [id]
       );
-      
+
       res.clearCookie("sessionToken", {
         path: "/", // Убедись, что путь совпадает с тем, что использовался при установке
         secure: false, // Если secure был false, то указывай его так же
@@ -274,7 +292,6 @@ class UserController {
       });
 
       res.json({ message: "Пользователь удален", user: user.rows[0] });
-
     } catch (error) {
       console.log("Возникла ошибка в deleteUser:", error);
       res.status(500).json({ message: "Возникла ошибка сервера." });
@@ -331,13 +348,12 @@ class UserController {
 
   userUpdateSchema = Joi.object({
     oldPassword: Joi.string().min(5).required(),
-    newPassword: Joi.string().min(5).optional().allow(''),
-    username: Joi.string().alphanum().min(3).max(30).optional().allow(''),  // Добавляем allow('') чтобы разрешить пустое значение
+    newPassword: Joi.string().min(5).optional().allow(""),
+    username: Joi.string().alphanum().min(3).max(30).optional().allow(""), // Добавляем allow('') чтобы разрешить пустое значение
   });
-  
 
   validateInput(input, method) {
-    console.log(method)
+    console.log(method);
     if (method === "update") {
       const { error } = this.userUpdateSchema.validate(input);
       if (error) throw new Error(error.details[0].message);

@@ -21,6 +21,7 @@ const Modal = ({
   setLogInData,
   signInData,
   setSignInData,
+  setCsrfToken
 }) => {
   useEffect(() => {
     console.log("entryMethod", entryMethod);
@@ -31,7 +32,8 @@ const Modal = ({
 
   const modalRef = useRef(null);
 
-  const dataToDB = new DataToDB(setIsLoggedIn, setUserData, setIsModalOpened);
+  const dataToDB = new DataToDB(setIsLoggedIn, setUserData, setIsModalOpened , setCsrfToken);
+  
 
   const handleRecaptchaChange = (value) => {
     setSignInData((prevData) => ({ ...prevData, recaptchaValue: value }));
@@ -55,6 +57,7 @@ const Modal = ({
         modalRef.current.classList.remove("open");
         setTimeout(() => {
           setIsModalOpened(false);
+
         }, 600);
       });
     }

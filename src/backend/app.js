@@ -1,8 +1,9 @@
 import cookieParser from "cookie-parser";
+import crypto from "crypto"
 import cors from "./node_modules/cors/lib/index.js"
 import express from "./node_modules/express/index.js"
 import createTables from "./db/setup.js";
-
+import session from "express-session";
 import pool from "./db/index.js";
 
 import userRouter from "./routers/userRouter.js";
@@ -11,6 +12,16 @@ import purchasesRouter from "./routers/purchasesRouter.js";
 
 const app = express();
 
+app.use(session({
+  secret : "0b8c5b3e58eb7df0c7c45e7948ec438f",
+  resave : false,
+  saveUninitialized : true,
+  cookie : {
+    httpOnly : false,
+    secure : false,
+    maxAge : 600000
+  }
+}))
 
 app.use(
     cors({
@@ -26,6 +37,7 @@ app.use(cookieParser())
 
 app.use('/api',purchasesRouter)
 app.use('/api',userRouter)
+
 
 async function initializeApp(){
     try{

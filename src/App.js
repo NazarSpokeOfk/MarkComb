@@ -19,6 +19,7 @@ function App() {
   const [SimilarChannelData, setSimilarChannelData] = useState(null);
   const [isLoggedIn,setIsLoggedIn] = useState(false)
   const [userData,setUserData] = useState({})
+  const [csrfToken, setCsrfToken] = useState("")
 
   const [signInData, setSignInData] = useState({
     email: "",
@@ -68,6 +69,7 @@ function App() {
                   logInData = {logInData}
                   setLogInData = {setLogInData}
                   userData={userData}
+                  setCsrfToken = {setCsrfToken}
                 />
               </ErrorBoundary>
               <ErrorBoundary>
@@ -129,6 +131,7 @@ function App() {
             userData = {userData}
             setUserData={setUserData}
             setIsLoggedIn={setIsLoggedIn}
+            csrfToken={csrfToken}
             />
           </ErrorBoundary>
         }

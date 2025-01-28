@@ -30,6 +30,7 @@ const HeaderFilter = ({
   logInData,
   setLogInData,
   userData,
+  setCsrfToken
 }) => {
   const request = new Request();
   const similarChannel = new SimilarChannel();
@@ -478,6 +479,7 @@ const HeaderFilter = ({
             setLogInData={setLogInData}
             signInData={signInData}
             setSignInData={setSignInData}
+            setCsrfToken = {setCsrfToken}
           />
         ) : null}
         {isDataFilledIn ? (

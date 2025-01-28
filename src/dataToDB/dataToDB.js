@@ -1,10 +1,11 @@
 import { toast } from "react-toastify";
 
 class DataToDB {
-  constructor(setIsLoggedIn, setUserData, setIsModalOpened) {
+  constructor(setIsLoggedIn, setUserData, setIsModalOpened , setCsrfToken) {
     this.setIsLoggedIn = setIsLoggedIn;
     this.setUserData = setUserData; 
     this.setIsModalOpened = setIsModalOpened;
+    this.setCsrfToken = setCsrfToken;
   }
 
   makePurchaseForm = {
@@ -118,6 +119,7 @@ class DataToDB {
         console.log("Успешный вход!", result);
         this.setIsLoggedIn(true);
         this.setUserData(result);
+        this.setCsrfToken(result.csrfToken)
         return Promise.resolve();
       } else {
         this.setIsLoggedIn(false);
@@ -159,14 +161,15 @@ class DataToDB {
     }
   }
 
-  async deleteProfile(data,userId){
+  async deleteProfile(data,userId,csrfToken){
     console.log("Данные, пришедшие в deleteProfile:",userId,data)
     try{
       const response = await fetch(`http://localhost:5001/api/user/${userId}` , {
         method : "DELETE",
         credentials : "include",
         headers : {
-          "Content-type" : "application/json"
+          "Content-type" : "application/json",
+          'X-CSRF-TOKEN': csrfToken
         },
         body : JSON.stringify({data})
       })
