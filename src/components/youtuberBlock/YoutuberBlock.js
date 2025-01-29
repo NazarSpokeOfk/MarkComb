@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { useState , useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -13,7 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import YoutuberImg from "../../images/MrBeast.webp";
 
-const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn , setUserData }) => {
+const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn , setUserData , csrfToken }) => {
 
   const { t, i18n } = useTranslation();
   const [btnsState, setBtnsState] = useState({});
@@ -28,6 +28,10 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
   const alreadyHave = () => {
     toast.warning(t("You already bought this data."));
   };
+
+  useEffect(()=>{
+    console.log("Токен, пришедший в покупки:",csrfToken)
+  },[csrfToken])
 
 
   const handleButtonClick = async (data, buttonId) => {
@@ -74,7 +78,8 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
             channelName: SimilarChannelData?.[0]?.title || "",
             uses: 1,
           },
-          userData?.user?.user_id
+          userData?.user?.user_id,
+          csrfToken
         );
       } else {
         dataToDB.validatePurchaseData(
@@ -84,7 +89,8 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
             channelName: channelData?.[0]?.title || "",
             uses: 1,
           },
-          userData?.user?.user_id
+          userData?.user?.user_id,
+          csrfToken
         );
       }
   

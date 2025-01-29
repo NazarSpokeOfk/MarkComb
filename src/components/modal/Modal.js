@@ -57,7 +57,6 @@ const Modal = ({
         modalRef.current.classList.remove("open");
         setTimeout(() => {
           setIsModalOpened(false);
-
         }, 600);
       });
     }

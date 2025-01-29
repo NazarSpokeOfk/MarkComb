@@ -24,7 +24,7 @@ class PurchasesController {
     const { id } = req.params; // Получаем id пользователя из параметров
     const { uses, thumbnail, email, channelName } = req.body; // Получаем данные из тела запроса
 
-    const tokenFromClient = req.headers["x-csrf-token"];
+    const tokenFromClient = req.headers["X-CSRF-TOKEN"];
     const tokenFromSession = req.session.csrfToken;
 
     if (tokenFromClient !== tokenFromSession) {
@@ -93,7 +93,7 @@ class PurchasesController {
     const { channelName } = req.body;
     const id = req.params.id;
 
-    const tokenFromClient = req.headers["x-csrf-token"];
+    const tokenFromClient = req.headers["X-CSRF-TOKEN"];
     const tokenFromSession = req.session.csrfToken;
 
     if (tokenFromClient !== tokenFromSession) {

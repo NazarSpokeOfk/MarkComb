@@ -47,6 +47,7 @@ function App() {
               <Purchases 
                 userData = {userData}
                 setUserData = {setUserData}
+                csrfToken = {csrfToken}
               />
               <ToastContainer/>
             </ErrorBoundary>
@@ -79,6 +80,7 @@ function App() {
                   userData = {userData}
                   setUserData = {setUserData}
                   isLoggedIn = {isLoggedIn}
+                  csrfToken = {csrfToken}
                 />
                 ;
               </ErrorBoundary>

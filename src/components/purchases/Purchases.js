@@ -12,7 +12,7 @@ import glass from "../../images/magnifying glass.png";
 
 import DataToDB from "../../dataToDB/dataToDB";
 
-const Purchases = ({ userData, setUserData }) => {
+const Purchases = ({ userData, setUserData , csrfToken }) => {
   const dataToDb = new DataToDB(true);
   const blocksRef = useRef([]),
     binButtonsRef = useRef([]),
@@ -26,7 +26,7 @@ const Purchases = ({ userData, setUserData }) => {
 
   const removePurchase = async (index, user_id, channelName) => {
     try {
-      await toast.promise(dataToDb.deletePurchaseData(channelName, user_id), {
+      await toast.promise(dataToDb.deletePurchaseData(channelName, user_id , csrfToken), {
         pending: "Removing channel...",
         success: "Channel has successfully removed!",
         error: "There was an error during removing channel!",

@@ -15,7 +15,7 @@ class DataToDB {
     channelName: "",
   };
 
-  async deletePurchaseData(channelName, user_id) {
+  async deletePurchaseData(channelName, user_id , csrfToken) {
     console.log("Данные для удаления:", channelName, user_id);
     try {
       const response = await fetch(
@@ -24,6 +24,7 @@ class DataToDB {
           method: "DELETE",
           headers: {
             "Content-type": "application/json",
+            'X-CSRF-TOKEN': csrfToken
           },
           body: JSON.stringify({ channelName: channelName }), // Передаем как объект в JSON
         }
@@ -39,11 +40,10 @@ class DataToDB {
     }
   }
 
-  async validatePurchaseData(data, user_id) {
+  async validatePurchaseData(data, user_id , csrfToken) {
     try {
       console.log(
-        "ID пользователя, переданный в validatePurchaseData:",
-        user_id
+        "Токен:",csrfToken
       );
       console.log("Данные, переданные в validatePurchaseData:", data);
       const response = await fetch(
@@ -52,6 +52,7 @@ class DataToDB {
           method: "POST",
           headers: {
             "Content-type": "application/json",
+            'X-CSRF-TOKEN': csrfToken
           },
           body: JSON.stringify(data),
         }

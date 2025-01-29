@@ -70,7 +70,6 @@ class UserController {
       const csrfToken = crypto.randomBytes(16).toString("hex");
       req.session.csrfToken = csrfToken;
       
-
       res.json({
         message: "Успешный вход",
         token,
@@ -256,11 +255,11 @@ class UserController {
     const id = parseInt(req.params.id, 10);
     const password = req.body.data;
 
-    const tokenFromClient = req.headers["x-csrf-token"];
+    const tokenFromClient = req.headers["X-CSRF-TOKEN"];
     const tokenFromSession = req.session.csrfToken;
 
     if (tokenFromClient !== tokenFromSession) {
-      return res.status(403).send('CSRF token mismatch');
+      return res.status(403).json({message : "Несовпадение токенов!"})
     }
 
     try {
