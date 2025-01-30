@@ -121,13 +121,14 @@ class DataToDB {
         this.setIsLoggedIn(true);
         this.setUserData(result);
         this.setCsrfToken(result.csrfToken)
-        return Promise.resolve();
+        return {message : true}
       } else {
         this.setIsLoggedIn(false);
         console.log(
           "Не удалось войти в аккаунт. Возможно неправильный пароль или email"
         );
-        return Promise.reject();
+        this.setIsLoggedIn(false);
+        return {message : false}
       }
     } catch (error) {
       console.log("Возникла ошибка при входе:", error);
@@ -178,9 +179,9 @@ class DataToDB {
         const result = await response.json()
         this.setIsLoggedIn(false)
         this.setUserData({})
-        return result
+        return {message : true}
       } else {
-        console.log("Не удалось удалить ваш профиль!")
+        return {message : false}
       }
     } catch (error) {
       console.log("Возникла ошибка в deleteProfile:",error)

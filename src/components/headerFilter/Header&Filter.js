@@ -62,8 +62,6 @@ const HeaderFilter = ({
     "Travel",
   ];
 
-  let normalizedIndex = 5;
-
   const filterRef = useRef();
 
   const { t } = useTranslation();
@@ -390,6 +388,7 @@ const HeaderFilter = ({
             isLoggedIn={isLoggedIn}
           />
         ) : null}
+        <ToastContainer />
       </HelmetProvider>
     </>
   );

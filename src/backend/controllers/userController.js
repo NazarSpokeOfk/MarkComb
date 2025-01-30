@@ -22,6 +22,8 @@ class UserController {
   }
 
   async getUserByPassword(req, res) {
+    const startTime = process.hrtime();
+
     console.log("Вход по паролю");
     const { email, password } = req.body;
     try {
@@ -69,8 +71,8 @@ class UserController {
 
       const csrfToken = crypto.randomBytes(16).toString("hex");
       req.session.csrfToken = csrfToken;
-      
-      console.log("Токен сессии:",csrfToken)
+
+      console.log("Токен сессии:", csrfToken);
 
       res.json({
         message: "Успешный вход",
@@ -85,6 +87,11 @@ class UserController {
         },
         channels: userChannels.rows,
       });
+
+      const endTime = process.hrtime(startTime); // Засекаем разницу
+      const executionTime = endTime[0] * 1000 + endTime[1] / 1e6;
+
+      console.log(executionTime)
     } catch (error) {
       console.log("Возникла ошибка в getUserByPassword:", error);
       res
@@ -261,7 +268,7 @@ class UserController {
     const tokenFromSession = req.session.csrfToken;
 
     if (tokenFromClient !== tokenFromSession) {
-      return res.status(403).json({message : "Несовпадение токенов!"})
+      return res.status(403).json({ message: "Несовпадение токенов!" });
     }
 
     try {

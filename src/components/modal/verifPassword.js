@@ -2,6 +2,7 @@ import { useEffect } from "react";
 
 import DataToDB from "../../dataToDB/dataToDB";
 import next from "../../icons/next.png";
+import { toast } from "react-toastify";
 const VerifPassword = ({
   changedData,
   setChangedData,
@@ -48,10 +49,16 @@ const VerifPassword = ({
                   changedData?.oldPassword,
                   changedData?.user_id,
                   csrfToken
-                );
-                setTimeout(()=>{
-                  setIsAccountWillBeDeleted(false) //Костыль ебучий сука блять
-                },600)
+                ).then((response)=>{
+                  console.log(response)
+                  if(response.message === true){
+                    setIsAccountWillBeDeleted(false) 
+                  } else {
+                    setTimeout(() => {
+                      toast.error("Wrong password");
+                    }, 100);
+                  }
+                });
               } else {
                 dataToDB.updateData(changedData);
                 console.log("Ну окей");

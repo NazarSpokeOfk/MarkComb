@@ -7,8 +7,8 @@ import GoogleLoginButton from "../googleLogInButton/GoogleLogInButton";
 import DataToDB from "../../dataToDB/dataToDB";
 import ReCAPTCHA from "react-google-recaptcha";
 
-
 import "./Modal.css";
+import { toast } from "react-toastify";
 
 const Modal = ({
   setIsLoggedIn,
@@ -21,7 +21,7 @@ const Modal = ({
   setLogInData,
   signInData,
   setSignInData,
-  setCsrfToken
+  setCsrfToken,
 }) => {
   useEffect(() => {
     console.log("entryMethod", entryMethod);
@@ -32,10 +32,15 @@ const Modal = ({
 
   const modalRef = useRef(null);
 
-  const modalButtonRef = useRef(null)
+  const modalButtonRef = useRef(null);
 
-  const dataToDB = new DataToDB(setIsLoggedIn, setUserData, setIsModalOpened , setCsrfToken);
-  
+  const dataToDB = new DataToDB(
+    setIsLoggedIn,
+    setUserData,
+    setIsModalOpened,
+    setCsrfToken
+  );
+
   const handleRecaptchaChange = (value) => {
     setSignInData((prevData) => ({ ...prevData, recaptchaValue: value }));
   };
@@ -53,11 +58,17 @@ const Modal = ({
         modalButtonRef.current.classList.remove("shake-animation");
       }, 4000);
     } else {
-      dataToDB.validateLogIn(logInData).then(() => {
-        modalRef.current.classList.remove("open");
-        setTimeout(() => {
+      dataToDB.validateLogIn(logInData).then((response) => {
+        console.log(response.message)
+        if(response.message === true) {
+          modalRef.current.classList.remove("open");
           setIsModalOpened(false);
-        }, 600);
+          document.body.style.overflow = "";
+        } else {
+          setTimeout(() => {
+            toast.error("Wrong password, or account doesn't exist");
+          }, 100);
+        }
       });
     }
   };
@@ -82,6 +93,7 @@ const Modal = ({
       setTimeout(() => {
         setIsModalOpened(false);
         setIsDataFilledIn(true);
+        document.body.style.overflow = "";
       }, 600);
     }
   };
@@ -90,6 +102,7 @@ const Modal = ({
     if (isModalOpened) {
       setTimeout(() => {
         modalRef.current.classList.add("open");
+        document.body.style.overflow = "hidden"
       }, 10);
     } else {
       modalRef.current.classList.remove("open");
@@ -97,8 +110,18 @@ const Modal = ({
   }, [isModalOpened]);
 
   return (
-    <section className={`modal ${isModalOpened  ? "active" : ""}`}>
-      <div ref={modalRef} className="modal__overlay">
+    <section className={`modal ${isModalOpened ? "active" : ""}`}>
+      <div
+        ref={modalRef}
+        onClick={() => {
+          modalRef.current.classList.remove("open");
+          setTimeout(() => {
+            document.body.style.overflow = ""
+            setIsModalOpened(false);
+          }, 300);
+        }}
+        className="modal__overlay"
+      >
         <button
           onClick={() => {
             modalRef.current.classList.remove("open");
@@ -110,7 +133,7 @@ const Modal = ({
         >
           X
         </button>
-        <div className="modal__block">
+        <div onClick={(e) => e.stopPropagation()} className="modal__block">
           <h2 className="modal__title">
             {entryMethod == "logIn" ? t("Welcome back") : t("Welcome")}
           </h2>
@@ -202,19 +225,12 @@ const Modal = ({
             <Link to="/terms">{t("user agreement")}</Link>{" "}
             {t("and accept all its terms and conditions")}
           </h3>
-          <div className="modal-other__buttons">
-            <h3 className="modal-other__title">
-              {t("Don’t have an account?")}
-            </h3>
-            <Link to="/profile" href="#" className="modal-other__button">
-              {t("Register")}
-            </Link>
-          </div>
+
           {entryMethod === "logIn" ? (
             <div className="modal-continue__buttons">
               <button type="submit" className="modal-continue__button">
-                <GoogleLoginButton 
-                  setIsModalOpened = {setIsModalOpened}
+                <GoogleLoginButton
+                  setIsModalOpened={setIsModalOpened}
                   setIsLoggedIn={setIsLoggedIn}
                   setUserData={setUserData}
                 />

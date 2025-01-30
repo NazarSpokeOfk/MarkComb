@@ -4,6 +4,7 @@ import Edit from "../../images/image 70.png";
 import SmoothEffect from "../smoothText";
 import VerifPassword from "../modal/verifPassword.js";
 
+import { ToastContainer , toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Helmet, HelmetProvider } from "react-helmet-async";
@@ -188,6 +189,7 @@ const Profile = ({ userData, setUserData , setIsLoggedIn , csrfToken }) => {
             csrfToken = {csrfToken}
           />
         ) : null}
+        <ToastContainer />
 
         <section className="footer">
           <div className="footer__container">

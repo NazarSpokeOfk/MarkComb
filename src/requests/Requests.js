@@ -149,7 +149,7 @@ class Request {
   };
 
   //Основная функция по поиску канала по данным, полученным из формы.
-  FindChannel = async (selector) => {
+  FindChannel = async (selector,setIsSearching) => {
     try {
       const form = document.querySelector(`.${selector}`);
       if (!form) {
@@ -166,6 +166,7 @@ class Request {
       const query = input.value.trim();
       if (!query) {
         alert("Введите запрос");
+        setIsSearching(false)
         return null;
       }
 
@@ -219,7 +220,7 @@ class Request {
   handleSearch = async (event, setChannelData , setIsSearching) => {
     event.preventDefault();
     try {
-      const data = await this.FindChannel("maininput");
+      const data = await this.FindChannel("maininput",setIsSearching);
       if (!data || data.length === 0) {
         console.log("No data found");
         setChannelData(null);
