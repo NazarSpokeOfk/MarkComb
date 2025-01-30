@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import React from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
@@ -30,15 +30,41 @@ const HeaderFilter = ({
   logInData,
   setLogInData,
   userData,
-  setCsrfToken
+  setCsrfToken,
 }) => {
   const request = new Request();
   const similarChannel = new SimilarChannel();
 
   const [isModalOpened, setIsModalOpened] = useState(false);
   const [isDataFilledIn, setIsDataFilledIn] = useState(false);
-
+  const [isSearching, setIsSearching] = useState(false);
   const [entryMethod, setEntryMethod] = useState("");
+  const [activeIndex, setActiveIndex] = useState(null);
+  const [contentActiveIndex,setContentActiveIndex] = useState(null);
+
+  const audienceButtonLabels = [
+    "Kids",
+    "Youth",
+    "Adults",
+    "Teenagers",
+    "Older Generation",
+  ];
+  const contentButtonLabels = [
+    "Comedy",
+    "Vlogs",
+    "Animation",
+    "Education",
+    "Entertaiment",
+    "Fitness&Health",
+    "Music",
+    "News&Commentary",
+    "Gaming",
+    "Travel",
+  ];
+
+  let normalizedIndex = 5;
+
+  const filterRef = useRef();
 
   const { t } = useTranslation();
 
@@ -96,54 +122,12 @@ const HeaderFilter = ({
     }
   };
 
-  let loadingTimer;
-  const setLoading = (selector) => {
-    const element = document.querySelector(`.${selector}`);
-    if (element) {
-      const img = element.querySelector("img");
-      if (img) {
-        img.src = Loading;
-        loadingTimer = setTimeout(() => {
-          img.src = SearchBtn;
-        }, 500);
-      }
-    }
-  };
-
   const openFilters = () => {
-    const filters = document.querySelector(".filters");
-    if (filters) {
-      filters.classList.toggle("active");
-    } else {
-      console.error("Элемент 'filters' не найден");
-    }
+    filterRef.current.classList.toggle("active");
   };
 
   useEffect(() => {
     checkCookies(setIsLoggedIn, setUserData);
-  }, []);
-
-  useEffect(() => {
-    const FilterBtn = document.querySelectorAll(".filter__block");
-
-    FilterBtn.forEach((button) => {
-      button.addEventListener("click", () => {
-        FilterBtn.forEach((btn) => btn.classList.remove("filteractive"));
-        button.classList.add("filteractive");
-      });
-    });
-
-    const triggerBtn = document.querySelector(".search__filters");
-
-    if (!triggerBtn) {
-      console.error("Элемент 'triggerBtn' не найден");
-      return;
-    }
-    return () => {
-      FilterBtn.forEach((button) => {
-        button.removeEventListener("click", () => {});
-      });
-    };
   }, []);
 
   return (
@@ -177,8 +161,10 @@ const HeaderFilter = ({
         </header>
 
         <section className="login">
-        {isLoggedIn ? (
-            <Link className="profile__name" to={"/profile"}>{userData?.user?.username}</Link>
+          {isLoggedIn ? (
+            <Link className="profile__name" to={"/profile"}>
+              {userData?.user?.username}
+            </Link>
           ) : null}{" "}
           {isLoggedIn ? (
             <a
@@ -223,7 +209,7 @@ const HeaderFilter = ({
               className="maininput"
               onSubmit={(e) =>
                 isLoggedIn
-                  ? request.handleSearch(e, setChannelData)
+                  ? request.handleSearch(e, setChannelData, setIsSearching)
                   : alert("Firstly,you need to log in")
               }
             >
@@ -238,19 +224,22 @@ const HeaderFilter = ({
                 </button>
                 <button
                   onClick={() => {
-                    setLoading("search__glass");
+                    setIsSearching(true);
                   }}
                   type="submit"
                   className="search__glass"
                 >
-                  <img src={SearchBtn} alt="search_button" />
+                  <img
+                    src={isSearching ? Loading : SearchBtn}
+                    alt="search_button"
+                  />
                 </button>
               </div>
             </form>
           </div>
         </section>
 
-        <section className="filters">
+        <section ref={filterRef} className="filters">
           <div className="container">
             <div className="target__audence">
               <h2 className="target-audence__title text">
@@ -258,46 +247,20 @@ const HeaderFilter = ({
                 <span> {t("audience")}</span>
               </h2>
               <div className="target-audence__blocks">
-                <div
-                  className="filter__block"
-                  onClick={() => handleSimilarSearchClick("", "Kids")}
-                >
-                  <ToastContainer />
-                  {t("Kids")}
-                </div>
-                <div
-                  className="filter__block"
-                  onClick={() => handleSimilarSearchClick("", "Teenagers")}
-                >
-                  <ToastContainer />
-                  {t("Teenagers")}
-                </div>
-                <div
-                  id="youth"
-                  className="filter__block"
-                  onClick={() => handleSimilarSearchClick("", "Youth")}
-                >
-                  <ToastContainer />
-                  {t("Youth")}
-                </div>
-                <div
-                  id="adults"
-                  className="filter__block"
-                  onClick={() => handleSimilarSearchClick("", "Adults")}
-                >
-                  <ToastContainer />
-                  {t("Adults")}
-                </div>
-                <div
-                  id="older"
-                  className="filter__block"
-                  onClick={() =>
-                    handleSimilarSearchClick("", "OlderGeneration")
-                  }
-                >
-                  <ToastContainer />
-                  {t("Older generation")}
-                </div>
+                {audienceButtonLabels.map((label, index) => (
+                  <button
+                    key={index}
+                    className={`filter__block ${
+                      contentActiveIndex === index ? "filteractive" : ""
+                    }`}
+                    onClick={() => {
+                      setContentActiveIndex(index);
+                      handleSimilarSearchClick("", label);
+                    }}
+                  >
+                    {label}
+                  </button>
+                ))}
               </div>
             </div>
 
@@ -382,85 +345,20 @@ const HeaderFilter = ({
                 <span> {t("type")}</span>
               </h2>
               <div className="content__type__blocks">
-                <div
-                  className="filter__block"
-                  onClick={() => handleSimilarSearchClick("Comedy")}
-                >
-                  <ToastContainer />
-                  {t("Comedy")}
-                </div>
-                <div
-                  className="filter__block"
-                  onClick={() => handleSimilarSearchClick("Entertainment")}
-                  data-id="24"
-                >
-                  <ToastContainer />
-                  {t("Entertainment")}
-                </div>
-                <div
-                  className="filter__block"
-                  onClick={() => handleSimilarSearchClick("News&Commentary")}
-                  data-id="25"
-                >
-                  <ToastContainer />
-                  {t("News&Commentary")}
-                </div>
-                <div
-                  className="filter__block"
-                  onClick={() => handleSimilarSearchClick("Vlogs")}
-                  data-id="21"
-                >
-                  <ToastContainer />
-                  {t("Vlogs")}
-                </div>
-                <div
-                  className="filter__block"
-                  onClick={() => handleSimilarSearchClick("Fitness&Health")}
-                  data-id="17"
-                >
-                  <ToastContainer />
-                  {t("Fitness&Health")}
-                </div>
-                <div
-                  className="filter__block"
-                  onClick={() => handleSimilarSearchClick("gaming")}
-                  data-id="20"
-                >
-                  <ToastContainer />
-                  {t("Gaming")}
-                </div>
-                <div
-                  className="filter__block"
-                  onClick={() => handleSimilarSearchClick("Animation")}
-                  data-id="1"
-                >
-                  <ToastContainer />
-                  {t("Animation")}
-                </div>
-                <div
-                  className="filter__block"
-                  onClick={() => handleSimilarSearchClick("Music")}
-                  data-id="10"
-                >
-                  <ToastContainer />
-                  {t("Music")}
-                </div>
-                <div
-                  className="filter__block"
-                  onClick={() => handleSimilarSearchClick("Travel")}
-                  data-id="19"
-                >
-                  <ToastContainer />
-                  {t("Travel")}
-                </div>
-                <div
-                  className="filter__block"
-                  onClick={() => handleSimilarSearchClick("Education")}
-                  data-id="27"
-                >
-                  <ToastContainer />
-                  {t("Education")}
-                </div>
+                {contentButtonLabels.map((label, index) => (
+                  <button
+                    key={index}
+                    className={`filter__block ${
+                      activeIndex === index ? "filteractive" : ""
+                    }`}
+                    onClick={() => {
+                      setActiveIndex(index);
+                      handleSimilarSearchClick(label);
+                    }}
+                  >
+                    {label}
+                  </button>
+                ))}
               </div>
             </div>
           </div>
@@ -479,7 +377,7 @@ const HeaderFilter = ({
             setLogInData={setLogInData}
             signInData={signInData}
             setSignInData={setSignInData}
-            setCsrfToken = {setCsrfToken}
+            setCsrfToken={setCsrfToken}
           />
         ) : null}
         {isDataFilledIn ? (

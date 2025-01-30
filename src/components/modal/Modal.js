@@ -32,25 +32,25 @@ const Modal = ({
 
   const modalRef = useRef(null);
 
+  const modalButtonRef = useRef(null)
+
   const dataToDB = new DataToDB(setIsLoggedIn, setUserData, setIsModalOpened , setCsrfToken);
   
-
   const handleRecaptchaChange = (value) => {
     setSignInData((prevData) => ({ ...prevData, recaptchaValue: value }));
   };
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  const modalBtn = document.querySelector(".modal__button");
   let failTimeout;
 
   const handleLogIn = (e) => {
     if (!logInData.email || !logInData.password) {
       setIsLoggedIn(false);
       e.preventDefault();
-      modalBtn.classList.add("shake-animation");
+      modalButtonRef.current.classList.add("shake-animation");
       failTimeout = setTimeout(() => {
-        modalBtn.classList.remove("shake-animation");
+        modalButtonRef.current.classList.remove("shake-animation");
       }, 4000);
     } else {
       dataToDB.validateLogIn(logInData).then(() => {
@@ -73,9 +73,9 @@ const Modal = ({
     ) {
       setIsLoggedIn(false);
       e.preventDefault();
-      modalBtn.classList.add("shake-animation");
+      modalButtonRef.current.classList.add("shake-animation");
       failTimeout = setTimeout(() => {
-        modalBtn.classList.remove("shake-animation");
+        modalButtonRef.current.classList.remove("shake-animation");
       }, 4000);
     } else {
       modalRef.current.classList.remove("open");
@@ -178,6 +178,7 @@ const Modal = ({
             }}
             type="submit"
             className="modal__button"
+            ref={modalButtonRef}
           >
             {t("Continue")}
           </button>

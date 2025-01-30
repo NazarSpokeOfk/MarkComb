@@ -216,7 +216,7 @@ class Request {
   };
 
   //Функция исполнения запросов, для передачи в другие файлы.
-  handleSearch = async (event, setChannelData) => {
+  handleSearch = async (event, setChannelData , setIsSearching) => {
     event.preventDefault();
     try {
       const data = await this.FindChannel("maininput");
@@ -231,7 +231,8 @@ class Request {
           return { ...channel, subsCount };
         })
       );
-
+      
+      setIsSearching(false)
       setChannelData(updatedData);
     } catch (error) {
       console.error("Search error:", error);

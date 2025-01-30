@@ -70,6 +70,8 @@ class UserController {
       const csrfToken = crypto.randomBytes(16).toString("hex");
       req.session.csrfToken = csrfToken;
       
+      console.log("Токен сессии:",csrfToken)
+
       res.json({
         message: "Успешный вход",
         token,
