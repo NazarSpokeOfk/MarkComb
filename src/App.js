@@ -82,7 +82,7 @@ function App() {
                   isLoggedIn = {isLoggedIn}
                   csrfToken = {csrfToken}
                 />
-                ;
+                
               </ErrorBoundary>
             </>
           }
@@ -140,7 +140,7 @@ function App() {
         />
       </Routes>
     </Router>
-  );
+  )
 }
 
-export default App;
+export default App

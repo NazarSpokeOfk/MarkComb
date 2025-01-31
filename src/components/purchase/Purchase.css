@@ -6,7 +6,7 @@
     }
   }
   .title{
-    font-size: 70px;
+    font-size: 55px;
     text-transform: uppercase;
     margin-left: 17%;
     transition: all 0.6s;
@@ -22,12 +22,13 @@
     margin-left: 17%;
     border: 1px solid #000;
     border-radius: 72px;
-    width: 1222px;
-    height: 565px;
+    width: 900px;
+    height: 450px;
   }
 
   .balance-block__money{
-    font-size: 70px;
+    margin-top: 7%;
+    font-size: 50px;
     margin-left: 10%;
     font-weight: 500;
   }
@@ -42,9 +43,9 @@
   .balance-block__variants{
     border: 1px solid #000;
     border-radius: 97px;
-    width: 872px;
-    height: 82px;
-    margin-left: 15%;
+    width: 700px;
+    height: 70px;
+    margin-left: 12%;
     margin-top: 20%;
   }
 
@@ -52,14 +53,15 @@
     cursor: pointer;
     background-color: #fff;
     border: none;
-    height: 80px;
-    width: 120px;
+    height: 50px;
+    width: 90px;
     transition: all 0.6s;
     &:nth-child(1){
         width: 100px;
-        margin-left: 35%;
+        margin-left: 33%;
     }
     margin-left: 5%;
+    margin-top: 1%;
   }
   .variant:hover{
     transform: scale(0.8);
@@ -73,11 +75,11 @@
     position: relative;
     border: 2px solid rgba(0, 0, 0, 0.48);
     border-radius: 52px;
-    width: 330px;
-    height: 525px;
+    width: 290px;
+    height: 490px;
   }
   .packages__title{
-    font-size: 26px;
+    font-size: 20px;
     text-transform: uppercase;
     font-weight: bold;
     text-align: center;
@@ -85,7 +87,7 @@
   }
   .packages__title::before{
     content: '|';
-    font-size: 26px;
+    font-size: 20px;
     margin-right: 10px;
     width: 10px;
     height: 1px;
@@ -95,14 +97,14 @@
   .package__title{
     text-transform: uppercase;
     font-weight: lighter;
-    font-size: 40px;
+    font-size: 30px;
     margin-top: 15%;
     margin-left: 10%;
   }
 
   .package__usages{
     font-weight: 600;
-    font-size: 25px;
+    font-size: 20px;
     text-transform: uppercase;
     margin-left: 10%;
     margin-top: -5%;
@@ -140,14 +142,14 @@
 }
   .package__button{
     position: absolute;
-    top: 450px;
+    top: 410px;
     left:-2px;
     background-color: #fff;
     border: 3px solid rgba(0, 0, 0, 0.43);
     border-radius:35px;
-    width: 334px;
+    width: 295px;
     height: 89px;
-    font-size: 20px;  
+    font-size: 17px;  
     text-transform: uppercase;
     font-weight: bold;
     cursor: pointer;
@@ -169,25 +171,25 @@
     flex-wrap: wrap;
     display: flex;
     margin-top: 3%;
-    margin-left: 18.5%;
-    gap: 100px;
+    margin-left: 16%;
+    gap: 50px;
   }
 
   #business{
-    width: 1200px;
+    width: 980px;
   }
 
   .package__title-business{
     text-transform: uppercase;
     font-weight: lighter;
-    font-size: 40px;
+    font-size: 35px;
     margin-top: 5%;
     margin-left: 5%;
   }
 
   .package__usages-business{
     font-weight: 600;
-    font-size: 25px;
+    font-size: 20px;
     text-transform: uppercase;
     margin-left: 5.5%;
     margin-top: -2%;
@@ -234,11 +236,11 @@
   .package__button-bussines{
     border: 3px solid rgba(0, 0, 0, 0.43);
     border-radius: 28px;
-    width: 565px;
-    height: 109px;
-    margin-left: 25%;
-    margin-top: 1%;
-    font-size: 25px;
+    width: 450px;
+    height: 90px;
+    margin-left: 26%;
+    margin-top: 5%;
+    font-size: 20px;
     text-transform: uppercase;
     font-weight: bold;
     background-color: #fff;

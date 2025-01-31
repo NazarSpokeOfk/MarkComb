@@ -5,10 +5,10 @@ import i18n from './i18n';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
     <App />
-);
+)
 
 
 reportWebVitals();

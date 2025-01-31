@@ -5,7 +5,7 @@ body {
 .container {
   width: 100%;
   height: 100%;
-  max-width: 1920px;
+  max-width: 1600px;
   margin: 0 auto; /* центрирует контейнер */
   padding: 0 20px; /* добавь отступы по бокам, чтобы контейнер не прилегал к краям */
   box-sizing: border-box;
@@ -27,7 +27,7 @@ header {
   text-transform: uppercase;
   margin-right: 96px;
   font-weight: 700;
-  font-size: 20px;
+  font-size: 15px;
   text-align: center;
   color: #000;
   span{
@@ -46,7 +46,7 @@ header {
 .header__links {
   margin-left: 20px;
   display: flex;
-  margin-top: -35px;
+  margin-top: -45px;
   justify-content: space-between;
   a{
     text-decoration: none;
@@ -56,7 +56,7 @@ header {
 .logo {
   margin-top: -10px; /* Увеличь значение, если нужно больше места сверху */
   margin-left: 60px;
-  font-size: 40px;
+  font-size: 30px;
   font-weight: 800;
   max-width: 150px;
   transition: all 0.6s ease;
@@ -69,20 +69,20 @@ header {
 
 .search__main{
   padding-left: 50px;
-  font-size: 30px;
+  font-size: 20px;
   display: block;
-  width: 65%;
+  width: 70%;
   margin: 0 auto;
-  margin-top: 60px;
-  min-height: 40px;
+  margin-top: 70px;
+  min-height: 35px;
   border-radius: 100px;
   margin-bottom: 60px;
   border: 1px solid black;
 }
 
 .login{
-  margin-top: 96px;
-  margin-left: 1450px;
+  margin-top: 70px;
+  margin-left: 1050px;
   a{
     text-decoration: none;
   }
@@ -90,7 +90,7 @@ header {
 
 .log__in{
   font-weight: 300;
-  font-size: 22px;
+  font-size: 17px;
   color: #000;
   transition: all 0.6s ease;
 }
@@ -98,30 +98,29 @@ header {
 
 .sign__in{
   font-weight: 300;
-  font-size: 22px;
+  font-size: 17px;
   color: #000;
-
 }
 
 .buttons{
   display: flex;
   align-items: center;
-  width: 100px;
-  height: 75px;
-  margin-left: 1450px;
-  margin-top: -130px;
+  width: 65px;
+  height: 40px;
+  margin-left: 1100px;
+  margin-top: -120px;
 }
 
 .search__filters{
   border: none;
   background: white;
-  margin-top: 20px;
-  width: 40px;
-  height: 40px;
+  margin-top: 40px;
+  width: 35px;
+  height: 35px;
   cursor: pointer;
   img{
-    width: 40px;
-    height: 40px;
+    width: inherit;
+    height: inherit;
    }
 }
 
@@ -129,13 +128,13 @@ header {
   border: none;
   background: white;
   cursor: pointer;
-  margin-top: 20px;
-  margin-left: 10px;
-  width: 40px;
+  margin-top: 45px;
+  margin-left: 20px;
+  width: 30px;
   height: 30px;
   img{
-    max-width: 30px;
-    max-height: 30px;
+    max-width: 25px;
+    max-height: 25px;
   }
 }
 
@@ -143,7 +142,7 @@ header {
 .target-audence__title{
   text-transform: uppercase;
   font-weight: 600;
-  font-size: 25px;
+  font-size: 20px;
   color: #0d0d0d;
   
   span{
@@ -151,11 +150,11 @@ header {
   }
 }
 .target__audence{
-  margin-left: 300px;
+  margin-left: 200px;
   margin-top: 90px;
 }
 .number__of__subs{
-  margin-left: 300px;
+  margin-left: 200px;
 }
 .filters {
   max-height: 0;
@@ -170,7 +169,7 @@ header {
 }
 
 .content__type{
-  margin-left: 300px;
+  margin-left: 200px;
   margin-top: 90px;
 }
 #youth{
@@ -182,7 +181,7 @@ header {
   grid-column: 3;
 }
 .filter__block{
-  min-width: 250px;
+  max-width: 300px;
   height: 30px;
   border: 1px solid black;
   border-radius: 97px;
@@ -200,7 +199,7 @@ header {
 
   text-align: left;
   font-weight: 300;
-  font-size: 26px;
+  font-size: 22px;
   color: #0d0d0d;
   padding-left: 50px;
   align-items: center;
@@ -208,16 +207,15 @@ header {
 
 .target-audence__blocks{
   display: grid;
-  grid-template-columns: repeat(3,350px);
+  grid-template-columns: repeat(3,320px);
   grid-template-rows: repeat(2,65px);
-  column-gap: 10px;
   /* row-gap: 10px; */
 }
 .filter__block{
   padding-top: 0;
   text-align: left;
   font-weight: 300;
-  font-size: 26px;
+  font-size: 20px;
   color: #0d0d0d;
   padding-left: 50px;
   align-items: center;
@@ -235,16 +233,21 @@ header {
 
 .number__ofsubs__blocks{
   display: grid;
-  grid-template-columns: repeat(4,350px);
-  grid-template-rows: repeat(2,65px);
+  grid-template-columns: repeat(3,320px);
+  grid-template-rows: repeat(3,65px);
   column-gap: 10px;
+}
+
+#highest{
+  grid-column: 1;
+  grid-row: 3;
 }
 
 .content__type__blocks{
   display: grid;
-  grid-template-columns: repeat(3,350px);
+  grid-template-columns: repeat(3,310px);
   grid-template-rows: repeat(4,65px);
-  column-gap: 30px;
+  column-gap: 25px;
 }
 
 .number__of__subs{
@@ -279,10 +282,7 @@ header {
   grid-column: 3;
   grid-row: 2;
 }
-#highest{
-  grid-column: 4;
-  grid-row: 2;
-}
+
 
 .filter__divider{
   margin-top: 20px;
@@ -290,7 +290,7 @@ header {
 }
 
 .profile__name{
-  font-size: 20px;
+  font-size: 16px;
   margin-right: 5%;
   text-decoration: none;
   color: #000;

@@ -62,7 +62,9 @@ const Modal = ({
         console.log(response.message)
         if(response.message === true) {
           modalRef.current.classList.remove("open");
-          setIsModalOpened(false);
+          setTimeout(()=>{
+            setIsModalOpened(false);
+          },500)
           document.body.style.overflow = "";
         } else {
           setTimeout(() => {

@@ -1,17 +1,28 @@
 
+.recent__block{
+  position: relative;
+  border: 1px solid #000;
+  border-radius: 30px;
+  width: 707px;
+  height: 250px;
+  margin: 0 auto;
+  margin-top: 2%;
+}
+
   .recent__block.unactive{
     opacity: 0; /* Для плавного появления */
     transition: max-height 0.3s ease, opacity 0.3s ease;
     max-height: 0px;
+    border: 1px solid black;
   }
 
   .recent-block__thumbnail{
     border-radius: 30px;
     position: absolute;
     width: 300px;
-    height: 300px;
-    left: 506px;
-    top: 0.5px;
+    height: 250px;
+    left: 400px;
+    top: -0.2px;
   }
 
   .title{
@@ -46,7 +57,7 @@
     height: 100px;
     background-color: #fff;
     border:none;
-    margin-top: 8%;
+    margin-top: 3%;
     margin-left: 4%;
     img{
         width: inherit;
@@ -67,12 +78,12 @@
 
   .no_available{
     text-align: center;
-    font-size: 30px;
+    font-size: 25px;
     font-weight: 500;
   }
 
   .no_available_img{
-    margin-left: 42%;
+    margin-left: 40%;
     width: 300px;
     height: 410px;
   }
@@ -80,7 +91,7 @@
   .magnifying_glass{
     position: absolute;
     top: 500px;
-    right: 700px;
+    right: 500px;
     width: 250px;
     height: 250px;
     animation: rotate 4s linear infinite;

@@ -1,4 +1,3 @@
-import { ok } from "assert";
 
 class Request {
   apiKey = "AIzaSyAdpuNLLn_Wnq_L4mioZYahKgSDAJdcBC4";
