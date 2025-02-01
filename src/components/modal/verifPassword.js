@@ -60,18 +60,16 @@ const VerifPassword = ({
                   }
                 });
               } else {
-                dataToDB.updateData(changedData);
-                console.log("Ну окей");
-                if (
-                  dataToDB.updateData.message ===
-                  "Данные пользователя успешно обновлены"
-                ) {
-                  console.log("Успешно смели пароль");
-                  setChangedData((prevData) => ({
-                    ...prevData,
-                    changeMethod: false,
-                  }));
-                }
+                dataToDB.updateData(changedData).then((response) => {
+                  console.log("Ну окей");
+                  if(response.message === true){
+                    console.log("Успешно смели пароль");
+                    setChangedData((prevData) => ({
+                      ...prevData,
+                      changeMethod: false,
+                    }));
+                  }
+                })
               }
             }}
             type="submit"

@@ -3,10 +3,12 @@ import nodemailer from "nodemailer";
 import pool from "./db/index.js";
 import { google } from "googleapis";
 
-const CLIENT_ID = '867104217256-63f1fg6mlqf501r974ud4nkvaks3ik1b.apps.googleusercontent.com';
-const CLIENT_SECRET = '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';
-const REDIRECT_URI = 'https://developers.google.com/oauthplayground';
-const REFRESH_TOKEN = '1//04aat8yOE73QhCgYIARAAGAQSNwF-L9IrOkbSAMkdiHPbM33ka7mrL7mi9RUgbbZ-SGr58bQQ4gy7bKfLR4kJ1d6BFWdfPkN807s';
+const CLIENT_ID =
+  "867104217256-63f1fg6mlqf501r974ud4nkvaks3ik1b.apps.googleusercontent.com";
+const CLIENT_SECRET = "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";
+const REDIRECT_URI = "https://developers.google.com/oauthplayground";
+const REFRESH_TOKEN =
+  "1//041PwErzqII5yCgYIARAAGAQSNwF-L9IrsbV7IQu2wam1XAvJCtSxRc3w6X0Y3DZH94jbc8hzPWr50KOCopMw_iCLZpV2QnW6tRU";
 
 const oAuth2Client = new google.auth.OAuth2(
   CLIENT_ID,
@@ -21,7 +23,7 @@ class MailVerification {
     this.transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        type: 'OAuth2',
+        type: "OAuth2",
         user: "mknoreplyy@gmail.com",
         clientId: CLIENT_ID,
         clientSecret: CLIENT_SECRET,
@@ -34,8 +36,8 @@ class MailVerification {
   async sendVerificationCode(email) {
     const verificationCode = crypto.randomBytes(3).toString("hex");
     const expiryTime = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes in milliseconds
-    console.log("Общие данные:",email,verificationCode,expiryTime)
-  
+    console.log("Общие данные:", email, verificationCode, expiryTime);
+
     const mailOptions = {
       from: "mknoreplyy@gmail.com",
       to: email,
@@ -50,34 +52,43 @@ class MailVerification {
       );
       await this.transporter.sendMail(mailOptions);
       console.log("Verification email sent to:", email);
-      return Promise.resolve(true)
+      return Promise.resolve(true);
     } catch (error) {
       console.error("Error sending verification email:", error);
-      return Promise.reject("Ошибка при отправке кода")
+      return Promise.reject("Ошибка при отправке кода");
     }
   }
 
   async verifyCode(email, code) {
-    try{
-      const verif = await pool.query(`SELECT * FROM user_verifications WHERE email = $1 AND verification_code = $2 AND verification_expiry  > NOW()`,
-        [email,code]
-      )
-      console.log("verif:",verif)
-      if(verif.rowCount === 0){
-        console.log("Не правильный код")
-      }  
+    console.log(`📩 Проверяю код для: ${email}, код: ${code}`);
+    try {
+      const verif = await pool.query(
+        `SELECT * FROM user_verifications WHERE email = $1 AND verification_code = $2 AND verification_expiry > NOW()`,
+        [email, code]
+      );
+
+      console.log("verif:", verif);
+
+      if (verif.rowCount === 0) {
+        console.log("❌ Неправильный код");
+        return { success: false, message: "Неправильный код" };
+      }
+
+      return { success: true };
     } catch (error) {
-      console.log(error)
+      console.error("Ошибка при проверке кода:", error);
+      return { success: false, message: "Ошибка сервера" };
     }
-    return { success: true };
   }
 
-  async clearUpVerifCodes(){
-    try{
-      await pool.query(`DELETE FROM verification_codes WHERE verification_expiry < NOW()`)
-      console.log("Данные очищены.")
+  async clearUpVerifCodes() {
+    try {
+      await pool.query(
+        `DELETE FROM verification_codes WHERE verification_expiry < NOW()`
+      );
+      console.log("Данные очищены.");
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 }

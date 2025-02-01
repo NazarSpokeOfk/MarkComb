@@ -296,15 +296,3 @@ header {
   color: #000;
 }
 
-@media (max-width: 390px) {
-  .container{
-    max-width: 390px;
-  }
-  .header__links{
-    margin-left: 10px;
-    width: 290px;
-  }
-  .header__link{
-    font-size: 15px;
-  }
-}

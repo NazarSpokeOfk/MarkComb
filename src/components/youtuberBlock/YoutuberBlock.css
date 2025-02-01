@@ -18,7 +18,7 @@
     left: 61.5%;
     bottom:0%;
     border-radius: 97px;
-    width: 410px;
+    width: 400px;
     height: 309px;
     z-index: -1;
     border: 1px solid black;
@@ -74,14 +74,14 @@
   .youtuber__button{
     border: 1px solid black;
     border-radius: 97px;
-    width: 190px;
-    height: 90px;
+    width: 180px;
+    height: 80px;
     margin-top: 50px;
     margin-left: 200px;
     margin-bottom: 100px;
     font-weight: 600;
   
-    font-size: 23px;
+    font-size: 17px;
     background-color: #fff;
     cursor: pointer;
     transition: all 0.5s ease;

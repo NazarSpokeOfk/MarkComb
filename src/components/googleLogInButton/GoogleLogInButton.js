@@ -38,7 +38,8 @@ const GoogleLoginButton = ({setIsLoggedIn,setUserData,setIsModalOpened}) => {
         onSuccess={handleSuccess}
         onError={handleError}
         style={{
-          backgroundColor : "#FFF"
+          backgroundColor : "#FFF",
+          
         }}
         />
     </GoogleOAuthProvider>

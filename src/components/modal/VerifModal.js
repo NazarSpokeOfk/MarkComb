@@ -5,6 +5,7 @@ import DataToDB from "../../dataToDB/dataToDB";
 import "./VerifModal.css";
 
 import next from "../../icons/next.png";
+import { toast, ToastContainer } from "react-toastify";
 
 const VerifModal = ({
   isDataFilledIn,
@@ -68,13 +69,21 @@ const VerifModal = ({
           />
           <button
             onClick={() => {
-              dataToDB.validateSignIn(signInData);
+              console.log("Код, отправленный с фронта:",signInData.verification_code)
+              dataToDB.validateSignIn(signInData).then((response) => {
+                console.log(response)
+                if(!response.ok){
+                  toast.error("Wrong authentication code, or code expired.")
+                }
+              })
             }}
             type="submit"
             className="modal__verif-button"
+            id="email"
           >
             <img className="next_btn-img" src={next} alt="click here" />
           </button>
+          <ToastContainer/>
         </div>
       </div>
     </div>

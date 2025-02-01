@@ -175,7 +175,7 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
               if (
                 userData.channels &&
                 userData.channels.some(
-                  (channel) => channel.channel_name === channelData[0].title
+                  (channel) => channel.channel_name === channelData?.[0].title
                 )
               ) {
                 alreadyHave()
@@ -232,6 +232,7 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
               </div>
             </div>
             <img
+              loading="lazy"
               src={userData && SimilarChannelData?.[0]?.thumbnail || YoutuberImg}
               alt="MrBeast"
               className="youtuber__image"
@@ -244,13 +245,14 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
               if (
                 userData.channels &&
                 userData.channels.some(
-                  (channel) => channel.channel_name === SimilarChannelData[0].title
+                  (channel) => channel.channel_name === SimilarChannelData?.[0].title
                 )
               ) {
                 alreadyHave()
                 return;
               } else {
                 handleButtonClick(SimilarChannelData?.[0], 1);
+                
               }
             }}
           >

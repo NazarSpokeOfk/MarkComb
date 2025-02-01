@@ -91,7 +91,7 @@ class UserController {
       const endTime = process.hrtime(startTime); // Засекаем разницу
       const executionTime = endTime[0] * 1000 + endTime[1] / 1e6;
 
-      console.log(executionTime)
+      console.log(executionTime);
     } catch (error) {
       console.log("Возникла ошибка в getUserByPassword:", error);
       res
@@ -144,39 +144,57 @@ class UserController {
   async addUser(req, res) {
     const { email, password, username, verification_code, recaptchaValue } =
       req.body.data;
-    if (!recaptchaValue) {
-      return res.status(400).json({ message: "Вы не прошли CAPTCHA" });
-    }
+    console.log("🔍 Новый запрос на верификацию получен!");
 
-    try {
+    console.log("📌 Состояние сессии перед проверкой капчи:", req.session);
+    if (!req.session.captchaVerified && recaptchaValue) {
+      // Если капча еще не была проверена
       const isCaptchaValid = await verifyCaptcha(recaptchaValue);
       if (!isCaptchaValid) {
+        console.log("❌ Капча не прошла.");
         return res.status(400).json({ message: "Ошибка проверки CAPTCHA" });
       }
-      const result = await mailVerification.verifyCode(
-        email,
-        verification_code
-      );
 
-      if (!result.success) {
-        return res.status(400).json({ message: result.message });
-      }
-      this.validateInput({ email, password, username });
-
-      const hashedPassword = await this.hashPassword(password);
-
-      const addUser = await pool.query(
-        `INSERT INTO users(email,password,username) VALUES ($1,$2,$3) RETURNING *`,
-        [email, hashedPassword, username]
-      );
-      res.json(addUser.rows[0]);
-    } catch (error) {
-      console.log("Возникла ошибка в addUser:", error);
-      res.status(500).json({
-        message: "Ошибка добавления пользователя",
-        error: error.message,
+      // Если капча прошла, сохраняем в сессии
+      req.session.captchaVerified = true;
+      req.session.save((err) => {
+        if (err) {
+          console.error("Ошибка сохранения сессии:", err);
+        } else {
+          console.log(
+            "✅ Флаг captchaVerified успешно сохранен в сессии:",
+            req.session
+          );
+        }
       });
+
+      console.log("✅ Капча прошла проверку");
     }
+
+    // Теперь продолжаем обработку кода и регистрации пользователя
+    const result = await mailVerification.verifyCode(email, verification_code);
+
+    if (!result.success) {
+      console.log("❌ Неправильный код");
+      return res.status(400).json({ message: result.message });
+    }
+
+    console.log("✅ Код правильный");
+
+    // Валидация данных
+    this.validateInput({ email, password, username });
+
+    // Хэширование пароля
+    const hashedPassword = await this.hashPassword(password);
+
+    // Добавление пользователя в базу данных
+    const addUser = await pool.query(
+      `INSERT INTO users(email, password, username) VALUES ($1, $2, $3) RETURNING *`,
+      [email, hashedPassword, username]
+    );
+
+    // Ответ с данными нового пользователя
+    res.json(addUser.rows[0]);
   }
 
   async updateUser(req, res) {

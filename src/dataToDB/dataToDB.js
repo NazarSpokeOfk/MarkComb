@@ -80,6 +80,7 @@ class DataToDB {
       console.log({ data });
       const response = await fetch("http://localhost:5001/api/user", {
         method: "POST",
+        credentials : "include",
         headers: {
           "Content-type": "application/json",
         },
@@ -92,7 +93,7 @@ class DataToDB {
 
         this.setIsLoggedIn(true);
         this.setUserData(result);
-        return Promise.resolve();
+        return {status : true}
       } else {
         this.setIsLoggedIn(false);
         console.log("Ошибка при создании пользователя.");
@@ -153,7 +154,7 @@ class DataToDB {
         const result = await response.json()
         this.setUserData(result)
         console.log(result)
-        return Promise.resolve()
+        return {message : true}
       } else {
         console.log("Не удалось изменить данные вашего аккаунта.")
       }
