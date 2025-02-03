@@ -1,9 +1,10 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { useState , useEffect} from "react";
+import { useState, useEffect } from "react";
 
 import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
+import NotFound from "./components/notFound/NotFound";
 import Profile from "./components/profile/Profile";
 import ErrorBoundary from "./errorBoundary/ErrorBoundary";
 import HeaderFilter from "./components/headerFilter/Header&Filter";
@@ -17,25 +18,25 @@ import Purpose from "./components/purpose/Purpose";
 function App() {
   const [channelData, setChannelData] = useState(null);
   const [SimilarChannelData, setSimilarChannelData] = useState(null);
-  const [isLoggedIn,setIsLoggedIn] = useState(false)
-  const [userData,setUserData] = useState({})
-  const [csrfToken, setCsrfToken] = useState("")
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userData, setUserData] = useState({});
+  const [csrfToken, setCsrfToken] = useState("");
 
   const [signInData, setSignInData] = useState({
     email: "",
     password: "",
     username: "",
-    recaptchaValue : ""
+    recaptchaValue: "",
   });
   const [logInData, setLogInData] = useState({
     email: "",
     password: "",
   });
 
-  useEffect(()=>{
-    console.log("isLoggedIn:",isLoggedIn)
-    console.log(userData)
-  },[isLoggedIn])
+  useEffect(() => {
+    console.log("isLoggedIn:", isLoggedIn);
+    console.log(userData);
+  }, [isLoggedIn]);
 
   return (
     <Router>
@@ -44,12 +45,12 @@ function App() {
           path="/purchases"
           element={
             <ErrorBoundary>
-              <Purchases 
-                userData = {userData}
-                setUserData = {setUserData}
-                csrfToken = {csrfToken}
+              <Purchases
+                userData={userData}
+                setUserData={setUserData}
+                csrfToken={csrfToken}
               />
-              <ToastContainer/>
+              <ToastContainer />
             </ErrorBoundary>
           }
         />
@@ -63,26 +64,25 @@ function App() {
                   setChannelData={setChannelData}
                   setSimilarChannelData={setSimilarChannelData}
                   setIsLoggedIn={setIsLoggedIn}
-                  isLoggedIn = {isLoggedIn}
-                  setUserData = {setUserData}
-                  signInData = {signInData}
-                  setSignInData = {setSignInData}
-                  logInData = {logInData}
-                  setLogInData = {setLogInData}
+                  isLoggedIn={isLoggedIn}
+                  setUserData={setUserData}
+                  signInData={signInData}
+                  setSignInData={setSignInData}
+                  logInData={logInData}
+                  setLogInData={setLogInData}
                   userData={userData}
-                  setCsrfToken = {setCsrfToken}
+                  setCsrfToken={setCsrfToken}
                 />
               </ErrorBoundary>
               <ErrorBoundary>
                 <YoutuberBlock
                   channelData={channelData}
                   SimilarChannelData={SimilarChannelData}
-                  userData = {userData}
-                  setUserData = {setUserData}
-                  isLoggedIn = {isLoggedIn}
-                  csrfToken = {csrfToken}
+                  userData={userData}
+                  setUserData={setUserData}
+                  isLoggedIn={isLoggedIn}
+                  csrfToken={csrfToken}
                 />
-                
               </ErrorBoundary>
             </>
           }
@@ -91,11 +91,8 @@ function App() {
           path="/promotion"
           element={
             <ErrorBoundary>
-              <Promotion 
-              userData = {userData}
-              isLoggedIn = {isLoggedIn}
-              />
-              <ToastContainer/>
+              <Promotion userData={userData} isLoggedIn={isLoggedIn} />
+              <ToastContainer />
             </ErrorBoundary>
           }
         />
@@ -103,9 +100,7 @@ function App() {
           path="/purchase"
           element={
             <ErrorBoundary>
-              <Purchase 
-              isLoggedIn = {isLoggedIn}
-              />
+              <Purchase isLoggedIn={isLoggedIn} />
             </ErrorBoundary>
           }
         />
@@ -126,21 +121,29 @@ function App() {
           }
         />
         <Route
-        path="/profile"
-        element = {
-          <ErrorBoundary>
-            <Profile 
-            userData = {userData}
-            setUserData={setUserData}
-            setIsLoggedIn={setIsLoggedIn}
-            csrfToken={csrfToken}
-            />
-          </ErrorBoundary>
-        }
+          path="/profile"
+          element={
+            <ErrorBoundary>
+              <Profile
+                userData={userData}
+                setUserData={setUserData}
+                setIsLoggedIn={setIsLoggedIn}
+                csrfToken={csrfToken}
+              />
+            </ErrorBoundary>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <ErrorBoundary>
+              <NotFound />
+            </ErrorBoundary>
+          }
         />
       </Routes>
     </Router>
-  )
+  );
 }
 
-export default App
+export default App;

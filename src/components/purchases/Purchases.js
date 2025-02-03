@@ -41,6 +41,7 @@ const Purchases = ({ userData, setUserData , csrfToken }) => {
     }
   };
 
+
   useEffect(() => {
     let timers = [];
     titlesRef.current.forEach((title, index) => {

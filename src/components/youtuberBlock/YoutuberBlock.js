@@ -29,11 +29,6 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
     toast.warning(t("You already bought this data."));
   };
 
-  useEffect(()=>{
-    console.log("Токен, пришедший в покупки:",csrfToken)
-  },[csrfToken])
-
-
   const handleButtonClick = async (data, buttonId) => {
     let timeout1, timeout2, timeout3;
   

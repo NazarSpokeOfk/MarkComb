@@ -1,5 +1,4 @@
 import cookieParser from "cookie-parser";
-import crypto from "crypto";
 import cors from "./node_modules/cors/lib/index.js";
 import express from "./node_modules/express/index.js";
 import createTables from "./db/setup.js";

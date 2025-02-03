@@ -1,7 +1,7 @@
 .youtuber__block{
     position: relative;
     border: 1px solid #000;
-    border-radius: 97px;
+    border-radius: 75px;
     max-width: 1020px;
     max-height: 310px;
     margin: 0 auto;
@@ -15,9 +15,9 @@
   }
   .youtuber__image{
     position: absolute;
-    left: 61.5%;
+    left: 60.6%;
     bottom:0%;
-    border-radius: 97px;
+    border-radius: 75px;
     width: 400px;
     height: 309px;
     z-index: -1;

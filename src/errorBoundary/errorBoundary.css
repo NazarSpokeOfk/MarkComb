@@ -1,0 +1,31 @@
+.error__logo {
+  text-align: center;
+  margin-top: 20%;
+  font-size: 75px;
+  font-weight: 900;
+  span {
+    font-size: 80px;
+    color: red;
+  }
+}
+
+.magnifing__glass {
+  margin-bottom: -28.5%;
+  margin-left: 48%;
+  width: 140px;
+  height: 140px;
+}
+
+.error__message {
+  font-size: 30px;
+  text-align: center;
+  margin-top: 5%;
+}
+
+.main__page {
+  font-size: 20px;
+  text-align: center;
+  span {
+    color: red;
+  }
+}

@@ -27,6 +27,7 @@ const Purchase = (isLoggedIn) => {
       alert("You need to log in firstly.");
     }
   };
+  
   useEffect(() => {
     const timer = setInterval(() => {
       titleRef.current.classList.add("active");

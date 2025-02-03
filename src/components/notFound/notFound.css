@@ -1,0 +1,17 @@
+.error__title{
+    margin-top: 20%;
+    text-align: center;
+    font-size: 40px;
+    span {
+        color: red;
+    }
+}
+
+.error__subtitle{
+    font-size: 20px;
+    text-align: center;
+    a{
+        color : red;
+        text-decoration: none;
+    }
+}
