@@ -40,7 +40,7 @@ const HeaderFilter = ({
   const [isSearching, setIsSearching] = useState(false);
   const [entryMethod, setEntryMethod] = useState("");
   const [activeIndex, setActiveIndex] = useState(null);
-  const [contentActiveIndex,setContentActiveIndex] = useState(null);
+  const [contentActiveIndex, setContentActiveIndex] = useState(null);
 
   const audienceButtonLabels = [
     "Kids",
@@ -138,7 +138,7 @@ const HeaderFilter = ({
         <header>
           <div className="container">
             <div className="logo">
-              M<span>K</span>
+              Mark<span>Comb</span>
             </div>
             <div className="header__links">
               <Link to="/purchases" className="header__link">
@@ -218,7 +218,7 @@ const HeaderFilter = ({
                   type="button"
                   className="search__filters"
                 >
-                  <img src={FilterBtnImg} alt="search_filters" />
+                  <img src={FilterBtnImg} loading="lazy" alt="search_filters" />
                 </button>
                 <button
                   onClick={() => {
@@ -230,6 +230,7 @@ const HeaderFilter = ({
                   <img
                     src={isSearching ? Loading : SearchBtn}
                     alt="search_button"
+                    loading="lazy"
                   />
                 </button>
               </div>

@@ -65,7 +65,7 @@ const Purchases = ({ userData, setUserData , csrfToken }) => {
           <div className="container">
             <div className="logo">
               <Link to="/">
-                M<span>K</span>
+                Mark<span>Comb</span>
               </Link>
             </div>
             <div className="header__links">
@@ -117,9 +117,10 @@ const Purchases = ({ userData, setUserData , csrfToken }) => {
                     }
                     className="recent-block__bin"
                   >
-                    <img src={binBtn} alt="bin" className="bin" />
+                    <img loading="lazy" src={binBtn} alt="bin" className="bin" />
                   </button>
                   <img
+                    loading="lazy"
                     src={channel?.thumbnail}
                     alt="youtuber picture"
                     className="recent-block__thumbnail"
@@ -130,11 +131,13 @@ const Purchases = ({ userData, setUserData , csrfToken }) => {
               <>
                 <p className="no_available">You have no purchases.</p>
                 <img
+                  loading="lazy"
                   className="no_available_img"
                   src={noDataFound}
                   alt="no data found"
                 />
                 <img
+                  loading="lazy"
                   className="magnifying_glass"
                   src={glass}
                   alt="no data found"
@@ -146,7 +149,7 @@ const Purchases = ({ userData, setUserData , csrfToken }) => {
 
         <section className="footer">
           <div className="footer__container">
-            <h3 className="footer__logo">MK,2024</h3>
+            <h3 className="footer__logo">MarkComb,2024</h3>
             <Link to="/terms" className="footer__terms none">
               {t("Terms of service")}
             </Link>

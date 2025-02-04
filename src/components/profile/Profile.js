@@ -70,7 +70,7 @@ const Profile = ({ userData, setUserData , setIsLoggedIn , csrfToken }) => {
           <div className="container">
             <div className="logo">
               <Link to="/">
-                M<span>K</span>
+                Mark<span>Comb</span>
               </Link>
             </div>
             <div className="header__links">

@@ -161,6 +161,7 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
               src={isLoggedIn && channelData?.[0]?.thumbnail || YoutuberImg}
               alt="MrBeast"
               className="youtuber__image"
+              loading="lazy"
             />
           </div>
 
@@ -263,7 +264,7 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
 
       <section className="footer">
         <div className="footer__container">
-          <h3 className="footer__logo">MK,2024</h3>
+          <h3 className="footer__logo">MarkComb,2024</h3>
           <Link to="/terms" className="footer__terms none">
             {t("Terms of service")}
           </Link>

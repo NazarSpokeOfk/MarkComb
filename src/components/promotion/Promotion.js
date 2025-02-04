@@ -77,6 +77,7 @@ const Promotion = ({ isLoggedIn, userData }) => {
           >
             <h2 className="suggested-block__name">{videoData?.title}</h2>
             <img
+              loading="lazy"
               src={videoData?.thumbnail}
               alt="a video thumbnail"
               className={`suggested-block__img ${
@@ -87,7 +88,7 @@ const Promotion = ({ isLoggedIn, userData }) => {
               {" "}
               {videoData?.result && (
                 <>
-                  <img src={views} alt="eye" className="views" />{" "}
+                  <img loading="lazy" src={views} alt="eye" className="views" />{" "}
                   <div className="views__text">{videoData.result.views}</div>
                 </>
               )}
@@ -95,7 +96,7 @@ const Promotion = ({ isLoggedIn, userData }) => {
             <h2 className="suggested-block__likes">
               {videoData?.result && (
                 <>
-                  <img src={like} alt="eye" className="like" />{" "}
+                  <img loading="lazy" src={like} alt="eye" className="like" />{" "}
                   <div className="likes__text">{videoData.result.likes}</div>
                 </>
               )}
@@ -126,7 +127,7 @@ const Promotion = ({ isLoggedIn, userData }) => {
         <div className="container">
           <div className="logo">
             <Link to="/">
-              M<span>K</span>
+              Mark<span>Comb</span>
             </Link>
           </div>
           <div className="header__links">
@@ -185,7 +186,7 @@ const Promotion = ({ isLoggedIn, userData }) => {
               onClick={handleToggle}
               className="list-container__button"
             >
-              <img src={buttonIcon} alt="moreyoutubers" />
+              <img loading="lazy" src={buttonIcon} alt="moreyoutubers" />
             </button>
           ) : (
             ""
@@ -241,7 +242,7 @@ const Promotion = ({ isLoggedIn, userData }) => {
           }}
           className="search-input__button"
         >
-          <img src={glass} alt="find" />
+          <img loading="lazy" src={glass} alt="find" />
         </button>
 
         {videoData.title ? resultBlock(videoData) : ""}
@@ -249,7 +250,7 @@ const Promotion = ({ isLoggedIn, userData }) => {
 
       <section id="promotion" className="footer">
         <div className="footer__container">
-          <h3 className="footer__logo">MK,2024</h3>
+          <h3 className="footer__logo">MarkComb,2024</h3>
           <Link to="/terms" className="footer__terms">
             {t("Terms of service")}
           </Link>

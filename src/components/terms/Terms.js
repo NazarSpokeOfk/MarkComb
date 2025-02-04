@@ -13,7 +13,7 @@ const Terms = () => {
       <header>
         <div className="container">
           <div className="logo">
-            M<span>K</span>
+            Mark<span>Comb</span>
           </div>
           <div className="header__links">
             <Link to="/purchases" className="header__link">
@@ -73,7 +73,7 @@ const Terms = () => {
 
       <section className="footer">
         <div className="footer__container">
-          <h3 className="footer__logo">MK,2024</h3>
+          <h3 className="footer__logo">MarkComb,2024</h3>
           <Link to="/terms" className="footer__terms none">
             {t('Terms of service')}
           </Link>

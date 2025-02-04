@@ -48,7 +48,7 @@ const Purchase = (isLoggedIn) => {
           <div className="container">
             <div className="logo">
               <Link to="/">
-                M<span>K</span>
+                Mark<span>Comb</span>
               </Link>
             </div>
             <div className="header__links">
@@ -86,10 +86,10 @@ const Purchase = (isLoggedIn) => {
               </h3>
               <div className="balance-block__variants">
                 <button className="variant">
-                  <img src={payPic} alt="bank card" className="variant__img" />
+                  <img loading="lazy" src={payPic} alt="bank card" className="variant__img" />
                 </button>
                 <button className="variant">
-                  <img src={payPal} alt="paypal" className="variant__img" />
+                  <img loading="lazy" src={payPal} alt="paypal" className="variant__img" />
                 </button>
               </div>
             </div>
@@ -177,7 +177,7 @@ const Purchase = (isLoggedIn) => {
 
         <section className="footer">
           <div className="footer__container">
-            <h3 className="footer__logo">MK,2024</h3>
+            <h3 className="footer__logo">MarkComb,2024</h3>
             <Link to="/terms" className="footer__terms none">
               {t("Terms of service")}
             </Link>

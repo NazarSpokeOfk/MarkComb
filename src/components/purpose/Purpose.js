@@ -13,8 +13,10 @@ const Purpose = () => {
     <>
       <header>
         <div className="container">
-          <div className="logo">
-            M<span>K</span>
+        <div className="logo">
+            <Link to="/">
+              Mark<span>Comb</span>
+            </Link>
           </div>
           <div className="header__links">
             <Link to="/purchases" className="header__link">
@@ -77,7 +79,7 @@ it is also worth considering that the contentmaker may change their contact deta
 
       <section className="footer">
         <div className="footer__container">
-          <h3 className="footer__logo">MK,2024</h3>
+          <h3 className="footer__logo">MarkComb,2024</h3>
           <Link to="/terms" className="footer__terms none">
             {t('Terms of service')}
           </Link>
