@@ -6,15 +6,52 @@ class SimilarChannel {
   request = new Request();
   apiKey = "AIzaSyAdpuNLLn_Wnq_L4mioZYahKgSDAJdcBC4";
 
-  async searchByContentType(theme) {
+  async searchByContentType(theme,lang) {
+    console.log("Язык, по которому будет поиск:",lang)
+    const themesLanguages = {
+      ru: {
+        Animation: "Анимация",
+        Vlogs: "Влоги",
+        Music: "Музыка",
+        Comedy : "Комедия",
+        Education : "Образование",
+        Travel : "Путешествия",
+        Entertaiment : "Развлечения",
+        NewsCommentary : "Новости",
+        FitnessHealth : "Фитнесс и здоровье",
+        Gaming : "Компьютерные игры"
+      },
+      en: {
+        Animation: "Animation",
+        Vlogs: "Vlogs",
+        Music: "Music",
+        Comedy : "Comedy",
+        Travel : "Travel",
+        Entertaiment : "Entertaiment",
+        NewsCommentary : "NewsCommentary",
+        FitnessHealth : "FitnessHealth",
+        Gaming : "Gaming"
+      },
+      // Добавьте другие языки по мере необходимости
+    };
+  
+    // Поиск в объекте с языками, используя ключ lang
+    const languageObject = themesLanguages[lang];
+    let transletedTheme;
+    // Если объект с переводами для данного языка найден
+    if (languageObject) {
+      // Возвращаем перевод для конкретной темы
+      transletedTheme = languageObject[theme] || theme;  // Если перевод не найден, возвращаем тему как есть
+    }
+  
     try {
       //Id for Genre
       const idUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(
-        theme
-      )}&type=video&maxResults=1&key=${this.apiKey}`;
+        transletedTheme
+      )}&type=video&maxResults=1&relevanceLanguage=${lang}&key=${this.apiKey}`;
       
       const result = await fetch(
-        `https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&maxResults=1&q=${theme}&key=${this.apiKey}`
+        `https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&maxResults=1&q=${transletedTheme}&relevanceLanguage=${lang}&key=${this.apiKey}`
       );
       const rawData = await result.json();
       const finalData = rawData.items.map(this.request.transformRes);

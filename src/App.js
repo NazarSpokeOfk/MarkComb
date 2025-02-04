@@ -21,6 +21,9 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState({});
   const [csrfToken, setCsrfToken] = useState("");
+  const [userCountry, setUserCountry] = useState("");
+  const [userLang, setUserLang] = useState("");
+  const ipAPIToken = "df49f11220979b";
 
   const [signInData, setSignInData] = useState({
     email: "",
@@ -33,10 +36,24 @@ function App() {
     password: "",
   });
 
-  useEffect(() => {
-    console.log("isLoggedIn:", isLoggedIn);
-    console.log(userData);
-  }, [isLoggedIn]);
+  // useEffect(() => {
+  //   fetch(`https://ipinfo.io/json?token=${ipAPIToken}`).then((response) => {
+  //     response.json().then((data) => {
+  //       setUserCountry(data.country);
+
+  //       switch (data.country) {
+  //         case "RU":
+  //           setUserLang("ru");
+  //           break;
+  //         case "ES":
+  //           setUserLang("es");
+  //           break;
+  //         default:
+  //           setUserLang("en");
+  //       }
+  //     });
+  //   });
+  // }, []);
 
   return (
     <Router>
@@ -60,6 +77,7 @@ function App() {
             <>
               <ErrorBoundary>
                 <HeaderFilter
+                  userLang = {userLang}
                   SimilarChannelData={SimilarChannelData}
                   setChannelData={setChannelData}
                   setSimilarChannelData={setSimilarChannelData}

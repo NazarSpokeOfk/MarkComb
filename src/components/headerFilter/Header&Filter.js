@@ -31,6 +31,7 @@ const HeaderFilter = ({
   setLogInData,
   userData,
   setCsrfToken,
+  userLang
 }) => {
   const request = new Request();
   const similarChannel = new SimilarChannel();
@@ -41,6 +42,11 @@ const HeaderFilter = ({
   const [entryMethod, setEntryMethod] = useState("");
   const [activeIndex, setActiveIndex] = useState(null);
   const [contentActiveIndex, setContentActiveIndex] = useState(null);
+
+  useEffect(()=>{
+    console.log("Язык пользователя, переданный в headerFilter:",userLang)
+  },[userLang])
+
 
   const audienceButtonLabels = [
     "Kids",
@@ -55,9 +61,9 @@ const HeaderFilter = ({
     "Animation",
     "Education",
     "Entertaiment",
-    "Fitness&Health",
+    "FitnessHealth",
     "Music",
-    "News&Commentary",
+    "NewsCommentary",
     "Gaming",
     "Travel",
   ];
@@ -74,7 +80,8 @@ const HeaderFilter = ({
     theme = "",
     Audience = "",
     subsQuantity = 0,
-    offset = 0
+    offset = 0,
+    lang = ""
   ) => {
     try {
       if (!isLoggedIn) {
@@ -84,7 +91,7 @@ const HeaderFilter = ({
 
       const promises = [];
       if (theme !== "") {
-        promises.push(similarChannel.searchByContentType(theme));
+        promises.push(similarChannel.searchByContentType(theme,lang));
       }
       if (Audience !== "") {
         promises.push(similarChannel.searchContentByTargetAudience(Audience));
@@ -352,7 +359,7 @@ const HeaderFilter = ({
                     }`}
                     onClick={() => {
                       setActiveIndex(index);
-                      handleSimilarSearchClick(label);
+                      handleSimilarSearchClick(label,"",0,0,userLang);
                     }}
                   >
                     {label}
