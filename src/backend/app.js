@@ -31,12 +31,24 @@ app.use(
     credentials: true,
   })
 );
-const PORT = process.env.port || 5001;
 
 app.use(cookieParser());
 
+app.use((req,res,next) => {
+  res.setHeader(
+    "Content-Security-Policy",
+     "default-src 'self'; script-src 'self' https://apis.google.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;"
+  )
+  next()
+})
+//Тут надо аккуратным быть
+const PORT = process.env.port || 5001;
+
 app.use("/api", purchasesRouter);
 app.use("/api", userRouter);
+app.get("/", (req, res) => {
+  res.send("<h1>Hello, CSP работает!</h1>");
+});
 
 async function initializeApp() {
   try {

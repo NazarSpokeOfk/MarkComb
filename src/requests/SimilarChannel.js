@@ -32,10 +32,8 @@ class SimilarChannel {
         FitnessHealth : "FitnessHealth",
         Gaming : "Gaming"
       },
-      // Добавьте другие языки по мере необходимости
     };
   
-    // Поиск в объекте с языками, используя ключ lang
     const languageObject = themesLanguages[lang];
     let transletedTheme;
     // Если объект с переводами для данного языка найден
