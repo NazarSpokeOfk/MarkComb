@@ -36,24 +36,28 @@ function App() {
     password: "",
   });
 
-  // useEffect(() => {
-  //   fetch(`https://ipinfo.io/json?token=${ipAPIToken}`).then((response) => {
-  //     response.json().then((data) => {
-  //       setUserCountry(data.country);
+  useEffect(()=>{
+    console.log("userLang:",userLang)
+  })
 
-  //       switch (data.country) {
-  //         case "RU":
-  //           setUserLang("ru");
-  //           break;
-  //         case "ES":
-  //           setUserLang("es");
-  //           break;
-  //         default:
-  //           setUserLang("en");
-  //       }
-  //     });
-  //   });
-  // }, []);
+  useEffect(() => {
+    fetch(`https://ipinfo.io/json?token=${ipAPIToken}`).then((response) => {
+      response.json().then((data) => {
+        setUserCountry(data.country);
+
+        switch (data.country) {
+          case "RU":
+            setUserLang("ru");
+            break;
+          case "ES":
+            setUserLang("es");
+            break;
+          default:
+            setUserLang("en");
+        }
+      });
+    });
+  }, []);
 
   return (
     <Router>
@@ -90,6 +94,7 @@ function App() {
                   setLogInData={setLogInData}
                   userData={userData}
                   setCsrfToken={setCsrfToken}
+                  csrfToken = {csrfToken}
                 />
               </ErrorBoundary>
               <ErrorBoundary>

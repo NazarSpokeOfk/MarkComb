@@ -1,5 +1,7 @@
-const GetData  = async (channelId) =>{
-    const apiKey = 'AIzaSyAdpuNLLn_Wnq_L4mioZYahKgSDAJdcBC4';
+const GetData  = async (req,res) =>{
+    console.log("req.body:",req.body)
+    const {channelId} = req.body;
+    const apiKey = process.env.GOOGLE_API_KEY;
 
     const transformDescr = (result) =>{
         return{
@@ -8,16 +10,16 @@ const GetData  = async (channelId) =>{
     }
 
     const descrUrl = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelId}&key=${apiKey}`;
-    const res = await fetch(descrUrl);
-    let jRes = await res.json();
-    const processRes = Array.isArray(jRes?.items) ? jRes.items.map(transformDescr) : [];
+    const response = await fetch(descrUrl);
+    let jResponse = await response.json();
+    const processRes = Array.isArray(jResponse?.items) ? jResponse.items.map(transformDescr) : [];
 
     // Теперь извлекаем описания, например, если processRes не пустой, берем первое описание
     const description = processRes.length > 0 ? processRes[0].description : '';
 
     console.log(extractEmail(description)); // Передаем строку в extractEmail
 
-    return extractEmail(description); // Возвращаем результат
+    res.json(extractEmail(description)); // Возвращаем результат
 }
 
 function extractEmail(text) {

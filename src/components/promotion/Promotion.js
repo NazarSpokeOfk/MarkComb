@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { toast } from "react-toastify";
 
-import Request from "../../requests/Requests";
 
 import "./Promotion.css";
 import SmoothEffect from "../smoothText";

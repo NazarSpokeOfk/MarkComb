@@ -6,7 +6,6 @@ import { ToastContainer, toast } from "react-toastify";
 import DataToDB from "../../dataToDB/dataToDB";
 
 import SmoothEffect from "../smoothText";
-import GetData from "../../requests/getData";
 
 import "./YoutuberBlock.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -28,6 +27,10 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
   const alreadyHave = () => {
     toast.warning(t("You already bought this data."));
   };
+
+  useEffect(()=>{
+    console.log("channelData:",channelData)
+  },[channelData])
 
   const handleButtonClick = async (data, buttonId) => {
     let timeout1, timeout2, timeout3;
@@ -51,9 +54,19 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
     if (btnsState[buttonId]?.isProcessing) return;
   
     try {
-      const result = await GetData(data.channelId);
-  
-      if (!result || result.length === 0) {
+      const result = await fetch("http://localhost:5001/api/getdata",{
+        method : "POST",
+        credentials : "include",
+        headers : {
+          "Content-type":"application/json",
+          "X-CSRF-Token" : csrfToken
+        },
+        body : JSON.stringify({ channelId : data.channelId})
+      })
+      const response = await result.json()
+      console.log("Ответ от getData в youtuberblock:",response)
+
+      if (!response || response.length === 0) {
         setBtnsState((prev) => ({
           ...prev,
           [buttonId]: {
@@ -66,10 +79,11 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
       }
   
       if (buttonId === 1) {
+        console.log("Проверочка:",SimilarChannelData?.[0]?.thumbnail)
         dataToDB.validatePurchaseData(
           {
             thumbnail: SimilarChannelData?.[0]?.thumbnail || "",
-            email: result?.[0] || "",
+            email: response?.[0] || "", //тут был result.
             channelName: SimilarChannelData?.[0]?.title || "",
             uses: 1,
           },
@@ -80,7 +94,7 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
         dataToDB.validatePurchaseData(
           {
             thumbnail: channelData?.[0]?.thumbnail || "",
-            email: result?.[0] || "",
+            email: response?.[0] || "", // тут был result
             channelName: channelData?.[0]?.title || "",
             uses: 1,
           },
@@ -93,7 +107,7 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
         ...prev,
         [buttonId]: {
           isProcessing: false,
-          class: result.length === 0 ? "fail" : "success",
+          class: response.length === 0 ? "fail" : "success", //тут был result
         },
       }));
     } catch (error) {
@@ -130,7 +144,7 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
             }`}
           >
             <div className="youtuber__name none">
-              { isLoggedIn && channelData ? channelData?.[0]?.title : "?"}
+              { isLoggedIn && channelData ? channelData?.updatedData?.[0]?.title : "?"}
             </div>
             <div className="youtuber__information">
               <div className="youtuber__definitions">
@@ -147,18 +161,18 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
 
               <div className="youtuber__stats">
                 <h4 className="statistic none">
-                  { isLoggedIn && channelData ? channelData?.[0]?.targetAudience : "?"}
+                  { isLoggedIn && channelData ? channelData?.updatedData?.[0]?.targetAudience : "?"}
                 </h4>
                 <h4 className="statistic none">
-                  { isLoggedIn && channelData ? channelData?.[0].subsCount : "?"}
+                  { isLoggedIn && channelData ? channelData?.updatedData?.[0]?.subsCount : "?"}
                 </h4>
                 <h4 className="statistic none">
-                  { isLoggedIn && channelData ? channelData?.[0]?.genre : "?"}
+                  { isLoggedIn && channelData ? channelData?.updatedData?.[0]?.genre : "?"}
                 </h4>
               </div>
             </div>
             <img
-              src={isLoggedIn && channelData?.[0]?.thumbnail || YoutuberImg}
+              src={isLoggedIn && channelData?.updatedData?.[0]?.thumbnail || YoutuberImg}
               alt="MrBeast"
               className="youtuber__image"
               loading="lazy"
@@ -171,13 +185,13 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
               if (
                 userData.channels &&
                 userData.channels.some(
-                  (channel) => channel.channel_name === channelData?.[0].title
+                  (channel) => channel.channel_name === channelData?.updatedData?.[0].title
                 )
               ) {
                 alreadyHave()
                 return;
               } else {
-                isLoggedIn ? handleButtonClick(channelData?.[0], 0) : toast.error("You need to log in firstly");
+                isLoggedIn ? handleButtonClick(channelData?.updatedData?.[0], 0) : toast.error("You need to log in firstly");
               }
             }}
           >
@@ -194,7 +208,7 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
             }`}
           >
             <div className="youtuber__name none">
-              {userData && SimilarChannelData ? SimilarChannelData?.[0]?.title : "?"}
+              {userData && SimilarChannelData ? SimilarChannelData?.title : "?"}
             </div>
             <div className="youtuber__information">
               <div className="youtuber__definitions">
@@ -212,24 +226,24 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
               <div className="youtuber__stats">
                 <h4 className="statistic none">
                   { userData && SimilarChannelData
-                    ? SimilarChannelData?.[0]?.genre?.[0]
+                    ? SimilarChannelData?.genre?.[0]
                     : "?"}
                 </h4>
                 <h4 className="statistic none">
                   { userData && SimilarChannelData
-                    ? SimilarChannelData?.[0]?.subsCount
+                    ? SimilarChannelData?.subsCount
                     : "?"}
                 </h4>
                 <h4 className="statistic none">
                   {userData && SimilarChannelData
-                    ? SimilarChannelData?.[0]?.genre?.[1]
+                    ? SimilarChannelData?.genre?.[1]
                     : "?"}
                 </h4>
               </div>
             </div>
             <img
               loading="lazy"
-              src={userData && SimilarChannelData?.[0]?.thumbnail || YoutuberImg}
+              src={userData && SimilarChannelData?.thumbnail || YoutuberImg}
               alt="MrBeast"
               className="youtuber__image"
             />
@@ -248,7 +262,6 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
                 return;
               } else {
                 handleButtonClick(SimilarChannelData?.[0], 1);
-                
               }
             }}
           >

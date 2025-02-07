@@ -1,13 +1,12 @@
-
-class Request {
-  apiKey = "AIzaSyAdpuNLLn_Wnq_L4mioZYahKgSDAJdcBC4";
+class SearchApiController{
+    apiKey = process.env.GOOGLE_API_KEY;
 
   //Форматировка данных
-  transformRes = (res) => {
+  transformRes = (result) => {
     return {
-      title: res.snippet.title,
-      thumbnail: res.snippet.thumbnails.high.url,
-      channelId: res.snippet.channelId,
+      title: result.snippet.title,
+      thumbnail: result.snippet.thumbnails.high.url,
+      channelId: result.snippet.channelId,
     };
   };
 
@@ -148,24 +147,25 @@ class Request {
   };
 
   //Основная функция по поиску канала по данным, полученным из формы.
-  FindChannel = async (selector,setIsSearching) => {
+  FindChannel = async (mainInputValue) => {
+    console.log("Тип аргумента findChannel:",typeof(mainInputValue))
     try {
-      const form = document.querySelector(`.${selector}`);
-      if (!form) {
-        console.error("Форма не найдена");
-        return null;
-      }
+      // const form = document.querySelector(`.${selector}`);
+      // if (!form) {
+      //   console.error("Форма не найдена");
+      //   return null;
+      // }
 
-      const input = form.querySelector("input.search__main");
-      if (!input) {
-        console.error("Поле ввода не найдено");
-        return null;
-      }
+      // const input = form.querySelector("input.search__main");
+      // if (!input) {
+      //   console.error("Поле ввода не найдено");
+      //   return null;
+      // }
 
-      const query = input.value.trim();
+      const query = mainInputValue.trim();
       if (!query) {
         alert("Введите запрос");
-        setIsSearching(false)
+        // setIsSearching(false)
         return null;
       }
 
@@ -211,15 +211,15 @@ class Request {
       return finalData;
     } catch (error) {
       console.error("Произошла ошибка:", error.message);
-      return null;
     }
   };
 
   //Функция исполнения запросов, для передачи в другие файлы.
-  handleSearch = async (event, setChannelData , setIsSearching) => {
-    event.preventDefault();
+  handleSearch = async (req,res) => {
+    const {mainInputValue} = req.body;
+    console.log("mainInputValue:",mainInputValue)
     try {
-      const data = await this.FindChannel("maininput",setIsSearching);
+      const data = await this.FindChannel(mainInputValue);
       if (!data || data.length === 0) {
         console.log("No data found");
         setChannelData(null);
@@ -231,12 +231,12 @@ class Request {
           return { ...channel, subsCount };
         })
       );
-      
-      setIsSearching(false)
-      setChannelData(updatedData);
+
+      res.json({message : "Успешный поиск",updatedData})
+      return;
     } catch (error) {
       console.error("Search error:", error);
-      setChannelData(null);
+      res.status(500).json({ message: "Ошибка поиска", error: error.message });
     }
   };
 
@@ -296,6 +296,5 @@ class Request {
       return Promise.reject()
     }
   };
-}
-
-export default Request;
+} 
+export default SearchApiController
