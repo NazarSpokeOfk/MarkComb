@@ -53,6 +53,9 @@ const VerifPassword = ({
                   console.log(response)
                   if(response.message === true){
                     setIsAccountWillBeDeleted(false) 
+                    setTimeout(() => {
+                      toast.success("Account deleted.");
+                    }, 100);
                   } else {
                     setTimeout(() => {
                       toast.error("Wrong password");

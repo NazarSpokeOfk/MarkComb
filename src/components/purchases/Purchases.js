@@ -24,6 +24,10 @@ const Purchases = ({ userData, setUserData , csrfToken }) => {
     i18n.changeLanguage(lang);
   };
 
+  useEffect(()=>{
+    console.log("userData:",userData)
+  },[userData])
+
   const removePurchase = async (index, user_id, channelName) => {
     try {
       await toast.promise(dataToDb.deletePurchaseData(channelName, user_id , csrfToken), {

@@ -59,12 +59,12 @@ const Modal = ({
       }, 4000);
     } else {
       dataToDB.validateLogIn(logInData).then((response) => {
-        console.log(response.message)
-        if(response.message === true) {
+        console.log(response.message);
+        if (response.message === true) {
           modalRef.current.classList.remove("open");
-          setTimeout(()=>{
+          setTimeout(() => {
             setIsModalOpened(false);
-          },500)
+          }, 500);
           document.body.style.overflow = "";
         } else {
           setTimeout(() => {
@@ -104,7 +104,7 @@ const Modal = ({
     if (isModalOpened) {
       setTimeout(() => {
         modalRef.current.classList.add("open");
-        document.body.style.overflow = "hidden"
+        document.body.style.overflow = "hidden";
       }, 10);
     } else {
       modalRef.current.classList.remove("open");
@@ -118,7 +118,7 @@ const Modal = ({
         onClick={() => {
           modalRef.current.classList.remove("open");
           setTimeout(() => {
-            document.body.style.overflow = ""
+            document.body.style.overflow = "";
             setIsModalOpened(false);
           }, 300);
         }}
@@ -217,11 +217,13 @@ const Modal = ({
               onChange={(e) => setIsChecked(e.target.checked)}
             />
           )}
-          <ReCAPTCHA
-            className="captcha"
-            sitekey="6LcxnbQqAAAAALV-GfKKoJPxRVIshbTjTa5izOVr"
-            onChange={handleRecaptchaChange}
-          />
+          {entryMethod === "SignIn" ?  (
+            <ReCAPTCHA
+              className="captcha"
+              sitekey="6LcxnbQqAAAAALV-GfKKoJPxRVIshbTjTa5izOVr"
+              onChange={handleRecaptchaChange}
+            />
+          ) : null}
           <h3 className="modal-checkbox__text">
             {t("I have read the")}{" "}
             <Link to="/terms">{t("user agreement")}</Link>{" "}

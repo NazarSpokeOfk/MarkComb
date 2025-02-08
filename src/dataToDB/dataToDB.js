@@ -122,6 +122,7 @@ class DataToDB {
         this.setIsLoggedIn(true);
         this.setUserData(result);
         this.setCsrfToken(result.csrfToken)
+        console.log("токен при входе:",result.csrfToken)
         return {message : true}
       } else {
         this.setIsLoggedIn(false);
@@ -172,10 +173,11 @@ class DataToDB {
         credentials : "include",
         headers : {
           "Content-type" : "application/json",
-          'X-CSRF-TOKEN': csrfToken
+          "X-CSRF-TOKEN": csrfToken
         },
         body : JSON.stringify({data})
       })
+      console.log("токен при удалении:",csrfToken)
       if(response.ok){
         const result = await response.json()
         this.setIsLoggedIn(false)

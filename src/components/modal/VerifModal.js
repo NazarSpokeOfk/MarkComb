@@ -72,8 +72,10 @@ const VerifModal = ({
               console.log("Код, отправленный с фронта:",signInData.verification_code)
               dataToDB.validateSignIn(signInData).then((response) => {
                 console.log(response)
-                if(!response.ok){
+                if(response.status != true){
                   toast.error("Wrong authentication code, or code expired.")
+                } else {
+                  toast.success("Successfull registration!",{autoClose: 3000})
                 }
               })
             }}
@@ -83,9 +85,9 @@ const VerifModal = ({
           >
             <img className="next_btn-img" src={next} alt="click here" />
           </button>
-          <ToastContainer/>
-        </div>
+          </div>
       </div>
+      <ToastContainer autoClose={3000} />  
     </div>
   );
 };

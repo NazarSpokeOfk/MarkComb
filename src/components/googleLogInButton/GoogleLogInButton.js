@@ -1,5 +1,5 @@
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
-
+import { ToastContainer, toast } from "react-toastify";
 const GoogleLoginButton = ({setIsLoggedIn,setUserData,setIsModalOpened}) => {
   const handleSuccess = async (response) => {
     const credential = response.credential
@@ -25,11 +25,13 @@ const GoogleLoginButton = ({setIsLoggedIn,setUserData,setIsModalOpened}) => {
       })
       .catch((error) => {
         console.log("Ошибка в google log in:", error);
+        toast.error("There is no such account created previously.")
       });
   };
 
   const handleError = (error) => {
     console.log("Ошибка в аутентификации гугл:",error)
+    toast.error("There is no such account,registrated previosly.")
   }
 
   return(
@@ -39,7 +41,6 @@ const GoogleLoginButton = ({setIsLoggedIn,setUserData,setIsModalOpened}) => {
         onError={handleError}
         style={{
           backgroundColor : "#FFF",
-          
         }}
         />
     </GoogleOAuthProvider>

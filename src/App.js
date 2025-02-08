@@ -23,7 +23,7 @@ function App() {
   const [csrfToken, setCsrfToken] = useState("");
   const [userCountry, setUserCountry] = useState("");
   const [userLang, setUserLang] = useState("");
-  const ipAPIToken = "df49f11220979b";
+  
 
   const [signInData, setSignInData] = useState({
     email: "",
@@ -36,28 +36,33 @@ function App() {
     password: "",
   });
 
-  useEffect(()=>{
-    console.log("userLang:",userLang)
-  })
-
-  useEffect(() => {
-    fetch(`https://ipinfo.io/json?token=${ipAPIToken}`).then((response) => {
-      response.json().then((data) => {
-        setUserCountry(data.country);
-
-        switch (data.country) {
-          case "RU":
-            setUserLang("ru");
-            break;
-          case "ES":
-            setUserLang("es");
-            break;
-          default:
-            setUserLang("en");
-        }
-      });
+  const getApiKeyIp = async () => {
+    const response = await fetch("http://localhost:5001/api/apikey",{
+      method : "GET"
     });
-  }, []);
+      const result = await response.json()
+      console.log(result)
+      fetch(`https://ipinfo.io/json?token=${result}`).then((response) => {
+        response.json().then((data) => {
+          setUserCountry(data.country);
+  
+          switch (data.country) {
+            case "RU":
+              setUserLang("ru");
+              break;
+            case "ES":
+              setUserLang("es");
+              break;
+            default:
+              setUserLang("en");
+          }
+        });
+      });
+  }
+  // useEffect(()=>{
+  //   getApiKeyIp()
+  // },[])
+
 
   return (
     <Router>

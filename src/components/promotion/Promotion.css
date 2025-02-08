@@ -128,11 +128,12 @@
   }
 
   .imgActive{
-    height: 267px;
-    width: 400px;
+    height: 180px;
+    width: 350px;
     position: absolute;
-    top: 36%;
-    left: -14.5%;
+    top: 53%;
+    left: -9%;
+    transition: all 0.6s ease;
   }
   .suggested-block__name{
     margin-top: 6%;

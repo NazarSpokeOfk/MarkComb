@@ -281,8 +281,8 @@ class UserController {
   async deleteUser(req, res) {
     const id = parseInt(req.params.id, 10);
     const password = req.body.data;
-
-    const tokenFromClient = req.headers["X-CSRF-TOKEN"];
+    
+    const tokenFromClient = req.headers["x-csrf-token"];
     const tokenFromSession = req.session.csrfToken;
 
     if (tokenFromClient !== tokenFromSession) {

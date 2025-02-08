@@ -63,10 +63,7 @@ const HeaderFilter = ({
   const filterRef = useRef();
 
   const { t } = useTranslation();
-
-  const logInErrorToast = () => {
-    toast.error("Firstly,create or log in to existing account");
-  };
+  
   const searchFetch = async (e) => {
     e.preventDefault();
     try {
@@ -137,57 +134,6 @@ const HeaderFilter = ({
       console.log("Ошибка в filterFetch:", error);
     }
   };
-
-  // const handleSimilarSearchClick = async (
-  //   theme,
-  //   Audience,
-  //   subsQuantity,
-  //   offset,
-  //   lang
-  // ) => {
-  //   try {
-  //     if (!isLoggedIn) {
-  //       logInErrorToast();
-  //       return;
-  //     }
-
-  //     const promises = [];
-  //     if (theme !== "") {
-  //       filterFetch("content-type", theme,false,false,false,lang); // promises.push(similarChannel.searchByContentType(theme, lang));
-  //     }
-  //     if (Audience !== "") {
-  //       filterFetch("audience",false,Audience,false,false,false); // promises.push(similarChannel.searchContentByTargetAudience(Audience));
-  //     }
-
-  //     if (subsQuantity > 0 && offset > 0) {
-  //       promises.push(
-  //         filterFetch("subscribers",false,false,subsQuantity,offset,userLang) // similarChannel.searchContentBySubsQuantity(subsQuantity, offset)
-  //       );
-  //     }
-
-  //     const results = await Promise.all(promises);
-
-  //     let finalData = {};
-  //     if (theme) {
-  //       finalData = { ...finalData, ...(results[0] || {}) };
-  //     }
-  //     if (Audience) {
-  //       const audienceDataIndex = theme ? 1 : 0;
-  //       finalData = { ...finalData, ...(results[audienceDataIndex] || {}) };
-  //     }
-
-  //     if (subsQuantity && offset) {
-  //       const quantityDataIndex = theme && Audience ? 2 : 0;
-  //       finalData = { ...finalData, ...(results[quantityDataIndex] || {}) };
-  //     }
-
-  //     if (Object.keys(finalData).length > 0) {
-  //       setSimilarChannelData(finalData);
-  //     }
-  //   } catch (error) {
-  //     console.error("Ошибка при получении данных:", error);
-  //   }
-  // };
 
   const openFilters = () => {
     filterRef.current.classList.toggle("active");

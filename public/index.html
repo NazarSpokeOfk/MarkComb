@@ -2,14 +2,24 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/png"  href="./MK.svg">
+    <link rel="icon" type="image/png" href="./MK.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta
       name="description"
       content="Web site created using create-react-app"
     />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' http://localhost:3000; style-src 'self' 'unsafe-inline' http://localhost:3000; img-src 'self' http://localhost:3000 data: https://yt3.ggpht.com; connect-src 'self' http://localhost:5001 https://www.googleapis.com https://ipinfo.io;">    
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="
+    default-src 'self';
+    script-src 'self' 'unsafe-inline' http://localhost:3000 https://www.google.com https://www.gstatic.com https://accounts.google.com;
+    style-src 'self' 'unsafe-inline' http://localhost:3000 https://accounts.google.com/gsi/style;
+    img-src 'self' http://localhost:3000 data: https://yt3.ggpht.com https://i.ytimg.com;
+    connect-src 'self' http://localhost:5001 https://www.googleapis.com https://ipinfo.io https://www.google.com/recaptcha/;
+    frame-src 'self' https://www.google.com https://www.recaptcha.net https://accounts.google.com/;
+"
+    />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -30,6 +40,5 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    
   </body>
 </html>

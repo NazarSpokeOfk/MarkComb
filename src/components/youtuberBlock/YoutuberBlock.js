@@ -93,9 +93,9 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
       } else {
         dataToDB.validatePurchaseData(
           {
-            thumbnail: channelData?.[0]?.thumbnail || "",
+            thumbnail: channelData?.updatedData?.[0]?.thumbnail || "",
             email: response?.[0] || "", // тут был result
-            channelName: channelData?.[0]?.title || "",
+            channelName: channelData?.updatedData?.[0]?.title || "",
             uses: 1,
           },
           userData?.user?.user_id,
