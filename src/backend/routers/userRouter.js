@@ -50,7 +50,6 @@ import verifController from "../controllers/verifController.js";
 import UserController from "../controllers/userController.js";
 import googleAuthController from "../controllers/googleAuthController.js";
 import verifyJWT from "../controllers/verifyJWT.js";
-import getIpInfoKey from "../API/getIpInfoKey.js";
 
 const userController = new UserController
 
@@ -66,7 +65,5 @@ router.get('/users', (req,res) => userController.getAllUsers(req,res))
 
 router.put('/update/:id' , updateLimiter , (req,res) =>userController.updateUser(req,res))
 router.delete('/user/:id', (req,res) =>userController.deleteUser(req,res))
-
-router.get('/apiKey' , (req,res) => getIpInfoKey(req,res))
 
 export default router

@@ -1,9 +1,11 @@
 import jwt from "jsonwebtoken"
 
 const generateJWT = (user) =>{
+
     const payload = {
         user_id : user.user_id,
         email : user.email,
+        lang : user.lang
     }
 
     const token = jwt.sign(payload,process.env.JWT_SECRET , {

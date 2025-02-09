@@ -63,7 +63,7 @@ const Purchases = ({ userData, setUserData , csrfToken }) => {
       <HelmetProvider>
         <Helmet>
           <title>Your purchases</title>
-          <meta name="description" content="Main page of the markcomb" />
+          <meta name="description" content="You can watch your purchases here." />
         </Helmet>
         <header>
           <div className="container">

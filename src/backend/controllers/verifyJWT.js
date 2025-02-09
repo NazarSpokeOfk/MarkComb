@@ -10,7 +10,8 @@ const verifyJWT = async (req,res) => {
         const decoded = jwt.verify(token , process.env.JWT_SECRET);
         const userData = {
             email : decoded.email,
-            user_id : decoded.user_id
+            user_id : decoded.user_id,
+            lang : decoded.lang
         }
 
         const response = await fetch(`http://localhost:5001/api/loginbyid/${userData.user_id}` , {
@@ -18,6 +19,8 @@ const verifyJWT = async (req,res) => {
             credentials : "include",
         })
         const result = await response.json()
+
+        result.lang = userData.lang
 
         if(response.ok){
             return res.json(result)

@@ -31,7 +31,10 @@ const HeaderFilter = ({
   setCsrfToken,
   csrfToken,
   userLang,
+  setUserCountry,
+  setUserLang
 }) => {
+
   const [isModalOpened, setIsModalOpened] = useState(false);
   const [isDataFilledIn, setIsDataFilledIn] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
@@ -140,7 +143,7 @@ const HeaderFilter = ({
   };
 
   useEffect(() => {
-    checkCookies(setIsLoggedIn, setUserData);
+    checkCookies(setIsLoggedIn, setUserData,setUserLang);
   }, []);
 
   return (
@@ -422,6 +425,8 @@ const HeaderFilter = ({
             signInData={signInData}
             setSignInData={setSignInData}
             setCsrfToken={setCsrfToken}
+            setUserCountry = {setUserCountry}
+            setUserLang = {setUserLang}
           />
         ) : null}
         {isDataFilledIn ? (

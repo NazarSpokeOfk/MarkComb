@@ -22,10 +22,9 @@ const Modal = ({
   signInData,
   setSignInData,
   setCsrfToken,
+  setUserCountry,
+  setUserLang
 }) => {
-  useEffect(() => {
-    console.log("entryMethod", entryMethod);
-  }, [isModalOpened]);
   const { t } = useTranslation();
 
   const [isChecked, setIsChecked] = useState(false);

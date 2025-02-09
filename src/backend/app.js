@@ -4,12 +4,15 @@ import express from "./node_modules/express/index.js";
 import createTables from "./db/setup.js";
 import session from "express-session";
 import pool from "./db/index.js";
+import helmet from "helmet"
 
 import userRouter from "./routers/userRouter.js";
 import purchasesRouter from "./routers/purchasesRouter.js";
 import googleAPIRouter from "./routers/googleAPIRouter.js"
 
 const app = express();
+
+app.use(helmet())
 
 app.use(express.json());
 

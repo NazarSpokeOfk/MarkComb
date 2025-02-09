@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import NotFound from "./components/notFound/NotFound";
@@ -23,7 +23,6 @@ function App() {
   const [csrfToken, setCsrfToken] = useState("");
   const [userCountry, setUserCountry] = useState("");
   const [userLang, setUserLang] = useState("");
-  
 
   const [signInData, setSignInData] = useState({
     email: "",
@@ -35,34 +34,6 @@ function App() {
     email: "",
     password: "",
   });
-
-  const getApiKeyIp = async () => {
-    const response = await fetch("http://localhost:5001/api/apikey",{
-      method : "GET"
-    });
-      const result = await response.json()
-      console.log(result)
-      fetch(`https://ipinfo.io/json?token=${result}`).then((response) => {
-        response.json().then((data) => {
-          setUserCountry(data.country);
-  
-          switch (data.country) {
-            case "RU":
-              setUserLang("ru");
-              break;
-            case "ES":
-              setUserLang("es");
-              break;
-            default:
-              setUserLang("en");
-          }
-        });
-      });
-  }
-  // useEffect(()=>{
-  //   getApiKeyIp()
-  // },[])
-
 
   return (
     <Router>
@@ -86,7 +57,7 @@ function App() {
             <>
               <ErrorBoundary>
                 <HeaderFilter
-                  userLang = {userLang}
+                  userLang={userLang}
                   SimilarChannelData={SimilarChannelData}
                   setChannelData={setChannelData}
                   setSimilarChannelData={setSimilarChannelData}
@@ -99,7 +70,9 @@ function App() {
                   setLogInData={setLogInData}
                   userData={userData}
                   setCsrfToken={setCsrfToken}
-                  csrfToken = {csrfToken}
+                  csrfToken={csrfToken}
+                  setUserCountry = {setUserCountry}
+                  setUserLang = {setUserLang}
                 />
               </ErrorBoundary>
               <ErrorBoundary>
@@ -128,7 +101,7 @@ function App() {
           path="/purchase"
           element={
             <ErrorBoundary>
-              <Purchase isLoggedIn={isLoggedIn} />
+              <Purchase isLoggedIn={isLoggedIn} userData={userData} />
             </ErrorBoundary>
           }
         />
@@ -157,6 +130,7 @@ function App() {
                 setUserData={setUserData}
                 setIsLoggedIn={setIsLoggedIn}
                 csrfToken={csrfToken}
+                isLoggedIn={isLoggedIn}
               />
             </ErrorBoundary>
           }

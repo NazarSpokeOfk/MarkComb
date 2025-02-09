@@ -2,14 +2,12 @@ import { useTranslation } from "react-i18next";
 import { useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import {toast} from "react-toastify"
 
 import "./Purchase.css";
 import SmoothEffect from "../smoothText";
 
-import payPic from "../../icons/card.svg";
-import payPal from "../../icons/payPal.png";
-
-const Purchase = (isLoggedIn) => {
+const Purchase = ({isLoggedIn,userData}) => {
   const titleRef = useRef();
 
   const navigate = useNavigate();
@@ -20,11 +18,10 @@ const Purchase = (isLoggedIn) => {
     i18n.changeLanguage(lang);
   };
   const handleClick = () => {
-    if (isLoggedIn.isLoggedIn) {
+    if (isLoggedIn) {
       console.log("successed purchase");
     } else {
       navigate("/");
-      alert("You need to log in firstly.");
     }
   };
   
@@ -42,7 +39,7 @@ const Purchase = (isLoggedIn) => {
       <HelmetProvider>
         <Helmet>
           <title>Purchase uses</title>
-          <meta name="description" content="Main page of the markcomb" />
+          <meta name="description" content="You can purchase uses here."/>
         </Helmet>
         <header>
           <div className="container">
@@ -72,26 +69,18 @@ const Purchase = (isLoggedIn) => {
         <section className="balance">
           <div className="container">
             <h2 ref={titleRef} className="title">
-              {t("bal")}
-              <span>{t("ance")}</span>
+              {t("PUR")}
+              <span>{t("CHASE")}</span>
             </h2>
             <div className="balance__block">
               <h3 className="balance-block__money">
-                {isLoggedIn.isLoggedIn
-                  ? "$100"
+                {isLoggedIn
+                  ? userData?.user?.username
                   : "Firstly,log in to your account"}
               </h3>
               <h3 className="balance-block__uses">
-                {isLoggedIn.isLoggedIn ? "100 uses" : ""}
+                {isLoggedIn ? userData?.user?.uses + " uses" : ""}
               </h3>
-              <div className="balance-block__variants">
-                <button className="variant">
-                  <img loading="lazy" src={payPic} alt="bank card" className="variant__img" />
-                </button>
-                <button className="variant">
-                  <img loading="lazy" src={payPal} alt="paypal" className="variant__img" />
-                </button>
-              </div>
             </div>
           </div>
         </section>

@@ -12,6 +12,29 @@ import MailVerification from "../mailVerification.js";
 const mailVerification = new MailVerification();
 
 class UserController {
+  ipInfoKey = process.env.IP_INFO_API_KEY;
+
+  async getUserIp() {
+    try {
+      const response = await fetch(
+        `https://ipinfo.io/json?token=${this.ipInfoKey}`
+      );
+      const data = await response.json();
+      console.log(data)
+      switch (data.country) {
+        case "RU":
+          return "ru";
+        case "ES":
+          return "es";
+        default:
+          return "en";
+      }
+    } catch (error) {
+      console.error("Ошибка при получении IP:", error);
+      return "en"; // Значение по умолчанию в случае ошибки
+    }
+  }
+
   async getAllUsers(req, res) {
     try {
       const users = await pool.query(`SELECT * FROM users`);
@@ -39,6 +62,10 @@ class UserController {
       }
 
       const user = userResult.rows[0];
+
+      const lang = await this.getUserIp(); // Получаем язык
+
+      user.lang = lang;
 
       console.log("КАБИНЕТ ПОЛЬЗОВАТЕЛя:", user);
       const isPasswordValid = await this.comparePassword(
@@ -84,11 +111,12 @@ class UserController {
           username: user.username,
           uses: user.uses,
           password: user.password,
+          lang : user.lang
         },
         channels: userChannels.rows,
       });
 
-      const endTime = process.hrtime(startTime); // Засекаем разницу
+      const endTime = process.hrtime(startTime); 
       const executionTime = endTime[0] * 1000 + endTime[1] / 1e6;
 
       console.log(executionTime);
@@ -142,7 +170,8 @@ class UserController {
   }
 
   async addUser(req, res) {
-    const { email, password, username, verification_code, recaptchaValue } =
+    try{
+      const { email, password, username, verification_code, recaptchaValue } =
       req.body.data;
     console.log("🔍 Новый запрос на верификацию получен!");
 
@@ -195,6 +224,16 @@ class UserController {
 
     // Ответ с данными нового пользователя
     res.json(addUser.rows[0]);
+    } catch (error) {
+      if (error.code === '23505') {
+        // Ошибка "duplicate key value"
+        return res.status(400).json({ error: 'Email is already in use' });
+      }
+
+      // Обработка других ошибок
+      console.error(err);
+      res.status(500).json({ error: 'Internal server error' });
+    }
   }
 
   async updateUser(req, res) {
@@ -281,7 +320,7 @@ class UserController {
   async deleteUser(req, res) {
     const id = parseInt(req.params.id, 10);
     const password = req.body.data;
-    
+
     const tokenFromClient = req.headers["x-csrf-token"];
     const tokenFromSession = req.session.csrfToken;
 

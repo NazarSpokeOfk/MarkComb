@@ -101,7 +101,7 @@ class DataToDB {
       }
     } catch (error) {
       console.log("Возникла ошибка при регистрации.", error);
-      return Promise.reject();
+      return {status : "already"};
     }
   }
 

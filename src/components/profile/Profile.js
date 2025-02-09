@@ -5,12 +5,12 @@ import SmoothEffect from "../smoothText";
 import VerifPassword from "../modal/verifPassword.js";
 
 import { ToastContainer , toast } from "react-toastify";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useState, useEffect } from "react";
 
-const Profile = ({ userData, setUserData , setIsLoggedIn , csrfToken }) => {
+const Profile = ({ userData, setUserData , setIsLoggedIn , csrfToken , isLoggedIn }) => {
   const { t, i18n } = useTranslation();
   const [isNameChanged, setIsNameChanged] = useState(false);
   const [localName, setLocalName] = useState(userData?.user?.username || "");
@@ -26,6 +26,14 @@ const Profile = ({ userData, setUserData , setIsLoggedIn , csrfToken }) => {
     user_id: userData?.user?.user_id,
     changeMethod: "",
   });
+
+  const navigate = useNavigate()
+
+  useEffect(()=>{
+    if(!isLoggedIn){
+      navigate("/")
+    }
+  },[])
 
   const handleNameChange = (e) => {
     const value = e.target.value;
