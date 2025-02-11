@@ -1,8 +1,8 @@
 import "./profile.css";
 import Edit from "../../images/image 70.png";
 
-import SmoothEffect from "../smoothText";
-import VerifPassword from "../modal/verifPassword.js";
+import SmoothEffect from "../smoothText.js";
+import VerifPassword from "../modal/verifPassword.jsx";
 
 import { ToastContainer , toast } from "react-toastify";
 import { Link,useNavigate } from "react-router-dom";

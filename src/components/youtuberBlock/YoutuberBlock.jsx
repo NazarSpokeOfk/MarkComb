@@ -52,79 +52,85 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
   
     // Проверка перед выполнением, чтобы не дублировать запросы
     if (btnsState[buttonId]?.isProcessing) return;
+    
+    if(userData.user.uses > 0){
+      try {
+        const result = await fetch("http://localhost:5001/api/getdata",{
+          method : "POST",
+          credentials : "include",
+          headers : {
+            "Content-type":"application/json",
+            "X-CSRF-Token" : csrfToken
+          },
+          body : JSON.stringify({ channelId : data.channelId})
+        })
+        const response = await result.json()
+        console.log("Ответ от getData в youtuberblock:",response)
   
-    try {
-      const result = await fetch("http://localhost:5001/api/getdata",{
-        method : "POST",
-        credentials : "include",
-        headers : {
-          "Content-type":"application/json",
-          "X-CSRF-Token" : csrfToken
-        },
-        body : JSON.stringify({ channelId : data.channelId})
-      })
-      const response = await result.json()
-      console.log("Ответ от getData в youtuberblock:",response)
+        if (!response || response.length === 0) {
+          setBtnsState((prev) => ({
+            ...prev,
+            [buttonId]: {
+              isProcessing: false,
+              class: "fail",
+            },
+          }));
+          isProcessingRef.current[buttonId] = false;
+          return;
+        }
+    
+        if (buttonId === 1) {
+          console.log("Проверочка:",SimilarChannelData?.[0]?.thumbnail)
+          dataToDB.validatePurchaseData(
+            {
+              thumbnail: SimilarChannelData?.[0]?.thumbnail || "",
+              email: response?.[0] || "", //тут был result.
+              channelName: SimilarChannelData?.[0]?.title || "",
+              uses: 1,
+            },
+            userData?.user?.user_id,
+            csrfToken
+          );
+        } else {
+          dataToDB.validatePurchaseData(
+            {
+              thumbnail: channelData?.updatedData?.[0]?.thumbnail || "",
+              email: response?.[0] || "", // тут был result
+              channelName: channelData?.updatedData?.[0]?.title || "",
+              uses: 1,
+            },
+            userData?.user?.user_id,
+            csrfToken
+          );
+        }
+        console.log(response)
+        setBtnsState((prev) => ({
+          ...prev,
+          [buttonId]: {
+            isProcessing: false,
+            class: response.length === 0 ? "fail" : "success", //тут был result
+          },
+        }));
+      } catch (error) {
+        console.log("Ошибка в передаче данных:", error);
+      } finally {
+        timeout2 = setTimeout(() => {
+          isProcessingRef.current[buttonId] = false;
+          setBtnsState((prev) => ({
+            ...prev,
+            [buttonId]: {
+              class: "default",
+              isProcessing: false,
+            },
+          }));
+        }, 2000);
+      }
 
-      if (!response || response.length === 0) {
-        setBtnsState((prev) => ({
-          ...prev,
-          [buttonId]: {
-            isProcessing: false,
-            class: "fail",
-          },
-        }));
-        isProcessingRef.current[buttonId] = false;
-        return;
-      }
-  
-      if (buttonId === 1) {
-        console.log("Проверочка:",SimilarChannelData?.[0]?.thumbnail)
-        dataToDB.validatePurchaseData(
-          {
-            thumbnail: SimilarChannelData?.[0]?.thumbnail || "",
-            email: response?.[0] || "", //тут был result.
-            channelName: SimilarChannelData?.[0]?.title || "",
-            uses: 1,
-          },
-          userData?.user?.user_id,
-          csrfToken
-        );
-      } else {
-        dataToDB.validatePurchaseData(
-          {
-            thumbnail: channelData?.updatedData?.[0]?.thumbnail || "",
-            email: response?.[0] || "", // тут был result
-            channelName: channelData?.updatedData?.[0]?.title || "",
-            uses: 1,
-          },
-          userData?.user?.user_id,
-          csrfToken
-        );
-      }
-  
-      setBtnsState((prev) => ({
-        ...prev,
-        [buttonId]: {
-          isProcessing: false,
-          class: response.length === 0 ? "fail" : "success", //тут был result
-        },
-      }));
-    } catch (error) {
-      console.log("Ошибка в передаче данных:", error);
-    } finally {
-      timeout2 = setTimeout(() => {
-        isProcessingRef.current[buttonId] = false;
-        setBtnsState((prev) => ({
-          ...prev,
-          [buttonId]: {
-            class: "default",
-            isProcessing: false,
-          },
-        }));
-      }, 2000);
+    } else {
+      toast.error("You have no uses!")
+      return
     }
-  
+
     // Очистка таймаутов
     return () => {
       clearTimeout(timeout1);
