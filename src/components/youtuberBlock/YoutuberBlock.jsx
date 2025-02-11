@@ -28,11 +28,9 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
     toast.warning(t("You already bought this data."));
   };
 
-  useEffect(()=>{
-    console.log("channelData:",channelData)
-  },[channelData])
-
   const handleButtonClick = async (data, buttonId) => {
+
+    console.log("Данные полученные в handleButtonClick : ",data)
     let timeout1, timeout2, timeout3;
   
     if (!data?.channelId) {
@@ -267,7 +265,8 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
                 alreadyHave()
                 return;
               } else {
-                handleButtonClick(SimilarChannelData?.[0], 1);
+                console.log("SimilarChannelData:" , SimilarChannelData)
+                handleButtonClick(SimilarChannelData, 1);
               }
             }}
           >

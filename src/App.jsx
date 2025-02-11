@@ -35,6 +35,10 @@ function App() {
     password: "",
   });
 
+  useEffect(()=>{
+    console.log("SimilarChannelData : ",SimilarChannelData)
+  },[SimilarChannelData])
+
   return (
     <Router>
       <Routes>
