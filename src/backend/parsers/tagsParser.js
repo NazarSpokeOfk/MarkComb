@@ -1,72 +1,138 @@
-import puppeteer from 'puppeteer';
-import fs  from 'fs';
-import { json } from 'stream/consumers';
+import puppeteer from "puppeteer";
+import fs from "fs";
+import path from "path";
 
+import dotenv from "dotenv";
+
+dotenv.config({ path: path.resolve(process.cwd(), "../.env") });
+
+console.log("API Key:", process.env.GOOGLE_API_KEY);
+
+const apiKey = process.env.GOOGLE_API_KEY;
+console.log("Апи ключ:", apiKey);
 
 const TEENS_RESULTS_FILE = "../channelsStorage/teenagersStorage.json";
 const KIDS_RESULTS_FILE = "../channelsStorage/kidsStorage.json";
-const ADULTS_RESULTS_FILE = "../channelsStorage/adultsStorage.json"
-const OLDER_RESULTS_FILE = "../channelsStorage/olderGenStorage.json"
+const ADULTS_RESULTS_FILE = "../channelsStorage/adultsStorage.json";
+const OLDER_RESULTS_FILE = "../channelsStorage/olderGenStorage.json";
 
 async function loadCookies(page) {
-    const cookies = JSON.parse(fs.readFileSync('cookies.json', 'utf8'));
-    await page.setCookie(...cookies);
+  const cookies = JSON.parse(fs.readFileSync("cookies.json", "utf8"));
+  await page.setCookie(...cookies);
+}
+
+async function getChannelId(videoTheme) {
+  try {
+    const response = await fetch(
+      `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(
+        videoTheme
+      )}&type=channel&key=${apiKey}`
+    );
+    const result = await response.json();
+
+    console.log("Результат getChannelId : ", result);
+
+    if (!result.items || result.items.length === 0) {
+      console.log("Не найдено каналов по теме:", videoTheme);
+      return [];
+    }
+
+    return result.items.map((item) => item?.id?.channelId).filter(Boolean);
+  } catch (error) {
+    console.log("Возникла ошибка в getChannelID : ", error);
+    return [];
+  }
+}
+
+async function getVideoIds(channelIds) {
+  try {
+    let videoIDs = [];
+    for (let channelId of channelIds) {
+      const response = await fetch(
+        `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&order=date&maxResults=5&type=video&key=${apiKey}`
+      );
+      const result = await response.json();
+
+      if (result.items) {
+        const ids = result.items.map((item) => item?.id?.videoId).filter(Boolean);
+        videoIDs.push(...ids);
+      }
+    }
+    console.log("Результат getVideoIds : ", videoIDs);
+    return videoIDs;
+  } catch (error) {
+    console.log("Возникла ошибка в getVideoIds : ", error);
+    return [];
+  }
 }
 
 async function getYouTubeKeywords(videoId) {
-    const url = `https://www.youtube.com/watch?v=${videoId}`;
+  const url = `https://www.youtube.com/watch?v=${videoId}`;
 
-    const browser = await puppeteer.launch({
-        headless: true, // Запуск без UI
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
-    });
+  const browser = await puppeteer.launch({
+    headless: true, // Запуск без UI
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  });
 
-    const page = await browser.newPage();
-    await loadCookies(page); // Загружаем cookies (авторизация)
+  const page = await browser.newPage();
+  await loadCookies(page); // Загружаем cookies (авторизация)
 
-    await page.goto(url, { waitUntil: 'domcontentloaded' });
+  await page.goto(url, { waitUntil: "domcontentloaded" });
 
-    const keywords = await page.evaluate(() => {
-        const meta = document.querySelector('meta[name="keywords"]');
-        return meta ? meta.content.split(', ') : [];
-    });
+  const keywords = await page.evaluate(() => {
+    const meta = document.querySelector('meta[name="keywords"]');
+    return meta ? meta.content.split(", ") : [];
+  });
 
-    await browser.close();
-    return { videoId, keywords };
+  await browser.close();
+  return { videoId, keywords };
 }
 
-async function saveKeywords(fileName,category,data) {
-    let storage = {};
+async function saveKeywords(fileName, category, data) {
+  let storage = {};
 
-    if(fs.existsSync(fileName)){
-        storage = JSON.parse(fs.readFileSync(fileName, "utf8"))
-    }
+  if (fs.existsSync(fileName)) {
+    storage = JSON.parse(fs.readFileSync(fileName, "utf8"));
+  }
 
-    if(!storage[category]){
-        storage[category] = {}
-    }
+  if (!storage[category]) {
+    storage[category] = {};
+  }
 
-    const existingTags = new Set(storage[category].tags);
-    data.keywords.forEach(tag => {
-        existingTags.add(tag)
-    });
+  const existingTags = new Set(storage[category].tags);
+  data.keywords.forEach((tag) => {
+    existingTags.add(tag);
+  });
 
-    storage[category].tags = Array.from(existingTags);
+  storage[category].tags = Array.from(existingTags);
 
-    fs.writeFileSync(fileName, JSON.stringify(storage,null,2))
+  fs.writeFileSync(fileName, JSON.stringify(storage, null, 2));
 }
 
-async function main(videos) {
-    for (const { videoId, category } of videos) {
-        console.log(`Происходит парсинг видео : ${videoId} для категории: ${category}`)
-        const result = await getYouTubeKeywords(videoId)
-        saveKeywords(TEENS_RESULTS_FILE,category,result);
-        console.log(`Данные для ${videoId} сохранены. \n`)
-    }
+async function tagsReceiptAutomation(category, fileName) {
+  const channelId = await getChannelId("Kids education");
+
+  if (!channelId) {
+    console.log("Канал не найден.");
+    return;
+  }
+
+  console.log(`✅ Channel ID: ${channelId}`);
+
+  const videoIds = await getVideoIds(channelId);
+  if (!videoIds) {
+    console.log("VideoID не найдены.");
+    return;
+  }
+
+  for (const  videoId  of videoIds) {
+    console.log(
+      `Происходит парсинг видео : ${videoId} для категории : ${category}`
+    );
+    const result = await getYouTubeKeywords(videoId);
+    saveKeywords(fileName, category, result);
+    console.log(`Данные для ${videoId} сохранены.\n`);
+  }
 }
 
-const videoList = [
-    { videoId: 'dQw4w9WgXcQ', category: 'Music' },
-    { videoId: '3JZ_D3ELwOQ', category: 'Technologies' }
-];
-main(videoList);
+tagsReceiptAutomation("Education", KIDS_RESULTS_FILE);
