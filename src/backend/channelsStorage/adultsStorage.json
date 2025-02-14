@@ -1,66 +1,81 @@
 {
-    "Animation" : {
+  "Animation": {
+    "channels": [],
+    "tags" : []
+  },
 
-    },
+  "Music": {
+    "channels": [],
+    "tags" : []
+  },
 
-    "Music" : {
+  "Gaming": {
+    "channels": [],
+    "tags" : []
+  },
 
-    },
+  "Comedy": {
+    "channels": [],
+    "tags" : []
+  },
 
-    "Gaming" : {
+  "Education": {
+    "channels": [],
+    "tags" : []
+  },
 
-    },
+  "TechReviews": {
+    "channels": [],
+    "tags" : []
+  },
 
-    "Comedy" : {
+  "Technologies": {
+    "channels": [],
+    "tags" : []
+  },
 
-    },
+  "Fashion": {
+    "channels": [],
+    "tags" : []
+  },
 
-    "Education" : {
+  "Entertaiment": {
+    "channels": [],
+    "tags" : []
+  },
 
-    },
+  "Fitness": {
+    "channels": [],
+    "tags" : []
+  },
 
-    "TechReviews" : {
+  "Health": {
+    "channels": [],
+    "tags" : []
+  },
 
-    },
+  "Beauty": {
+    "channels": [],
+    "tags" : []
+  },
 
-    "Technologies" : {
+  "Politics": {
+    "channels": [],
+    "tags" : []
+  },
 
-    },
+  "News": {
+    "channels": [],
+    "tags" : []
+  },
 
-    "Fashion" : {
+  "Travel": {
+    "channels": [],
+    "tags" : []
+  },
 
-    },
-
-    "Entertaiment" : {
-
-    },
-
-    "Fitness" : {
-
-    },
-
-    "Health" : {
-
-    },
-
-    "Beauty" : {
-
-    },
-
-    "Politics" : {
-
-    },
-
-    "News" : {
-        
-    },
-
-    "Travel" : {
-
-    },
-
-    "Vlogs" : {
-        
-    }
-
+  "Vlogs": {
+    "channels": [],
+    "tags" : []
+  }
 }

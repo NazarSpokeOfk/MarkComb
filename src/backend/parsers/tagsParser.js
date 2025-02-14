@@ -1,8 +1,11 @@
 import puppeteer from "puppeteer";
 import fs from "fs";
 import path from "path";
+import readline from "readline";
 
 import dotenv from "dotenv";
+
+import getChannelByTag from "./channelsParser";
 
 dotenv.config({ path: path.resolve(process.cwd(), "../.env") });
 
@@ -54,7 +57,9 @@ async function getVideoIds(channelIds) {
       const result = await response.json();
 
       if (result.items) {
-        const ids = result.items.map((item) => item?.id?.videoId).filter(Boolean);
+        const ids = result.items
+          .map((item) => item?.id?.videoId)
+          .filter(Boolean);
         videoIDs.push(...ids);
       }
     }
@@ -109,8 +114,19 @@ async function saveKeywords(fileName, category, data) {
   fs.writeFileSync(fileName, JSON.stringify(storage, null, 2));
 }
 
-async function tagsReceiptAutomation(category, fileName) {
-  const channelId = await getChannelId("Kids education");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const askQuestion = (question) => {
+  return new Promise((resolve) => {
+    rl.question(question, (answer) => resolve(answer));
+  });
+};
+
+async function tagsReceiptAutomation(videoTheme, category, fileName) {
+  const channelId = await getChannelId(videoTheme);
 
   if (!channelId) {
     console.log("Канал не найден.");
@@ -125,14 +141,79 @@ async function tagsReceiptAutomation(category, fileName) {
     return;
   }
 
-  for (const  videoId  of videoIds) {
+  for (const videoId of videoIds) {
     console.log(
       `Происходит парсинг видео : ${videoId} для категории : ${category}`
     );
     const result = await getYouTubeKeywords(videoId);
+
     saveKeywords(fileName, category, result);
     console.log(`Данные для ${videoId} сохранены.\n`);
   }
 }
 
-tagsReceiptAutomation("Education", KIDS_RESULTS_FILE);
+const FILES_MAP = {
+  KIDS_RESULTS_FILE: KIDS_RESULTS_FILE,
+  TEENS_RESULTS_FILE: TEENS_RESULTS_FILE,
+  ADULTS_RESULTS_FILE: ADULTS_RESULTS_FILE,
+  OLDER_RESULTS_FILE: OLDER_RESULTS_FILE,
+};
+
+(async () => {
+  const videoTheme = await askQuestion("Введите тему : ");
+  const category = await askQuestion(
+    "Введите категорию, в которую будут записаны тэги : "
+  );
+  let fileName = await askQuestion(
+    "Введите файл, в котором будут храниться тэги : "
+  );
+
+  console.log(
+    `Тема видео : ${videoTheme} , категория : ${category} , имя файла : ${fileName}`
+  );
+
+  if (FILES_MAP[fileName]) {
+    fileName = FILES_MAP[fileName];
+  } else {
+    console.log(`Файла  ${fileName} не существует.`);
+    return;
+  }
+
+  await tagsReceiptAutomation(videoTheme, category, fileName);
+
+  rl.close();
+
+  await proccessChannelSearch(category, fileName);
+})
+
+async function proccessChannelSearch (category,filename) {
+  const recordChannels = await askQuestion(
+    `Начать запись каналов, исходя из имеющихся тэгов в категорию ${category} ? (Да/Нет) : `
+  );
+
+  if (recordChannels.toLowerCase() !== "да") {
+    console.log("Работа завершена.");
+    return;
+  } try {
+    const data = await fs.readFileSync(filename,'utf8')
+    const jsonData = await JSON.parse(data);
+    const tags = jsonData.category ? jsonData.category.tags.slice(0,2) : null;
+
+    console.log("Полученные тэги : " , tags)
+
+    const response = await getChannelByTag(tags)
+
+    if(!jsonData[category]){
+      jsonData[category] = { channels: [] };
+    } 
+
+    jsonData[category].channels.push(response)
+    
+    await fs.writeFile(filename,JSON.stringify(response,null,2))
+
+    console.log(`Канал(-ы) был(-и) записан(-ы) в ${filename}`)
+  } catch (error) {
+    console.log("Возникла ошибка в записи каналов : " , error)
+  }
+}
+    

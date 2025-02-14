@@ -1,54 +1,66 @@
 {
-    "Animation" : {
+  "Animation": {
+    "channels": [],
+    "tags": []
+  },
 
-    },
+  "Music": {
+    "channels": [],
+    "tags": []
+  },
 
-    "Music" : {
+  "Comedy": {
+    "channels": [],
+    "tags": []
+  },
 
-    },
+  "Education": {
+    "channels": [],
+    "tags": []
+  },
 
-    "Comedy" : {
+  "TechReviews": {
+    "channels": [],
+    "tags": []
+  },
 
-    },
+  "Technologies": {
+    "channels": [],
+    "tags": []
+  },
 
-    "Education" : {
+  "Fashion": {
+    "channels": [],
+    "tags": []
+  },
 
-    },
+  "Entertaiment": {
+    "channels": [],
+    "tags": []
+  },
 
-    "TechReviews" : {
+  "Fitness": {
+    "channels": [],
+    "tags": []
+  },
 
-    },
+  "Health": {
+    "channels": [],
+    "tags": []
+  },
 
-    "Technologies" : {
+  "Beauty": {
+    "channels": [],
+    "tags": []
+  },
 
-    },
+  "Politics": {
+    "channels": [],
+    "tags": []
+  },
 
-    "Fashion" : {
-
-    },
-
-    "Entertaiment" : {
-
-    },
-
-    "Fitness" : {
-
-    },
-
-    "Health" : {
-
-    },
-
-    "Beauty" : {
-
-    },
-
-    "Politics" : {
-
-    },
-
-    "News" : {
-        
-    }
-
+  "News": {
+    "channels": [],
+    "tags": []
+  }
 }

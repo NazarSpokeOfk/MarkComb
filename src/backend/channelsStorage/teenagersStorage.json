@@ -1,5 +1,8 @@
 {
   "Animation": {
+    "channels" : [
+
+    ],
     "tags": [
       "動漫",
       "動畫",
@@ -314,6 +317,9 @@
     ]
   },
   "Music": {
+    "channels" : [
+      
+    ],
     "tags": [
       "sample drill type beat",
       "sample drill",
@@ -425,6 +431,9 @@
     ]
   },
   "Gaming": {
+    "channels" : [
+      
+    ],
     "tags": [
       "pc",
       "gameplay",
@@ -641,6 +650,9 @@
     ]
   },
   "Comedy": {
+    "channels" : [
+      
+    ],
     "tags": [
       "камеди клаб",
       "камеди",
@@ -944,6 +956,9 @@
     ]
   },
   "Education": {
+    "channels" : [
+      
+    ],
     "tags": [
       "studypoint",
       "ivi-education",
@@ -1032,6 +1047,9 @@
     ]
   },
   "Technologies": {
+    "channels" : [
+      
+    ],
     "tags": [
       "Ray",
       "William",
@@ -1059,6 +1077,9 @@
     ]
   },
   "Fashion": {
+    "channels" : [
+      
+    ],
     "tags": [
       "fashion trend",
       "fashion trends",
@@ -1244,6 +1265,9 @@
     ]
   },
   "Entertaiment": {
+    "channels" : [
+      
+    ],
     "tags": [
       "JYP Entertainment",
       "JYP",
@@ -1647,6 +1671,9 @@
     ]
   },
   "Fitness": {
+    "channels" : [
+      
+    ],
     "tags": [
       "abdos",
       "c8",
@@ -1694,6 +1721,9 @@
     ]
   },
   "Health": {
+    "channels" : [
+      
+    ],
     "tags": [
       "2025 diets",
       "DASH diet",
@@ -1980,6 +2010,9 @@
     ]
   },
   "Beauty": {
+    "channels" : [
+      
+    ],
     "tags": [
       "Narıns beauty",
       "نارين",
@@ -2036,6 +2069,9 @@
     ]
   },
   "Politics": {
+    "channels" : [
+      
+    ],
     "tags": [
       "Canada",
       "Politics",
@@ -2212,6 +2248,9 @@
     ]
   },
   "News": {
+    "channels" : [
+      
+    ],
     "tags": [
       "増田貴久",
       "まっすー",
@@ -2392,6 +2431,9 @@
     ]
   },
   "Travel": {
+    "channels" : [
+      
+    ],
     "tags": [
       "travel bean",
       "travel",
@@ -2607,6 +2649,9 @@
     ]
   },
   "Vlogs": {
+    "channels" : [
+      
+    ],
     "tags": [
       "nobru",
       "nobru vlogs",
@@ -2703,6 +2748,9 @@
     ]
   },
   "Tech Reviews": {
+    "channels" : [
+      
+    ],
     "tags": [
       "OneUI 7.0 Stable Update",
       "OneUI 7.0 vs 6.1",
