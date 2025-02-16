@@ -5,14 +5,10 @@ import readline from "readline";
 
 import dotenv from "dotenv";
 
-import getChannelByTag from "./channelsParser";
-
+import getChannelByTag from "./channelsParser.js"
 dotenv.config({ path: path.resolve(process.cwd(), "../.env") });
 
-console.log("API Key:", process.env.GOOGLE_API_KEY);
-
 const apiKey = process.env.GOOGLE_API_KEY;
-console.log("Апи ключ:", apiKey);
 
 const TEENS_RESULTS_FILE = "../channelsStorage/teenagersStorage.json";
 const KIDS_RESULTS_FILE = "../channelsStorage/kidsStorage.json";
@@ -22,6 +18,11 @@ const OLDER_RESULTS_FILE = "../channelsStorage/olderGenStorage.json";
 async function loadCookies(page) {
   const cookies = JSON.parse(fs.readFileSync("cookies.json", "utf8"));
   await page.setCookie(...cookies);
+}
+
+const randomNum = (min,max) => {
+  const num = Math.floor(Math.random() * (max - min) + min)
+  return num
 }
 
 async function getChannelId(videoTheme) {
@@ -165,7 +166,7 @@ const FILES_MAP = {
     "Введите категорию, в которую будут записаны тэги : "
   );
   let fileName = await askQuestion(
-    "Введите файл, в котором будут храниться тэги : "
+    "Введите файл, в котором будут храниться тэги (TEENS_RESULTS_FILE/KIDS_RESULTS_FILE/ADULTS_RESULTS_FILE/OLDER_RESULTS_FILE) : "
   );
 
   console.log(
@@ -181,10 +182,11 @@ const FILES_MAP = {
 
   await tagsReceiptAutomation(videoTheme, category, fileName);
 
+  await proccessChannelSearch(category, fileName);
+
   rl.close();
 
-  await proccessChannelSearch(category, fileName);
-})
+})();
 
 async function proccessChannelSearch (category,filename) {
   const recordChannels = await askQuestion(
@@ -194,26 +196,36 @@ async function proccessChannelSearch (category,filename) {
   if (recordChannels.toLowerCase() !== "да") {
     console.log("Работа завершена.");
     return;
-  } try {
-    const data = await fs.readFileSync(filename,'utf8')
-    const jsonData = await JSON.parse(data);
-    const tags = jsonData.category ? jsonData.category.tags.slice(0,2) : null;
+  } else {
+    try {
+      const data = fs.readFileSync(filename, "utf8"); 
+      const jsonData = await JSON.parse(data);
 
-    console.log("Полученные тэги : " , tags)
-
-    const response = await getChannelByTag(tags)
-
-    if(!jsonData[category]){
-      jsonData[category] = { channels: [] };
-    } 
-
-    jsonData[category].channels.push(response)
-    
-    await fs.writeFile(filename,JSON.stringify(response,null,2))
-
-    console.log(`Канал(-ы) был(-и) записан(-ы) в ${filename}`)
-  } catch (error) {
-    console.log("Возникла ошибка в записи каналов : " , error)
+      const getRandomTags = (tags, count = 2) => {
+        if (tags.length <= count) return tags; 
+      
+        const shuffled = [...tags].sort(() => Math.random() - 0.5); 
+        return shuffled.slice(0, count); 
+      };
+      
+      const tags = getRandomTags(jsonData[category].tags);      
+  
+      console.log("Полученные тэги : " , tags)
+  
+      const response = await getChannelByTag(tags)
+  
+      if(!jsonData[category]){
+        jsonData[category] = { channels: [] };
+      } 
+  
+      jsonData[category].channels.push(response)
+      
+      fs.writeFileSync(filename,JSON.stringify(jsonData,null,2))
+  
+      console.log(`Канал(-ы) был(-и) записан(-ы) в ${filename}`)
+    } catch (error) {
+      console.log("Возникла ошибка в записи каналов : " , error)
+    }
   }
-}
+  }
     

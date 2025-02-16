@@ -1,8 +1,8 @@
 import dotenv from "dotenv";
+import path from "path";
 
 dotenv.config({ path: path.resolve(process.cwd(), "../.env") });
 
-console.log("API Key:", process.env.GOOGLE_API_KEY);
 
 const apiKey = process.env.GOOGLE_API_KEY;
 
@@ -14,7 +14,7 @@ const getChannelByTag = async (tags) => {
       )}&type=video&maxResults=10&key=${apiKey}`
     );
     const result = await response.json()
-    const channelIds = result.items.map((item)=>item.snippet.id.channelId);
+    const channelIds = result.items.map((item)=>item.snippet.channelId);
     console.log("channelIds : " , channelIds)
     return [...new Set(channelIds)]
   } catch (error) {

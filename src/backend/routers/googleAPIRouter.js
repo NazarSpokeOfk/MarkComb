@@ -44,7 +44,7 @@ const router = new Router();
 
 router.post("/search" , searchLimiter, (req,res) => searchAPIController.handleSearch(req,res))
 router.post("/content-type" , filterLimiter , (req,res) => filterAPIController.searchByContentType(req,res))
-router.post("/audience" , filterLimiter,  (req,res) => filterAPIController.searchContentByTargetAudience(req,res))
+// router.post("/audience" , filterLimiter,  (req,res) => filterAPIController.searchContentByTargetAudience(req,res))
 router.post("/subscribers" , filterLimiter ,  (req,res) => filterAPIController.searchContentBySubsQuantity(req,res))
 router.post("/getdata" , filterLimiter , (req,res) => GetData(req,res))
 router.post("/video" , (req,res) => promotionAPIController.channelAndVideoSearch(req,res))

@@ -184,7 +184,8 @@
       "for children",
       "kids learning videos",
       "toddler learning"
-    ]
+    ],
+    "audience" : "All ages"
   },
   "Music": {
     "channels": [],
@@ -396,7 +397,8 @@
       "peppa pig english episodes",
       "peppa pig my first album",
       "hide and seek"
-    ]
+    ],
+    "audience" : "All ages"
   },
   "Gaming": {
     "channels": [],
@@ -907,7 +909,8 @@
       "rbtv krogi",
       "rbtv simon",
       "simon krätschmer"
-    ]
+    ],
+    "audience" : "All ages"
   },
   "Comedy": {
     "channels": [],
@@ -983,7 +986,8 @@
       "Best Animals Video",
       "laugh",
       "Try not to laugh"
-    ]
+    ],
+    "audience" : "All ages"
   },
   "Education": {
     "channels": [],
@@ -1267,7 +1271,8 @@
       "kids rhymes",
       "poem",
       "early elementary education"
-    ]
+    ],
+    "audience" : "All ages"
   },
   "TechReviews": {
     "channels": [],
@@ -1504,7 +1509,8 @@
       "#2025iPhone",
       "#AppleTech",
       "#iPhoneDurability"
-    ]
+    ],
+    "audience" : "All ages"
   },
   "Travel": {
     "channels": [],
@@ -1770,11 +1776,13 @@
       "mein schiff cruise",
       "tui cruise mein schiff",
       "tui cruises crew"
-    ]
+    ],
+    "audience" : "Kids,teenagers,adults"
   },
   "Vlogs": {
     "channels": [],
-    "tags": []
+    "tags": [],
+    "audience" : "Kids,teenagers"
   },
   "Entertainment": {
     "channels": [],
@@ -2100,6 +2108,7 @@
       "mister bist",
       "j'arrête tout mrbeast",
       "dernière vidéo"
-    ]
+    ],
+    "audience" : "All ages"
   }
 }
