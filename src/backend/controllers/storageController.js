@@ -20,6 +20,7 @@ class StorageController {
   };
   async getRandomChannelByAudience(req, res) {
     const { Audience } = req.body;
+    console.log("Аудитория : ",Audience)
     let jsonData;
     if (fs.existsSync(this.storagesCase[Audience])) {
       const fileData = fs.readFileSync(this.storagesCase[Audience]);
@@ -127,10 +128,9 @@ class StorageController {
           subs: result?.items?.[0]?.statistics?.subscriberCount,
           contenttype: contentType,
           targetAudience: audience,
+          thumbnail : result?.items?.[0]?.snippet?.thumbnails?.medium?.url,
+          channelId : channelId
         };
-
-        console.log("channelData : ",channelData)
-
         return channelData;
       } else {
         return false;

@@ -2,7 +2,9 @@ const manageFiltersFetch = async (
   operationType,
   ContentType,
   setSimilarChannelData,
-  Audience
+  Audience,
+  subsQuantity,
+  offset
 ) => {
   try {
     let response;
@@ -13,13 +15,21 @@ const manageFiltersFetch = async (
           method: "GET",
         }
       );
+    } else if(operationType === "subscribers") {
+      response = await fetch(`http://localhost:5001/api/subscribers`, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({subsQuantity,offset}),
+      });
     } else {
       response = await fetch(`http://localhost:5001/api/audience`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",
         },
-        body: JSON.stringify({ Audience }),
+        body: JSON.stringify({Audience}),
       });
     }
 

@@ -1,7 +1,5 @@
-import { toast } from "react-toastify";
 
 class FilterAPIController {
-  previousThemes = [];
   Categories = {
     Kids: [
       "Animation",
@@ -208,134 +206,9 @@ class FilterAPIController {
   };
   apiKey = process.env.GOOGLE_API_KEY;
 
-  async searchByContentType(req, res) {
-    console.log("req.body:", req.body);
-    const { theme, lang } = req.body.bodyData;
-    console.log("Язык, по которому будет поиск:", lang);
-    const themesLanguages = {
-      ru: {
-        Animation: "Анимация",
-        Vlogs: "Влоги",
-        Music: "Музыка",
-        Comedy: "Комедия",
-        Education: "Образование",
-        Travel: "Путешествия",
-        Entertaiment: "Развлечения",
-        NewsCommentary: "Новости",
-        FitnessHealth: "Фитнесс и здоровье",
-        Gaming: "Компьютерные игры",
-      },
-      en: {
-        Animation: "Animation",
-        Vlogs: "Vlogs",
-        Music: "Music",
-        Comedy: "Comedy",
-        Travel: "Travel",
-        Entertaiment: "Entertaiment",
-        NewsCommentary: "NewsCommentary",
-        FitnessHealth: "FitnessHealth",
-        Gaming: "Gaming",
-      },
-    };
-
-    const languageObject = themesLanguages[lang];
-    let transletedTheme;
-    // Если объект с переводами для данного языка найден
-    if (languageObject) {
-      // Возвращаем перевод для конкретной темы
-      transletedTheme = languageObject[theme] || theme; // Если перевод не найден, возвращаем тему как есть
-    }
-
-    try {
-      //Id for Genre
-      const idUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(
-        transletedTheme
-      )}&type=video&maxResults=1&relevanceLanguage=${lang}&key=${this.apiKey}`;
-
-      const result = await fetch(
-        `https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&maxResults=1&q=${transletedTheme}&relevanceLanguage=${lang}&key=${this.apiKey}`
-      );
-      const rawData = await result.json();
-      const finalData = rawData.items.map(this.transformRes);
-      // console.log("Результат запроса:", finalData);
-
-      const updatedData = await Promise.all(
-        finalData.map(async (channel) => {
-          const subsCount = await this.getSubsCount(channel.channelId);
-          const genreId = await this.run(idUrl); //Тут сомнительный момент, нам не нужен жанр, но целевую аудиторию я не знаю как определить без жанра
-          // console.log("genreID:",genreId)
-          const genre = genreId ? this.getCatById(genreId) : "unknown category";
-          return { ...channel, subsCount, genre };
-        })
-      );
-
-      // console.log(updatedData)
-
-      res.json({ updatedData }); // Важно возвращать данные
-    } catch (error) {
-      console.error("Ошибка при выполнении запроса:", error);
-    }
-  }
-
-  async searchContentByTargetAudience(req, res) {
-    const { Audience } = req.body.bodyData;
-    console.log("Аудитория:", Audience);
-    const entry = Object.entries(this.Categories).find(
-      ([key, value]) => key === Audience
-    );
-
-    // Массив для хранения ранее выбранных значений
-    
-    const randomTheme = entry
-      ? (() => {
-          let newTheme;
-          // Генерируем новое значение, которое еще не было выбрано
-          do {
-            newTheme = entry[1][Math.floor(Math.random() * entry[1].length)];
-          } while (this.previousThemes.includes(newTheme)); // Пока оно не новое, генерируем заново
-
-          // Сохраняем новое значение в массив
-          this.previousThemes.push(newTheme);
-
-          return newTheme;
-        })()
-      : null;
-
-    console.log("Прошлые темы, и рандомная : ", this.previousThemes, randomTheme);
-
-    const idUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(
-      randomTheme
-    )}&type=video&maxResults=1&key=${this.apiKey}`;
-
-    const requestRandomTheme = await fetch(
-      `https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&q=${randomTheme}&maxResults=1&key=${this.apiKey}`
-    );
-    console.log("Рандомная тема:", randomTheme);
-
-    const rawRandomData = await requestRandomTheme.json();
-
-    console.log("Ответ от API:", rawRandomData);
-
-    const finalData = rawRandomData.items.map((item) => {
-      const transformed = this.transformRes(item);
-      console.log("Трансформированные данные:", transformed);
-      return transformed;
-    });
-
-    const updatedData = await Promise.all(
-      finalData.map(async (channel) => {
-        const subsCount = await this.getSubsCount(channel.channelId);
-        const genreId = await this.run(idUrl); //Тут сомнительный момент, нам не нужен жанр, но целевую аудиторию я не знаю как определить без жанра
-        const genre = genreId ? this.getCatById(genreId) : "unknown category";
-        return { ...channel, subsCount, genre };
-      })
-    );
-    res.json({ updatedData });
-  }
-
   async searchContentBySubsQuantity(req, res) {
     console.log("req.body:", req.body);
-    const { subsQuantity, offset } = req.body.bodyData;
+    const { subsQuantity, offset } = req.body;
 
     console.log("subsQuantity:", subsQuantity);
 
@@ -379,7 +252,7 @@ class FilterAPIController {
       .map((item) => item.id.channelId)
       .join(",");
     if (!channelIdS) {
-      throw new Error("Нет доступных каналов.");
+      console.log("Нет доступных каналов.");
     }
 
     const statsUrl = `https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${channelIdS}&key=${this.apiKey}`;
@@ -404,24 +277,19 @@ class FilterAPIController {
       return;
     }
 
-    const resultArray = [
-      {
+    const result = {
         title: filteredChannel.snippet.title,
         thumbnail: filteredChannel.snippet.thumbnails.medium.url,
-        subsCount: filteredChannel.statistics.subscriberCount,
+        subs: filteredChannel.statistics.subscriberCount,
         channelId: filteredChannel.id,
-      },
-    ];
+    }
 
-    const updatedData = await Promise.all(
-      resultArray.map(async (channel) => {
-        const genreId = await this.run(idUrl);
-        const genre = genreId ? this.getCatById(genreId) : "unknown category";
-        return { ...channel, genre };
-      })
-    );
+    const contentTypeID = await this.run(idUrl);
+    const contenttype = contentTypeID ? this.getCatById(contentTypeID) : "unknown category"
 
-    res.json({ updatedData });
+    const payload = {...result, contenttype};
+
+    res.json({ status : true, payload });
   }
 }
 export default FilterAPIController;

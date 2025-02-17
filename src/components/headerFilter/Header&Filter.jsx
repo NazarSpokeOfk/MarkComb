@@ -9,6 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import Modal from "../modal/Modal";
 import VerifModal from "../modal/VerifModal";
 import checkCookies from "../../checkCookies/checkCookies";
+import manageFiltersFetch from "../../filtersRequests/AudienceAndContentTypeFetches";
 
 import "./Header&Filter.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -32,9 +33,8 @@ const HeaderFilter = ({
   csrfToken,
   userLang,
   setUserCountry,
-  setUserLang
+  setUserLang,
 }) => {
-
   const [isModalOpened, setIsModalOpened] = useState(false);
   const [isDataFilledIn, setIsDataFilledIn] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
@@ -48,7 +48,7 @@ const HeaderFilter = ({
     "Youth",
     "Adults",
     "Teenagers",
-    "Older Generation",
+    "OlderGen",
   ];
   const contentButtonLabels = [
     "Comedy",
@@ -66,7 +66,7 @@ const HeaderFilter = ({
   const filterRef = useRef();
 
   const { t } = useTranslation();
-  
+
   const searchFetch = async (e) => {
     e.preventDefault();
     try {
@@ -88,62 +88,12 @@ const HeaderFilter = ({
     }
   };
 
-  const filterFetch = async (
-    type,
-    theme,
-    Audience,
-    subsQuantity,
-    offset,
-    lang
-  ) => {
-    try {
-      const bodyData = {};
-
-      if (theme && lang) {
-        bodyData.theme = theme;
-        bodyData.lang = lang;
-      }
-
-      if (Audience) {
-        bodyData.Audience = Audience;
-      }
-
-      if (subsQuantity && offset) {
-        console.log("offset:", offset);
-        bodyData.subsQuantity = subsQuantity;
-        bodyData.offset = offset;
-      }
-
-      console.log("Body data:", bodyData);
-
-      console.log("Отправляемые данные:", JSON.stringify(bodyData));
-      const response = await fetch(`http://localhost:5001/api/${type}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-Token": csrfToken,
-        },
-        body: JSON.stringify({ bodyData }),
-      });
-
-      const result = await response.json();
-      console.log("Ответ от сервера:", result);
-      if(result?.status === false){
-        toast.error("Unfortunantly,there is no matching channels.Tre again little bit later.")
-      } else {
-        setSimilarChannelData(result.updatedData?.[0]);
-      }
-    } catch (error) {
-      console.log("Ошибка в filterFetch:", error);
-    }
-  };
-
   const openFilters = () => {
     filterRef.current.classList.toggle("active");
   };
 
   useEffect(() => {
-    checkCookies(setIsLoggedIn, setUserData,setUserLang);
+    checkCookies(setIsLoggedIn, setUserData, setUserLang);
   }, []);
 
   return (
@@ -235,7 +185,6 @@ const HeaderFilter = ({
                   : toast.warn("Firstly,you need to log in.");
               }}
             >
-              {/* request.handleSearch(mainInputState, setChannelData, setIsSearching) */}
               <input className="search__main" type="text" />
               <div className="buttons">
                 <button
@@ -279,14 +228,7 @@ const HeaderFilter = ({
                     }`}
                     onClick={() => {
                       setContentActiveIndex(index);
-                      filterFetch(
-                        "audience",
-                        false,
-                        label,
-                        false,
-                        false,
-                        false
-                      );
+                      manageFiltersFetch("audience" , false , setSimilarChannelData , label);
                     }}
                   >
                     {label}
@@ -302,7 +244,9 @@ const HeaderFilter = ({
               </h2>
               <div className="number__ofsubs__blocks">
                 <div
-                  onClick={() => filterFetch("subscribers", false,false, 1000, 0, false)}
+                  onClick={() =>
+                    filterFetch("subscribers", false, false, 1000, 0, false)
+                  }
                   id="low"
                   className="filter__block"
                 >
@@ -311,7 +255,7 @@ const HeaderFilter = ({
                 </div>
                 <div
                   onClick={() =>
-                    filterFetch("subscribers", false,false, 10000, 1000, false)
+                    filterFetch("subscribers", false, false, 10000, 1000, false)
                   }
                   id="lowplus"
                   className="filter__block"
@@ -321,7 +265,14 @@ const HeaderFilter = ({
                 </div>
                 <div
                   onClick={() =>
-                    filterFetch("subscribers", false,false, 100000, 10000, false)
+                    filterFetch(
+                      "subscribers",
+                      false,
+                      false,
+                      100000,
+                      10000,
+                      false
+                    )
                   }
                   id="medium"
                   className="filter__block"
@@ -331,7 +282,14 @@ const HeaderFilter = ({
                 </div>
                 <div
                   onClick={() =>
-                    filterFetch("subscribers", false , false, 500000, 100000, false)
+                    manageFiltersFetch(
+                      "subscribers",
+                      false,
+                      setSimilarChannelData,
+                      false,
+                      500000,
+                      100000,
+                    )
                   }
                   id="mediumplus"
                   className="filter__block"
@@ -358,7 +316,14 @@ const HeaderFilter = ({
                 </div>
                 <div
                   onClick={() =>
-                    filterFetch("subscribers", false,false, 10000000, 5000000, false)
+                    filterFetch(
+                      "subscribers",
+                      false,
+                      false,
+                      10000000,
+                      5000000,
+                      false
+                    )
                   }
                   id="hiplus"
                   className="filter__block"
@@ -368,7 +333,14 @@ const HeaderFilter = ({
                 </div>
                 <div
                   onClick={() =>
-                    filterFetch("subscribers", false,false, 20000000, 10000000, false)
+                    filterFetch(
+                      "subscribers",
+                      false,
+                      false,
+                      20000000,
+                      10000000,
+                      false
+                    )
                   }
                   id="highest"
                   className="filter__block"
@@ -393,14 +365,7 @@ const HeaderFilter = ({
                     }`}
                     onClick={() => {
                       setActiveIndex(index);
-                      filterFetch(
-                        "content-type",
-                        label,
-                        false,
-                        false,
-                        false,
-                        userLang
-                      );
+                      manageFiltersFetch("content",label,setSimilarChannelData,false)
                     }}
                   >
                     {label}
@@ -425,8 +390,8 @@ const HeaderFilter = ({
             signInData={signInData}
             setSignInData={setSignInData}
             setCsrfToken={setCsrfToken}
-            setUserCountry = {setUserCountry}
-            setUserLang = {setUserLang}
+            setUserCountry={setUserCountry}
+            setUserLang={setUserLang}
           />
         ) : null}
         {isDataFilledIn ? (

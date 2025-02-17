@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useState , useEffect } from "react";
-import { Link } from "react-router-dom";
+import { data, Link } from "react-router-dom";
 import { useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import DataToDB from "../../dataToDB/dataToDB";
@@ -33,7 +33,7 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
     console.log("Данные полученные в handleButtonClick : ",data)
     let timeout1, timeout2, timeout3;
   
-    if (!data?.channelId) {
+    if (!data?.payload?.channelId) {
       logInErrorToast();
       return;
     }
@@ -60,7 +60,7 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
             "Content-type":"application/json",
             "X-CSRF-Token" : csrfToken
           },
-          body : JSON.stringify({ channelId : data.channelId})
+          body : JSON.stringify({ channelId : data.payload.channelId})
         })
         const response = await result.json()
         console.log("Ответ от getData в youtuberblock:",response)
@@ -82,7 +82,7 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
           dataToDB.validatePurchaseData(
             {
               thumbnail: SimilarChannelData?.[0]?.thumbnail || "",
-              email: response?.[0] || "", //тут был result.
+              email: response?.[0] || "",
               channelName: SimilarChannelData?.[0]?.title || "",
               uses: 1,
             },
@@ -93,7 +93,7 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
           dataToDB.validatePurchaseData(
             {
               thumbnail: channelData?.updatedData?.[0]?.thumbnail || "",
-              email: response?.[0] || "", // тут был result
+              email: response?.[0] || "",
               channelName: channelData?.updatedData?.[0]?.title || "",
               uses: 1,
             },
@@ -136,7 +136,6 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
       clearTimeout(timeout3);
     };
   };
-  
 
   return (
     <>
@@ -212,7 +211,7 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
             }`}
           >
             <div className="youtuber__name none">
-              {userData && SimilarChannelData ? SimilarChannelData?.title : "?"}
+              {userData && SimilarChannelData ? SimilarChannelData?.payload?.title : "?"}
             </div>
             <div className="youtuber__information">
               <div className="youtuber__definitions">
@@ -230,24 +229,24 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
               <div className="youtuber__stats">
                 <h4 className="statistic none">
                   { userData && SimilarChannelData
-                    ? SimilarChannelData?.genre?.[0]
+                    ? SimilarChannelData?.payload?.contenttype
                     : "?"}
                 </h4>
                 <h4 className="statistic none">
                   { userData && SimilarChannelData
-                    ? SimilarChannelData?.subsCount
+                    ? SimilarChannelData?.payload?.subs
                     : "?"}
                 </h4>
                 <h4 className="statistic none">
                   {userData && SimilarChannelData
-                    ? SimilarChannelData?.genre?.[1]
+                    ? SimilarChannelData?.payload?.targetAudience
                     : "?"}
                 </h4>
               </div>
             </div>
             <img
               loading="lazy"
-              src={userData && SimilarChannelData?.thumbnail || YoutuberImg}
+              src={userData && SimilarChannelData?.payload?.thumbnail || YoutuberImg}
               alt="MrBeast"
               className="youtuber__image"
             />
@@ -259,7 +258,7 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
               if (
                 userData.channels &&
                 userData.channels.some(
-                  (channel) => channel.channel_name === SimilarChannelData?.[0].title
+                  (channel) => channel.channel_name === SimilarChannelData?.payload?.title
                 )
               ) {
                 alreadyHave()
