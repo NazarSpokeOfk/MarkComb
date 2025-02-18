@@ -1,11 +1,13 @@
 import puppeteer from "puppeteer";
 import fs from "fs";
 import path from "path";
-import readline from "readline";
+import rl from "./readlineHelper.js";
+
 
 import dotenv from "dotenv";
 
 import getChannelByTag from "./channelsParser.js"
+
 dotenv.config({ path: path.resolve(process.cwd(), "../.env") });
 
 const apiKey = process.env.GOOGLE_API_KEY;
@@ -18,11 +20,6 @@ const OLDER_RESULTS_FILE = "../channelsStorage/olderGenStorage.json";
 async function loadCookies(page) {
   const cookies = JSON.parse(fs.readFileSync("cookies.json", "utf8"));
   await page.setCookie(...cookies);
-}
-
-const randomNum = (min,max) => {
-  const num = Math.floor(Math.random() * (max - min) + min)
-  return num
 }
 
 async function getChannelId(videoTheme) {
@@ -115,14 +112,30 @@ async function saveKeywords(fileName, category, data) {
   fs.writeFileSync(fileName, JSON.stringify(storage, null, 2));
 }
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
 
 const askQuestion = (question) => {
   return new Promise((resolve) => {
-    rl.question(question, (answer) => resolve(answer));
+    rl.question(question, (answer) => {
+      console.log(`Введено: ${answer}`); 
+      resolve(answer);
+    });
+  });
+};
+
+const askQuestionWithChoises = (question, choises) => {
+  return new Promise((resolve, reject) => {
+    const choisesString = choises
+      .map((choice, index) => `${index + 1}.${choice}`)
+      .join("\n");
+
+    rl.question(`${question}\n${choisesString}\nВыберите номер:`, (answer) => {
+      const choiceIndex = parseInt(answer, 10) - 1;
+      if (choiceIndex >= 0 && choiceIndex < choises.length) {
+        resolve(choises[choiceIndex]);
+      } else {
+        reject("Некорректный номер");
+      }
+    });
   });
 };
 
@@ -165,8 +178,14 @@ const FILES_MAP = {
   const category = await askQuestion(
     "Введите категорию, в которую будут записаны тэги : "
   );
-  let fileName = await askQuestion(
-    "Введите файл, в котором будут храниться тэги (TEENS_RESULTS_FILE/KIDS_RESULTS_FILE/ADULTS_RESULTS_FILE/OLDER_RESULTS_FILE) : "
+  let fileName = await askQuestionWithChoises(
+    "Введите название файла, куда будут записаны тэги : ",
+    [
+      "KIDS_RESULTS_FILE",
+      "TEENS_RESULTS_FILE",
+      "ADULTS_RESULTS_FILE",
+      "OLDER_RESULTS_FILE",
+    ]
   );
 
   console.log(
