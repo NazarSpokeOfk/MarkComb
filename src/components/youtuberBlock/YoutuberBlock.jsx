@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useState , useEffect } from "react";
-import { data, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import DataToDB from "../../dataToDB/dataToDB";
@@ -301,6 +301,7 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
           <button
             onClick={() => {
               SmoothEffect().then(() => {
+                console.log(i18n)
                 i18n.changeLanguage("en");
               });
             }}

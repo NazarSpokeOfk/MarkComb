@@ -91,5 +91,13 @@
     "PASS":"ПАР",
     "WORD":"ОЛЬ",
     "EM":"ЭЛ.",
-    "AIL":"ПОЧ"
+    "AIL":"ПОЧ",
+    "Save" : "сохранить",
+    "Delete" : "Удалить",
+    "profile" : "профиль",
+    "You have no purchases." : "У вас нет никаких покупок.",
+    "PUR":"ПРИО",
+    "CHASE":"БРЕСТИ",
+    "Firstly,log in to your account" : "Сначала, войдите в свой аккаунт.",
+    "Log out" : "Выйти"
 }

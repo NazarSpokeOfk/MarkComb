@@ -2,7 +2,6 @@ import { useTranslation } from "react-i18next";
 import { useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import {toast} from "react-toastify"
 
 import "./Purchase.css";
 import SmoothEffect from "../smoothText";
@@ -76,7 +75,7 @@ const Purchase = ({isLoggedIn,userData}) => {
               <h3 className="balance-block__money">
                 {isLoggedIn
                   ? userData?.user?.username
-                  : "Firstly,log in to your account"}
+                  : t("Firstly,log in to your account")}
               </h3>
               <h3 className="balance-block__uses">
                 {isLoggedIn ? userData?.user?.uses + " uses" : ""}

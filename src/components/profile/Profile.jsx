@@ -172,7 +172,7 @@ const Profile = ({ userData, setUserData , setIsLoggedIn , csrfToken , isLoggedI
               }}
               className="edit__button"
             >
-              Save
+              {t("Save")}
             </button>
           </div>
           <button
@@ -182,7 +182,7 @@ const Profile = ({ userData, setUserData , setIsLoggedIn , csrfToken , isLoggedI
             id="delete"
             className="edit__button"
           >
-            <span>Delete</span> profile
+            <span>{t("Delete")}</span> {t("profile")}
           </button>
         </section>
 

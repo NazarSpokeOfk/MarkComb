@@ -133,7 +133,7 @@ const Purchases = ({ userData, setUserData , csrfToken }) => {
               ))
             ) : (
               <>
-                <p className="no_available">You have no purchases.</p>
+                <p className="no_available">{t("You have no purchases.")}</p>
                 <img
                   loading="lazy"
                   className="no_available_img"

@@ -222,7 +222,6 @@ class SearchApiController{
       const data = await this.FindChannel(mainInputValue);
       if (!data || data.length === 0) {
         console.log("No data found");
-        setChannelData(null);
         return;
       }
       const updatedData = await Promise.all(

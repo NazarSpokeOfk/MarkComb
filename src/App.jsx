@@ -1,5 +1,8 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useState, useEffect } from "react";
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
+import HttpApi from 'i18next-http-backend'; 
 
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -14,6 +17,18 @@ import Promotion from "./components/promotion/Promotion";
 import Purchase from "./components/purchase/Purchase";
 import Terms from "./components/terms/Terms";
 import Purpose from "./components/purpose/Purpose";
+
+i18n
+  .use(HttpApi)
+  .use(initReactI18next)
+  .init({
+    lng: "en",
+    fallbackLng: "en", 
+    interpolation: { escapeValue: false },
+    backend: {
+      loadPath: "/locales/{{lng}}/translation.json",
+    },
+  });
 
 function App() {
   const [channelData, setChannelData] = useState(null);
