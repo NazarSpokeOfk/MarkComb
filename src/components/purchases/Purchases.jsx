@@ -152,7 +152,7 @@ const Purchases = ({ userData, setUserData , csrfToken }) => {
         </section>
 
         <section className="footer">
-          <div className="footer__container">
+          <div id="purchasesFooter" className="footer__container">
             <h3 className="footer__logo">MarkComb,2024</h3>
             <Link to="/terms" className="footer__terms none">
               {t("Terms of service")}

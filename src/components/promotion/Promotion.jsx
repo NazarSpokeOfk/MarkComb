@@ -210,7 +210,7 @@ const Promotion = ({ isLoggedIn, userData }) => {
                 onClick={handleToggle}
                 className="list-container__button"
               >
-                <img loading="lazy" src={buttonIcon} alt="moreyoutubers" />
+                <img className="more_youtubers" loading="lazy" src={buttonIcon} alt="moreyoutubers" />
               </button>
             ) : (
               ""

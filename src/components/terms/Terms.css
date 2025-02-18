@@ -104,4 +104,19 @@
   margin-right: 30px;
 }
 
+@media (min-width: 3840px) and (max-width: 3840px) and (min-height: 2160px) and (max-height: 2160px) {
+  .container {
+    max-width: 3800px; /* Пример */
+  }
 
+  .search__main{
+    width: 50%;
+  }
+  .logo{
+    font-size: 50px;
+    margin-top: 15px;
+  }
+  .header__links{
+    margin-top: -60px;
+  }
+}
