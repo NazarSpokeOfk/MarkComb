@@ -23,7 +23,7 @@ const Modal = ({
   setSignInData,
   setCsrfToken,
   setUserCountry,
-  setUserLang
+  setUserLang,
 }) => {
   const { t } = useTranslation();
 
@@ -216,18 +216,20 @@ const Modal = ({
               onChange={(e) => setIsChecked(e.target.checked)}
             />
           )}
-          {entryMethod === "SignIn" ?  (
+          {entryMethod === "SignIn" ? (
             <ReCAPTCHA
               className="captcha"
               sitekey="6LcxnbQqAAAAALV-GfKKoJPxRVIshbTjTa5izOVr"
               onChange={handleRecaptchaChange}
             />
           ) : null}
-          <h3 className="modal-checkbox__text">
-            {t("I have read the")}{" "}
-            <Link to="/terms">{t("user agreement")}</Link>{" "}
-            {t("and accept all its terms and conditions")}
-          </h3>
+          {entryMethod === "SignIn" ? (
+            <h3 className="modal-checkbox__text">
+              {t("I have read the")}{" "}
+              <Link to="/terms">{t("user agreement")}</Link>{" "}
+              {t("and accept all its terms and conditions")}
+            </h3>
+          ) : null}
 
           {entryMethod === "logIn" ? (
             <div className="modal-continue__buttons">

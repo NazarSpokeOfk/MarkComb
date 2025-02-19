@@ -126,13 +126,6 @@ const Promotion = ({ isLoggedIn, userData }) => {
                 </>
               )}
             </h2>
-            {videoData?.result && (
-              <>
-                <button className="suggested-block__getDetailedAnalitics">
-                  Get detailed analitics
-                </button>
-              </>
-            )}
           </div>
         ) : (
           <h2>Look for something!</h2>
@@ -175,7 +168,7 @@ const Promotion = ({ isLoggedIn, userData }) => {
 
         <section className="list">
           <div className="container">
-            <h1 ref={titleRef} className="title none">
+            <h1 ref={titleRef} className="title_promotion none">
               {t("li")}
               <span>{t("st")}</span>
             </h1>

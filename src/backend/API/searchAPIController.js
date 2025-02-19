@@ -231,7 +231,7 @@ class SearchApiController{
         })
       );
 
-      res.json({message : "Успешный поиск",updatedData})
+      res.json({status : true,updatedData})
       return;
     } catch (error) {
       console.error("Search error:", error);

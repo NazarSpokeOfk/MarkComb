@@ -67,7 +67,7 @@ const Purchase = ({isLoggedIn,userData}) => {
 
         <section className="balance">
           <div className="container">
-            <h2 ref={titleRef} className="title">
+            <h2 ref={titleRef} className="title__purchase">
               {t("PUR")}
               <span>{t("CHASE")}</span>
             </h2>

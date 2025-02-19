@@ -133,8 +133,8 @@ header {
   width: 30px;
   height: 30px;
   img{
-    max-width: 25px;
-    max-height: 25px;
+    width: 25px;
+    height: 25px;
   }
 }
 
@@ -302,12 +302,19 @@ header {
   }
   .log__in{
     margin-left: 20%;
+    font-size: 22px;
+  }
+  .sign__in{
+    font-size: 22px;
   }
   .search__main{
     width: 50%;
   }
   .buttons{
     margin-left: 67%;
+  }
+  .header__link{
+    font-size: 20px;
   }
 }
 @media (min-width: 1280px) and (max-width: 1280px) and (min-height: 720px) and (max-height: 720px){
@@ -317,10 +324,52 @@ header {
 }
 @media (min-width: 2560px) and (max-width: 2560px) and (min-height: 1440px) and (max-height: 1440px) {
   .search__main{
-    width: 60%;
+    width: 65%;
+    height: 50px;
+    font-size: 25px;
   }
   .login{
     margin-left: 60%;
+  }
+  .header__link{
+    font-size: 25px;
+  }
+  .log__in{
+    font-size: 22px;
+  }
+  .sign__in{
+    font-size: 22px;
+  }
+  .search__glass{
+    width: 45px;
+    height: 45px;
+    img{
+      width: inherit;
+      height: inherit;
+    }
+  }
+  .search__filters{
+    height: 50px;
+    width: 50px;
+  }
+  .buttons{
+    margin-top: -128px;
+  }
+  .filters{
+    margin-left: 5%;
+  }
+  .target-audence__title{
+    font-size: 27px;
+  }
+  .filter__block{
+    font-size: 25px;
+  }
+  .filter__divider{
+    margin-top: 2px;
+    height: 5px;
+  }
+  .profile__name{
+    font-size: 22px;
   }
 }
 
@@ -328,7 +377,6 @@ header {
   .container {
     max-width: 3800px; /* Пример */
   }
-
   .search__main{
     width: 50%;
   }
@@ -339,3 +387,77 @@ header {
     font-size: 30px;
   }
 }
+@media (min-width: 768px) and (max-width: 768px) and (min-height: 1024px) and (max-height: 1024px) {
+ .login{
+  margin-left: 68%;
+ }
+ .search__main{
+  width: 80%;
+ }
+ .buttons{
+  margin-left:75%;
+ }
+ .target__audence{
+  margin-left: 8%;
+}
+.target-audence__blocks{
+  width: 70%;
+}
+.filter__block{
+  width: 100%;
+}
+.filter__block.filteractive{
+  min-width: 200px;
+}
+.target-audence__blocks{
+  display: grid;
+  grid-template-columns: repeat(3,190px);
+  grid-template-rows: repeat(2,65px);
+  column-gap: 25px;
+}
+.number__of__subs{
+  margin-left: 8%;
+}
+.number__ofsubs__blocks{
+  display: grid;
+  grid-template-columns: repeat(3,205px);
+  grid-template-rows: repeat(3,65px);
+}
+#low{
+  width: 70%;
+}
+#lowplus{
+  width: 70%;
+}
+#medium{
+  width: 70%;
+}
+#mediumplus{
+  width: 70%;
+}
+#hi{
+  width: 70%;
+}
+#hiplus{
+  width: 70%;
+}
+#highest{
+  width: 70%;
+}
+.content__type{
+  margin-left: 8%;
+}
+.content__type__blocks{
+  display: grid;
+  grid-template-columns: repeat(3,195px);
+  grid-template-rows: repeat(4,65px);
+  column-gap: 25px;
+}
+.header__link{
+  margin-right: 96px;
+}
+}
+@media (max-width: 430px) and (max-height: 920px) {
+
+}
+

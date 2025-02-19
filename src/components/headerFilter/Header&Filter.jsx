@@ -58,7 +58,7 @@ const HeaderFilter = ({
     "Entertaiment",
     "FitnessHealth",
     "Music",
-    "NewsCommentary",
+    "News",
     "Gaming",
     "Travel",
   ];

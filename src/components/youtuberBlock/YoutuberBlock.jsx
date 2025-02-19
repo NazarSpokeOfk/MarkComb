@@ -33,7 +33,7 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
     console.log("Данные полученные в handleButtonClick : ",data)
     let timeout1, timeout2, timeout3;
   
-    if (!data?.payload?.channelId) {
+    if (!data?.channelId) {
       logInErrorToast();
       return;
     }
@@ -60,7 +60,7 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
             "Content-type":"application/json",
             "X-CSRF-Token" : csrfToken
           },
-          body : JSON.stringify({ channelId : data.payload.channelId})
+          body : JSON.stringify({ channelId : data.channelId})
         })
         const response = await result.json()
         console.log("Ответ от getData в youtuberblock:",response)
@@ -90,6 +90,7 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
             csrfToken
           );
         } else {
+          console.log("Ало бял  ")
           dataToDB.validatePurchaseData(
             {
               thumbnail: channelData?.updatedData?.[0]?.thumbnail || "",
@@ -229,7 +230,7 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
               <div className="youtuber__stats">
                 <h4 className="statistic none">
                   { userData && SimilarChannelData
-                    ? SimilarChannelData?.payload?.contenttype
+                    ? SimilarChannelData?.payload?.targetAudience
                     : "?"}
                 </h4>
                 <h4 className="statistic none">
@@ -237,9 +238,9 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
                     ? SimilarChannelData?.payload?.subs
                     : "?"}
                 </h4>
-                <h4 className="statistic none">
+                <h4 id="contentType" className="statistic none">
                   {userData && SimilarChannelData
-                    ? SimilarChannelData?.payload?.targetAudience
+                    ? SimilarChannelData?.payload?.contenttype
                     : "?"}
                 </h4>
               </div>
@@ -265,7 +266,7 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
                 return;
               } else {
                 console.log("SimilarChannelData:" , SimilarChannelData)
-                handleButtonClick(SimilarChannelData, 1);
+                handleButtonClick(SimilarChannelData.payload, 1);
               }
             }}
           >
@@ -282,7 +283,7 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
       <section className="footer">
         <div className="footer__container">
           <h3 className="footer__logo">MarkComb,2024</h3>
-          <Link to="/terms" className="footer__terms none">
+          <Link id="Terms" to="/terms" className="footer__terms none">
             {t("Terms of service")}
           </Link>
           <Link to="/purpose" className="footer__purpose none">
