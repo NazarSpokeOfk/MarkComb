@@ -221,6 +221,7 @@ const Modal = ({
               className="captcha"
               sitekey="6LcxnbQqAAAAALV-GfKKoJPxRVIshbTjTa5izOVr"
               onChange={handleRecaptchaChange}
+              data-size = "compact"
             />
           ) : null}
           {entryMethod === "SignIn" ? (
