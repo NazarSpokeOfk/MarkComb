@@ -169,7 +169,7 @@
 #delete{
   background-color: #fff;
   border: 1px solid black;
-  margin-left: 21%;
+  margin-left: 21.3%;
   span{
     color: black;
   }
@@ -189,6 +189,6 @@
     margin-top: -12%;
   }
   #delete{
-    margin-left: 23.2%;
+    margin-left: 23%;
   }
 }

@@ -161,7 +161,7 @@ const Modal = ({
               name="username"
               type="text"
               maxLength={50}
-              placeholder={t("username")}
+              placeholder={t("username,3 charaters min.")}
               className="modal__input"
               value={signInData.username}
               onChange={(e) =>
@@ -175,7 +175,7 @@ const Modal = ({
             name="password"
             type="text"
             maxLength={255}
-            placeholder={t("password")}
+            placeholder={t("password,5 characters min.")}
             className="modal__input"
             value={
               entryMethod == "logIn" ? logInData.password : signInData.password

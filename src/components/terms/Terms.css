@@ -134,6 +134,9 @@
   .logo{
     font-size: 20px;
     margin-left: 0;
+    span{
+      color: var(--main-red-col);
+    }
   }
   .header__link{
     margin-right: 0px;

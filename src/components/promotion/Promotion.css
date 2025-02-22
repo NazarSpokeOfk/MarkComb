@@ -345,4 +345,7 @@
   height: 250px;
   border-radius: 25px;
 }
+.no_available{
+  font-size: 20px;
+}
 }

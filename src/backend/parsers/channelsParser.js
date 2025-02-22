@@ -30,6 +30,7 @@ const askQuestion = (question) => {
 
 const askQuestionWithChoises = (question, choises) => {
   return new Promise((resolve, reject) => {
+    console.log("выборы:",choises)
     const choisesString = choises
       .map((choice, index) => `${index + 1}.${choice}`)
       .join("\n");
@@ -88,6 +89,8 @@ if (process.argv[1] === __filename) {
 
     const jsonData = await JSON.parse(data);
 
+    const rawPairs = jsonData[category].pairs;
+
     if (!jsonData[category]) {
       console.log("Введенной вами категории не существует.");
       return;
@@ -95,17 +98,24 @@ if (process.argv[1] === __filename) {
 
     console.log("Список полученных тэгов: ", jsonData[category].tags);
 
-    const tags = await askQuestion(
-      "Выберите 2 тэга из этого списка. Пишите через запятую :"
+    const pairsOrManualChoice = await askQuestion(
+      "Использовать ранее подготовленные пары для поиска каналов? (да/нет) : "
     );
 
-    const commaCount = tags.split(",").length - 1;
+    let tags;
 
-    if (commaCount !== 1) {
-      console.log("Тэги были введены некорректно.");
-      return;
+    if (pairsOrManualChoice.toLowerCase() != "да") {
+      tags = await askQuestion(
+        "Выберите 2 тэга из этого списка. Пишите через запятую :"
+      );
+    } else {
+      console.log("пары:", rawPairs, Array.isArray(rawPairs));
+      tags = await askQuestionWithChoises(
+        "Пары, по которым можно сделать поиск:",
+        rawPairs
+      );
     }
-
+    
     const tagList = tags.split(",").map((tag) => tag.trim());
 
     const response = await getChannelByTag(tagList);
