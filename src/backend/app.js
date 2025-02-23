@@ -10,6 +10,7 @@ import userRouter from "./routers/userRouter.js";
 import purchasesRouter from "./routers/purchasesRouter.js";
 import googleAPIRouter from "./routers/googleAPIRouter.js"
 import storageRouter from "./routers/storageRouter.js";
+import logger from "./winston/winston.js";
 
 const app = express();
 
@@ -29,6 +30,12 @@ app.use(
     },
   })
 );
+
+app.use((err, req, res, next) => {
+  logger.error(`Ошибка: ${err.message}`);
+  res.status(500).json({ message: "Внутренняя ошибка сервера" });
+});
+
 
 app.use(
   cors({
@@ -58,10 +65,10 @@ async function initializeApp() {
   try {
     await createTables(pool);
     app.listen(PORT, () => {
-      console.log("Сервер запущен на порте:", PORT);
+      
     });
   } catch (error) {
-    console.log("Возникла ошибка в Intialize app:", error);
+    logger.info("Возникла ошибка в Intialize app:", error);
   }
 }
 

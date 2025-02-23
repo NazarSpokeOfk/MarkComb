@@ -212,6 +212,7 @@ const Modal = ({
             <input
               className="modal__checkbox"
               type="checkbox"
+              required
               checked={isChecked}
               onChange={(e) => setIsChecked(e.target.checked)}
             />

@@ -31,6 +31,10 @@ const askQuestion = (question) => {
 const askQuestionWithChoises = (question, choises) => {
   return new Promise((resolve, reject) => {
     console.log("выборы:",choises)
+    if(!choises){
+      console.log("Список пар/тэгов пуст")
+      return;
+    }
     const choisesString = choises
       .map((choice, index) => `${index + 1}.${choice}`)
       .join("\n");
@@ -109,13 +113,12 @@ if (process.argv[1] === __filename) {
         "Выберите 2 тэга из этого списка. Пишите через запятую :"
       );
     } else {
-      console.log("пары:", rawPairs, Array.isArray(rawPairs));
       tags = await askQuestionWithChoises(
         "Пары, по которым можно сделать поиск:",
         rawPairs
       );
     }
-    
+
     const tagList = tags.split(",").map((tag) => tag.trim());
 
     const response = await getChannelByTag(tagList);
