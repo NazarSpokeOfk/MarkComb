@@ -67,6 +67,10 @@ const HeaderFilter = ({
 
   const { t } = useTranslation();
 
+  const logInFirstly = () => {
+    toast.warn("Log in firstly")
+  }
+
   const searchFetch = async (e) => {
     e.preventDefault();
     try {
@@ -182,7 +186,7 @@ const HeaderFilter = ({
                 e.preventDefault();
                 isLoggedIn
                   ? searchFetch(e)
-                  : toast.warn("Firstly,you need to log in.");
+                  : logInFirstly()
               }}
             >
               <input className="search__main" type="text" />
@@ -228,7 +232,7 @@ const HeaderFilter = ({
                     }`}
                     onClick={() => {
                       setContentActiveIndex(index);
-                      manageFiltersFetch("audience" , false , setSimilarChannelData , label);
+                      isLoggedIn ? manageFiltersFetch("audience" , false , setSimilarChannelData , label) : logInFirstly()
                     }}
                   >
                     {label}
@@ -244,8 +248,9 @@ const HeaderFilter = ({
               </h2>
               <div className="number__ofsubs__blocks">
                 <div
-                  onClick={() =>
-                    filterFetch("subscribers", false, false, 1000, 0, false)
+                  onClick={() => {
+                    isLoggedIn ? filterFetch("subscribers", false, false, 1000, 0, false) : logInFirstly()
+                  }
                   }
                   id="low"
                   className="filter__block"
@@ -254,8 +259,9 @@ const HeaderFilter = ({
                   0-1K
                 </div>
                 <div
-                  onClick={() =>
-                    filterFetch("subscribers", false, false, 10000, 1000, false)
+                  onClick={() => {
+                    isLoggedIn ? filterFetch("subscribers", false, false, 10000, 1000, false) : logInFirstly()
+                  }
                   }
                   id="lowplus"
                   className="filter__block"
@@ -265,14 +271,16 @@ const HeaderFilter = ({
                 </div>
                 <div
                   onClick={() =>
-                    filterFetch(
+                    isLoggedIn ? 
+                    manageFiltersFetch(
                       "subscribers",
                       false,
+                      setSimilarChannelData,
                       false,
                       100000,
                       10000,
-                      false
-                    )
+                    ) :
+                    logInFirstly()
                   }
                   id="medium"
                   className="filter__block"
@@ -282,6 +290,7 @@ const HeaderFilter = ({
                 </div>
                 <div
                   onClick={() =>
+                    isLoggedIn ?
                     manageFiltersFetch(
                       "subscribers",
                       false,
@@ -290,6 +299,8 @@ const HeaderFilter = ({
                       500000,
                       100000,
                     )
+                    :
+                    logInFirstly()
                   }
                   id="mediumplus"
                   className="filter__block"
@@ -299,14 +310,17 @@ const HeaderFilter = ({
                 </div>
                 <div
                   onClick={() =>
-                    filterFetch(
+                  isLoggedIn ?
+                    manageFiltersFetch(
                       "subscribers",
                       false,
+                      setSimilarChannelData,
                       false,
                       1000000,
                       5000000,
-                      false
                     )
+                    :
+                    logInFirstly()
                   }
                   id="hi"
                   className="filter__block"
@@ -316,14 +330,17 @@ const HeaderFilter = ({
                 </div>
                 <div
                   onClick={() =>
-                    filterFetch(
+                    isLoggedIn ?
+                    manageFiltersFetch(
                       "subscribers",
                       false,
+                      setSimilarChannelData,
                       false,
                       10000000,
                       5000000,
-                      false
-                    )
+                    ) 
+                    :
+                    logInFirstly()
                   }
                   id="hiplus"
                   className="filter__block"
@@ -333,14 +350,17 @@ const HeaderFilter = ({
                 </div>
                 <div
                   onClick={() =>
-                    filterFetch(
+                  isLoggedIn ?
+                    manageFiltersFetch(
                       "subscribers",
                       false,
+                      setSimilarChannelData,
                       false,
                       20000000,
                       10000000,
-                      false
                     )
+                    :
+                    logInFirstly()
                   }
                   id="highest"
                   className="filter__block"
@@ -365,7 +385,7 @@ const HeaderFilter = ({
                     }`}
                     onClick={() => {
                       setActiveIndex(index);
-                      manageFiltersFetch("content",label,setSimilarChannelData,false)
+                       isLoggedIn ? manageFiltersFetch("content",label,setSimilarChannelData,false) : logInFirstly()
                     }}
                   >
                     {label}

@@ -5,3 +5,10 @@
 2025-02-23T08:46:35.619Z , [WARN] : Это предупреждение
 2025-02-23T08:46:35.619Z , [ERROR] : Это ошибка!
 2025-02-23T08:46:54.919Z , [INFO] : Сервер запущен на порте:
+2025-02-23T17:54:21.086Z , [INFO] : Возникла ошибка в fetchChannelData :  Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+2025-02-23T18:01:56.897Z [INFO] (printf.js:11): Возникла ошибка в fetchChannelData :  Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+2025-02-23T18:02:41.847Z + "
+" [INFO] (printf.js:11): Возникла ошибка в fetchChannelData :  Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+2025-02-23T18:03:02.506Z + "
+" [INFO] + "
+" (printf.js:11): Возникла ошибка в fetchChannelData :  Unexpected token '<', "<!DOCTYPE "... is not valid JSON

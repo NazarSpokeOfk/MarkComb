@@ -1,3 +1,4 @@
+import logger from "../winston/winston.js"
 class SearchApiController{
     apiKey = process.env.GOOGLE_API_KEY;
 
@@ -29,7 +30,7 @@ class SearchApiController{
       const subsCount = data.items[0].statistics.subscriberCount;
       return subsCount;
     } catch (error) {
-      console.error("Error fetching subscriber count:", error.message);
+      logger.info("Error fetching subscriber count:", error.message);
       return null;
     }
   };
@@ -64,7 +65,7 @@ class SearchApiController{
       const genre = data.items[0].snippet.categoryId; // Проверяем snippet
       return genre;
     } catch (error) {
-      console.error("Error fetching genre:", error.message);
+      logger.info("Error fetching genre:", error.message);
       return null;
     }
   };
@@ -202,7 +203,7 @@ class SearchApiController{
               targetAudience: genreName[0],
             }; // Добавляем жанр
           } catch (error) {
-            console.error("Error processing genre:", error.message);
+            logger.info("Error processing genre:", error.message);
             return { ...channel, genre: "Unknown category" };
           }
         })
@@ -210,7 +211,7 @@ class SearchApiController{
 
       return finalData;
     } catch (error) {
-      console.error("Произошла ошибка:", error.message);
+      logger.info("Произошла ошибка:", error.message);
     }
   };
 
@@ -234,7 +235,7 @@ class SearchApiController{
       res.json({status : true,updatedData})
       return;
     } catch (error) {
-      console.error("Search error:", error);
+      logger.info("Search error:", error);
       res.status(500).json({ message: "Ошибка поиска", error: error.message });
     }
   };
@@ -273,7 +274,7 @@ class SearchApiController{
       };
       return finalVideoData;
     } catch (error) {
-      console.log("Ошибка:", error);
+      logger.info("Ошибка:", error);
     }
   };
 
@@ -291,7 +292,7 @@ class SearchApiController{
       
       return analitics
     } catch (error) {
-      console.log("Возникла ошибка:",error)
+      logger.info("Возникла ошибка:",error)
       return Promise.reject()
     }
   };

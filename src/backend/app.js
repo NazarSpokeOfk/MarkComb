@@ -2,8 +2,10 @@ import cookieParser from "cookie-parser";
 import cors from "./node_modules/cors/lib/index.js";
 import express from "./node_modules/express/index.js";
 import createTables from "./db/setup.js";
+import createStorageTables from "./db/setupStorage.js";
 import session from "express-session";
 import pool from "./db/index.js";
+import storagePool from "./db/storageIndex.js";
 import helmet from "helmet"
 
 import userRouter from "./routers/userRouter.js";
@@ -64,6 +66,7 @@ app.use("/api", storageRouter);
 async function initializeApp() {
   try {
     await createTables(pool);
+    await createStorageTables(storagePool)
     app.listen(PORT, () => {
       
     });

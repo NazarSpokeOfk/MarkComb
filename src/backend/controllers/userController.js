@@ -1,8 +1,7 @@
 import bcrypt from "bcrypt";
 import Joi from "joi";
-import session from "express-session";
 import crypto from "crypto";
-
+import logger from "../winston/winston.js";
 import pool from "../db/index.js";
 import verifyCaptcha from "./authController.js";
 import generateJWT from "../generateJWT.js";
@@ -30,7 +29,7 @@ class UserController {
           return "en";
       }
     } catch (error) {
-      console.error("Ошибка при получении IP:", error);
+      logger.info("Ошибка при получении IP:", error);
       return "en"; // Значение по умолчанию в случае ошибки
     }
   }
@@ -40,7 +39,7 @@ class UserController {
       const users = await pool.query(`SELECT * FROM users`);
       res.json(users.rows);
     } catch (error) {
-      console.log("Возникла ошибка в getAllUsers :", error);
+      logger.info("Возникла ошибка в getAllUsers :", error);
     }
   }
 
@@ -93,7 +92,7 @@ class UserController {
           sameSite: "lax",
         });
       } catch (error) {
-        console.log("Ошибка при загрузке куки на сайт.", error);
+        logger.info("Ошибка при загрузке куки на сайт. GetUserByPassword", error);
       }
 
       const csrfToken = crypto.randomBytes(16).toString("hex");
@@ -121,7 +120,7 @@ class UserController {
 
       console.log(executionTime);
     } catch (error) {
-      console.log("Возникла ошибка в getUserByPassword:", error);
+      logger.info("Возникла ошибка в getUserByPassword:", error);
       res
         .status(500)
         .json({ message: "Возникла ошибка при входе", error: error.message });
@@ -162,7 +161,7 @@ class UserController {
         channels: userChannels.rows,
       });
     } catch (error) {
-      console.log("ошибка в входе по id", error);
+      logger.info("ошибка в входе по id", error);
       res
         .status(500)
         .json({ message: "Возникла ошибка при входе", error: error.message });
@@ -231,7 +230,7 @@ class UserController {
       }
 
       // Обработка других ошибок
-      console.error(err);
+      logger.info(err);
       res.status(500).json({ error: 'Internal server error' });
     }
   }
@@ -309,7 +308,7 @@ class UserController {
         user: updateUser.rows[0],
       });
     } catch (error) {
-      console.error("Возникла ошибка в updateUser:", error);
+      logger.info("Возникла ошибка в updateUser:", error);
       res.status(500).json({
         message: "Ошибка изменения пользователя",
         error: error.message,
@@ -358,7 +357,7 @@ class UserController {
 
       res.json({ message: "Пользователь удален", user: user.rows[0] });
     } catch (error) {
-      console.log("Возникла ошибка в deleteUser:", error);
+      logger.info("Возникла ошибка в deleteUser:", error);
       res.status(500).json({ message: "Возникла ошибка сервера." });
     }
   }
@@ -392,7 +391,7 @@ class UserController {
         updatedUser: updateUser.rows[0],
       });
     } catch (error) {
-      console.log("Возникла ошибка в addUses:", error);
+      logger.info("Возникла ошибка в addUses:", error);
       res.status(500).json({ message: "Ошибка сервера", error: error.message });
     }
   }

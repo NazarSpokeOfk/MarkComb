@@ -1,3 +1,4 @@
+import logger from "./winston/winston.js";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
 import pool from "./db/index.js";
@@ -54,7 +55,7 @@ class MailVerification {
       console.log("Verification email sent to:", email);
       return Promise.resolve(true);
     } catch (error) {
-      console.error("Error sending verification email:", error);
+      logger.info("Error sending verification email:", error);
       return Promise.reject("Ошибка при отправке кода");
     }
   }
@@ -76,7 +77,7 @@ class MailVerification {
 
       return { success: true };
     } catch (error) {
-      console.error("Ошибка при проверке кода:", error);
+      logger.info("Ошибка при проверке кода:", error);
       return { success: false, message: "Ошибка сервера" };
     }
   }
@@ -88,7 +89,7 @@ class MailVerification {
       );
       console.log("Данные очищены.");
     } catch (error) {
-      console.log(error);
+      logger.info(error);
     }
   }
 }

@@ -17,7 +17,6 @@ const checkCookies = async (setIsLoggedIn, setUserData , setUserLang) => {
         setUserData(result); 
         setUserLang(result.lang)
       } catch (error) {
-        console.error("Ошибка при обработке входа по куки:", error);
         setIsLoggedIn(false); 
       }
 };

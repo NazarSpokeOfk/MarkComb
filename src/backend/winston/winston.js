@@ -1,11 +1,24 @@
 import winston from "winston";
+import path from "path"
+
+const getCallerInfo = () => {
+    const obj = {}
+    Error.captureStackTrace(obj,getCallerInfo);
+    const stackLine = obj.stack.split("\n")[2];
+    const match = stackLine.match(/\((.*):(\d+):(\d+)\)/);
+    if(match){
+        const fullPath = match[1];
+        return `${path.basename(fullPath)}:${match[2]}`;
+    }
+    return "Неизвестно,бля"
+}
 
 const logger = winston.createLogger({
-    level : "info",
+    level: process.env.NODE_ENV === "production" ? "error" : "info",
     format : winston.format.combine(
         winston.format.timestamp(),
         winston.format.printf(({ level , message , timestamp}) => {
-            return `${timestamp} , [${level.toUpperCase()}] : ${message}`
+            return `${timestamp} + "\n" [${level.toUpperCase()}] + "\n" (${getCallerInfo()}): ${message}`;
         })
     ),
     transports : [

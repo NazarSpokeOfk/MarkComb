@@ -1,3 +1,4 @@
+import logger from "../winston/winston.js"
 class PromotionAPIController {
 
     apiKey = process.env.GOOGLE_API_KEY;
@@ -44,7 +45,7 @@ class PromotionAPIController {
             res.json({finalVideoData})
   
           } catch (error) {
-            console.log("Ошибка:", error);
+            logger.info("Ошибка:", error);
           }
         }
     };

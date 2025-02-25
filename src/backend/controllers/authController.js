@@ -1,3 +1,4 @@
+import logger from "../winston/winston.js"
 const verifyCaptcha = async (recaptchaValue) => {
     const _secretKey = "6LcxnbQqAAAAAB55Psrs2jKIilT-5sIJ3VVVtqdr";
     const _verificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${_secretKey}&response=${recaptchaValue}`;
@@ -25,7 +26,7 @@ const verifyCaptcha = async (recaptchaValue) => {
       }
       
     } catch (error) {
-      console.error("Возникла ошибка при проверке reCAPTCHA:", error);
+      logger.info("Возникла ошибка при проверке reCAPTCHA:", error);
       return false; // Если ошибка в процессе запроса, возвращаем false
     }
   }

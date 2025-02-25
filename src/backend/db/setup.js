@@ -22,7 +22,7 @@ async function createTables(pool) {
             thumbnail VARCHAR(255) NOT NULL,
             email VARCHAR(255) NOT NULL,
             created_at DATE DEFAULT CURRENT_DATE NOT NULL
-        )`;        
+        )`; 
 
         await pool.query(createUsersTable)
         console.log('Таблица пользователей создана.')

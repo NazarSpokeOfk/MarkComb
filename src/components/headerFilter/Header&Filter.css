@@ -502,6 +502,8 @@ header {
   }
   .filter__block.filteractive{
     min-width: 80px;
+    font-size: 15px;
+    padding-left: 20px;
   }
 }
 
