@@ -1,7 +1,7 @@
 {
   "Animation": {
     "channels": [
-      [
+      
         "UCvgCJTPtzf3iCngtMrhpehg",
         "UCbCmjCuTUZos6Inko4u57UQ",
         "UCCc1DMB-AcOssKJ7KweLXBg",
@@ -11,7 +11,7 @@
         "UCu7IDy0y-ZA0qaG51wrQY6w",
         "UCspYFkp8CBYpjzzHKytfLSg",
         "UCc0cGIbYYj79_IUI2A70UjQ"
-      ]
+      
     ],
     "tags": [
       "Cartoons for Kids",
@@ -107,7 +107,7 @@
   },
   "Music": {
     "channels": [
-      [
+      
         "UCLy6-72NzYpFztbJ7jNEMkg",
         "UCUamVL0L_lgG720vqmdZqoA",
         "UCVcQH8A634mauPrGbWs7QlQ",
@@ -116,7 +116,7 @@
         "UC-cY4X2sLECUhishGNiyofQ",
         "UCzUTLIHFoRi1_1TaXDup7rw",
         "UC6LKuH7RPkvRmzS9-8URtqA"
-      ]
+      
     ],
     "tags": [
       "KidsSongs",
@@ -418,12 +418,12 @@
   },
   "Gaming": {
     "channels": [
-      [
+      
         "UC5153Clv5xvvyOf_VApUY1Q",
         "UCpfMN6gM79oRHsPWaSfDhOQ",
         "UC6SmH9mR82nj28_NNg_rZvA",
         "UCr835lywfmaYiIBISaN-CCQ"
-      ]
+      
     ],
     "tags": [
       "wii",
@@ -780,7 +780,7 @@
   },
   "Education": {
     "channels": [
-      [
+      
         "UCaSUFDf2XABlZkXRDMZ2kqQ",
         "UC_aNwpPagz1hMUC_gHGutDw",
         "UCdqS0P3szBASXYWoGF2lfEA",
@@ -791,7 +791,7 @@
         "UCZKOvSw4l9LPF7SSUolZdyg",
         "UCJMA175dwmZxZpRRXEVYKqA",
         "UCHcXVyD4eUH_jGPCuilfaQQ"
-      ]
+      
     ],
     "tags": [
       "words",
@@ -1064,7 +1064,7 @@
   },
   "TechReviews": {
     "channels": [
-      [
+      
         "UCSOASz9b_bs7ibGNDMW_jHw",
         "UCNE3cqMy9EijsMsb7uNe1pw",
         "UCwMz3sdmthvWZUrRfscqrbg",
@@ -1075,7 +1075,7 @@
         "UCW2psKpnhNCfgvIQqh5o51A",
         "UCsMK6iE3R24jwPIBLD_Iqzw",
         "UC-u6qHTUAnp8Y4MqK1h4a_w"
-      ]
+      
     ],
     "tags": [
       "speed test",
@@ -1478,7 +1478,7 @@
     "audience": "All ages"
   },
   "Travel": {
-    "channels": [["UCvwxSU-fvO7CEbJZwzKtdHQ"]],
+    "channels": ["UCvwxSU-fvO7CEbJZwzKtdHQ"],
     "tags": [
       "линшуй",
       "туры на хайнань",
@@ -1545,7 +1545,7 @@
   },
   "Vlogs": {
     "channels": [
-      [
+      
         "UCUllb83Lugbka-rvF6Nutxg",
         "UCQuI-S2HvppIFSNb3go15Fw",
         "UCrmwAgUODhuaKpqm0-l_New",
@@ -1556,7 +1556,7 @@
         "UC_e1hcGd16Po4cjMS6QL4Fg",
         "UCWnEXcL1VQqxSdvjJQ_BXvg",
         "UCYEA2g99DBNPhNuXJdhOJ7Q"
-      ]
+      
     ],
     "tags": [
       "Теги: радиолюбитель",
@@ -1650,7 +1650,7 @@
   },
   "Entertainment": {
     "channels": [
-      [
+      
         "UC1ppJCQhKVPm7INQcy7OWlA",
         "UCaoyRx5SGAdeS5GbT3uJbdQ",
         "UC4io7tZ9jOrxcRV28mauVMg",
@@ -1661,7 +1661,7 @@
         "UCdKuE7a2QZeHPhDntXVZ91w",
         "UCKXSzmA0VZ0FSu9tg8hVnag",
         "UCq7JZ8ATgQWeu6sDM1czjhg"
-      ]
+      
     ],
     "tags": [
       "#PS4share",

@@ -6,7 +6,7 @@ class ChannelsController {
         let query = 'SELECT * FROM channels WHERE 1=1';  // Начинаем с базового запроса
         let params = [];
 
-        // Добавляем условия по параметрам, если они переданы
+        
         if (audience) {
             query += ' AND audience = $1';
             params.push(audience);
@@ -29,7 +29,11 @@ class ChannelsController {
             const request = await storagePool.query(query, params);
             const result = request.rows[0]
 
-            console.log(res.json(result.rows[0])) 
+            const channelStats = await this.fetchChannelData(result.channelID,result.content_type,result.age_group)
+
+            console.log(channelStats) 
+
+            res.json({status : true , channelStats})
         } catch (error) {
             console.log("Возникла ошибка в selectChannel:", error);
             res.status(500).json({ error: 'Ошибка при выполнении запроса' });  
