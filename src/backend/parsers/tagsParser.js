@@ -2,20 +2,16 @@ import puppeteer from "puppeteer";
 import fs from "fs";
 import path from "path";
 import rl from "./readlineHelper.js";
-
+import StoragePool from "../db/storageIndex.js";
 
 import dotenv from "dotenv";
 
-import getChannelByTag from "./channelsParser.js"
+import getChannelByTag from "./channelsParser.js";
+import storagePool from "../db/storageIndex.js";
 
-dotenv.config({ path: path.resolve(process.cwd(), "../.env") });
+dotenv.config({ path: path.resolve(process.cwd(), "../environment/.env") });
 
 const apiKey = process.env.GOOGLE_API_KEY;
-
-const TEENS_RESULTS_FILE = "../channelsStorage/teenagersStorage.json";
-const KIDS_RESULTS_FILE = "../channelsStorage/kidsStorage.json";
-const ADULTS_RESULTS_FILE = "../channelsStorage/adultsStorage.json";
-const OLDER_RESULTS_FILE = "../channelsStorage/olderGenStorage.json";
 
 async function loadCookies(page) {
   const cookies = JSON.parse(fs.readFileSync("cookies.json", "utf8"));
@@ -91,32 +87,25 @@ async function getYouTubeKeywords(videoId) {
   return { videoId, keywords };
 }
 
-async function saveKeywords(fileName, category, data) {
-  let storage = {};
-
-  if (fs.existsSync(fileName)) {
-    storage = JSON.parse(fs.readFileSync(fileName, "utf8"));
+async function saveKeywords(category, tags , age_group) {
+  try {
+    console.log("Аргументы : " ,category,tags,age_group)
+    for(const tag of tags) {
+      await storagePool.query(
+        `INSERT INTO tags (tag,content_type,age_group) VALUES ($1,$2,$3)`,
+        [tag,category,age_group]
+      );
+      console.log(`Данные для ${tag} , были записаны`)
+    }
+  } catch (error) {
+    console.log("Возникла ошибка в saveKeywords : ", error);
   }
-
-  if (!storage[category]) {
-    storage[category] = {};
-  }
-
-  const existingTags = new Set(storage[category].tags);
-  data.keywords.forEach((tag) => {
-    existingTags.add(tag);
-  });
-
-  storage[category].tags = Array.from(existingTags);
-
-  fs.writeFileSync(fileName, JSON.stringify(storage, null, 2));
 }
-
 
 const askQuestion = (question) => {
   return new Promise((resolve) => {
     rl.question(question, (answer) => {
-      console.log(`Введено: ${answer}`); 
+      console.log(`Введено: ${answer}`);
       resolve(answer);
     });
   });
@@ -139,7 +128,7 @@ const askQuestionWithChoises = (question, choises) => {
   });
 };
 
-async function tagsReceiptAutomation(videoTheme, category, fileName) {
+async function tagsReceiptAutomation(videoTheme, category , age_group) {
   const channelId = await getChannelId(videoTheme);
 
   if (!channelId) {
@@ -159,92 +148,34 @@ async function tagsReceiptAutomation(videoTheme, category, fileName) {
     console.log(
       `Происходит парсинг видео : ${videoId} для категории : ${category}`
     );
-    const result = await getYouTubeKeywords(videoId);
+    const tags = await getYouTubeKeywords(videoId);
 
-    saveKeywords(fileName, category, result);
+    saveKeywords(category, tags.keywords,age_group);
     console.log(`Данные для ${videoId} сохранены.\n`);
   }
 }
-
-const FILES_MAP = {
-  KIDS_RESULTS_FILE: KIDS_RESULTS_FILE,
-  TEENS_RESULTS_FILE: TEENS_RESULTS_FILE,
-  ADULTS_RESULTS_FILE: ADULTS_RESULTS_FILE,
-  OLDER_RESULTS_FILE: OLDER_RESULTS_FILE,
-};
 
 (async () => {
   const videoTheme = await askQuestion("Введите тему : ");
   const category = await askQuestion(
     "Введите категорию, в которую будут записаны тэги : "
   );
-  let fileName = await askQuestionWithChoises(
-    "Введите название файла, куда будут записаны тэги : ",
+  let age_group = await askQuestionWithChoises(
+    "Введите возрастную категорию, куда будут записаны тэги : ",
     [
-      "KIDS_RESULTS_FILE",
-      "TEENS_RESULTS_FILE",
-      "ADULTS_RESULTS_FILE",
-      "OLDER_RESULTS_FILE",
+      "Kids",
+      "Teenagers",
+      "Adults",
+      "OlderGen",
     ]
   );
 
   console.log(
-    `Тема видео : ${videoTheme} , категория : ${category} , имя файла : ${fileName}`
+    `Тема видео : ${videoTheme} , категория : ${category} , возрастная категория : ${age_group}`
   );
-
-  if (FILES_MAP[fileName]) {
-    fileName = FILES_MAP[fileName];
-  } else {
-    console.log(`Файла  ${fileName} не существует.`);
-    return;
-  }
-
-  await tagsReceiptAutomation(videoTheme, category, fileName);
-
-  await proccessChannelSearch(category, fileName);
+  
+  await tagsReceiptAutomation(videoTheme, category , age_group);
 
   rl.close();
-
 })();
 
-async function proccessChannelSearch (category,filename) {
-  const recordChannels = await askQuestion(
-    `Начать запись каналов, исходя из имеющихся тэгов в категорию ${category} ? (Да/Нет) : `
-  );
-
-  if (recordChannels.toLowerCase() !== "да") {
-    console.log("Работа завершена.");
-    return;
-  } else {
-    try {
-      const data = fs.readFileSync(filename, "utf8"); 
-      const jsonData = await JSON.parse(data);
-
-      const getRandomTags = (tags, count = 2) => {
-        if (tags.length <= count) return tags; 
-      
-        const shuffled = [...tags].sort(() => Math.random() - 0.5); 
-        return shuffled.slice(0, count); 
-      };
-      
-      const tags = getRandomTags(jsonData[category].tags);      
-  
-      console.log("Полученные тэги : " , tags)
-  
-      const response = await getChannelByTag(tags)
-  
-      if(!jsonData[category]){
-        jsonData[category] = { channels: [] };
-      } 
-  
-      jsonData[category].channels.push(response)
-      
-      fs.writeFileSync(filename,JSON.stringify(jsonData,null,2))
-  
-      console.log(`Канал(-ы) был(-и) записан(-ы) в ${filename}`)
-    } catch (error) {
-      console.log("Возникла ошибка в записи каналов : " , error)
-    }
-  }
-  }
-    
