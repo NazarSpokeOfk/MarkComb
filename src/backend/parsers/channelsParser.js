@@ -1,6 +1,5 @@
 import dotenv from "dotenv";
 import path from "path";
-import rl from "./readlineHelper.js";
 import { fileURLToPath } from "url";
 import storagePool from "../db/storageIndex.js";
 
@@ -14,36 +13,6 @@ if (!apiKey) {
   throw new Error("API ключ Google не найден! Проверьте .env файл.");
 }
 
-const askQuestion = (question) => {
-  return new Promise((resolve) => {
-    rl.question(question, (answer) => resolve(answer));
-  });
-};
-
-const askQuestionWithChoises = (question, choises) => {
-  return new Promise((resolve, reject) => {
-    if (!choises) {
-      console.log("Список пар/тэгов пуст");
-      return;
-    }
-    const choisesString = choises
-      .map((choice, index) => `${index + 1}.${choice}`)
-      .join("\n");
-
-    rl.question(`${question}\n${choisesString}\nВыберите номер:`, (answer) => {
-      if(!answer.trim()){
-        reject("Вы не выбрали номер")
-      }
-      const choiceIndex = parseInt(answer, 10) - 1;
-      if (choiceIndex >= 0 && choiceIndex < choises.length) {
-        resolve(choises[choiceIndex]);
-      } else {
-        reject("Некорректный номер");
-      }
-    });
-  });
-};
-
 const getChannelByTag = async (tags) => {
   try {
     const response = await fetch(
@@ -51,13 +20,11 @@ const getChannelByTag = async (tags) => {
         tags
       )}&type=video&maxResults=10&key=${apiKey}`
     );
-    if(!response.ok){
+    if (!response.ok) {
       throw new Error(`Ошибка API: ${response.status} ${response.statusText}`);
     }
     const result = await response.json();
-    console.log("результат с getChannelByTag : ", result);
     const channelIds = result.items.map((item) => item.snippet.channelId);
-    console.log("channelIds : ", channelIds);
     return channelIds;
   } catch (error) {
     console.log("Произошла ошибка в getChannelByTag : ", error);
@@ -69,13 +36,12 @@ const getChannelSubscribersCount = async (channelId) => {
     const response = await fetch(
       `https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${channelId}&key=${apiKey}`
     );
-    if(!response.ok){
+    if (!response.ok) {
       throw new Error(`Ошибка API: ${response.status} ${response.statusText}`);
     }
     const result = await response.json();
     if (result) {
-      const subsCount = result?.items?.[0]?.statistics?.subscriberCount
-      console.log("количество подписчиков :" ,subsCount)
+      const subsCount = result?.items?.[0]?.statistics?.subscriberCount;
       return subsCount;
     } else {
       return null;
@@ -86,77 +52,82 @@ const getChannelSubscribersCount = async (channelId) => {
 };
 
 if (process.argv[1] === __filename) {
-  (async () => {
-    let age_group = await askQuestionWithChoises(
-      "Введите возрастную категорию, откуда брать теги, и куда сохранять каналы : ",
-      ["Kids.", "Teenagers.", "Adults.", "OlderGen."]
-    );
-    console.log("Выбор : ", age_group);
-    const content_type = await askQuestion(
-      "Введите название категории, откуда брать тэги : "
-    );
+
+  const getTags = async () => {
+    let age_group = process.argv[3];
+    let content_type = process.argv[4];
 
     let tags;
-
     try {
-      tags = (await storagePool.query(
-        `SELECT tag FROM tags WHERE age_group = $1 AND content_type = $2 LIMIT 50`,
-        [age_group, content_type]
-      )).rows.map(row => row.tag)
-      console.log("Тэги из бд : ", tags);
+      tags = (
+        await storagePool.query(
+          `SELECT tag FROM tags WHERE age_group = $1 AND content_type = $2 LIMIT 50`,
+          [age_group, content_type]
+        )
+      ).rows.map((row) => row.tag);
+
       if (tags.length === 0) {
-        console.log("Не найдено тэгов по вашим критериям");
-        process.exit(0)
+        return { error: "Не найдено тэгов по вашим критериям" };
       }
     } catch (error) {
-      console.log("Ошибка в получении тэгов из бд : ", error);
+      console.log("Ошибка в получении тэгов из БД:", error);
+      return { error: "Ошибка в получении тэгов" };
     }
 
-    const pairsOrManualChoice = await askQuestion(
-      "Использовать ранее подготовленные пары для поиска каналов? (да/нет) : "
-    );
-
-    if (pairsOrManualChoice.toLowerCase() != "да") {
-      tags = await askQuestion(
-        "Выберите 2 тэга из этого списка. Пишите через запятую :"
-      );
-    } else {
-      let pairs;
-      try {
-        pairs = (await storagePool.query(
+    let pairs;
+    try {
+      pairs = (
+        await storagePool.query(
           `SELECT pair FROM pairs WHERE content_type = $1 LIMIT 50`,
           [content_type]
-        )).rows.map(row => row.pair);
-        
-      } catch (error) {
-        console.log("Возникла ошибка при выборке пар : ", error);
+        )
+      ).rows.map((row) => row.pair);
+
+      if (pairs.length === 0) {
+        return { error: "Нет пар для такой аудитории и типа контента" };
       }
-      tags = await askQuestionWithChoises(
-        "Пары, по которым можно сделать поиск:",
-        pairs
-      );
+    } catch (error) {
+      console.log("Ошибка при выборке пар:", error);
+      return { error: "Ошибка при выборке пар" };
     }
 
+    return { tags, pairs };
+  };
+
+  const getChannelsAndWriteIntoDB = async (tags, content_type, age_group) => {
     const channels = await getChannelByTag(tags);
 
     try {
       for (const channel of channels) {
-        console.log("id канала, который будет записан в бд :", channel);
 
-        const channelSubsCount = await getChannelSubscribersCount(channel) || null;
+        const channelSubsCount =
+          (await getChannelSubscribersCount(channel)) || null;
 
         await storagePool.query(
-          `INSERT INTO channels (channelID,content_type,age_group,subs_count) VALUES ($1,$2,$3,$4) ON CONFLICT (channelID) DO NOTHING`,
+          `INSERT INTO channels (channelID, content_type, age_group, subs_count) 
+           VALUES ($1, $2, $3, $4) ON CONFLICT (channelID) DO NOTHING`,
           [channel, content_type, age_group, channelSubsCount]
         );
       }
+      return JSON.stringify({message : "Каналы записаны в бд"})
     } catch (error) {
-      console.log("Возникла ошибка в записи каналов ! : ", error);
+      console.log("Ошибка при записи каналов:", error);
     }
+  };
 
-    console.log("Канал(-ы) был(-и) записан(-ы) в бд");
+  (async () => {
+    if (process.argv[2] === "tags") {
+      const result = await getTags();
+      console.log(JSON.stringify(result)); // JSON-вывод для удобства обработки в контроллере
+      process.exit(0);
+    } else if (process.argv[2] === "channels") {
+      const tags = process.argv[5] ? process.argv[5].split(",") : [];
+      const content_type = process.argv[4];
+      const age_group = process.argv[3];
 
-    rl.close();
+      await getChannelsAndWriteIntoDB(tags, content_type, age_group);
+      process.exit(0);
+    }
   })();
 }
 

@@ -8,6 +8,7 @@ import pool from "./db/index.js";
 import storagePool from "./db/storageIndex.js";
 import helmet from "helmet"
 
+import ParserController from "./controllers/parsersController.js"
 import userRouter from "./routers/userRouter.js";
 import purchasesRouter from "./routers/purchasesRouter.js";
 import googleAPIRouter from "./routers/googleAPIRouter.js"
@@ -58,6 +59,7 @@ app.use((req,res,next) => {
 //Тут надо аккуратным быть
 const PORT = process.env.port || 5001;
 
+app.use("/api",ParserController)
 app.use("/api", googleAPIRouter)
 app.use("/api", purchasesRouter);
 app.use("/api", userRouter);

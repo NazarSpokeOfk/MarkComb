@@ -14,6 +14,10 @@ import YoutuberImg from "../../images/MrBeast.webp";
 
 const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn , setUserData , csrfToken }) => {
 
+  useEffect(()=>{
+    console.log("SimilarChannelData : " , SimilarChannelData)
+  },[SimilarChannelData])
+
   const { t, i18n } = useTranslation();
   const [btnsState, setBtnsState] = useState({});
   const isProcessingRef = useRef({});
@@ -78,7 +82,7 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
         }
     
         if (buttonId === 1) {
-          console.log("Проверочка:",SimilarChannelData?.[0]?.thumbnail)
+          console.log("Проверочка:",SimilarChannelData.channelStats?.[0]?.thumbnail)
           dataToDB.validatePurchaseData(
             {
               thumbnail: SimilarChannelData?.[0]?.thumbnail || "",
@@ -212,7 +216,7 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
             }`}
           >
             <div className="youtuber__name none">
-              {userData && SimilarChannelData ? SimilarChannelData?.payload?.title : "?"}
+              {userData && SimilarChannelData ? SimilarChannelData?.channelStats?.title : "?"}
             </div>
             <div className="youtuber__information">
               <div className="youtuber__definitions">
@@ -230,24 +234,24 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
               <div className="youtuber__stats">
                 <h4 className="statistic none">
                   { userData && SimilarChannelData
-                    ? SimilarChannelData?.payload?.targetAudience
+                    ? SimilarChannelData?.channelStats?.targetAudience
                     : "?"}
                 </h4>
                 <h4 className="statistic none">
                   { userData && SimilarChannelData
-                    ? SimilarChannelData?.payload?.subs
+                    ? SimilarChannelData?.channelStats?.subs
                     : "?"}
                 </h4>
                 <h4 id="contentType" className="statistic none">
                   {userData && SimilarChannelData
-                    ? SimilarChannelData?.payload?.contenttype
+                    ? SimilarChannelData?.channelStats?.contenttype
                     : "?"}
                 </h4>
               </div>
             </div>
             <img
               loading="lazy"
-              src={userData && SimilarChannelData?.payload?.thumbnail || YoutuberImg}
+              src={userData && SimilarChannelData?.channelStats?.thumbnail || YoutuberImg}
               alt="MrBeast"
               className="youtuber__image"
             />
@@ -259,14 +263,14 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
               if (
                 userData.channels &&
                 userData.channels.some(
-                  (channel) => channel.channel_name === SimilarChannelData?.payload?.title
+                  (channel) => channel.channel_name === SimilarChannelData?.channelStats?.title
                 )
               ) {
                 alreadyHave()
                 return;
               } else {
                 console.log("SimilarChannelData:" , SimilarChannelData)
-                handleButtonClick(SimilarChannelData.payload, 1);
+                handleButtonClick(SimilarChannelData.channelStats, 1);
               }
             }}
           >

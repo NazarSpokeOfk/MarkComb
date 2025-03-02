@@ -12,3 +12,9 @@
 2025-02-23T18:03:02.506Z + "
 " [INFO] + "
 " (printf.js:11): Возникла ошибка в fetchChannelData :  Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+2025-03-01T08:25:40.817Z + "
+" [INFO] + "
+" (printf.js:11): Произошла ошибка:
+2025-03-02T11:03:10.500Z + "
+" [INFO] + "
+" (printf.js:11): Произошла ошибка:

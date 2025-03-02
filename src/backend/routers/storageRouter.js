@@ -1,12 +1,11 @@
 import {Router} from "express"
 
-import StorageController from "../controllers/storageController.js";
+import ChannelsController from "../controllers/channelsController.js";
 
 const router = new Router();
 
-const storageController = new StorageController();
+const channelsController = new ChannelsController();
 
-router.post("/audience" , (req,res) => storageController.getRandomChannelByAudience(req,res));
-router.get("/contenttype/:ContentType" , (req,res) => storageController.getRandomChannelByContentType(req,res));
+router.post("/filter" , (req,res) => channelsController.selectChannel(req,res));
 
 export default router;

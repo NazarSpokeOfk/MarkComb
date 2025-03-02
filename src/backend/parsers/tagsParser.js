@@ -2,11 +2,9 @@ import puppeteer from "puppeteer";
 import fs from "fs";
 import path from "path";
 import rl from "./readlineHelper.js";
-import StoragePool from "../db/storageIndex.js";
 
 import dotenv from "dotenv";
 
-import getChannelByTag from "./channelsParser.js";
 import storagePool from "../db/storageIndex.js";
 
 dotenv.config({ path: path.resolve(process.cwd(), "../environment/.env") });
@@ -14,7 +12,12 @@ dotenv.config({ path: path.resolve(process.cwd(), "../environment/.env") });
 const apiKey = process.env.GOOGLE_API_KEY;
 
 async function loadCookies(page) {
-  const cookies = JSON.parse(fs.readFileSync("cookies.json", "utf8"));
+  const cookies = JSON.parse(
+    fs.readFileSync(
+      "/Users/nazarkuratnikov/Desktop/Project X /markcomb/src/backend/parsers/cookies.json",
+      "utf8"
+    )
+  );
   await page.setCookie(...cookies);
 }
 
@@ -87,15 +90,26 @@ async function getYouTubeKeywords(videoId) {
   return { videoId, keywords };
 }
 
-async function saveKeywords(category, tags , age_group) {
+async function saveKeywords(category, tags, age_group) {
+  console.log("ТЭГИ : " ,tags)
+  const forbiddenTags = [
+    "бесплатно",
+    "телефон с камерой",
+    "поделиться",
+    "телефон с видео",
+    "загрузить",
+    "видео",
+    "поделиться"
+  ];
   try {
-    console.log("Аргументы : " ,category,tags,age_group)
-    for(const tag of tags) {
+    for (const tag of tags) {
+      if (forbiddenTags.includes(tag)) continue;
+
       await storagePool.query(
         `INSERT INTO tags (tag,content_type,age_group) VALUES ($1,$2,$3)`,
-        [tag,category,age_group]
+        [tag, category, age_group]
       );
-      console.log(`Данные для ${tag} , были записаны`)
+      console.log(`Данные для ${tag} , были записаны`);
     }
   } catch (error) {
     console.log("Возникла ошибка в saveKeywords : ", error);
@@ -128,7 +142,7 @@ const askQuestionWithChoises = (question, choises) => {
   });
 };
 
-async function tagsReceiptAutomation(videoTheme, category , age_group) {
+async function tagsReceiptAutomation(videoTheme, category, age_group) {
   const channelId = await getChannelId(videoTheme);
 
   if (!channelId) {
@@ -150,32 +164,22 @@ async function tagsReceiptAutomation(videoTheme, category , age_group) {
     );
     const tags = await getYouTubeKeywords(videoId);
 
-    saveKeywords(category, tags.keywords,age_group);
+    saveKeywords(category, tags.keywords, age_group);
     console.log(`Данные для ${videoId} сохранены.\n`);
   }
 }
 
 (async () => {
-  const videoTheme = await askQuestion("Введите тему : ");
-  const category = await askQuestion(
-    "Введите категорию, в которую будут записаны тэги : "
-  );
-  let age_group = await askQuestionWithChoises(
-    "Введите возрастную категорию, куда будут записаны тэги : ",
-    [
-      "Kids",
-      "Teenagers",
-      "Adults",
-      "OlderGen",
-    ]
-  );
+  const videoTheme = process.argv[2];
+  const category = process.argv[3];
+  const age_group = process.argv[4];
+  console.log("Аге гроуп", age_group)
 
   console.log(
     `Тема видео : ${videoTheme} , категория : ${category} , возрастная категория : ${age_group}`
   );
-  
-  await tagsReceiptAutomation(videoTheme, category , age_group);
 
-  rl.close();
+  await tagsReceiptAutomation(videoTheme, category, age_group);
+
+  process.exit(0);
 })();
-
