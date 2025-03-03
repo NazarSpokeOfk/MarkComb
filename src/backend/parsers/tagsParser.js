@@ -1,7 +1,6 @@
 import puppeteer from "puppeteer";
 import fs from "fs";
 import path from "path";
-import rl from "./readlineHelper.js";
 
 import dotenv from "dotenv";
 
@@ -39,7 +38,7 @@ async function getChannelId(videoTheme) {
 
     return result.items.map((item) => item?.id?.channelId).filter(Boolean);
   } catch (error) {
-    console.log("Возникла ошибка в getChannelID : ", error);
+    console.error("Возникла ошибка в getChannelID : ", error);
     return [];
   }
 }
@@ -63,7 +62,7 @@ async function getVideoIds(channelIds) {
     console.log("Результат getVideoIds : ", videoIDs);
     return videoIDs;
   } catch (error) {
-    console.log("Возникла ошибка в getVideoIds : ", error);
+    console.error("Возникла ошибка в getVideoIds : ", error);
     return [];
   }
 }
@@ -91,7 +90,7 @@ async function getYouTubeKeywords(videoId) {
 }
 
 async function saveKeywords(category, tags, age_group) {
-  console.log("ТЭГИ : " ,tags)
+  console.log("ТЭГИ : ", tags);
   const forbiddenTags = [
     "бесплатно",
     "телефон с камерой",
@@ -99,7 +98,7 @@ async function saveKeywords(category, tags, age_group) {
     "телефон с видео",
     "загрузить",
     "видео",
-    "поделиться"
+    "поделиться",
   ];
   try {
     for (const tag of tags) {
@@ -112,35 +111,9 @@ async function saveKeywords(category, tags, age_group) {
       console.log(`Данные для ${tag} , были записаны`);
     }
   } catch (error) {
-    console.log("Возникла ошибка в saveKeywords : ", error);
+    console.error("Возникла ошибка в saveKeywords : ", error);
   }
 }
-
-const askQuestion = (question) => {
-  return new Promise((resolve) => {
-    rl.question(question, (answer) => {
-      console.log(`Введено: ${answer}`);
-      resolve(answer);
-    });
-  });
-};
-
-const askQuestionWithChoises = (question, choises) => {
-  return new Promise((resolve, reject) => {
-    const choisesString = choises
-      .map((choice, index) => `${index + 1}.${choice}`)
-      .join("\n");
-
-    rl.question(`${question}\n${choisesString}\nВыберите номер:`, (answer) => {
-      const choiceIndex = parseInt(answer, 10) - 1;
-      if (choiceIndex >= 0 && choiceIndex < choises.length) {
-        resolve(choises[choiceIndex]);
-      } else {
-        reject("Некорректный номер");
-      }
-    });
-  });
-};
 
 async function tagsReceiptAutomation(videoTheme, category, age_group) {
   const channelId = await getChannelId(videoTheme);
@@ -173,13 +146,13 @@ async function tagsReceiptAutomation(videoTheme, category, age_group) {
   const videoTheme = process.argv[2];
   const category = process.argv[3];
   const age_group = process.argv[4];
-  console.log("Аге гроуп", age_group)
+  console.log("Аге гроуп", age_group);
 
   console.log(
     `Тема видео : ${videoTheme} , категория : ${category} , возрастная категория : ${age_group}`
   );
 
-  await tagsReceiptAutomation(videoTheme, category, age_group);
-
-  process.exit(0);
+  await tagsReceiptAutomation(videoTheme, category, age_group).then(() => {
+    process.exit(0);
+  });
 })();

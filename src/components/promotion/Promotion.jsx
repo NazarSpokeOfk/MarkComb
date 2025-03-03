@@ -19,7 +19,7 @@ const Promotion = ({ isLoggedIn, userData }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
-    console.log("videoData:", videoData);
+    console.log("userdata : " , userData)
   }, [videoData]);
 
   const secondYouTubersContainerRef = useRef(),

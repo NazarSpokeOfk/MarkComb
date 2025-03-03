@@ -85,9 +85,9 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
           console.log("Проверочка:",SimilarChannelData.channelStats?.[0]?.thumbnail)
           dataToDB.validatePurchaseData(
             {
-              thumbnail: SimilarChannelData?.[0]?.thumbnail || "",
+              thumbnail: SimilarChannelData?.channelStats?.thumbnail || "",
               email: response?.[0] || "",
-              channelName: SimilarChannelData?.[0]?.title || "",
+              channelName: SimilarChannelData?.channelStats?.title || "",
               uses: 1,
             },
             userData?.user?.user_id,
@@ -97,9 +97,9 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
           console.log("Ало бял  ")
           dataToDB.validatePurchaseData(
             {
-              thumbnail: channelData?.updatedData?.[0]?.thumbnail || "",
+              thumbnail: channelData?.channelStats?.thumbnail || "",
               email: response?.[0] || "",
-              channelName: channelData?.updatedData?.[0]?.title || "",
+              channelName: channelData?.channelStats?.title || "",
               uses: 1,
             },
             userData?.user?.user_id,

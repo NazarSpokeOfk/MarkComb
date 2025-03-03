@@ -18,3 +18,57 @@
 2025-03-02T11:03:10.500Z + "
 " [INFO] + "
 " (printf.js:11): Произошла ошибка:
+2025-03-02T12:11:50.623Z + "
+" [INFO] + "
+" (printf.js:11): Произошла ошибка:
+2025-03-03T15:06:11.472Z + "
+" [ERROR] + "
+" (printf.js:11): Ошибка в парсере: file:///Users/nazarkuratnikov/Desktop/Project%20X%C2%A0/markcomb/src/backend/node_modules/puppeteer-core/lib/esm/puppeteer/cdp/Frame.js:180
+                        ? new Error(`${response.errorText} at ${url}`)
+                          ^
+
+Error: net::ERR_INVALID_AUTH_CREDENTIALS at https://www.youtube.com/watch?v=GQCYqBzhYD4
+    at navigate (file:///Users/nazarkuratnikov/Desktop/Project%20X%C2%A0/markcomb/src/backend/node_modules/puppeteer-core/lib/esm/puppeteer/cdp/Frame.js:180:27)
+    at async Deferred.race (file:///Users/nazarkuratnikov/Desktop/Project%20X%C2%A0/markcomb/src/backend/node_modules/puppeteer-core/lib/esm/puppeteer/util/Deferred.js:33:20)
+    at async CdpFrame.goto (file:///Users/nazarkuratnikov/Desktop/Project%20X%C2%A0/markcomb/src/backend/node_modules/puppeteer-core/lib/esm/puppeteer/cdp/Frame.js:146:25)
+    at async CdpPage.goto (file:///Users/nazarkuratnikov/Desktop/Project%20X%C2%A0/markcomb/src/backend/node_modules/puppeteer-core/lib/esm/puppeteer/api/Page.js:570:20)
+    at async getYouTubeKeywords (file:///Users/nazarkuratnikov/Desktop/Project%20X%C2%A0/markcomb/src/backend/parsers/tagsParser.js:81:3)
+    at async tagsReceiptAutomation (file:///Users/nazarkuratnikov/Desktop/Project%20X%C2%A0/markcomb/src/backend/parsers/tagsParser.js:138:18)
+    at async file:///Users/nazarkuratnikov/Desktop/Project%20X%C2%A0/markcomb/src/backend/parsers/tagsParser.js:155:3
+
+Node.js v20.17.0
+
+03.03.2025, 18:13:29 + "
+" [ERROR] + "
+" (printf.js:11): Ошибка в парсере: file:///Users/nazarkuratnikov/Desktop/Project%20X%C2%A0/markcomb/src/backend/node_modules/puppeteer-core/lib/esm/puppeteer/cdp/Frame.js:180
+                        ? new Error(`${response.errorText} at ${url}`)
+                          ^
+
+Error: net::ERR_INVALID_AUTH_CREDENTIALS at https://www.youtube.com/watch?v=GQCYqBzhYD4
+    at navigate (file:///Users/nazarkuratnikov/Desktop/Project%20X%C2%A0/markcomb/src/backend/node_modules/puppeteer-core/lib/esm/puppeteer/cdp/Frame.js:180:27)
+    at async Deferred.race (file:///Users/nazarkuratnikov/Desktop/Project%20X%C2%A0/markcomb/src/backend/node_modules/puppeteer-core/lib/esm/puppeteer/util/Deferred.js:33:20)
+    at async CdpFrame.goto (file:///Users/nazarkuratnikov/Desktop/Project%20X%C2%A0/markcomb/src/backend/node_modules/puppeteer-core/lib/esm/puppeteer/cdp/Frame.js:146:25)
+    at async CdpPage.goto (file:///Users/nazarkuratnikov/Desktop/Project%20X%C2%A0/markcomb/src/backend/node_modules/puppeteer-core/lib/esm/puppeteer/api/Page.js:570:20)
+    at async getYouTubeKeywords (file:///Users/nazarkuratnikov/Desktop/Project%20X%C2%A0/markcomb/src/backend/parsers/tagsParser.js:81:3)
+    at async tagsReceiptAutomation (file:///Users/nazarkuratnikov/Desktop/Project%20X%C2%A0/markcomb/src/backend/parsers/tagsParser.js:138:18)
+    at async file:///Users/nazarkuratnikov/Desktop/Project%20X%C2%A0/markcomb/src/backend/parsers/tagsParser.js:155:3
+
+Node.js v20.17.0
+
+03.03.2025, 18:16:22 + "
+" [ERROR] + "
+" (printf.js:11): Ошибка в парсере тэгов: file:///Users/nazarkuratnikov/Desktop/Project%20X%C2%A0/markcomb/src/backend/node_modules/puppeteer-core/lib/esm/puppeteer/cdp/Frame.js:180
+                        ? new Error(`${response.errorText} at ${url}`)
+                          ^
+
+Error: net::ERR_INVALID_AUTH_CREDENTIALS at https://www.youtube.com/watch?v=GQCYqBzhYD4
+    at navigate (file:///Users/nazarkuratnikov/Desktop/Project%20X%C2%A0/markcomb/src/backend/node_modules/puppeteer-core/lib/esm/puppeteer/cdp/Frame.js:180:27)
+    at async Deferred.race (file:///Users/nazarkuratnikov/Desktop/Project%20X%C2%A0/markcomb/src/backend/node_modules/puppeteer-core/lib/esm/puppeteer/util/Deferred.js:33:20)
+    at async CdpFrame.goto (file:///Users/nazarkuratnikov/Desktop/Project%20X%C2%A0/markcomb/src/backend/node_modules/puppeteer-core/lib/esm/puppeteer/cdp/Frame.js:146:25)
+    at async CdpPage.goto (file:///Users/nazarkuratnikov/Desktop/Project%20X%C2%A0/markcomb/src/backend/node_modules/puppeteer-core/lib/esm/puppeteer/api/Page.js:570:20)
+    at async getYouTubeKeywords (file:///Users/nazarkuratnikov/Desktop/Project%20X%C2%A0/markcomb/src/backend/parsers/tagsParser.js:81:3)
+    at async tagsReceiptAutomation (file:///Users/nazarkuratnikov/Desktop/Project%20X%C2%A0/markcomb/src/backend/parsers/tagsParser.js:138:18)
+    at async file:///Users/nazarkuratnikov/Desktop/Project%20X%C2%A0/markcomb/src/backend/parsers/tagsParser.js:155:3
+
+Node.js v20.17.0
+

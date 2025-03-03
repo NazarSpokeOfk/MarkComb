@@ -16,7 +16,9 @@ const getCallerInfo = () => {
 const logger = winston.createLogger({
     level: process.env.NODE_ENV === "production" ? "error" : "info",
     format : winston.format.combine(
-        winston.format.timestamp(),
+        winston.format.timestamp({
+            format : () => new Date().toLocaleString("ru-RU",{timeZone : "Europe/Moscow"})
+        }),
         winston.format.printf(({ level , message , timestamp}) => {
             return `${timestamp} + "\n" [${level.toUpperCase()}] + "\n" (${getCallerInfo()}): ${message}`;
         })
