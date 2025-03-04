@@ -61,7 +61,7 @@ if (process.argv[1] === __filename) {
     try {
       tags = (
         await storagePool.query(
-          `SELECT tag FROM tags WHERE age_group = $1 AND content_type = $2 LIMIT 50`,
+          `SELECT tag FROM tags WHERE age_group = $1 AND content_type = $2 LIMIT 150`,
           [age_group, content_type]
         )
       ).rows.map((row) => row.tag);
