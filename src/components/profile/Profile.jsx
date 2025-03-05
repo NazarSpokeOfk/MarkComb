@@ -17,7 +17,7 @@ const Profile = ({ userData, setUserData , setIsLoggedIn , csrfToken , isLoggedI
   const [isPasswordChanged, setIsPasswordChanged] = useState(false);
   const [isAccountWillBeDeleted,setIsAccountWillBeDeleted] = useState(false)
   const [localPassword, setLocalPassword] = useState(
-    userData?.user?.password || ""
+    ""
   );
   const [changedData, setChangedData] = useState({
     username: "",
@@ -33,7 +33,7 @@ const Profile = ({ userData, setUserData , setIsLoggedIn , csrfToken , isLoggedI
     if(!isLoggedIn){
       navigate("/")
     }
-  },[])
+  },[isLoggedIn])
 
   const handleNameChange = (e) => {
     const value = e.target.value;

@@ -4,12 +4,13 @@ import { useState, useEffect, useRef } from "react";
 import React from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 import Modal from "../modal/Modal";
 import VerifModal from "../modal/VerifModal";
 import checkCookies from "../../checkCookies/checkCookies";
 import manageFiltersFetch from "../../filtersRequests/filterFetches";
+
 
 import "./Header&Filter.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -31,7 +32,6 @@ const HeaderFilter = ({
   userData,
   setCsrfToken,
   csrfToken,
-  userLang,
   setUserCountry,
   setUserLang,
 }) => {
@@ -41,8 +41,10 @@ const HeaderFilter = ({
   const [entryMethod, setEntryMethod] = useState("");
   const [activeIndex, setActiveIndex] = useState(null);
   const [contentActiveIndex, setContentActiveIndex] = useState(null);
+  const [subsActiveIndex,setSubsActiveIndex] = useState(null)
   const [mainInputValue, setMainInputValue] = useState("");
-
+  const [isPasswordWillBeReset,setIsPasswordWillBeReset] = useState(false)
+  
   const audienceButtonLabels = [
     "Kids",
     "Adults",
@@ -62,6 +64,19 @@ const HeaderFilter = ({
     "Gaming",
     "Travel",
   ];
+  const subscribersButtonLabels = {
+    "0-1K" : [0,1000],
+    "1-10K" : [1000,10000],
+    "10-100K" : [10000,100000],
+    "100-500K" : [100000,500000],
+    "1-5M" : [1000000,5000000],
+    "5-10M" : [5000000,10000000],
+    "10-20M" : [10000000,20000000]
+  }
+
+  useEffect(() => {
+    console.log("Будет ли смененен : " , isPasswordWillBeReset)
+  },[isPasswordWillBeReset])
 
   const filterRef = useRef();
 
@@ -153,7 +168,7 @@ const HeaderFilter = ({
                 onClick={() => {
                   setEntryMethod("logIn");
                   setIsModalOpened(true);
-                }}
+                }}  
                 href="#"
                 className="log__in"
               >
@@ -184,9 +199,11 @@ const HeaderFilter = ({
               }}
               onSubmit={(e) => {
                 e.preventDefault();
-                isLoggedIn
-                  ? searchFetch(e)
-                  : logInFirstly()
+                if(isLoggedIn){
+                  searchFetch(e)
+                } else {
+                  logInFirstly()
+                }
               }}
             >
               <input className="search__main" type="text" />
@@ -232,7 +249,11 @@ const HeaderFilter = ({
                     }`}
                     onClick={() => {
                       setContentActiveIndex(index);
-                      isLoggedIn ? manageFiltersFetch(false,setSimilarChannelData,label,false,false) : logInFirstly()
+                      if(isLoggedIn){
+                        manageFiltersFetch(false,setSimilarChannelData,label,false,false)
+                      } else {
+                        logInFirstly();
+                      } 
                     }}
                   >
                     {label}
@@ -247,92 +268,24 @@ const HeaderFilter = ({
                 <span> {t("subscribers")}</span>
               </h2>
               <div className="number__ofsubs__blocks">
-                <div
-                  onClick={() => {
-                    isLoggedIn ? manageFiltersFetch(false,setSimilarChannelData,false,0,1000) : logInFirstly()
-                  }
-                  }
-                  id="low"
-                  className="filter__block"
-                >
-                  <ToastContainer />
-                  0-1K
-                </div>
-                <div
-                  onClick={() => {
-                    isLoggedIn ? manageFiltersFetch(false, setSimilarChannelData, false,1000,10000): logInFirstly()
-                  }
-                  }
-                  id="lowplus"
-                  className="filter__block"
-                >
-                  <ToastContainer />
-                  1-10K
-                </div>
-                <div
-                  onClick={() =>
-                    isLoggedIn ? 
-                    manageFiltersFetch(false,setSimilarChannelData,false,10000,100000) :
-                    logInFirstly()
-                  }
-                  id="medium"
-                  className="filter__block"
-                >
-                  <ToastContainer />
-                  10-100K
-                </div>
-                <div
-                  onClick={() =>
-                    isLoggedIn ?
-                    manageFiltersFetch(false, setSimilarChannelData, false, 100000,500000)
-                    :
-                    logInFirstly()
-                  }
-                  id="mediumplus"
-                  className="filter__block"
-                >
-                  <ToastContainer />
-                  100-500K
-                </div>
-                <div
-                  onClick={() =>
-                  isLoggedIn ?
-                    manageFiltersFetch(false,setSimilarChannelData,false,1000000,5000000)
-                    :
-                    logInFirstly()
-                  }
-                  id="hi"
-                  className="filter__block"
-                >
-                  <ToastContainer />
-                  1-5M
-                </div>
-                <div
-                  onClick={() =>
-                    isLoggedIn ?
-                    manageFiltersFetch(false, setSimilarChannelData, false, 5000000,10000000)
-                    :
-                    logInFirstly()
-                  }
-                  id="hiplus"
-                  className="filter__block"
-                >
-                  <ToastContainer />
-                  5-10M
-                </div>
-                <div
-                  onClick={() =>
-                  isLoggedIn ?
-                  manageFiltersFetch(false, setSimilarChannelData, false, 10000000,20000000)
-                    :
-                    logInFirstly()
-                  }
-                  id="highest"
-                  className="filter__block"
-                >
-                  <ToastContainer />
-                  10M-20M
-                </div>
+                {Object.entries(subscribersButtonLabels).map((label, index) => (
+                  <button
+                    key={index}
+                    className={`filter__block ${
+                      subsActiveIndex === index ? "filteractive" : ""
+                    }`}
+                    onClick={() => {
+                      setSubsActiveIndex(index);
+                       if(isLoggedIn){
+                        manageFiltersFetch(false,setSimilarChannelData,false,label?.[1]?.[0],label?.[1]?.[1])
+                       } else {
+                        logInFirstly()
+                       }
+                    }} 
+                  >
+                    {label[0]}
+                  </button>
+                ))}
               </div>
             </div>
 
@@ -350,7 +303,11 @@ const HeaderFilter = ({
                     }`}
                     onClick={() => {
                       setActiveIndex(index);
-                       isLoggedIn ? manageFiltersFetch(label,setSimilarChannelData,false,false,false) : logInFirstly()
+                       if(isLoggedIn){
+                        manageFiltersFetch(label,setSimilarChannelData,false,false,false)
+                       } else {
+                        logInFirstly()
+                       }
                     }}
                   >
                     {label}
@@ -377,10 +334,12 @@ const HeaderFilter = ({
             setCsrfToken={setCsrfToken}
             setUserCountry={setUserCountry}
             setUserLang={setUserLang}
+            setIsPasswordWillBeReset = {setIsPasswordWillBeReset}
           />
         ) : null}
         {isDataFilledIn ? (
           <VerifModal
+            logInData = {logInData}
             isDataFilledIn={isDataFilledIn}
             setSignInData={setSignInData}
             signInData={signInData}
@@ -389,7 +348,13 @@ const HeaderFilter = ({
             isLoggedIn={isLoggedIn}
           />
         ) : null}
-        <ToastContainer />
+
+        {isPasswordWillBeReset ? (
+          <VerifModal
+          
+          />
+        ) : null}
+
       </HelmetProvider>
     </>
   );

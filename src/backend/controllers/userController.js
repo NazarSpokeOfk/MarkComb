@@ -209,6 +209,8 @@ class UserController {
 
     console.log("✅ Код правильный");
 
+    await mailVerification.clearUpVerifCodes(email)
+
     // Валидация данных
     this.validateInput({ email, password, username });
 
@@ -230,7 +232,7 @@ class UserController {
       }
 
       // Обработка других ошибок
-      logger.info(err);
+      logger.error(err);
       res.status(500).json({ error: 'Internal server error' });
     }
   }

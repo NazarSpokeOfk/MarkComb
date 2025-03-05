@@ -13,11 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 import YoutuberImg from "../../images/MrBeast.webp";
 
 const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn , setUserData , csrfToken }) => {
-
-  useEffect(()=>{
-    console.log("SimilarChannelData : " , SimilarChannelData)
-  },[SimilarChannelData])
-
+  
   const { t, i18n } = useTranslation();
   const [btnsState, setBtnsState] = useState({});
   const isProcessingRef = useRef({});
@@ -199,7 +195,11 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
                 alreadyHave()
                 return;
               } else {
-                isLoggedIn ? handleButtonClick(channelData?.updatedData?.[0], 0) : toast.error("You need to log in firstly");
+                if(isLoggedIn){
+                  handleButtonClick(channelData?.updatedData?.[0], 0)
+                } else {
+                  toast.error("You need to log in firstly");
+                }
               }
             }}
           >
@@ -270,7 +270,12 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
                 return;
               } else {
                 console.log("SimilarChannelData:" , SimilarChannelData)
-                handleButtonClick(SimilarChannelData.channelStats, 1);
+                if(isLoggedIn){
+                  handleButtonClick(SimilarChannelData.channelStats, 1)
+                } else {
+                  toast.error("You need to log in firstly")
+                  return;
+                }
               }
             }}
           >

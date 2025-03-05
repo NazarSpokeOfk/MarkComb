@@ -82,14 +82,14 @@ class MailVerification {
     }
   }
 
-  async clearUpVerifCodes() {
+  async clearUpVerifCodes(email) {
     try {
       await pool.query(
-        `DELETE FROM verification_codes WHERE verification_expiry < NOW()`
-      );
-      console.log("Данные очищены.");
+        `DELETE FROM user_verifications WHERE email = $1`
+      , [email]);
+      console.log(`Код верификации для ${email} удален.`);
     } catch (error) {
-      logger.info(error);
+      logger.error(error);
     }
   }
 }

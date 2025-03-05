@@ -57,7 +57,7 @@ router.post('/Uses/:id',(req,res) => userController.addUses(req,res))
 router.post('/user' , (req,res,next) =>userController.addUser(req,res))
 router.post('/auth/google' , (req,res) => googleAuthController(req,res))
 router.post('/login' , logInLimiter, (req,res) => userController.getUserByPassword(req,res))
-router.post('/verification' , (req,res) => verifController(req,res)) //скользкое место.
+router.post('/verification' , (req,res) => verifController(req,res)) 
 
 router.get('/loginbyid/:id' , (req,res) => userController.getUserByUserId(req,res))
 router.get('/cookie' , (req,res) => verifyJWT(req,res))

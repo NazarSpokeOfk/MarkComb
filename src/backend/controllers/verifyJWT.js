@@ -3,7 +3,7 @@ const verifyJWT = async (req,res) => {
     const token = req.cookies.sessionToken;
     
     if(!token){
-        return res.status(403).json({message : "No cookies"})
+        return
     }
 
     try{

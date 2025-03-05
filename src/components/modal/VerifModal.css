@@ -4,7 +4,7 @@
   padding: 20px;
   width: 600px;
   height: 200px;
-  border-radius: 10px;
+  /* border-radius: 10px; */
   z-index: 1001; /* Модалка поверх подложки */
 }
 
@@ -14,12 +14,12 @@
 }
 
 .modal__input-verif {
-  border: 4px solid #000;
-  border-radius: 16px;
+  border: none;
+  background-color: #eceaea;
   width: 70%;
   height: 40px;
   padding-left: 33px;
-  font-size: 18px;
+  font-size: 15px;
   margin-left: 10%;
   position: relative;
 }
@@ -27,17 +27,22 @@
 .modal__verif-button {
   position: absolute;
   border: none;
-  background-color: #fff;
+  background-color: #eceaea;
   font-size: 20px;
   width: 40px;
   height: 40px;
+  top: 92px;
   right: 150px;
-  top: 95.5px;
+  bottom: 10px;
   cursor: pointer;
   transition: all 0.5s;
+  img{
+    max-width: 30px;
+    max-height: 30px;
+  }
 }
 #email {
-  top: 123.5px;
+  top: 121.7px;
 }
 
 .modal__verif-button:hover {

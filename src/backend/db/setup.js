@@ -9,6 +9,8 @@ async function createTables(pool) {
         PRIMARY KEY(user_id)
         )`;
 
+        
+
         const createUserVerificationTable = `CREATE TABLE IF NOT EXISTS user_verifications (
         email VARCHAR(255) PRIMARY KEY,
         verification_code VARCHAR(10) NOT NULL,

@@ -50,6 +50,10 @@ function App() {
     password: "",
   });
 
+  useEffect(() => {
+    console.log("токен  : " ,csrfToken)
+  },[csrfToken])
+
   return (
     <Router>
       <Routes>

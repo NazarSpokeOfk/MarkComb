@@ -30,9 +30,6 @@ const Promotion = ({ isLoggedIn, userData }) => {
 
   const { t, i18n } = useTranslation();
 
-  const changeLanguage = (lang) => {
-    i18n.changeLanguage(lang);
-  };
 
   const handleToggle = () => {
     secondYouTubersContainerRef.current.classList.toggle("active");
@@ -41,7 +38,7 @@ const Promotion = ({ isLoggedIn, userData }) => {
 
   setInterval(() => {
     if (titleRef.current) {
-      titleRef.current.classList.add("active");
+      titleRef.current.classList.add("titleActive");
     }
   }, 50);
 
@@ -261,37 +258,38 @@ const Promotion = ({ isLoggedIn, userData }) => {
           {videoData?.title ? resultBlock(videoData) : ""}
         </section>
 
-        <section id="promotion" className="footer">
-          <div className="footer__container">
-            <h3 className="footer__logo">MarkComb,2024</h3>
-            <Link to="/terms" className="footer__terms">
-              {t("Terms of service")}
-            </Link>
-            <Link to="/purpose" className="footer__purpose">
-              {t("Our purpose")}
-            </Link>
-            <button
-              onClick={() => {
-                SmoothEffect().then(() => {
-                  changeLanguage("ru");
-                });
-              }}
-              className="footer__button"
-            >
-              Русский
-            </button>
-            <button
-              onClick={() => {
-                SmoothEffect().then(() => {
-                  changeLanguage("en");
-                });
-              }}
-              className="footer__button"
-            >
-              English
-            </button>
-          </div>
-        </section>
+        <section className="footer">
+        <div className="footer__container">
+          <h3 className="footer__logo">MarkComb,2024</h3>
+          <Link id="Terms" to="/terms" className="footer__terms none">
+            {t("Terms of service")}
+          </Link>
+          <Link to="/purpose" className="footer__purpose none">
+            {t("Our purpose")}
+          </Link>
+          <button
+            onClick={() => {
+              SmoothEffect().then(() => {
+                i18n.changeLanguage("ru");
+              });
+            }}
+            className="footer__button"
+          >
+            Русский
+          </button>
+          <button
+            onClick={() => {
+              SmoothEffect().then(() => {
+                console.log(i18n)
+                i18n.changeLanguage("en");
+              });
+            }}
+            className="footer__button"
+          >
+            English
+          </button>
+        </div>
+      </section>
       </HelmetProvider>
     </>
   );

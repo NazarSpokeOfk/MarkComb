@@ -1,8 +1,10 @@
 import { useEffect } from "react";
 
 import DataToDB from "../../dataToDB/dataToDB";
-import next from "../../icons/next.png";
 import { toast } from "react-toastify";
+
+import VerifLayout from "./verifLayout";
+
 const VerifPassword = ({
   changedData,
   setChangedData,
@@ -10,7 +12,7 @@ const VerifPassword = ({
   isAccountWillBeDeleted,
   setIsLoggedIn,
   setIsAccountWillBeDeleted,
-  csrfToken
+  csrfToken,
 }) => {
   const dataToDB = new DataToDB(setIsLoggedIn, setUserData, true);
 
@@ -19,70 +21,60 @@ const VerifPassword = ({
   }, [changedData]);
 
   return (
-    <div className="container">
-      <div
-        className={`modal__overlay-verif ${
-          changedData.changeMethod || isAccountWillBeDeleted ? "open" : ""
-        }`}
-      >
-        <div className="modal__block-verif">
-          <h2 className="modal__title-verif">
-            Enter your password to change the data.
-          </h2>
-          <input
-            required
-            type="text"
-            placeholder="Your old password"
-            className="modal__input-verif"
-            onChange={(e) => {
-              const { value } = e.target;
+    <VerifLayout
+      classExpression={`modal__overlay-verif ${
+        changedData.changeMethod || isAccountWillBeDeleted ? "open" : ""
+      }`}
+      titleText=" Enter your password to change the data."
+      onChangeAction={(e) => {
+        const { value } = e.target;
+        setChangedData((prevData) => ({
+          ...prevData,
+          oldPassword: value,
+        }));
+      }}
+      onClickAction={() => {
+        if (isAccountWillBeDeleted) {
+          dataToDB
+            .deleteProfile(
+              changedData?.oldPassword,
+              changedData?.user_id,
+              csrfToken
+            )
+            .then((response) => {
+              console.log(response);
+              if (response.message === true) {
+                setIsAccountWillBeDeleted(false);
+                setTimeout(() => {
+                  toast.success("Account deleted.");
+                }, 100);
+              } else {
+                setTimeout(() => {
+                  toast.error("Wrong password");
+                }, 100);
+              }
+            });
+        } else {
+          dataToDB.updateData(changedData).then((response) => {
+            console.log("Ну окей");
+            if (response.message === true) {
+              console.log("Успешно сменили пароль");
               setChangedData((prevData) => ({
                 ...prevData,
-                oldPassword: value,
+                changeMethod: false,
               }));
-            }}
-          />
-          <button
-            onClick={() => {
-              if (isAccountWillBeDeleted) {
-                dataToDB.deleteProfile(
-                  changedData?.oldPassword,
-                  changedData?.user_id,
-                  csrfToken
-                ).then((response)=>{
-                  console.log(response)
-                  if(response.message === true){
-                    setIsAccountWillBeDeleted(false) 
-                    setTimeout(() => {
-                      toast.success("Account deleted.");
-                    }, 100);
-                  } else {
-                    setTimeout(() => {
-                      toast.error("Wrong password");
-                    }, 100);
-                  }
-                });
-              } else {
-                dataToDB.updateData(changedData).then((response) => {
-                  console.log("Ну окей");
-                  if(response.message === true){
-                    console.log("Успешно смели пароль");
-                    setChangedData((prevData) => ({
-                      ...prevData,
-                      changeMethod: false,
-                    }));
-                  }
-                })
-              }
-            }}
-            type="submit"
-            className="modal__verif-button"
-          >
-            <img className="next_btn-img" src={next} alt="click here" />
-          </button>
-        </div>
-      </div>
-    </div>
+            }
+          });
+        }
+      }}
+      changedData = {changedData}
+      setIsAccountWillBeDeleted = {setIsAccountWillBeDeleted}
+      isAccountWillBeDeleted = {isAccountWillBeDeleted}
+      setChangedData = {setChangedData}
+      csrfToken = {csrfToken}
+      setIsLoggedIn ={setIsLoggedIn}
+      setUserData = {setUserData}
+    />
   );
 };
 export default VerifPassword;

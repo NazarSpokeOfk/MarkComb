@@ -6,7 +6,6 @@ const checkCookies = async (setIsLoggedIn, setUserData , setUserLang) => {
         });
       
         if (!response.ok) {
-          console.log("Ошибка при входе по куки. Статус:", response.status);
           setIsLoggedIn(false);
           return; 
         }

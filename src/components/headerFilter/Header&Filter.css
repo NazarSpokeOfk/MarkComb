@@ -170,7 +170,7 @@ header {
 
 .content__type{
   margin-left: 200px;
-  margin-top: 90px;
+  margin-top: 80px;
 }
 #youth{
   grid-row: 2; 
@@ -285,7 +285,7 @@ header {
 
 
 .filter__divider{
-  margin-top: 20px;
+  margin-top: 30px;
   height: 1px;
 }
 

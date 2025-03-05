@@ -12,9 +12,11 @@ const Terms = () => {
     <>
       <header>
         <div className="container">
-          <div className="logo">
-            Mark<span>Comb</span>
-          </div>
+        <div className="logo">
+              <Link to="/">
+                Mark<span>Comb</span>
+              </Link>
+            </div>
           <div className="header__links">
             <Link to="/purchases" className="header__link">
             <Trans i18nKey="purchases">

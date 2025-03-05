@@ -7,8 +7,13 @@ import GoogleLoginButton from "../googleLogInButton/GoogleLogInButton";
 import DataToDB from "../../dataToDB/dataToDB";
 import ReCAPTCHA from "react-google-recaptcha";
 
-import "./Modal.css";
+import VerifLayout from "./verifLayout";
+
 import { toast } from "react-toastify";
+
+import "./Modal.css";
+
+import Cross from "../../icons/cross.png";
 
 const Modal = ({
   setIsLoggedIn,
@@ -22,12 +27,16 @@ const Modal = ({
   signInData,
   setSignInData,
   setCsrfToken,
-  setUserCountry,
-  setUserLang,
+  setIsPasswordWillBeReset
 }) => {
   const { t } = useTranslation();
 
   const [isChecked, setIsChecked] = useState(false);
+  const [isUserMakeAMistake, setIsUserMakeAMistake] = useState(0);
+
+  useEffect(() => {
+    console.log(`Пользователь совершил ошибку ${isUserMakeAMistake} раз.`);
+  }, [isUserMakeAMistake]);
 
   const modalRef = useRef(null);
 
@@ -67,6 +76,7 @@ const Modal = ({
           document.body.style.overflow = "";
         } else {
           setTimeout(() => {
+            setIsUserMakeAMistake((prevState) => prevState + 1);
             toast.error("Wrong password, or account doesn't exist");
           }, 100);
         }
@@ -123,18 +133,18 @@ const Modal = ({
         }}
         className="modal__overlay"
       >
-        <button
-          onClick={() => {
-            modalRef.current.classList.remove("open");
-            setTimeout(() => {
-              setIsModalOpened(false);
-            }, 600);
-          }}
-          className="modal__close"
-        >
-          X
-        </button>
         <div onClick={(e) => e.stopPropagation()} className="modal__block">
+          <button
+            onClick={() => {
+              modalRef.current.classList.remove("open");
+              setTimeout(() => {
+                setIsModalOpened(false);
+              }, 600);
+            }}
+            className="modal__close"
+          >
+            <img className="modal__close-img" src={Cross} alt="close button" />
+          </button>
           <h2 className="modal__title">
             {entryMethod == "logIn" ? t("Welcome back") : t("Welcome")}
           </h2>
@@ -161,7 +171,7 @@ const Modal = ({
               name="username"
               type="text"
               maxLength={50}
-              placeholder={t("username,3 charaters min.")}
+              placeholder={t("username,3 characters min.")}
               className="modal__input"
               value={signInData.username}
               onChange={(e) =>
@@ -206,6 +216,22 @@ const Modal = ({
           >
             {t("Continue")}
           </button>
+
+          {entryMethod === "logIn" ? (
+            <>
+              <a
+                onClick={() => {
+                  setIsModalOpened(false)
+                }}
+                className={`modal__forgot-password hide ${
+                  isUserMakeAMistake > 1 ? "show" : ""
+                }`}
+              >
+                Forgot your <span>password</span>?
+              </a>
+            </>
+          ) : null}
+
           {entryMethod === "logIn" ? (
             ""
           ) : (
@@ -222,7 +248,7 @@ const Modal = ({
               className="captcha"
               sitekey="6LcxnbQqAAAAALV-GfKKoJPxRVIshbTjTa5izOVr"
               onChange={handleRecaptchaChange}
-              data-size = "compact"
+              data-size="compact"
             />
           ) : null}
           {entryMethod === "SignIn" ? (
