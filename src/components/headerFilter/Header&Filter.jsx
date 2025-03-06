@@ -8,6 +8,9 @@ import { toast } from "react-toastify";
 
 import Modal from "../modal/Modal";
 import VerifModal from "../modal/VerifModal";
+import VerifCode from "../modal/verifCode";
+import NewPassword from "../modal/newPassword";
+
 import checkCookies from "../../checkCookies/checkCookies";
 import manageFiltersFetch from "../../filtersRequests/filterFetches";
 
@@ -44,6 +47,7 @@ const HeaderFilter = ({
   const [subsActiveIndex,setSubsActiveIndex] = useState(null)
   const [mainInputValue, setMainInputValue] = useState("");
   const [isPasswordWillBeReset,setIsPasswordWillBeReset] = useState(false)
+  const [isVerificationCodeCorrect , setIsVerificationCodeCorrect] = useState(null)
   
   const audienceButtonLabels = [
     "Kids",
@@ -79,6 +83,7 @@ const HeaderFilter = ({
   },[isPasswordWillBeReset])
 
   const filterRef = useRef();
+  
 
   const { t } = useTranslation();
 
@@ -350,8 +355,19 @@ const HeaderFilter = ({
         ) : null}
 
         {isPasswordWillBeReset ? (
-          <VerifModal
-          
+          <VerifCode
+          logInData = {logInData}
+          isPasswordWillBeReset = {isPasswordWillBeReset}
+          setIsPasswordWillBeReset={setIsPasswordWillBeReset}
+          setIsVerificationCodeCorrect = {setIsVerificationCodeCorrect}
+          />
+        ) : null}
+
+        {isVerificationCodeCorrect ? (
+          <NewPassword
+          email = {logInData.email}
+          isVerificationCodeCorrect = {isVerificationCodeCorrect}
+          setIsVerificationCodeCorrect={setIsVerificationCodeCorrect}
           />
         ) : null}
 

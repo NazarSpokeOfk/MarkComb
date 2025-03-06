@@ -22,6 +22,7 @@ const GoogleLoginButton = ({setIsLoggedIn,setUserData,setIsModalOpened}) => {
         setIsLoggedIn(true)
         setUserData(data)
         setIsModalOpened(false)
+        document.body.style.overflow = "";
       })
       .catch((error) => {
         console.log("Ошибка в google log in:", error);

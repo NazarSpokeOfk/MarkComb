@@ -19,7 +19,7 @@ class UserController {
         `https://ipinfo.io/json?token=${this.ipInfoKey}`
       );
       const data = await response.json();
-      console.log(data)
+      console.log(data);
       switch (data.country) {
         case "RU":
           return "ru";
@@ -92,7 +92,10 @@ class UserController {
           sameSite: "lax",
         });
       } catch (error) {
-        logger.info("Ошибка при загрузке куки на сайт. GetUserByPassword", error);
+        logger.info(
+          "Ошибка при загрузке куки на сайт. GetUserByPassword",
+          error
+        );
       }
 
       const csrfToken = crypto.randomBytes(16).toString("hex");
@@ -110,12 +113,12 @@ class UserController {
           username: user.username,
           uses: user.uses,
           password: user.password,
-          lang : user.lang
+          lang: user.lang,
         },
         channels: userChannels.rows,
       });
 
-      const endTime = process.hrtime(startTime); 
+      const endTime = process.hrtime(startTime);
       const executionTime = endTime[0] * 1000 + endTime[1] / 1e6;
 
       console.log(executionTime);
@@ -169,71 +172,74 @@ class UserController {
   }
 
   async addUser(req, res) {
-    try{
+    try {
       const { email, password, username, verification_code, recaptchaValue } =
-      req.body.data;
-    console.log("🔍 Новый запрос на верификацию получен!");
+        req.body.data;
+      console.log("🔍 Новый запрос на верификацию получен!");
 
-    console.log("📌 Состояние сессии перед проверкой капчи:", req.session);
-    if (!req.session.captchaVerified && recaptchaValue) {
-      // Если капча еще не была проверена
-      const isCaptchaValid = await verifyCaptcha(recaptchaValue);
-      if (!isCaptchaValid) {
-        console.log("❌ Капча не прошла.");
-        return res.status(400).json({ message: "Ошибка проверки CAPTCHA" });
+      console.log("📌 Состояние сессии перед проверкой капчи:", req.session);
+      if (!req.session.captchaVerified && recaptchaValue) {
+        // Если капча еще не была проверена
+        const isCaptchaValid = await verifyCaptcha(recaptchaValue);
+        if (!isCaptchaValid) {
+          console.log("❌ Капча не прошла.");
+          return res.status(400).json({ message: "Ошибка проверки CAPTCHA" });
+        }
+
+        // Если капча прошла, сохраняем в сессии
+        req.session.captchaVerified = true;
+        req.session.save((err) => {
+          if (err) {
+            console.error("Ошибка сохранения сессии:", err);
+          } else {
+            console.log(
+              "✅ Флаг captchaVerified успешно сохранен в сессии:",
+              req.session
+            );
+          }
+        });
+
+        console.log("✅ Капча прошла проверку");
       }
 
-      // Если капча прошла, сохраняем в сессии
-      req.session.captchaVerified = true;
-      req.session.save((err) => {
-        if (err) {
-          console.error("Ошибка сохранения сессии:", err);
-        } else {
-          console.log(
-            "✅ Флаг captchaVerified успешно сохранен в сессии:",
-            req.session
-          );
-        }
-      });
+      // Теперь продолжаем обработку кода и регистрации пользователя
+      const result = await mailVerification.verifyCode(
+        email,
+        verification_code
+      );
 
-      console.log("✅ Капча прошла проверку");
-    }
+      if (!result.success) {
+        console.log("❌ Неправильный код");
+        return res.status(400).json({ message: result.message });
+      }
 
-    // Теперь продолжаем обработку кода и регистрации пользователя
-    const result = await mailVerification.verifyCode(email, verification_code);
+      console.log("✅ Код правильный");
 
-    if (!result.success) {
-      console.log("❌ Неправильный код");
-      return res.status(400).json({ message: result.message });
-    }
+      await mailVerification.clearUpVerifCodes(email);
 
-    console.log("✅ Код правильный");
+      // Валидация данных
+      this.validateInput({ email, password, username });
 
-    await mailVerification.clearUpVerifCodes(email)
+      // Хэширование пароля
+      const hashedPassword = await this.hashPassword(password);
 
-    // Валидация данных
-    this.validateInput({ email, password, username });
+      // Добавление пользователя в базу данных
+      const addUser = await pool.query(
+        `INSERT INTO users(email, password, username) VALUES ($1, $2, $3) RETURNING *`,
+        [email, hashedPassword, username]
+      );
 
-    // Хэширование пароля
-    const hashedPassword = await this.hashPassword(password);
-
-    // Добавление пользователя в базу данных
-    const addUser = await pool.query(
-      `INSERT INTO users(email, password, username) VALUES ($1, $2, $3) RETURNING *`,
-      [email, hashedPassword, username]
-    );
-
-    // Ответ с данными нового пользователя
-    res.json(addUser.rows[0]);
+      // Ответ с данными нового пользователя
+      res.json(addUser.rows[0]);
     } catch (error) {
-      if (error.code === '23505') {
+      if (error.code === "23505") {
         // Ошибка "duplicate key value"
-        return res.status(400).json({ error: 'Email is already in use' });
+        return res.status(400).json({ error: "Email is already in use" });
       }
 
       // Обработка других ошибок
       logger.error(err);
-      res.status(500).json({ error: 'Internal server error' });
+      res.status(500).json({ error: "Internal server error" });
     }
   }
 
@@ -397,6 +403,56 @@ class UserController {
       res.status(500).json({ message: "Ошибка сервера", error: error.message });
     }
   }
+
+  async isVerificationCodeCorrect(req, res) {
+    const { email, verification_code } = req.body;
+
+    console.log("почта и код верификации в isVerificationCodeCorrect :  " , email,verification_code)
+
+    try {
+      const emailCheck = await mailVerification.verifyCode(
+        email,
+        verification_code
+      );
+
+      if (emailCheck.success !== true) {
+        res.status(400).json({ message: "Неправильный код с почты" });
+        return;
+      } else {
+        res.status(200).json({ message: "Код правильный." });
+        return;
+      }
+    } catch (error) {
+      console.log("Ошибка в isVerificationCodeCorrect : ", error);
+    }
+  }
+
+  async changePassword(req, res) {
+    const { newPassword, email } = req.body;
+
+    console.log("пароль и почта в changePassword :  " , newPassword,email)
+
+    try {
+
+      const hashedPassword = await this.hashPassword(newPassword);
+
+      const changeUserPassword = await pool.query(
+        `UPDATE users SET password = $1 WHERE email = $2 RETURNING *`,
+        [hashedPassword, email]
+      );
+
+      if(changeUserPassword.rows.length != 0) {
+        console.log("нормас")
+        res.status(200).json({message : "Пароль был сменен!"})
+      } else {
+        console.log("калл")
+        res.status(500).json({message : "Аккаунта не существует"})
+      }
+    } catch (error) {
+      console.log("Возникла ошибка в изменении пароля :", error);
+    }
+  }
+
   async hashPassword(password) {
     const saltRounds = 10;
     return await bcrypt.hash(password, saltRounds);

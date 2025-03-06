@@ -1,12 +1,11 @@
-import DataToDB from "../../dataToDB/dataToDB";
-import { useRef } from "react";
+import { useEffect } from "react";
 
-import { ToastContainer  } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
-import next from "../../icons/next.png"
+import next from "../../icons/next.png";
 
-const VerifLayout = (
-  {
+const VerifLayout = ({
+  modalRef,
   classExpression,
   titleText,
   onChangeAction,
@@ -19,12 +18,11 @@ const VerifLayout = (
   setSignInData,
   signInData,
   setIsLoggedIn,
-  setUserData
-  }
-) => {
-  const modalRef = useRef();
-  const dataToDB = new DataToDB(setIsLoggedIn, setUserData, true);
+  setUserData,
+}) => {
 
+
+  console.log(modalRef);
   return (
     <div className="container">
       <div ref={modalRef} className={classExpression}>
@@ -41,7 +39,6 @@ const VerifLayout = (
             onClick={onClickAction}
             type="submit"
             className="modal__verif-button"
-            id="email"
           >
             <img className="next_btn-img" src={next} alt="click here" />
           </button>

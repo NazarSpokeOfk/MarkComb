@@ -1,8 +1,9 @@
 import MailVerification from "../mailVerification.js";
 
 const verifController = async (req, res) => {
+  console.log(req.body)
   const mailVerif = new MailVerification();
-  const { email } = req.body.signInData;
+  const { email } = req.body;
   console.log("Почта:",email)
 
   try {

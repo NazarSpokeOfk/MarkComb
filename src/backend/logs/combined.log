@@ -147,3 +147,39 @@ Node.js v20.17.0
 04.03.2025, 19:42:08 + "
 " [INFO] + "
 " (printf.js:11): Error sending verification email: No recipients defined
+06.03.2025, 20:08:34 + "
+" [ERROR] + "
+" (printf.js:11): Ошибка: Unexpected token '"', ""osirisgan"... is not valid JSON
+06.03.2025, 20:14:37 + "
+" [ERROR] + "
+" (printf.js:11): Ошибка: Unexpected token '"', ""osirisgan"... is not valid JSON
+06.03.2025, 20:14:44 + "
+" [INFO] + "
+" (printf.js:11): Error sending verification email: null value in column "email" of relation "user_verifications" violates not-null constraint
+06.03.2025, 20:15:21 + "
+" [INFO] + "
+" (printf.js:11): Error sending verification email: null value in column "email" of relation "user_verifications" violates not-null constraint
+06.03.2025, 21:31:07 + "
+" [ERROR] + "
+" (printf.js:11): Ошибка: Unexpected token '"', ""osirisgan"... is not valid JSON
+06.03.2025, 21:33:01 + "
+" [ERROR] + "
+" (printf.js:11): Ошибка: Unexpected token '"', ""osirisgan"... is not valid JSON
+06.03.2025, 21:33:47 + "
+" [ERROR] + "
+" (printf.js:11): Ошибка: Unexpected token '"', ""osirisgan"... is not valid JSON
+06.03.2025, 21:33:58 + "
+" [INFO] + "
+" (printf.js:11): Error sending verification email: null value in column "email" of relation "user_verifications" violates not-null constraint
+06.03.2025, 21:34:30 + "
+" [ERROR] + "
+" (printf.js:11): Ошибка: Unexpected token '"', ""osirisgan"... is not valid JSON
+06.03.2025, 21:34:40 + "
+" [ERROR] + "
+" (printf.js:11): Ошибка: Unexpected token '"', ""osirisgan"... is not valid JSON
+06.03.2025, 21:34:45 + "
+" [INFO] + "
+" (printf.js:11): Error sending verification email: null value in column "email" of relation "user_verifications" violates not-null constraint
+06.03.2025, 22:48:30 + "
+" [ERROR] + "
+" (printf.js:11): Ошибка: Unexpected token '"', ""osirisgan"... is not valid JSON

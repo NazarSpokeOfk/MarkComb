@@ -190,6 +190,49 @@ class DataToDB {
       console.log("Возникла ошибка в deleteProfile:",error)
     }
   }
+
+  async isVerificationCodeCorrect(email,verification_code){
+    try {
+      const request = await fetch("http://localhost:5001/api/checkCode", {
+        method : "POST",
+        headers : {
+          "Content-type" : "application/json"
+        },
+        body : JSON.stringify({email,verification_code})
+      })
+      console.log("Данные при смене пароля : " , email, verification_code)
+      if(request.ok){
+        return {message : true}
+      } else {
+        return {message : false}
+      }
+    } catch (error) {
+      console.log("Возникла ошибка в isVerificationCodeCorrect : " , error)
+    }
+  }
+
+  async changePassword(newPassword,email){
+    console.log("Новый пароль, почта : " , newPassword , email)
+    try { 
+      const request = await fetch("http://localhost:5001/api/changePassword" , {
+        method : "PUT",
+        headers : {
+          "Content-type" : "application/json"
+        },
+        body : JSON.stringify({newPassword,email})
+      })
+      console.log("Пароль и почта в changePassword : " , newPassword , email)
+  
+      if(request.ok){
+        return {message : true}
+      } else {
+        console.log("Данные не были сменены.")
+        return {message : false}
+      }
+    } catch (error) {
+      console.log("Возникла ошибка в changePassword :" , error)
+    }
+  }
 }
 
 export default DataToDB;

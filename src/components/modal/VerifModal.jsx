@@ -15,6 +15,7 @@ const VerifModal = ({
   setUserData,
   setSignInData,
   isLoggedIn,
+  isPasswordWillBeReset
 }) => {
   const dataToDB = new DataToDB(setIsLoggedIn, setUserData);
   const modalRef = useRef();
@@ -25,13 +26,14 @@ const VerifModal = ({
 
   const makeFetchForCode = async () => {
     try {
-      console.log("Запрос исполнен");
-      const result = await fetch("http://localhost:5001/api/verification", {
+      let email = signInData.email
+      console.log(signInData);
+      const result = await fetch(`http://localhost:5001/api/verification`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",
         },
-        body: JSON.stringify({ signInData }),
+        body: JSON.stringify({email}),
       });
       if (result.ok) {
         return Promise.resolve();
@@ -46,6 +48,7 @@ const VerifModal = ({
   return (
     <>
       <VerifLayout
+        modalRef={modalRef}
         classExpression={`modal__overlay-verif ${
           isDataFilledIn && !isLoggedIn ? "open" : ""
         }`}

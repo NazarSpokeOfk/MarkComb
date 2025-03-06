@@ -222,6 +222,7 @@ const Modal = ({
               <a
                 onClick={() => {
                   setIsModalOpened(false)
+                  setIsPasswordWillBeReset(true)
                 }}
                 className={`modal__forgot-password hide ${
                   isUserMakeAMistake > 1 ? "show" : ""
