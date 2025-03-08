@@ -140,6 +140,7 @@ const Modal = ({
               setTimeout(() => {
                 setIsModalOpened(false);
               }, 600);
+              document.body.style.overflow = "";
             }}
             className="modal__close"
           >

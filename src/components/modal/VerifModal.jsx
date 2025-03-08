@@ -21,8 +21,22 @@ const VerifModal = ({
   const modalRef = useRef();
 
   useEffect(() => {
+    console.log('isDataFilledIn', isDataFilledIn);
+
+    if (isDataFilledIn) {
+      setTimeout(() => {
+        modalRef.current.classList.add("open");
+        document.body.style.overflow = "hidden";
+      }, 100);
+    } else {
+      modalRef.current.classList.remove("open");
+      setTimeout(() => {
+        modalRef.current.style.visibility = "hidden";
+      }, 600);
+    }
+
     makeFetchForCode();
-  }, []);
+  }, [isDataFilledIn]);
 
   const makeFetchForCode = async () => {
     try {
@@ -41,7 +55,7 @@ const VerifModal = ({
         console.log("Че за нахуй");
       }
     } catch (error) {
-      throw new Error(error);
+      toast.error("We occured a server error sending verification code. Please, try again later")
     }
   };
 
@@ -49,9 +63,7 @@ const VerifModal = ({
     <>
       <VerifLayout
         modalRef={modalRef}
-        classExpression={`modal__overlay-verif ${
-          isDataFilledIn && !isLoggedIn ? "open" : ""
-        }`}
+        classExpression={`modal__overlay-verif`}
         titleText={"Enter the verification code that was sent to your email"}
         onChangeAction={(e) => {
           const { value } = e.target;
@@ -73,6 +85,8 @@ const VerifModal = ({
               toast.success("Successfull registration!", {
                 autoClose: 3000,
               });
+              modalRef.current.classList.remove("open")
+              document.body.style.overflow = "";
             }
           });
         }}

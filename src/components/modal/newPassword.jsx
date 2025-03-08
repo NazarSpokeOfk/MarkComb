@@ -7,10 +7,20 @@ import DataToDB from "../../dataToDB/dataToDB"
 const NewPassword = ({email,isVerificationCodeCorrect,setIsVerificationCodeCorrect}) => {
 
   const modalRef = useRef({})
-
+  
     useEffect(() => {
-    console.log("Почта и правильность проверки кода : " , email,isVerificationCodeCorrect)
-    } , [email])
+      if (isVerificationCodeCorrect) {
+        setTimeout(() => {
+          modalRef.current.classList.add("open");
+          document.body.style.overflow = "hidden";
+        }, 100);
+      } else {
+        modalRef.current.classList.remove("open");
+        setTimeout(() => {
+          modalRef.current.style.visibility = "hidden";
+        }, 600); // Ждём окончания анимации перед скрытием
+      }
+    }, [isVerificationCodeCorrect]);
 
     const dataToDB = new DataToDB();
 
@@ -19,9 +29,7 @@ const NewPassword = ({email,isVerificationCodeCorrect,setIsVerificationCodeCorre
     return (
         <VerifLayout
         modalRef={modalRef}
-        classExpression={`modal__overlay-verif ${
-            email && isVerificationCodeCorrect ? "open" : ""
-        }`}
+        classExpression={`modal__overlay-verif `}
         titleText={"Enter your new password"}
         onChangeAction={(e) => {
             const { value } = e.target;

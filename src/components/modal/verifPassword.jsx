@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect , useRef } from "react";
 
 import DataToDB from "../../dataToDB/dataToDB";
 import { toast } from "react-toastify";
@@ -14,17 +14,30 @@ const VerifPassword = ({
   setIsAccountWillBeDeleted,
   csrfToken,
 }) => {
+
   const dataToDB = new DataToDB(setIsLoggedIn, setUserData, true);
 
+  const modalRef = useRef();  
+
   useEffect(() => {
-    console.log("isAccountWillBeDeleted?", isAccountWillBeDeleted);
-  }, [changedData]);
+    if (changedData.changeMethod || isAccountWillBeDeleted) {
+      setTimeout(() => {
+        modalRef.current.classList.add("open");
+        document.body.style.overflow = "hidden";
+      }, 100);
+    } else {
+      modalRef.current.classList.remove("open");
+      document.body.style.overflow = "";
+      setTimeout(() => {
+        modalRef.current.style.visibility = "hidden";
+      }, 600);
+    }
+  }, [isAccountWillBeDeleted]);
 
   return (
     <VerifLayout
-      classExpression={`modal__overlay-verif ${
-        changedData.changeMethod || isAccountWillBeDeleted ? "open" : ""
-      }`}
+      modalRef = {modalRef}
+      classExpression={`modal__overlay-verif`}
       titleText=" Enter your password to change the data."
       onChangeAction={(e) => {
         const { value } = e.target;
@@ -48,6 +61,7 @@ const VerifPassword = ({
                 setTimeout(() => {
                   toast.success("Account deleted.");
                 }, 100);
+                document.body.style.overflow = "";
               } else {
                 setTimeout(() => {
                   toast.error("Wrong password");
@@ -63,6 +77,7 @@ const VerifPassword = ({
                 ...prevData,
                 changeMethod: false,
               }));
+              document.body.style.overflow = "";
             }
           });
         }

@@ -53,28 +53,27 @@
 }
 
 .modal__overlay-verif {
+  transition: opacity 0.6s ease, transform 0.6s ease, visibility 0s linear 0.6s;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный серый фон */
-  display: none; /* Центрируем модалку */
+  visibility: hidden;
+  opacity: 0;
+  transform: scale(0.9);
+  display: flex;
   justify-content: center;
   align-items: center;
-  transform: scale(0.9);
-  opacity: 0;
-  /* Поверх всего */
-  transition: all 0.6s ease;
 }
 
 .modal__overlay-verif.open {
-  transform: scale(1);
+  visibility: visible;
   opacity: 1;
-  display: flex;
-  /* Поверх всего */
+  transform: scale(1);
+  transition-delay: 0s;
 }
-
 @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 1080px) and (max-height: 1080px) {
   .modal__title-verif {
     font-size: 30px;
