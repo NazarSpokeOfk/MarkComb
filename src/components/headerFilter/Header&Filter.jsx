@@ -67,6 +67,7 @@ const HeaderFilter = ({
     "News",
     "Gaming",
     "Travel",
+    "Fashion"
   ];
   const subscribersButtonLabels = {
     "0-1K" : [0,1000],
@@ -177,7 +178,7 @@ const HeaderFilter = ({
                 href="#"
                 className="log__in"
               >
-                {t("Log in")} /
+                {t("Log in")} / 
               </a>
               <a
                 onClick={() => {
@@ -187,7 +188,7 @@ const HeaderFilter = ({
                 href="#"
                 className="sign__in"
               >
-                {t("Sign in")}
+                 {t("Sign in")}
               </a>
             </>
           )}
@@ -211,7 +212,7 @@ const HeaderFilter = ({
                 }
               }}
             >
-              <input className="search__main" type="text" />
+              <input className="search__main" type="text" placeholder="Search for any YouTuber" />
               <div className="buttons">
                 <button
                   onClick={openFilters}

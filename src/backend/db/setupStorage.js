@@ -1,3 +1,4 @@
+import logger from "../winston/winston.js";
 async function createStorageTables(pool) {
   try {
     const createChannelsTable = `CREATE TABLE IF NOT EXISTS channels(
@@ -30,7 +31,7 @@ async function createStorageTables(pool) {
     console.log("Таблица с парами создана")
 
   } catch (error) {
-    console.log("Возникла ошибка в createStorageTables : ", error);
+    logger.error("Возникла ошибка в createStorageTables : ", error);
   }
 }
 export default createStorageTables;

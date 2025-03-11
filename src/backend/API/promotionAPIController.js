@@ -45,7 +45,7 @@ class PromotionAPIController {
             res.json({finalVideoData})
   
           } catch (error) {
-            logger.info("Ошибка:", error);
+            logger.error("Ошибка:", error);
           }
         }
     };

@@ -1,4 +1,7 @@
 import pool from "../db/index.js";
+
+import logger from "../winston/winston.js"
+
 import { OAuth2Client } from "google-auth-library";
 
 const googleAuthController = async (req, res) => {

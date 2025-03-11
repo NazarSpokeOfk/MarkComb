@@ -232,7 +232,7 @@ const Promotion = ({ isLoggedIn, userData }) => {
         </section>
 
         <section className="search">
-          <input type="text" className="search__input" ref={inputRef} />
+          <input type="text" className="search__input" ref={inputRef} placeholder="Search for any video of selected YouTuber" />
           <button
             onClick={() => {
               const inputValue = inputRef.current.value;

@@ -1,6 +1,7 @@
 import storagePool from "../db/storageIndex.js";
 import path from "path";
 import dotenv from "dotenv";
+import logger from "../winston/winston.js"
 
 dotenv.config({ path: path.resolve(process.cwd(), "./environment/.env") });
 
@@ -62,7 +63,7 @@ class ChannelsController {
 
       res.json({ status: true, channelStats });
     } catch (error) {
-      console.log("Возникла ошибка в selectChannel:", error);
+      logger.error(" (selectChannel) Возникла ошибка в selectChannel:", error);
       res.status(500).json({ error: "Ошибка при выполнении запроса" });
     }
   }
@@ -88,7 +89,7 @@ class ChannelsController {
         return false;
       }
     } catch (error) {
-      console.log("Возникла ошибка в fetchChannelData : ", error);
+      logger.error("Возникла ошибка в fetchChannelData : ", error);
     }
   }
 }

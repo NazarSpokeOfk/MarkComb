@@ -26,7 +26,7 @@ const verifyCaptcha = async (recaptchaValue) => {
       }
       
     } catch (error) {
-      logger.info("Возникла ошибка при проверке reCAPTCHA:", error);
+      logger.error(" (verifyCaptcha) Возникла ошибка при проверке reCAPTCHA:", error);
       return false; // Если ошибка в процессе запроса, возвращаем false
     }
   }

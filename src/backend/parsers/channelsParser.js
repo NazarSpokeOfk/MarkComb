@@ -3,6 +3,8 @@ import path from "path";
 import { fileURLToPath } from "url";
 import storagePool from "../db/storageIndex.js";
 
+import logger from "../winston/winston.js";
+
 const __filename = fileURLToPath(import.meta.url);
 
 dotenv.config({ path: path.resolve(process.cwd(), "../environment/.env") });
@@ -18,7 +20,7 @@ const getChannelByTag = async (tags) => {
     const response = await fetch(
       `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(
         tags
-      )}&type=video&maxResults=10&key=${apiKey}`
+      )}&type=video&maxResults=20&key=${apiKey}`
     );
     if (!response.ok) {
       throw new Error(`Ошибка API: ${response.status} ${response.statusText}`);
@@ -27,7 +29,7 @@ const getChannelByTag = async (tags) => {
     const channelIds = result.items.map((item) => item.snippet.channelId);
     return channelIds;
   } catch (error) {
-    console.log("Произошла ошибка в getChannelByTag : ", error);
+    logger.error("Произошла ошибка в getChannelByTag : ", error);
   }
 };
 
@@ -47,7 +49,7 @@ const getChannelSubscribersCount = async (channelId) => {
       return null;
     }
   } catch (error) {
-    console.log("Возникла ошибка в getChannelSubscribersCount : ", error);
+    logger.error("Возникла ошибка в getChannelSubscribersCount : ", error);
   }
 };
 
@@ -70,7 +72,7 @@ if (process.argv[1] === __filename) {
         return { error: "Не найдено тэгов по вашим критериям" };
       }
     } catch (error) {
-      console.log("Ошибка в получении тэгов из БД:", error);
+      logger.error(" (getTags) Ошибка в получении тэгов из БД:", error);
       return { error: "Ошибка в получении тэгов" };
     }
 
@@ -84,10 +86,10 @@ if (process.argv[1] === __filename) {
       ).rows.map((row) => row.pair);
 
       if (pairs.length === 0) {
-        return { error: "Нет пар для такой аудитории и типа контента" };
+        pairs = "Нет пар для такой аудитории и типа контента";
       }
     } catch (error) {
-      console.log("Ошибка при выборке пар:", error);
+      logger.error(" (getTags) Ошибка при выборке пар:", error);
       return { error: "Ошибка при выборке пар" };
     }
 
@@ -111,7 +113,7 @@ if (process.argv[1] === __filename) {
       }
       return JSON.stringify({message : "Каналы записаны в бд"})
     } catch (error) {
-      console.log("Ошибка при записи каналов:", error);
+      console.log(" (getChannelsAndWriteIntoDB) Ошибка при записи каналов:", error);
     }
   };
 

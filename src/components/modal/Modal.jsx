@@ -27,7 +27,7 @@ const Modal = ({
   signInData,
   setSignInData,
   setCsrfToken,
-  setIsPasswordWillBeReset
+  setIsPasswordWillBeReset,
 }) => {
   const { t } = useTranslation();
 
@@ -222,8 +222,12 @@ const Modal = ({
             <>
               <a
                 onClick={() => {
-                  setIsModalOpened(false)
-                  setIsPasswordWillBeReset(true)
+                  if (logInData.email && isUserMakeAMistake) {
+                    setIsModalOpened(false);
+                    setIsPasswordWillBeReset(true);
+                  } else {
+                    return 
+                  }
                 }}
                 className={`modal__forgot-password hide ${
                   isUserMakeAMistake > 1 ? "show" : ""
@@ -256,8 +260,8 @@ const Modal = ({
           {entryMethod === "SignIn" ? (
             <h3 className="modal-checkbox__text">
               {t("I have read the")}{" "}
-              <Link to="/terms">{t("user agreement")}</Link>{" "}
-              {t("and accept all its terms and conditions")}
+              <Link to="/terms">{t("user agreement,")}</Link>{" "}{t("and ")}<Link to="/dataprocessing">{t("processing of personal data policy,")}</Link>
+               {t(" and accept all its terms and conditions")}
             </h3>
           ) : null}
 

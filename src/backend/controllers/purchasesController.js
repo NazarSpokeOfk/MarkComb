@@ -17,7 +17,7 @@ class PurchasesController {
       }
       res.json(purchases.rows[0]);
     } catch (error) {
-      logger.info("Возникла ошибка в getPurchases:", error);
+      logger.error("Возникла ошибка в getPurchases:", error);
     }
   }
 
@@ -85,7 +85,7 @@ class PurchasesController {
         remainingUses: updateUses.rows[0].uses,
       });
     } catch (error) {
-      logger.info("Возникла ошибка в addPurchase", error);
+      logger.error("Возникла ошибка в addPurchase", error);
       res.status(500).json({ message: "Ошибка сервера", error: error.message });
     }
   }
@@ -114,7 +114,7 @@ class PurchasesController {
       }
       res.json(deleteOperation.rows[0]);
     } catch (error) {
-      logger.info("Ошибка в deletePurchase : ", error);
+      logger.error("Ошибка в deletePurchase : ", error);
     }
   }
 }

@@ -1,18 +1,25 @@
 import cookieParser from "cookie-parser";
 import cors from "./node_modules/cors/lib/index.js";
+
 import express from "./node_modules/express/index.js";
+
 import createTables from "./db/setup.js";
 import createStorageTables from "./db/setupStorage.js";
+
 import session from "express-session";
+
 import pool from "./db/index.js";
 import storagePool from "./db/storageIndex.js";
+
 import helmet from "helmet"
 
 import ParserController from "./controllers/parsersController.js"
+
 import userRouter from "./routers/userRouter.js";
 import purchasesRouter from "./routers/purchasesRouter.js";
 import googleAPIRouter from "./routers/googleAPIRouter.js"
 import storageRouter from "./routers/storageRouter.js";
+
 import logger from "./winston/winston.js";
 
 const app = express();
@@ -73,7 +80,7 @@ async function initializeApp() {
       
     });
   } catch (error) {
-    logger.info("Возникла ошибка в Intialize app:", error);
+    logger.error("Возникла ошибка в Intialize app:", error);
   }
 }
 

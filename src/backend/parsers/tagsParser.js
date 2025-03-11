@@ -4,6 +4,8 @@ import path from "path";
 
 import dotenv from "dotenv";
 
+import logger from "../winston/winston.js";
+
 import storagePool from "../db/storageIndex.js";
 
 dotenv.config({ path: path.resolve(process.cwd(), "../environment/.env") });
@@ -38,7 +40,7 @@ async function getChannelId(videoTheme) {
 
     return result.items.map((item) => item?.id?.channelId).filter(Boolean);
   } catch (error) {
-    console.error("Возникла ошибка в getChannelID : ", error);
+    logger.error("Возникла ошибка в getChannelID : ", error);
     return [];
   }
 }
@@ -62,7 +64,7 @@ async function getVideoIds(channelIds) {
     console.log("Результат getVideoIds : ", videoIDs);
     return videoIDs;
   } catch (error) {
-    console.error("Возникла ошибка в getVideoIds : ", error);
+    logger.error("Возникла ошибка в getVideoIds : ", error);
     return [];
   }
 }
@@ -111,7 +113,7 @@ async function saveKeywords(category, tags, age_group) {
       console.log(`Данные для ${tag} , были записаны`);
     }
   } catch (error) {
-    console.error("Возникла ошибка в saveKeywords : ", error);
+    logger.error("Возникла ошибка в saveKeywords : ", error);
   }
 }
 

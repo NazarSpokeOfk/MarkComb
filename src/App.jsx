@@ -17,6 +17,7 @@ import Promotion from "./components/promotion/Promotion";
 import Purchase from "./components/purchase/Purchase";
 import Terms from "./components/terms/Terms";
 import Purpose from "./components/purpose/Purpose";
+import UserDataProcessing from "./components/userDataProccessing/userDataProcessing";
 
 i18n
   .use(HttpApi)
@@ -139,6 +140,14 @@ function App() {
               <Purpose />
             </ErrorBoundary>
           }
+        />
+        <Route
+        path="/dataprocessing"
+        element ={
+        <ErrorBoundary>
+          <UserDataProcessing/>
+        </ErrorBoundary>
+        }
         />
         <Route
           path="/profile"

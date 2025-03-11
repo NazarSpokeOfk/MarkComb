@@ -17,13 +17,7 @@
   transition: all 0.6s ease;
 }
 .logo span {
-  color: #000000;
-}
-
-.logo:hover {
-  span {
-    color: var(--main-red-col);
-  }
+  color: #ff0000;
 }
 
 .terms__title {

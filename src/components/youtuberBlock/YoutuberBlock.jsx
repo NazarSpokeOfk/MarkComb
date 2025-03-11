@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useState , useEffect } from "react";
+import { useState} from "react";
 import { Link } from "react-router-dom";
 import { useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -10,7 +10,8 @@ import SmoothEffect from "../smoothText";
 import "./YoutuberBlock.css";
 import "react-toastify/dist/ReactToastify.css";
 
-import YoutuberImg from "../../images/MrBeast.webp";
+import YoutuberImgOne from "../../images/YouTuber.jpg";
+import YoutuberImgTwo from "../../images/Youtubertow.jpg"
 
 const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn , setUserData , csrfToken }) => {
   
@@ -176,7 +177,7 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
               </div>
             </div>
             <img
-              src={isLoggedIn && channelData?.updatedData?.[0]?.thumbnail || YoutuberImg}
+              src={isLoggedIn && channelData?.updatedData?.[0]?.thumbnail || YoutuberImgOne}
               alt="MrBeast"
               className="youtuber__image"
               loading="lazy"
@@ -251,7 +252,7 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
             </div>
             <img
               loading="lazy"
-              src={userData && SimilarChannelData?.channelStats?.thumbnail || YoutuberImg}
+              src={userData && SimilarChannelData?.channelStats?.thumbnail || YoutuberImgTwo}
               alt="MrBeast"
               className="youtuber__image"
             />
@@ -297,6 +298,9 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
           </Link>
           <Link to="/purpose" className="footer__purpose none">
             {t("Our purpose")}
+          </Link>
+          <Link to="/dataprocessing" className="footer__purpose none">
+            {t("Personal data processing agreement")}
           </Link>
           <button
             onClick={() => {

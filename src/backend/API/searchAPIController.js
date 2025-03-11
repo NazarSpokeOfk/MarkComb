@@ -30,7 +30,7 @@ class SearchApiController{
       const subsCount = data.items[0].statistics.subscriberCount;
       return subsCount;
     } catch (error) {
-      logger.info("Error fetching subscriber count:", error.message);
+      logger.error(" (getSubsCount) Error fetching subscriber count:", error.message);
       return null;
     }
   };
@@ -65,7 +65,7 @@ class SearchApiController{
       const genre = data.items[0].snippet.categoryId; // Проверяем snippet
       return genre;
     } catch (error) {
-      logger.info("Error fetching genre:", error.message);
+      logger.error(" (getGenre) Error fetching genre:", error.message);
       return null;
     }
   };
@@ -203,7 +203,7 @@ class SearchApiController{
               targetAudience: genreName[0],
             }; // Добавляем жанр
           } catch (error) {
-            logger.info("Error processing genre:", error.message);
+            logger.error(" (FindChannel) Error processing genre:", error.message);
             return { ...channel, genre: "Unknown category" };
           }
         })
@@ -211,7 +211,7 @@ class SearchApiController{
 
       return finalData;
     } catch (error) {
-      logger.info("Произошла ошибка:", error.message);
+      logger.error("(FindChannel) Произошла ошибка:", error.message);
     }
   };
 
@@ -235,7 +235,7 @@ class SearchApiController{
       res.json({status : true,updatedData})
       return;
     } catch (error) {
-      logger.info("Search error:", error);
+      logger.error(" (handleSearch) Search error:", error);
       res.status(500).json({ message: "Ошибка поиска", error: error.message });
     }
   };
@@ -274,7 +274,7 @@ class SearchApiController{
       };
       return finalVideoData;
     } catch (error) {
-      logger.info("Ошибка:", error);
+      logger.error(" (channelAndVideoSearch) Ошибка:", error);
     }
   };
 
@@ -292,7 +292,7 @@ class SearchApiController{
       
       return analitics
     } catch (error) {
-      logger.info("Возникла ошибка:",error)
+      logger.error(" (getAnalitics) Возникла ошибка:",error)
       return Promise.reject()
     }
   };

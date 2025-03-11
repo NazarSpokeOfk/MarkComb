@@ -1,3 +1,4 @@
+import logger from "../winston/winston.js"
 async function createTables(pool) {
     try{
         const createUsersTable = `CREATE TABLE IF NOT EXISTS users (
@@ -36,7 +37,7 @@ async function createTables(pool) {
         console.log('Таблица верификации создана.')
 
     } catch(error){
-        console.log('Возникла ошибка в setup.js:',error)
+        logger.error('Возникла ошибка в setup.js:',error)
     }
 }
 export default createTables;

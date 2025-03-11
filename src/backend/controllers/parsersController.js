@@ -52,6 +52,8 @@ router.post("/run-channelsparser", async (req, res) => {
       try {
         const parsedTags = JSON.parse(tags);
 
+        console.log(tags)
+
         const requestId = randomUUID();
         tempTagsStorage[requestId] = parsedTags.tags;
 
@@ -62,7 +64,7 @@ router.post("/run-channelsparser", async (req, res) => {
           tags: tempTagsStorage[requestId],
         });
       } catch (error) {
-        logger.error("Ошибка при парсинге данных: ", error);
+        logger.error(" (run-channelsparser) Ошибка при парсинге данных: ", error);
         res.status(500).json({ error: "Ошибка при парсинге данных" });
       }
     } else if (code === 1) {

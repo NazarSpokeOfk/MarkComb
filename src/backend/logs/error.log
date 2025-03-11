@@ -75,3 +75,26 @@ Node.js v20.17.0
 06.03.2025, 22:48:30 + "
 " [ERROR] + "
 " (printf.js:11): Ошибка: Unexpected token '"', ""osirisgan"... is not valid JSON
+10.03.2025, 17:42:21 + "
+" [ERROR] + "
+" (printf.js:11):  (run-channelsparser) Ошибка при парсинге данных:  Unexpected token 'Т', "ТЭги :  [
+"... is not valid JSON
+10.03.2025, 17:42:45 + "
+" [ERROR] + "
+" (printf.js:11):  (run-channelsparser) Ошибка при парсинге данных:  Unexpected token '', "[
+  [32m'spee"... is not valid JSON
+10.03.2025, 18:07:35 + "
+" [ERROR] + "
+" (printf.js:11):  (sendVerificationCode) Error sending verification email: No recipients defined
+10.03.2025, 18:09:56 + "
+" [ERROR] + "
+" (printf.js:11):  (sendVerificationCode) Error sending verification email: No recipients defined
+10.03.2025, 18:09:57 + "
+" [ERROR] + "
+" (printf.js:11):  (sendVerificationCode) Error sending verification email: No recipients defined
+10.03.2025, 18:10:09 + "
+" [ERROR] + "
+" (printf.js:11):  (sendVerificationCode) Error sending verification email: No recipients defined
+10.03.2025, 18:10:56 + "
+" [ERROR] + "
+" (printf.js:11):  (sendVerificationCode) Error sending verification email: No recipients defined

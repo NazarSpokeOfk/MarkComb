@@ -82,17 +82,18 @@
 }
 
 .no_available_img {
-  margin-left: 40%;
-  width: 300px;
-  height: 410px;
+  margin-top: 3%;
+  margin-left: 43%;
+  width: 200px;
+  height: 230px;
 }
 
 .magnifying_glass {
   position: absolute;
-  top: 500px;
-  right: 500px;
-  width: 250px;
-  height: 250px;
+  top: 400px;
+  right: 550px;
+  width: 150px;
+  height: 150px;
   animation: rotate 4s linear infinite;
   transform: translate(100px, 0);
 }

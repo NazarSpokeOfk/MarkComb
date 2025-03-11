@@ -55,7 +55,7 @@ class MailVerification {
       console.log("Verification email sent to:", email);
       return Promise.resolve(true);
     } catch (error) {
-      logger.info("Error sending verification email:", error);
+      logger.error(" (sendVerificationCode) Error sending verification email:", error);
       return Promise.reject("Ошибка при отправке кода");
     }
   }
@@ -77,7 +77,7 @@ class MailVerification {
 
       return { success: true };
     } catch (error) {
-      logger.info("Ошибка при проверке кода:", error);
+      logger.error(" (verifyCode) Ошибка при проверке кода:", error);
       return { success: false, message: "Ошибка сервера" };
     }
   }
@@ -89,7 +89,7 @@ class MailVerification {
       , [email]);
       console.log(`Код верификации для ${email} удален.`);
     } catch (error) {
-      logger.error(error);
+      logger.error( "(clearUpVerifCodes)" , error);
     }
   }
 }

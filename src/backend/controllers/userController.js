@@ -29,7 +29,7 @@ class UserController {
           return "en";
       }
     } catch (error) {
-      logger.info("Ошибка при получении IP:", error);
+      logger.error(" (getUserIP) Ошибка при получении IP:", error);
       return "en"; // Значение по умолчанию в случае ошибки
     }
   }
@@ -39,7 +39,7 @@ class UserController {
       const users = await pool.query(`SELECT * FROM users`);
       res.json(users.rows);
     } catch (error) {
-      logger.info("Возникла ошибка в getAllUsers :", error);
+      logger.error("Возникла ошибка в getAllUsers :", error);
     }
   }
 
@@ -92,7 +92,7 @@ class UserController {
           sameSite: "lax",
         });
       } catch (error) {
-        logger.info(
+        logger.error(
           "Ошибка при загрузке куки на сайт. GetUserByPassword",
           error
         );
@@ -123,7 +123,7 @@ class UserController {
 
       console.log(executionTime);
     } catch (error) {
-      logger.info("Возникла ошибка в getUserByPassword:", error);
+      logger.error("Возникла ошибка в getUserByPassword:", error);
       res
         .status(500)
         .json({ message: "Возникла ошибка при входе", error: error.message });
@@ -164,7 +164,7 @@ class UserController {
         channels: userChannels.rows,
       });
     } catch (error) {
-      logger.info("ошибка в входе по id", error);
+      logger.error(" (getUserById) ошибка в входе по id", error);
       res
         .status(500)
         .json({ message: "Возникла ошибка при входе", error: error.message });
@@ -316,7 +316,7 @@ class UserController {
         user: updateUser.rows[0],
       });
     } catch (error) {
-      logger.info("Возникла ошибка в updateUser:", error);
+      logger.error(" (updateUser) Возникла ошибка в updateUser:", error);
       res.status(500).json({
         message: "Ошибка изменения пользователя",
         error: error.message,
@@ -365,7 +365,7 @@ class UserController {
 
       res.json({ message: "Пользователь удален", user: user.rows[0] });
     } catch (error) {
-      logger.info("Возникла ошибка в deleteUser:", error);
+      logger.error("Возникла ошибка в deleteUser:", error);
       res.status(500).json({ message: "Возникла ошибка сервера." });
     }
   }
@@ -399,7 +399,7 @@ class UserController {
         updatedUser: updateUser.rows[0],
       });
     } catch (error) {
-      logger.info("Возникла ошибка в addUses:", error);
+      logger.error("Возникла ошибка в addUses:", error);
       res.status(500).json({ message: "Ошибка сервера", error: error.message });
     }
   }
@@ -423,7 +423,7 @@ class UserController {
         return;
       }
     } catch (error) {
-      console.log("Ошибка в isVerificationCodeCorrect : ", error);
+      logger.error("Ошибка в isVerificationCodeCorrect : ", error);
     }
   }
 
@@ -449,7 +449,7 @@ class UserController {
         res.status(500).json({message : "Аккаунта не существует"})
       }
     } catch (error) {
-      console.log("Возникла ошибка в изменении пароля :", error);
+      logger.error(" (changePassword) Возникла ошибка в изменении пароля :", error);
     }
   }
 
