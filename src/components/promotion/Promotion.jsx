@@ -189,7 +189,7 @@ const Promotion = ({ isLoggedIn, userData }) => {
                 ))
               ) : (
                 <>
-                  <p className="no_available">You have no purchases.</p>
+                  <p className="no_available">{t("You have no purchases.")}</p>
                 </>
               )}
               <br />
@@ -225,14 +225,14 @@ const Promotion = ({ isLoggedIn, userData }) => {
                       {channel?.channel_name}
                     </h2>
                   ))
-                : "Why are you clicked?"}
+                : (":)")}
               <br />
             </div>
           </div>
         </section>
 
         <section className="search">
-          <input type="text" className="search__input" ref={inputRef} placeholder="Search for any video of selected YouTuber" />
+          <input type="text" className="search__input" ref={inputRef} placeholder={t("Search for any video of selected YouTuber")}/>
           <button
             onClick={() => {
               const inputValue = inputRef.current.value;
@@ -258,7 +258,7 @@ const Promotion = ({ isLoggedIn, userData }) => {
           {videoData?.title ? resultBlock(videoData) : ""}
         </section>
 
-        <section className="footer">
+        <section id="promotion_footer" className="footer">
         <div className="footer__container">
           <h3 className="footer__logo">MarkComb,2024</h3>
           <Link id="Terms" to="/terms" className="footer__terms none">
@@ -266,6 +266,9 @@ const Promotion = ({ isLoggedIn, userData }) => {
           </Link>
           <Link to="/purpose" className="footer__purpose none">
             {t("Our purpose")}
+          </Link>
+          <Link to="/dataprocessing" className="footer__purpose none">
+            {t("Personal Data Processing Agreement")}
           </Link>
           <button
             onClick={() => {

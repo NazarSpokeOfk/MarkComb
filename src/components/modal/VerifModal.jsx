@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
 
-import { ToastContainer } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 import DataToDB from "../../dataToDB/dataToDB";
 
@@ -20,6 +20,8 @@ const VerifModal = ({
   isPasswordWillBeReset,
   setCsrfToken
 }) => {
+
+  const { t } = useTranslation();
   const dataToDB = new DataToDB(setIsLoggedIn, setUserData);
   const modalRef = useRef();
 
@@ -67,7 +69,7 @@ const VerifModal = ({
       <VerifLayout
         modalRef={modalRef}
         classExpression={`modal__overlay-verif`}
-        titleText={"Enter the verification code that was sent to your email"}
+        titleText={t("Enter the verification code that was sent to your email")}
         onChangeAction={(e) => {
           const { value } = e.target;
           setSignInData((prevData) => ({
@@ -85,7 +87,6 @@ const VerifModal = ({
             if (response.status != true) {
               toast.error("Wrong authentication code, or code expired.");
             } else {
-              toast.success("Successfull registration!");
               modalRef.current.classList.remove("open")
               document.body.style.overflow = "";
             }
@@ -96,7 +97,6 @@ const VerifModal = ({
         setSignInData={setSignInData}
         signInData={signInData}
       />
-      <ToastContainer/>
     </>
   );
 };

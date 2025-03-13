@@ -2,7 +2,7 @@
   .terms__title{
       text-align: center;
       margin-top: 10%;
-      background-color: #E7E3E3;
+      background-color: #F6F5F5;
       padding: 1%;
       width: auto;
   }
@@ -28,13 +28,14 @@
   
   .terms__defenition{
       margin-left: 3%;
-      font-size: 20px;
+      font-size: 15px;
       padding-right: 3%;
       margin-top: 30px;
       line-height: 30px;
       font-weight: 500;
       span{
         font-weight: 700;
+        font-size: 18px;
       }
   }
   

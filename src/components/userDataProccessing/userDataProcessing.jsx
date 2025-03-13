@@ -2,6 +2,8 @@ import { useTranslation } from "react-i18next";
 import { Trans } from "react-i18next";
 import { Link } from "react-router-dom";
 
+import { Helmet , HelmetProvider } from "react-helmet-async";
+
 import SmoothEffect from "../smoothText";
 
 import "../terms/Terms.css";
@@ -12,6 +14,11 @@ const UserDataProcessing = () => {
 
   return (
     <>
+      <HelmetProvider>
+        <Helmet>
+          <title>User data processing agreement</title>
+          <meta name="description" content="Study the agreement with the processing of personal data" />
+        </Helmet>
       <header>
         <div className="container">
           <div className="logo">
@@ -441,8 +448,7 @@ const UserDataProcessing = () => {
             <Trans i18nKey="The personal data">
             10.1 The personal data controller is [Kuryatnikov Nazar
               Alekseevich], registered as a tax payer on professional income (self-employed) residing at the following address: [Kuryatnikov Nazar].
-              professional income (self-employed) residing at the address: [address
-              registration address].
+              professional income (self-employed) 
             </Trans>
           </p>
 
@@ -485,6 +491,7 @@ const UserDataProcessing = () => {
           </button>
         </div>
       </section>
+      </HelmetProvider>
     </>
   );
 };

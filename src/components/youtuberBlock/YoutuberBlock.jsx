@@ -26,7 +26,7 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
   };
 
   const alreadyHave = () => {
-    toast.warning(t("You already bought this data."));
+    toast.warning(t("You already bought this data"));
   };
 
   const handleButtonClick = async (data, buttonId) => {
@@ -127,7 +127,7 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
       }
 
     } else {
-      toast.error("You have no uses!")
+      toast.error(t("You have no uses!"))
       return
     }
 
@@ -199,7 +199,7 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
                 if(isLoggedIn){
                   handleButtonClick(channelData?.updatedData?.[0], 0)
                 } else {
-                  toast.error("You need to log in firstly");
+                  toast.error(t("Log in firstly"));
                 }
               }
             }}
@@ -274,7 +274,7 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
                 if(isLoggedIn){
                   handleButtonClick(SimilarChannelData.channelStats, 1)
                 } else {
-                  toast.error("You need to log in firstly")
+                  toast.error(t("Log in firstly"))
                   return;
                 }
               }
@@ -300,7 +300,7 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
             {t("Our purpose")}
           </Link>
           <Link to="/dataprocessing" className="footer__purpose none">
-            {t("Personal data processing agreement")}
+            {t("Personal Data Processing Agreement")}
           </Link>
           <button
             onClick={() => {

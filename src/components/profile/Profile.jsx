@@ -1,5 +1,6 @@
 import "./profile.css";
 import Edit from "../../images/image 70.png";
+import bin from "../../icons/bin.svg"
 
 import SmoothEffect from "../smoothText.js";
 import VerifPassword from "../modal/verifPassword.jsx";
@@ -182,7 +183,7 @@ const Profile = ({ userData, setUserData , setIsLoggedIn , csrfToken , isLoggedI
             id="delete"
             className="edit__button"
           >
-            <span>{t("Delete")}</span> {t("profile")}
+            <img src={bin} alt="delete your profile" className="bin_btn" />
           </button>
         </section>
 

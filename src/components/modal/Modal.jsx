@@ -260,7 +260,7 @@ const Modal = ({
           {entryMethod === "SignIn" ? (
             <h3 className="modal-checkbox__text">
               {t("I have read the")}{" "}
-              <Link to="/terms">{t("user agreement,")}</Link>{" "}{t("and ")}<Link to="/dataprocessing">{t("processing of personal data policy,")}</Link>
+              <Link to="/terms">{t("user agreement,")}</Link>{" "}{t("and ")}<Link to="/dataprocessing">{t("Personal Data Processing Agreement")}</Link>
                {t(" and accept all its terms and conditions")}
             </h3>
           ) : null}

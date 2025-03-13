@@ -2,6 +2,8 @@ import { useTranslation } from "react-i18next";
 import { Trans } from "react-i18next";
 import { Link } from "react-router-dom";
 
+import { Helmet , HelmetProvider } from "react-helmet-async";
+
 import SmoothEffect from "../smoothText";
 
 import "./Terms.css";
@@ -10,6 +12,11 @@ const Terms = () => {
   document.body.style.overflow = "";
   return (
     <>
+      <HelmetProvider>
+        <Helmet>
+          <title>Study the terms of use of MarkComb</title>
+          <meta name="description" content="Terms of use of MarkComb" />
+        </Helmet>
       <header>
         <div className="container">
           <div className="logo">
@@ -307,6 +314,7 @@ const Terms = () => {
           </button>
         </div>
       </section>
+      </HelmetProvider>
     </>
   );
 };

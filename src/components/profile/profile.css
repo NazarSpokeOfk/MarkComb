@@ -135,8 +135,8 @@
 }
 
 .edit__button{
-  width: 80px;
-  height: 40px;
+  min-width: 80px;
+  min-height: 40px;
   background-color: var(--main-red-col);
   border: none;
   color: #fff;
@@ -168,12 +168,11 @@
 
 #delete{
   background-color: #fff;
-  border: 1px solid black;
   margin-left: 21.3%;
-  span{
-    color: black;
-  }
-  color: var(--main-red-col);
+}
+.bin_btn{
+  max-width: 80px;
+  max-height: 80px;
 }
 @media (min-width: 2560px) and (max-width: 2560px) and (min-height: 1440px) and (max-height: 1440px) {
   #delete{

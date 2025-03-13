@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 
+import { useTranslation } from "react-i18next";
+
 import { ToastContainer } from "react-toastify";
 
 import next from "../../icons/next.png";
@@ -21,6 +23,7 @@ const VerifLayout = ({
   setUserData,
 }) => {
 
+  const { t } = useTranslation();
 
   console.log(modalRef);
   return (
@@ -31,7 +34,7 @@ const VerifLayout = ({
           <input
             required
             type="text"
-            placeholder="verification code"
+            placeholder={t("verification code")}
             className="modal__input-verif"
             onChange={(e) => onChangeAction(e)}
           />

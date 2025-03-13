@@ -149,8 +149,8 @@ const Purchase = ({isLoggedIn,userData}) => {
               <h4 className="package__price-business">
                 $<span>225 </span>usd
               </h4>
-              <h4 className="package__newprice-business">
-                $<span>45</span> usd / <span id="month none">Month</span>
+              <h4 className="package__newprice-business none">
+                $<span>45</span> usd / <span id="month none">{t("Month")}</span>
               </h4>
               <button
                 onClick={() => handleClick()}
@@ -164,36 +164,40 @@ const Purchase = ({isLoggedIn,userData}) => {
         </section>
 
         <section className="footer">
-          <div className="footer__container">
-            <h3 className="footer__logo">MarkComb,2024</h3>
-            <Link to="/terms" className="footer__terms none">
-              {t("Terms of service")}
-            </Link>
-            <Link to="/purpose" className="footer__purpose none">
-              {t("Our purpose")}
-            </Link>
-            <button
-              onClick={() => {
-                SmoothEffect().then(() => {
-                  changeLanguage("ru");
-                });
-              }}
-              className="footer__button"
-            >
-              Русский
-            </button>
-            <button
-              onClick={() => {
-                SmoothEffect().then(() => {
-                  changeLanguage("en");
-                });
-              }}
-              className="footer__button"
-            >
-              English
-            </button>
-          </div>
-        </section>
+        <div className="footer__container">
+          <h3 className="footer__logo">MarkComb,2024</h3>
+          <Link id="Terms" to="/terms" className="footer__terms none">
+            {t("Terms of service")}
+          </Link>
+          <Link to="/purpose" className="footer__purpose none">
+            {t("Our purpose")}
+          </Link>
+          <Link to="/dataprocessing" className="footer__purpose none">
+            {t("Personal Data Processing Agreement")}
+          </Link>
+          <button
+            onClick={() => {
+              SmoothEffect().then(() => {
+                i18n.changeLanguage("ru");
+              });
+            }}
+            className="footer__button"
+          >
+            Русский
+          </button>
+          <button
+            onClick={() => {
+              SmoothEffect().then(() => {
+                console.log(i18n)
+                i18n.changeLanguage("en");
+              });
+            }}
+            className="footer__button"
+          >
+            English
+          </button>
+        </div>
+      </section>
       </HelmetProvider>
     </>
   );
