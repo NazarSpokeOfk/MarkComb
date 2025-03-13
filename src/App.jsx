@@ -52,7 +52,7 @@ function App() {
   });
 
   useEffect(() => {
-    console.log("токен  : " ,csrfToken)
+    console.log("csrfToken  : " ,csrfToken)
   },[csrfToken])
 
   return (

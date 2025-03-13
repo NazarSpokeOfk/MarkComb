@@ -48,6 +48,7 @@ const VerifPassword = ({
       }}
       onClickAction={() => {
         if (isAccountWillBeDeleted) {
+          console.log("csrfToken  : " ,csrfToken)
           dataToDB
             .deleteProfile(
               changedData?.oldPassword,

@@ -1,4 +1,4 @@
-const checkCookies = async (setIsLoggedIn, setUserData , setUserLang) => {
+const checkCookies = async (setIsLoggedIn, setUserData , setUserLang , setCsrfToken) => {
     try {
         const response = await fetch("http://localhost:5001/api/cookie", {
           method: "GET",
@@ -11,10 +11,13 @@ const checkCookies = async (setIsLoggedIn, setUserData , setUserLang) => {
         }
       
         const result = await response.json(); 
+
+        console.log(result)
         
         setIsLoggedIn(true);
-        setUserData(result); 
+        setUserData(result.result); 
         setUserLang(result.lang)
+        setCsrfToken(result.csrfToken)
       } catch (error) {
         setIsLoggedIn(false); 
       }

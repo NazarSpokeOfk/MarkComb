@@ -1,4 +1,3 @@
-import { toast } from "react-toastify";
 
 class DataToDB {
   constructor(setIsLoggedIn, setUserData, setIsModalOpened , setCsrfToken) {
@@ -75,7 +74,7 @@ class DataToDB {
     }
   }
 
-  async validateSignIn(data) {
+  async validateSignIn(data,setCsrfToken) {
     try {
       console.log({ data });
       const response = await fetch("http://localhost:5001/api/user", {
@@ -93,6 +92,7 @@ class DataToDB {
 
         this.setIsLoggedIn(true);
         this.setUserData(result);
+        setCsrfToken(result.csrfToken)
         return {status : true}
       } else {
         this.setIsLoggedIn(false);

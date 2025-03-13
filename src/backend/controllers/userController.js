@@ -103,6 +103,20 @@ class UserController {
 
       console.log("Токен сессии:", csrfToken);
 
+      try{
+        res.cookie("csrfToken", csrfToken, {
+          httpOnly: false,
+          secure: false,
+          maxAge: 3600000,
+          sameSite: "lax",
+        });
+      } catch (error) {
+        console.log(
+          "Ошибка при загрузке csrfТокена на сайт",
+          error
+        );
+      }
+
       res.json({
         message: "Успешный вход",
         token,
@@ -131,6 +145,7 @@ class UserController {
   }
 
   async getUserByUserId(req, res) {
+    
     const user_id = req.params.id;
 
     try {
@@ -229,8 +244,23 @@ class UserController {
         [email, hashedPassword, username]
       );
 
-      // Ответ с данными нового пользователя
-      res.json(addUser.rows[0]);
+      const csrfToken = crypto.randomBytes(16).toString("hex");
+      req.session.csrfToken = csrfToken;
+
+      const user = addUser.rows[0];
+
+      console.log("новый пользователь",user)
+      res.json({
+        csrfToken,
+        user: {
+          user_id: user.user_id,
+          email: user.email,
+          username: user.username,
+          uses: user.uses,
+          password: user.password,
+        },
+      });
+      
     } catch (error) {
       if (error.code === "23505") {
         // Ошибка "duplicate key value"
@@ -330,6 +360,8 @@ class UserController {
 
     const tokenFromClient = req.headers["x-csrf-token"];
     const tokenFromSession = req.session.csrfToken;
+
+    console.log(`Отправленный токен : ${tokenFromClient} , Токен сессии : ${tokenFromSession}`)
 
     if (tokenFromClient !== tokenFromSession) {
       return res.status(403).json({ message: "Несовпадение токенов!" });

@@ -1,5 +1,7 @@
 import { useRef, useEffect } from "react";
 
+import { ToastContainer } from "react-toastify";
+
 import DataToDB from "../../dataToDB/dataToDB";
 
 import "./VerifModal.css";
@@ -15,7 +17,8 @@ const VerifModal = ({
   setUserData,
   setSignInData,
   isLoggedIn,
-  isPasswordWillBeReset
+  isPasswordWillBeReset,
+  setCsrfToken
 }) => {
   const dataToDB = new DataToDB(setIsLoggedIn, setUserData);
   const modalRef = useRef();
@@ -77,14 +80,12 @@ const VerifModal = ({
             "Код, отправленный с фронта:",
             signInData.verification_code
           );
-          dataToDB.validateSignIn(signInData).then((response) => {
+          dataToDB.validateSignIn(signInData,setCsrfToken).then((response) => {
             console.log(response);
             if (response.status != true) {
               toast.error("Wrong authentication code, or code expired.");
             } else {
-              toast.success("Successfull registration!", {
-                autoClose: 3000,
-              });
+              toast.success("Successfull registration!");
               modalRef.current.classList.remove("open")
               document.body.style.overflow = "";
             }
@@ -95,6 +96,7 @@ const VerifModal = ({
         setSignInData={setSignInData}
         signInData={signInData}
       />
+      <ToastContainer/>
     </>
   );
 };

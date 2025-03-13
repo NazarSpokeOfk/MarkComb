@@ -118,7 +118,8 @@ const HeaderFilter = ({
   };
 
   useEffect(() => {
-    checkCookies(setIsLoggedIn, setUserData, setUserLang);
+    console.log("Запрос")
+    checkCookies(setIsLoggedIn, setUserData, setUserLang , setCsrfToken);
   }, []);
 
   return (
@@ -352,6 +353,7 @@ const HeaderFilter = ({
             setUserData={setUserData}
             setIsLoggedIn={setIsLoggedIn}
             isLoggedIn={isLoggedIn}
+            setCsrfToken={setCsrfToken}
           />
         ) : null}
 
