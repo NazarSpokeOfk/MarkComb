@@ -4,9 +4,7 @@ class PromotionAPIController {
     apiKey = process.env.GOOGLE_API_KEY;
 
     channelAndVideoSearch = async (req, res) => {
-        console.log("req.body:",req.body)
         const {channelName,inputValue} = req.body.bodyData 
-        console.log("Значения:",channelName,inputValue)
         if(!channelName || !inputValue){
           res.status(404).json({status : false})
         } else {
@@ -21,7 +19,6 @@ class PromotionAPIController {
             const urlForVideoSearch = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&type=video&q=${encodeURIComponent(
               inputValue
             )}&order=date&key=${this.apiKey}`;
-            console.log(urlForVideoSearch);
             const resForVideosSearch = await fetch(urlForVideoSearch);
             
             if (!resForVideosSearch.ok) {
@@ -58,7 +55,6 @@ class PromotionAPIController {
           const rawData = await fetch(urlForAnalitics);
     
           const data = await rawData.json();
-          console.log('data:',data)
           const analitics = {
             views : data?.items?.[0]?.statistics?.viewCount,
             likes : data?.items?.[0]?.statistics?.likeCount

@@ -16,7 +16,7 @@ const googleAuthController = async (req, res) => {
         audience : "867104217256-63f1fg6mlqf501r974ud4nkvaks3ik1b.apps.googleusercontent.com",
     })
     const payload = ticket.getPayload()
-    console.log("Почта пользователя:",payload.email)
+    
 
     const findUser = await pool.query( `SELECT email,user_id,username,uses FROM users WHERE email = $1`,
         [payload.email]
@@ -25,13 +25,13 @@ const googleAuthController = async (req, res) => {
 
     const user = findUser.rows[0]
 
-    console.log(user)
+    
     if(!findUser){
         return res.status(400).json({message : "Аккаунта, в который вы пытаетесь зайти, не существует"}) 
     }
 
     const userId = await findUser.rows[0].user_id
-    console.log("userId:",userId)
+    
     const userChannels = await pool.query(
         `SELECT channel_name,email,created_at,thumbnail FROM purchases_channels WHERE user_id = $1`,
         [userId]

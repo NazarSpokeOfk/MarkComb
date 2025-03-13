@@ -22,11 +22,11 @@ import fs from "fs";
 
   await page.waitForSelector("#avatar-btn", { timeout: 0 });
 
-  console.log("✅ Логин обнаружен! Сохраняем cookies...");
+  
 
   const cookies = await page.cookies();
   fs.writeFileSync("cookies.json", JSON.stringify(cookies, null, 2));
 
-  console.log('✅ Cookies сохранены в "cookies.json". Закрываем браузер...');
+  
   await browser.close();
 })();

@@ -22,13 +22,13 @@ async function createStorageTables(pool) {
             )`;
 
     await pool.query(createChannelsTable);
-    console.log("Таблица с каналами создана.");
+    
 
     await pool.query(createTagsTable);
-    console.log("Таблица с тэгами создана");
+    
 
     await pool.query(createPairsTable)
-    console.log("Таблица с парами создана")
+    
 
   } catch (error) {
     logger.error("Возникла ошибка в createStorageTables : ", error);

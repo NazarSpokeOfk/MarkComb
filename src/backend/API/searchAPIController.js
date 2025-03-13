@@ -39,7 +39,6 @@ class SearchApiController{
   getVideoId = async (url) => {
     const res = await fetch(url);
     const data = await res.json();
-    // console.log(data)
     const videoId = data.items[0].id.videoId;
     return videoId;
   };
@@ -149,7 +148,6 @@ class SearchApiController{
 
   //Основная функция по поиску канала по данным, полученным из формы.
   FindChannel = async (mainInputValue) => {
-    console.log("Тип аргумента findChannel:",typeof(mainInputValue))
     try {
       // const form = document.querySelector(`.${selector}`);
       // if (!form) {
@@ -218,11 +216,9 @@ class SearchApiController{
   //Функция исполнения запросов, для передачи в другие файлы.
   handleSearch = async (req,res) => {
     const {mainInputValue} = req.body;
-    console.log("mainInputValue:",mainInputValue)
     try {
       const data = await this.FindChannel(mainInputValue);
       if (!data || data.length === 0) {
-        console.log("No data found");
         return;
       }
       const updatedData = await Promise.all(
@@ -252,7 +248,6 @@ class SearchApiController{
       const urlForVideoSearch = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&type=video&q=${encodeURIComponent(
         videoName
       )}&order=date&key=${this.apiKey}`;
-      console.log(urlForVideoSearch);
       const resForVideosSearch = await fetch(urlForVideoSearch);
       
       if (!resForVideosSearch.ok) {
@@ -284,7 +279,6 @@ class SearchApiController{
       const rawData = await fetch(urlForAnalitics);
 
       const data = await rawData.json();
-      console.log('data:',data)
       const analitics = {
         views : data?.items?.[0]?.statistics?.viewCount,
         likes : data?.items?.[0]?.statistics?.likeCount

@@ -16,7 +16,7 @@ const parserPath = path.resolve("parsers");
 const tempTagsStorage = {};
 
 router.post("/run-channelsparser", async (req, res) => {
-  console.log("Рек бади : ", req.body);
+  
 
   const { action, age_group, content_type, selectedTags, token } = req.body;
 
@@ -52,7 +52,7 @@ router.post("/run-channelsparser", async (req, res) => {
       try {
         const parsedTags = JSON.parse(tags);
 
-        console.log(tags)
+        
 
         const requestId = randomUUID();
         tempTagsStorage[requestId] = parsedTags.tags;
@@ -76,14 +76,14 @@ router.post("/run-channelsparser", async (req, res) => {
 });
 
 router.post("/run-tagsparser", async (req, res) => {
-  console.log("рек бади :", req.body);
+  
   const { token, tagsTheme, categoryToWrite, age_group } = req.body;
 
   if (token !== SECRET_TOKEN) {
     return res.status(403).json({ message: "Access denied" });
   }
 
-  console.log("Запускаем tagsParser...");
+  
 
   const parserProcess = spawn("node", [
     path.join(parserPath, `tagsParser.js`),
@@ -92,9 +92,10 @@ router.post("/run-tagsparser", async (req, res) => {
     age_group || "",
   ]);
 
-  parserProcess.stdout.on("data", (data) =>
+  parserProcess.stdout.on("data", (data) => {
     console.log(`Парсер тэгов выводит: ${data.toString()}`)
-  );
+  }
+)
   parserProcess.stderr.on("data", (data) =>
     logger.error(`Ошибка в парсере тэгов: ${data.toString()}`)
   );

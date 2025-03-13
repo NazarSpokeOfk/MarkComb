@@ -37,7 +37,6 @@ class MailVerification {
   async sendVerificationCode(email) {
     const verificationCode = crypto.randomBytes(3).toString("hex");
     const expiryTime = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes in milliseconds
-    console.log("Общие данные:", email, verificationCode, expiryTime);
 
     const mailOptions = {
       from: "mknoreplyy@gmail.com",
@@ -52,7 +51,6 @@ class MailVerification {
         [email, verificationCode, expiryTime]
       );
       await this.transporter.sendMail(mailOptions);
-      console.log("Verification email sent to:", email);
       return Promise.resolve(true);
     } catch (error) {
       logger.error(" (sendVerificationCode) Error sending verification email:", error);
@@ -61,17 +59,14 @@ class MailVerification {
   }
 
   async verifyCode(email, code) {
-    console.log(`📩 Проверяю код для: ${email}, код: ${code}`);
     try {
       const verif = await pool.query(
         `SELECT * FROM user_verifications WHERE email = $1 AND verification_code = $2 AND verification_expiry > NOW()`,
         [email, code]
       );
 
-      console.log("verif:", verif);
 
       if (verif.rowCount === 0) {
-        console.log("❌ Неправильный код");
         return { success: false, message: "Неправильный код" };
       }
 
@@ -87,7 +82,6 @@ class MailVerification {
       await pool.query(
         `DELETE FROM user_verifications WHERE email = $1`
       , [email]);
-      console.log(`Код верификации для ${email} удален.`);
     } catch (error) {
       logger.error( "(clearUpVerifCodes)" , error);
     }

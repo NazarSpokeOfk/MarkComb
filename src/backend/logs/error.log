@@ -98,3 +98,12 @@ Node.js v20.17.0
 10.03.2025, 18:10:56 + "
 " [ERROR] + "
 " (printf.js:11):  (sendVerificationCode) Error sending verification email: No recipients defined
+13.03.2025, 19:12:56 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в setup.js: pool.query(...) is not a function
+13.03.2025, 19:12:56 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в createStorageTables :  pool.query(...) is not a function
+13.03.2025, 21:36:42 + "
+" [ERROR] + "
+" (printf.js:11):  (updateUser) Возникла ошибка в updateUser: "newPassword" length must be at least 5 characters long

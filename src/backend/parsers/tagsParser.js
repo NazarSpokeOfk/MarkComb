@@ -31,10 +31,10 @@ async function getChannelId(videoTheme) {
     );
     const result = await response.json();
 
-    console.log("Результат getChannelId : ", result);
+    
 
     if (!result.items || result.items.length === 0) {
-      console.log("Не найдено каналов по теме:", videoTheme);
+      
       return [];
     }
 
@@ -61,7 +61,7 @@ async function getVideoIds(channelIds) {
         videoIDs.push(...ids);
       }
     }
-    console.log("Результат getVideoIds : ", videoIDs);
+    
     return videoIDs;
   } catch (error) {
     logger.error("Возникла ошибка в getVideoIds : ", error);
@@ -92,7 +92,7 @@ async function getYouTubeKeywords(videoId) {
 }
 
 async function saveKeywords(category, tags, age_group) {
-  console.log("ТЭГИ : ", tags);
+  
   const forbiddenTags = [
     "бесплатно",
     "телефон с камерой",
@@ -110,7 +110,7 @@ async function saveKeywords(category, tags, age_group) {
         `INSERT INTO tags (tag,content_type,age_group) VALUES ($1,$2,$3)`,
         [tag, category, age_group]
       );
-      console.log(`Данные для ${tag} , были записаны`);
+      
     }
   } catch (error) {
     logger.error("Возникла ошибка в saveKeywords : ", error);
@@ -121,15 +121,15 @@ async function tagsReceiptAutomation(videoTheme, category, age_group) {
   const channelId = await getChannelId(videoTheme);
 
   if (!channelId) {
-    console.log("Канал не найден.");
+    
     return;
   }
 
-  console.log(`✅ Channel ID: ${channelId}`);
+  
 
   const videoIds = await getVideoIds(channelId);
   if (!videoIds) {
-    console.log("VideoID не найдены.");
+    
     return;
   }
 
@@ -140,7 +140,7 @@ async function tagsReceiptAutomation(videoTheme, category, age_group) {
     const tags = await getYouTubeKeywords(videoId);
 
     saveKeywords(category, tags.keywords, age_group);
-    console.log(`Данные для ${videoId} сохранены.\n`);
+    
   }
 }
 
@@ -148,7 +148,7 @@ async function tagsReceiptAutomation(videoTheme, category, age_group) {
   const videoTheme = process.argv[2];
   const category = process.argv[3];
   const age_group = process.argv[4];
-  console.log("Аге гроуп", age_group);
+  
 
   console.log(
     `Тема видео : ${videoTheme} , категория : ${category} , возрастная категория : ${age_group}`

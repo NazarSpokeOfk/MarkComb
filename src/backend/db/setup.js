@@ -28,13 +28,13 @@ async function createTables(pool) {
         )`; 
 
         await pool.query(createUsersTable)
-        console.log('Таблица пользователей создана.')
+        
 
         await pool.query(createPurchasesTable)
-        console.log('Таблица с покупками создана.')
+        
 
         await pool.query(createUserVerificationTable)
-        console.log('Таблица верификации создана.')
+        
 
     } catch(error){
         logger.error('Возникла ошибка в setup.js:',error)

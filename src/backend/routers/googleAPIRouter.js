@@ -42,7 +42,7 @@ const router = new Router();
 
 router.post("/search" , searchLimiter, (req,res) => searchAPIController.handleSearch(req,res))
 router.post("/getdata" , filterLimiter , (req,res) => GetData(req,res))
-router.post("/video" , (req,res) => promotionAPIController.channelAndVideoSearch(req,res))
+router.post("/video" , searchLimiter , (req,res) => promotionAPIController.channelAndVideoSearch(req,res))
 router.post("/analitics" , (req,res) => promotionAPIController.getAnalitics(req,res))
 
 export default router

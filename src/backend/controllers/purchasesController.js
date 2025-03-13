@@ -101,7 +101,7 @@ class PurchasesController {
       return res.status(403).send('CSRF token mismatch');
     }
     
-    console.log("Id и channelName:", id, channelName);
+    
     try {
       const deleteOperation = await pool.query(
         `DELETE FROM purchases_channels WHERE user_id = $1 AND channel_name = $2 RETURNING *`,

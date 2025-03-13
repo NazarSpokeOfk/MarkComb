@@ -1,5 +1,4 @@
 const GetData  = async (req,res) =>{
-    console.log("req.body:",req.body)
     const {channelId} = req.body;
     const apiKey = process.env.GOOGLE_API_KEY;
 
@@ -17,7 +16,6 @@ const GetData  = async (req,res) =>{
     // Теперь извлекаем описания, например, если processRes не пустой, берем первое описание
     const description = processRes.length > 0 ? processRes[0].description : '';
 
-    console.log(extractEmail(description)); // Передаем строку в extractEmail
 
     res.json(extractEmail(description)); // Возвращаем результат
 }

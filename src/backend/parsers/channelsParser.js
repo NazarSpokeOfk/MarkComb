@@ -113,14 +113,14 @@ if (process.argv[1] === __filename) {
       }
       return JSON.stringify({message : "Каналы записаны в бд"})
     } catch (error) {
-      console.log(" (getChannelsAndWriteIntoDB) Ошибка при записи каналов:", error);
+      
     }
   };
 
   (async () => {
     if (process.argv[2] === "tags") {
       const result = await getTags();
-      console.log(JSON.stringify(result));
+      
       process.exit(0);
     } else if (process.argv[2] === "channels") {
       const tags = process.argv[5] ? process.argv[5].split(",") : [];
@@ -130,7 +130,7 @@ if (process.argv[1] === __filename) {
       await getChannelsAndWriteIntoDB(tags, content_type, age_group);
       process.exit(0);
     } else if (process.argv[2] != "tags" &&  "channels" ) {
-      console.log(JSON.stringify("Ошибка в вводе action!"))
+      
       process.exit(1)
     }
   })();

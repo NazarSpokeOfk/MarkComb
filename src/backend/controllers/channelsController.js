@@ -42,11 +42,11 @@ class ChannelsController {
     query += " ORDER BY RANDOM() LIMIT 1";
 
     try {
-      console.log("Квери с параметрами :" ,query,params)
+      
       const request = await storagePool.query(query, params);
       const result = request.rows[0];
 
-      console.log("результат с бд cc : ", result);
+      
 
       if(!result){
         res.json({status : false})
@@ -59,7 +59,7 @@ class ChannelsController {
         result.age_group
       );
 
-      console.log(channelStats);
+      
 
       res.json({ status: true, channelStats });
     } catch (error) {
@@ -69,7 +69,7 @@ class ChannelsController {
   }
 
   async fetchChannelData(channelId, contentType, audience) {
-    console.log("channelID : ", channelId);
+    
     try {
       const response = await fetch(
         `https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${channelId}&key=${apiKey}`

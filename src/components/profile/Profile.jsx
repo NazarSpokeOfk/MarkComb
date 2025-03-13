@@ -147,7 +147,7 @@ const Profile = ({ userData, setUserData , setIsLoggedIn , csrfToken , isLoggedI
                   value={localPassword}
                   onChange={handlePasswordChange}
                   type="text"
-                  placeholder="Enter your new password"
+                  placeholder="Enter your new password,5 characters long"
                 />
               ) : (
                 <h2 className="info_block-password none">

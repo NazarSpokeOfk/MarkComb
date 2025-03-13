@@ -14,14 +14,14 @@ const verifyCaptcha = async (recaptchaValue) => {
       }
   
       const data = await response.json();
-      console.log("Результат проверки reCAPTCHA:", data);
+      
   
       // Если проверка успешна
       if (data.success) {
-        console.log("✅ CAPTCHA прошла проверку");
+        
         return true;
       } else {
-        console.log("❌ CAPTCHA не прошла проверку", data['error-codes']);
+        
         return false; // Если ошибка, то возвращаем false
       }
       

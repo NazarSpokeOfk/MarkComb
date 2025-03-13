@@ -4,7 +4,7 @@ const verifyJWT = async (req,res) => {
     const token = req.cookies.sessionToken;
     const csrfToken = req.cookies.csrfToken;
 
-    console.log("csrfToken:",csrfToken)
+    
 
     if(!token || !csrfToken){
         return
@@ -29,8 +29,8 @@ const verifyJWT = async (req,res) => {
         if(response.ok){
             return res.json({result,csrfToken})
         } else {
-            console.log('Не удалось войти в аккаунт. Возможно неправильный пароль или email')
-            console.log("Выблядок")
+            
+            
         }
         
     } catch (error) {
