@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useState} from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -11,18 +11,26 @@ import "./YoutuberBlock.css";
 import "react-toastify/dist/ReactToastify.css";
 
 import YoutuberImgOne from "../../images/YouTuber.jpg";
-import YoutuberImgTwo from "../../images/Youtubertow.jpg"
+import YoutuberImgTwo from "../../images/Youtubertow.jpg";
 
-const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn , setUserData , csrfToken }) => {
-  
+const YoutuberBlock = ({
+  channelData,
+  SimilarChannelData,
+  userData,
+  isLoggedIn,
+  setUserData,
+  csrfToken,
+}) => {
   const { t, i18n } = useTranslation();
   const [btnsState, setBtnsState] = useState({});
   const isProcessingRef = useRef({});
 
-  const dataToDB = new DataToDB(true,setUserData);
+  const dataToDB = new DataToDB(true, setUserData);
 
   const logInErrorToast = () => {
-    toast.error(t("Firstly, find the youtuber whose contact details you want to get"));
+    toast.error(
+      t("Firstly, find the youtuber whose contact details you want to get")
+    );
   };
 
   const alreadyHave = () => {
@@ -30,42 +38,41 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
   };
 
   const handleButtonClick = async (data, buttonId) => {
-
-    console.log("Данные полученные в handleButtonClick : ",data)
+    console.log("Данные полученные в handleButtonClick : ", data);
     let timeout1, timeout2, timeout3;
-  
+
     if (!data?.channelId) {
       logInErrorToast();
       return;
     }
-  
+
     if (isProcessingRef.current[buttonId]) return;
-  
+
     isProcessingRef.current[buttonId] = true;
-  
+
     // Обновление состояния кнопки для начала обработки
     setBtnsState((prev) => ({
       ...prev,
       [buttonId]: { isProcessing: true },
     }));
-  
+
     // Проверка перед выполнением, чтобы не дублировать запросы
     if (btnsState[buttonId]?.isProcessing) return;
-    
-    if(userData.user.uses > 0){
+
+    if (userData.user.uses > 0) {
       try {
-        const result = await fetch("http://localhost:5001/api/getdata",{
-          method : "POST",
-          credentials : "include",
-          headers : {
-            "Content-type":"application/json",
-            "X-CSRF-Token" : csrfToken
+        const result = await fetch("http://localhost:5001/api/getdata", {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-type": "application/json",
+            "X-CSRF-Token": csrfToken,
           },
-          body : JSON.stringify({ channelId : data.channelId})
-        })
-        const response = await result.json()
-        console.log("Ответ от getData в youtuberblock:",response)
-  
+          body: JSON.stringify({ channelId: data.channelId }),
+        });
+        const response = await result.json();
+        console.log("Ответ от getData в youtuberblock:", response);
+
         if (!response || response.length === 0) {
           setBtnsState((prev) => ({
             ...prev,
@@ -77,9 +84,12 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
           isProcessingRef.current[buttonId] = false;
           return;
         }
-    
+
         if (buttonId === 1) {
-          console.log("Проверочка:",SimilarChannelData.channelStats?.[0]?.thumbnail)
+          console.log(
+            "Проверочка:",
+            SimilarChannelData.channelStats?.[0]?.thumbnail
+          );
           dataToDB.validatePurchaseData(
             {
               thumbnail: SimilarChannelData?.channelStats?.thumbnail || "",
@@ -91,7 +101,7 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
             csrfToken
           );
         } else {
-          console.log("Ало бял  ")
+          console.log("Ало бял  ");
           dataToDB.validatePurchaseData(
             {
               thumbnail: channelData?.channelStats?.thumbnail || "",
@@ -103,7 +113,7 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
             csrfToken
           );
         }
-        console.log(response)
+        console.log(response);
         setBtnsState((prev) => ({
           ...prev,
           [buttonId]: {
@@ -125,10 +135,9 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
           }));
         }, 2000);
       }
-
     } else {
-      toast.error(t("You have no uses!"))
-      return
+      toast.error(t("You have no uses!"));
+      return;
     }
 
     // Очистка таймаутов
@@ -149,7 +158,9 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
             }`}
           >
             <div className="youtuber__name none">
-              { isLoggedIn && channelData ? channelData?.updatedData?.[0]?.title : "?"}
+              {isLoggedIn && channelData
+                ? channelData?.updatedData?.[0]?.title
+                : "?"}
             </div>
             <div className="youtuber__information">
               <div className="youtuber__definitions">
@@ -166,18 +177,27 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
 
               <div className="youtuber__stats">
                 <h4 className="statistic none">
-                  { isLoggedIn && channelData ? channelData?.updatedData?.[0]?.targetAudience : "?"}
+                  {isLoggedIn && channelData
+                    ? channelData?.updatedData?.[0]?.targetAudience
+                    : "?"}
                 </h4>
                 <h4 className="statistic none">
-                  { isLoggedIn && channelData ? channelData?.updatedData?.[0]?.subsCount : "?"}
+                  {isLoggedIn && channelData
+                    ? channelData?.updatedData?.[0]?.subsCount
+                    : "?"}
                 </h4>
                 <h4 className="statistic none">
-                  { isLoggedIn && channelData ? channelData?.updatedData?.[0]?.genre : "?"}
+                  {isLoggedIn && channelData
+                    ? channelData?.updatedData?.[0]?.genre
+                    : "?"}
                 </h4>
               </div>
             </div>
             <img
-              src={isLoggedIn && channelData?.updatedData?.[0]?.thumbnail || YoutuberImgOne}
+              src={
+                (isLoggedIn && channelData?.updatedData?.[0]?.thumbnail) ||
+                YoutuberImgOne
+              }
               alt="MrBeast"
               className="youtuber__image"
               loading="lazy"
@@ -190,14 +210,15 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
               if (
                 userData.channels &&
                 userData.channels.some(
-                  (channel) => channel.channel_name === channelData?.updatedData?.[0].title
+                  (channel) =>
+                    channel.channel_name === channelData?.updatedData?.[0].title
                 )
               ) {
-                alreadyHave()
+                alreadyHave();
                 return;
               } else {
-                if(isLoggedIn){
-                  handleButtonClick(channelData?.updatedData?.[0], 0)
+                if (isLoggedIn) {
+                  handleButtonClick(channelData?.updatedData?.[0], 0);
                 } else {
                   toast.error(t("Log in firstly"));
                 }
@@ -217,7 +238,9 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
             }`}
           >
             <div className="youtuber__name none">
-              {userData && SimilarChannelData ? SimilarChannelData?.channelStats?.title : "?"}
+              {userData && SimilarChannelData
+                ? SimilarChannelData?.channelStats?.title
+                : "?"}
             </div>
             <div className="youtuber__information">
               <div className="youtuber__definitions">
@@ -234,12 +257,12 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
 
               <div className="youtuber__stats">
                 <h4 className="statistic none">
-                  { userData && SimilarChannelData
+                  {userData && SimilarChannelData
                     ? SimilarChannelData?.channelStats?.targetAudience
                     : "?"}
                 </h4>
                 <h4 className="statistic none">
-                  { userData && SimilarChannelData
+                  {userData && SimilarChannelData
                     ? SimilarChannelData?.channelStats?.subs
                     : "?"}
                 </h4>
@@ -252,7 +275,10 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
             </div>
             <img
               loading="lazy"
-              src={userData && SimilarChannelData?.channelStats?.thumbnail || YoutuberImgTwo}
+              src={
+                (userData && SimilarChannelData?.channelStats?.thumbnail) ||
+                YoutuberImgTwo
+              }
               alt="MrBeast"
               className="youtuber__image"
             />
@@ -264,17 +290,19 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
               if (
                 userData.channels &&
                 userData.channels.some(
-                  (channel) => channel.channel_name === SimilarChannelData?.channelStats?.title
+                  (channel) =>
+                    channel.channel_name ===
+                    SimilarChannelData?.channelStats?.title
                 )
               ) {
-                alreadyHave()
+                alreadyHave();
                 return;
               } else {
-                console.log("SimilarChannelData:" , SimilarChannelData)
-                if(isLoggedIn){
-                  handleButtonClick(SimilarChannelData.channelStats, 1)
+                console.log("SimilarChannelData:", SimilarChannelData);
+                if (isLoggedIn) {
+                  handleButtonClick(SimilarChannelData.channelStats, 1);
                 } else {
-                  toast.error(t("Log in firstly"))
+                  toast.error(t("Log in firstly"));
                   return;
                 }
               }
@@ -292,37 +320,60 @@ const YoutuberBlock = ({ channelData, SimilarChannelData, userData , isLoggedIn 
 
       <section className="footer">
         <div className="footer__container">
-          <h3 className="footer__logo">MarkComb,2024</h3>
-          <Link id="Terms" to="/terms" className="footer__terms none">
-            {t("Terms of service")}
-          </Link>
-          <Link to="/purpose" className="footer__purpose none">
-            {t("Our purpose")}
-          </Link>
-          <Link to="/dataprocessing" className="footer__purpose none">
-            {t("Personal Data Processing Agreement")}
-          </Link>
-          <button
-            onClick={() => {
-              SmoothEffect().then(() => {
-                i18n.changeLanguage("ru");
-              });
-            }}
-            className="footer__button"
-          >
-            Русский
-          </button>
-          <button
-            onClick={() => {
-              SmoothEffect().then(() => {
-                console.log(i18n)
-                i18n.changeLanguage("en");
-              });
-            }}
-            className="footer__button"
-          >
-            English
-          </button>
+          <div className="footer-first__group">
+            <div id="logo_footer" className="logo">
+              Mark<span>Comb</span>
+            </div>
+
+            <button
+              onClick={() => {
+                SmoothEffect().then(() => {
+                  i18n.changeLanguage("ru");
+                });
+              }}
+              className="footer__button"
+              id="RuButton"
+            >
+              Ru
+            </button>
+            <button
+              onClick={() => {
+                SmoothEffect().then(() => {
+                  console.log(i18n);
+                  i18n.changeLanguage("en");
+                });
+              }}
+              className="footer__button"
+            >
+              En
+            </button>
+          </div>
+
+          <hr className="footer-first__group__divider" />
+
+          <div className="footer-second__group">
+            <Link id="Terms" to="/terms" className="footer__terms none">
+              {t("Terms of service")}
+            </Link>
+            <Link to="/purpose" className="footer__purpose none">
+              {t("Our purpose")}
+            </Link>
+            <Link to="/dataprocessing" className="footer__purpose none">
+              {t("Personal Data Processing Agreement")}
+            </Link>
+          </div>
+
+          <hr className="footer-second__group__divider" />
+
+          <div className="footer-third__group">
+            <h4 className="footer-third__group-text">
+              2025 MarkComb
+            </h4>
+            <h4 className="footer-third__group-text">
+              {t("Contact us : markcombsup@gmail.com")}
+            </h4>
+          </div>
+
         </div>
       </section>
     </>

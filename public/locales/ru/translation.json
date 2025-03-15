@@ -211,5 +211,6 @@
     "username,3 characters min.":"Псевдоним, минимум 3 символа.",
     "password,5 characters min.":"Пароль, минимум 5 символов.",
     "Enter the verification code that was sent to your email":"Введите код верификации, который мы отправили на вашу почту:",
-    "verification code":"код верификации"
+    "verification code":"код верификации",
+    "Contact us : markcombsup@gmail.com":"Свяжитесь с нами : markcombsup@gmail.com"
 }

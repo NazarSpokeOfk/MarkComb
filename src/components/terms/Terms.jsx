@@ -284,34 +284,61 @@ const Terms = () => {
       </section>
 
       <section className="footer">
-        <div className="footer__container">
-          <h3 className="footer__logo">MarkComb,2024</h3>
-          <Link to="/terms" className="footer__terms none">
-            {t("Terms of service")}
-          </Link>
-          <Link to="/purpose" className="footer__purpose none">
-            {t("Our purpose")}
-          </Link>
-          <button
-            onClick={() => {
-              SmoothEffect().then(() => {
-                i18n.changeLanguage("ru");
-              });
-            }}
-            className="footer__button"
-          >
-            Русский
-          </button>
-          <button
-            onClick={() => {
-              SmoothEffect().then(() => {
-                i18n.changeLanguage("en");
-              });
-            }}
-            className="footer__button"
-          >
-            English
-          </button>
+      <div className="footer__container">
+          <div className="footer-first__group">
+            <div id="logo_footer" className="logo">
+              Mark<span>Comb</span>
+            </div>
+
+            <button
+              onClick={() => {
+                SmoothEffect().then(() => {
+                  i18n.changeLanguage("ru");
+                });
+              }}
+              className="footer__button"
+              id="RuButton"
+            >
+              Ru
+            </button>
+            <button
+              onClick={() => {
+                SmoothEffect().then(() => {
+                  console.log(i18n);
+                  i18n.changeLanguage("en");
+                });
+              }}
+              className="footer__button"
+            >
+              En
+            </button>
+          </div>
+
+          <hr className="footer-first__group__divider" />
+
+          <div className="footer-second__group">
+            <Link id="Terms" to="/terms" className="footer__terms none">
+              {t("Terms of service")}
+            </Link>
+            <Link to="/purpose" className="footer__purpose none">
+              {t("Our purpose")}
+            </Link>
+            <Link to="/dataprocessing" className="footer__purpose none">
+              {t("Personal Data Processing Agreement")}
+            </Link>
+          </div>
+
+          <hr className="footer-second__group__divider" />
+
+          <div className="footer-third__group">
+            <h4 className="footer-third__group-text">
+              2025 MarkComb
+            </h4>
+            <h4 className="footer-third__group-text">
+              {t("Contact us : markcombsup@gmail.com")}
+            </h4>
+          </div>
+
         </div>
       </section>
       </HelmetProvider>

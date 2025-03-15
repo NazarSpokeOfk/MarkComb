@@ -14,7 +14,6 @@ import NewPassword from "../modal/newPassword";
 import checkCookies from "../../checkCookies/checkCookies";
 import manageFiltersFetch from "../../filtersRequests/filterFetches";
 
-
 import "./Header&Filter.css";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -42,57 +41,58 @@ const HeaderFilter = ({
   const [isDataFilledIn, setIsDataFilledIn] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [entryMethod, setEntryMethod] = useState("");
-  
+
   const [selectedFilter, setSelectedFilter] = useState({
     type: null, // 'audience', 'contentType', 'subscribers'
-    value: null
+    value: null,
   });
 
   const { t } = useTranslation();
-  
+
   const [mainInputValue, setMainInputValue] = useState("");
-  const [isPasswordWillBeReset,setIsPasswordWillBeReset] = useState(false)
-  const [isVerificationCodeCorrect , setIsVerificationCodeCorrect] = useState(null)
-  
+  const [isPasswordWillBeReset, setIsPasswordWillBeReset] = useState(false);
+  const [isVerificationCodeCorrect, setIsVerificationCodeCorrect] =
+    useState(null);
+
   const audienceButtonLabels = [
-    (t("Kids")),
-    (t("Adults")),
-    (t("Teenagers")),
-    (t("OlderGen")),
+    t("Kids"),
+    t("Adults"),
+    t("Teenagers"),
+    t("OlderGen"),
   ];
   const contentButtonLabels = [
-    (t("Comedy")),
-    (t("Vlogs")),
-    (t("Animation")),
-    (t("Education")),
-    (t("Entertaiment")),
-    (t("Fitness")),
-    (t("Health")),
-    (t("Music")),
-    (t("News")),
-    (t("Gaming")),
-    (t("Travel")),
-    (t("Fashion"))
+    t("Comedy"),
+    t("Vlogs"),
+    t("Animation"),
+    t("Education"),
+    t("Entertaiment"),
+    t("Fitness"),
+    t("Health"),
+    t("Music"),
+    t("News"),
+    t("Gaming"),
+    t("Travel"),
+    t("Fashion"),
   ];
   const subscribersButtonLabels = {
-    "0-1K" : [0,1000],
-    "1-10K" : [1000,10000],
-    "10-100K" : [10000,100000],
-    "100-500K" : [100000,500000],
-    "1-5M" : [1000000,5000000],
-    "5-10M" : [5000000,10000000],
-    "10-20M" : [10000000,20000000]
-  }
+    "0-1K": [0, 1000],
+    "1-10K": [1000, 10000],
+    "10-100K": [10000, 100000],
+    "100-500K": [100000, 500000],
+    "1-5M": [1000000, 5000000],
+    "5-10M": [5000000, 10000000],
+    "10-20M": [10000000, 20000000],
+  };
 
   useEffect(() => {
-    console.log("selectedFilter : " , selectedFilter)
-  },[selectedFilter])
+    console.log("selectedFilter : ", selectedFilter);
+  }, [selectedFilter]);
 
   const filterRef = useRef();
 
   const logInFirstly = () => {
-    toast.warn(t("Log in firstly"))
-  }
+    toast.warn(t("Log in firstly"));
+  };
 
   const searchFetch = async (e) => {
     e.preventDefault();
@@ -111,7 +111,9 @@ const HeaderFilter = ({
       setIsSearching(false);
       console.log(isSearching);
     } catch (error) {
-      toast.error(t("There was an error during channel search. Please, try again later"))
+      toast.error(
+        t("There was an error during channel search. Please, try again later")
+      );
       console.log("Ошибка в searchFetch:", error);
     }
   };
@@ -121,8 +123,8 @@ const HeaderFilter = ({
   };
 
   useEffect(() => {
-    console.log("Запрос")
-    checkCookies(setIsLoggedIn, setUserData, setUserLang , setCsrfToken);
+    console.log("Запрос");
+    checkCookies(setIsLoggedIn, setUserData, setUserLang, setCsrfToken);
   }, []);
 
   return (
@@ -147,6 +149,7 @@ const HeaderFilter = ({
                 {t("prom")}
                 <span>{t("otion")}</span>
               </Link>
+
               <Link to="/purchase" className="header__link">
                 {t("purch")}
                 <span>{t("ase")}</span>
@@ -178,11 +181,11 @@ const HeaderFilter = ({
                 onClick={() => {
                   setEntryMethod("logIn");
                   setIsModalOpened(true);
-                }}  
+                }}
                 href="#"
                 className="log__in"
               >
-                {t("Log in")} / 
+                {t("Log in")} /
               </Link>
               <Link
                 onClick={() => {
@@ -192,7 +195,7 @@ const HeaderFilter = ({
                 href="#"
                 className="sign__in"
               >
-                 {t("Sign in")}
+                {t("Sign in")}
               </Link>
             </>
           )}
@@ -209,14 +212,18 @@ const HeaderFilter = ({
               }}
               onSubmit={(e) => {
                 e.preventDefault();
-                if(isLoggedIn){
-                  searchFetch(e)
+                if (isLoggedIn) {
+                  searchFetch(e);
                 } else {
-                  logInFirstly()
+                  logInFirstly();
                 }
               }}
             >
-              <input className="search__main" type="text" placeholder={t("Search for any YouTuber")}/>
+              <input
+                className="search__main"
+                type="text"
+                placeholder={t("Search for any YouTuber")}
+              />
               <div className="buttons">
                 <button
                   onClick={openFilters}
@@ -253,23 +260,30 @@ const HeaderFilter = ({
               <div className="target-audence__blocks">
                 {audienceButtonLabels.map((label, index) => (
                   <button
-                  key={index}
-                  className={`filter__block ${
-                    selectedFilter.type === 'audience' && selectedFilter.value === label
-                      ? "filteractive"
-                      : ""
-                  }`}
-                  onClick={() => {
-                    setSelectedFilter({ type: "audience", value: label });
-                    if (isLoggedIn) {
-                      manageFiltersFetch(false, setSimilarChannelData, label, false, false);
-                    } else {
-                      logInFirstly();
-                    }
-                  }}
-                >
-                  {label}
-                </button>
+                    key={index}
+                    className={`filter__block ${
+                      selectedFilter.type === "audience" &&
+                      selectedFilter.value === label
+                        ? "filteractive"
+                        : ""
+                    }`}
+                    onClick={() => {
+                      setSelectedFilter({ type: "audience", value: label });
+                      if (isLoggedIn) {
+                        manageFiltersFetch(
+                          false,
+                          setSimilarChannelData,
+                          label,
+                          false,
+                          false
+                        );
+                      } else {
+                        logInFirstly();
+                      }
+                    }}
+                  >
+                    {label}
+                  </button>
                 ))}
               </div>
             </div>
@@ -282,27 +296,35 @@ const HeaderFilter = ({
               <div className="number__ofsubs__blocks">
                 {Object.entries(subscribersButtonLabels).map((label, index) => (
                   <button
-                  key={index}
-                  className={`filter__block ${
-                    selectedFilter.type === 'subscribers' &&
-                    selectedFilter.value &&
-                    selectedFilter.value[0] === label[1][0] &&
-                    selectedFilter.value[1] === label[1][1]
-                      ? "filteractive"
-                      : ""
-                  }`}
-                  onClick={() => {
-                    setSelectedFilter({ type: "subscribers", value: label[1] });
-                    if (isLoggedIn) {
-                      manageFiltersFetch(false, setSimilarChannelData, false, label?.[1]?.[0], label?.[1]?.[1]);
-                    } else {
-                      logInFirstly();
-                    }
-                  }}
-                >
-                  {label[0]}
-                </button>
-                
+                    key={index}
+                    className={`filter__block ${
+                      selectedFilter.type === "subscribers" &&
+                      selectedFilter.value &&
+                      selectedFilter.value[0] === label[1][0] &&
+                      selectedFilter.value[1] === label[1][1]
+                        ? "filteractive"
+                        : ""
+                    }`}
+                    onClick={() => {
+                      setSelectedFilter({
+                        type: "subscribers",
+                        value: label[1],
+                      });
+                      if (isLoggedIn) {
+                        manageFiltersFetch(
+                          false,
+                          setSimilarChannelData,
+                          false,
+                          label?.[1]?.[0],
+                          label?.[1]?.[1]
+                        );
+                      } else {
+                        logInFirstly();
+                      }
+                    }}
+                  >
+                    {label[0]}
+                  </button>
                 ))}
               </div>
             </div>
@@ -315,23 +337,30 @@ const HeaderFilter = ({
               <div className="content__type__blocks">
                 {contentButtonLabels.map((label, index) => (
                   <button
-                  key={index}
-                  className={`filter__block ${
-                    selectedFilter.type === 'contentType' && selectedFilter.value === label
-                      ? "filteractive"
-                      : ""
-                  }`}
-                  onClick={() => {
-                    setSelectedFilter({ type: "contentType", value: label });
-                    if (isLoggedIn) {
-                      manageFiltersFetch(label,setSimilarChannelData,false,false,false)
-                    } else {
-                      logInFirstly();
-                    }
-                  }}
-                >
-                  {label}
-                </button>
+                    key={index}
+                    className={`filter__block ${
+                      selectedFilter.type === "contentType" &&
+                      selectedFilter.value === label
+                        ? "filteractive"
+                        : ""
+                    }`}
+                    onClick={() => {
+                      setSelectedFilter({ type: "contentType", value: label });
+                      if (isLoggedIn) {
+                        manageFiltersFetch(
+                          label,
+                          setSimilarChannelData,
+                          false,
+                          false,
+                          false
+                        );
+                      } else {
+                        logInFirstly();
+                      }
+                    }}
+                  >
+                    {label}
+                  </button>
                 ))}
               </div>
             </div>
@@ -354,41 +383,40 @@ const HeaderFilter = ({
             setCsrfToken={setCsrfToken}
             setUserCountry={setUserCountry}
             setUserLang={setUserLang}
-            setIsPasswordWillBeReset = {setIsPasswordWillBeReset}
+            setIsPasswordWillBeReset={setIsPasswordWillBeReset}
           />
         ) : null}
         {isDataFilledIn ? (
           <>
-          <VerifModal
-            logInData = {logInData}
-            isDataFilledIn={isDataFilledIn}
-            setSignInData={setSignInData}
-            signInData={signInData}
-            setUserData={setUserData}
-            setIsLoggedIn={setIsLoggedIn}
-            isLoggedIn={isLoggedIn}
-            setCsrfToken={setCsrfToken}
-          />
+            <VerifModal
+              logInData={logInData}
+              isDataFilledIn={isDataFilledIn}
+              setSignInData={setSignInData}
+              signInData={signInData}
+              setUserData={setUserData}
+              setIsLoggedIn={setIsLoggedIn}
+              isLoggedIn={isLoggedIn}
+              setCsrfToken={setCsrfToken}
+            />
           </>
         ) : null}
 
         {isPasswordWillBeReset ? (
           <VerifCode
-          logInData = {logInData}
-          isPasswordWillBeReset = {isPasswordWillBeReset}
-          setIsPasswordWillBeReset={setIsPasswordWillBeReset}
-          setIsVerificationCodeCorrect = {setIsVerificationCodeCorrect}
+            logInData={logInData}
+            isPasswordWillBeReset={isPasswordWillBeReset}
+            setIsPasswordWillBeReset={setIsPasswordWillBeReset}
+            setIsVerificationCodeCorrect={setIsVerificationCodeCorrect}
           />
         ) : null}
 
         {isVerificationCodeCorrect ? (
           <NewPassword
-          email = {logInData.email}
-          isVerificationCodeCorrect = {isVerificationCodeCorrect}
-          setIsVerificationCodeCorrect={setIsVerificationCodeCorrect}
+            email={logInData.email}
+            isVerificationCodeCorrect={isVerificationCodeCorrect}
+            setIsVerificationCodeCorrect={setIsVerificationCodeCorrect}
           />
         ) : null}
-
       </HelmetProvider>
     </>
   );
