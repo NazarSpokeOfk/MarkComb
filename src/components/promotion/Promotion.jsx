@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { toast } from "react-toastify";
+import { useMediaQuery } from "@react-hook/media-query";
 
 import "./Promotion.css";
 import SmoothEffect from "../smoothText";
@@ -18,8 +19,10 @@ const Promotion = ({ isLoggedIn, userData }) => {
   const [activeIndex, setActiveIndex] = useState(null);
   const [isExpanded, setIsExpanded] = useState(false);
 
+  const isMobile = useMediaQuery("(max-width:480px)");
+
   useEffect(() => {
-    console.log("userdata : " , userData)
+    console.log("userdata : ", userData);
   }, [videoData]);
 
   const secondYouTubersContainerRef = useRef(),
@@ -29,7 +32,6 @@ const Promotion = ({ isLoggedIn, userData }) => {
     membersRef = useRef([]);
 
   const { t, i18n } = useTranslation();
-
 
   const handleToggle = () => {
     secondYouTubersContainerRef.current.classList.toggle("active");
@@ -63,10 +65,10 @@ const Promotion = ({ isLoggedIn, userData }) => {
     } else if (videoId) {
       bodyData.videoId = videoId;
     } else {
-      toast.error("Empty request")
-      return Promise.reject()
+      toast.error("Empty request");
+      return Promise.reject();
     }
-    console.log("Body data : " , bodyData)
+    console.log("Body data : ", bodyData);
     const result = await fetch(`http://localhost:5001/api/${type}`, {
       method: "POST",
       headers: {
@@ -75,13 +77,13 @@ const Promotion = ({ isLoggedIn, userData }) => {
       body: JSON.stringify({ bodyData }),
     });
 
-    const response = await result.json()
+    const response = await result.json();
     const finalVideoData = response?.finalVideoData;
-    console.log("response :",response)
-    if(finalVideoData){  
-      setVideoData(finalVideoData)
+    console.log("response :", response);
+    if (finalVideoData) {
+      setVideoData(finalVideoData);
     } else {
-      const analitics = response?.analitics
+      const analitics = response?.analitics;
       setVideoData((prevData) => ({ ...prevData, analitics }));
     }
   };
@@ -92,7 +94,7 @@ const Promotion = ({ isLoggedIn, userData }) => {
         {videoData ? (
           <div
             onClick={() => {
-              promotionFetch("analitics",false,false,videoData.videoId);
+              promotionFetch("analitics", false, false, videoData.videoId);
               setIsExpanded(true);
             }}
             className={`search-suggested__block ${isExpanded ? "active" : ""}`}
@@ -111,7 +113,9 @@ const Promotion = ({ isLoggedIn, userData }) => {
               {videoData?.analitics && (
                 <>
                   <img loading="lazy" src={views} alt="eye" className="views" />{" "}
-                  <div className="views__text">{videoData?.analitics?.views}</div>
+                  <div className="views__text">
+                    {videoData?.analitics?.views}
+                  </div>
                 </>
               )}
             </h2>
@@ -119,7 +123,9 @@ const Promotion = ({ isLoggedIn, userData }) => {
               {videoData?.analitics && (
                 <>
                   <img loading="lazy" src={like} alt="eye" className="like" />{" "}
-                  <div className="likes__text">{videoData?.analitics?.likes}</div>
+                  <div className="likes__text">
+                    {videoData?.analitics?.likes}
+                  </div>
                 </>
               )}
             </h2>
@@ -136,7 +142,10 @@ const Promotion = ({ isLoggedIn, userData }) => {
       <HelmetProvider>
         <Helmet>
           <title>Promotion</title>
-          <meta name="description" content="Here you can see how the content maker's video has progressed"/>
+          <meta
+            name="description"
+            content="Here you can see how the content maker's video has progressed"
+          />
         </Helmet>
         <header>
           <div className="container">
@@ -200,7 +209,12 @@ const Promotion = ({ isLoggedIn, userData }) => {
                 onClick={handleToggle}
                 className="list-container__button"
               >
-                <img className="more_youtubers" loading="lazy" src={buttonIcon} alt="moreyoutubers" />
+                <img
+                  className="more_youtubers"
+                  loading="lazy"
+                  src={buttonIcon}
+                  alt="moreyoutubers"
+                />
               </button>
             ) : (
               ""
@@ -225,27 +239,35 @@ const Promotion = ({ isLoggedIn, userData }) => {
                       {channel?.channel_name}
                     </h2>
                   ))
-                : (":)")}
+                : ":)"}
               <br />
             </div>
           </div>
         </section>
 
         <section className="search">
-          <input type="text" className="search__input" ref={inputRef} placeholder={t("Search for any video of selected YouTuber")}/>
+          <input
+            type="text"
+            className="search__input"
+            ref={inputRef}
+            placeholder={
+              isMobile
+                ? t("Search video of selected YouTuber")
+                : t("Search for any video of selected YouTuber")
+            }
+          />
           <button
             onClick={() => {
               const inputValue = inputRef.current.value;
               if (channelName) {
-                toast
-                  .promise(
-                    promotionFetch("video",channelName, inputValue , false),
-                    {
-                      pending: "Searching video...",
-                      success: "We found the video!",
-                      error: "There is no such video in this channel",
-                    }
-                  )
+                toast.promise(
+                  promotionFetch("video", channelName, inputValue, false),
+                  {
+                    pending: "Searching video...",
+                    success: "We found the video!",
+                    error: "There is no such video in this channel",
+                  }
+                );
               } else {
                 toast.error("Log in firstly!");
               }
@@ -264,7 +286,25 @@ const Promotion = ({ isLoggedIn, userData }) => {
             <div id="logo_footer" className="logo">
               Mark<span>Comb</span>
             </div>
+          </div>
 
+          <div className="footer-second__group">
+            <Link id="Terms" to="/terms" className="footer__terms none">
+              {t("Terms of service")}
+            </Link>
+            <Link to="/purpose" className="footer__purpose none">
+              {t("Our purpose")}
+            </Link>
+            <Link to="/dataprocessing" className="footer__purpose none">
+              {t("Personal Data Processing Agreement")}
+            </Link>
+            <h4 className="footer-third__group-text">2025 MarkComb</h4>
+            <h4 className="footer-third__group-text">
+              📧{" "}
+              <a href="mailto:markcombsup@gmail.com">markcombsup@gmail.com</a>
+            </h4>
+          </div>
+          <div className="footer__btns-container">
             <button
               onClick={() => {
                 SmoothEffect().then(() => {
@@ -288,34 +328,8 @@ const Promotion = ({ isLoggedIn, userData }) => {
               En
             </button>
           </div>
-
-          <hr className="footer-first__group__divider" />
-
-          <div className="footer-second__group">
-            <Link id="Terms" to="/terms" className="footer__terms none">
-              {t("Terms of service")}
-            </Link>
-            <Link to="/purpose" className="footer__purpose none">
-              {t("Our purpose")}
-            </Link>
-            <Link to="/dataprocessing" className="footer__purpose none">
-              {t("Personal Data Processing Agreement")}
-            </Link>
-          </div>
-
-          <hr className="footer-second__group__divider" />
-
-          <div className="footer-third__group">
-            <h4 className="footer-third__group-text">
-              2025 MarkComb
-            </h4>
-            <h4 className="footer-third__group-text">
-              {t("Contact us : markcombsup@gmail.com")}
-            </h4>
-          </div>
-
         </div>
-      </section>
+        </section>
       </HelmetProvider>
     </>
   );

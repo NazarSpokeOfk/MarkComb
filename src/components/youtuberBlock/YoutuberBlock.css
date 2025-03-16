@@ -1,7 +1,7 @@
 .youtuber__block {
   position: relative;
   border: 1px solid #000;
-  border-radius: 75px;
+  border-radius: 55px;
   width: 1020px;
   height: 310px;
   margin: 0 auto;
@@ -17,7 +17,7 @@
   position: absolute;
   left: 60.7%;
   bottom: 0%;
-  border-radius: 75px;
+  border-radius: 55px;
   width: 400px;
   height: 309px;
   z-index: -1;
@@ -104,63 +104,64 @@
 }
 
 .footer__purpose {
-  margin-top: 20px;
   text-decoration: none;
   color: black;
 }
 
 #logo_footer {
-  margin-top: 2%;
+  position: relative;
+  margin-top: 12%;
   margin-left: 0;
   color: #fff;
   font-size: 30px;
 }
 
+#logo_footer::after {
+  content: "";
+  position: absolute;
+  left: -70%;
+  bottom: -10px; /* Отступ от элемента */
+  width: 99.7vw; /* На всю ширину родителя */
+  height: 1px; /* Толщина линии */
+  background-color: rgb(255, 255, 255); /* Цвет линии */
+}
+
 .footer-first__group {
-  position: relative;
   display: flex;
   height: 50%;
 }
 
-#RuButton {
-  margin-left: 1000px;
-}
-
-.footer-first__group__divider {
-  rotate: 90deg;
-  height: 1500px;
-  margin-left: -55%;
-  margin-top: -50%;
-}
-
 .footer-second__group {
-  position: relative;
-  right: 84.5%;
-  display: flex;
-  margin-top: 7%;
-  justify-content: center;
-}
-
-.footer-second__group__divider {
-  min-height: 1930px;
-  rotate: 90deg;
-  margin-left: -94%;
-  margin-top: -57%;
-}
-
-.footer-third__group {
-  display: flex;
-  margin-top: 15%;
-  position: relative;
-  right: 68.5%;
+  margin-top: 6%;
+  margin-left: -58%;
 }
 
 .footer-third__group-text {
-  margin-right: 20px;
-  color: #fff;
-  font-weight: 350;
-  font-size: 15px;
+  color: white;
+  margin-bottom: 20px;
+  font-weight: 400;
+  a{
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+    font-weight: 700;
+  }
 }
+
+.footer__last-section {
+  margin-top: 10%;
+  display: flex;
+  gap: 7%;
+  max-width: 550px;
+  
+}
+
+.footer__btns-container {
+  margin-top: 1.5%;
+  max-height: 100px;
+  margin-right: 5%;
+}
+
 
 @keyframes pulse {
   0% {
@@ -190,10 +191,30 @@
     font-size: 25px;
     word-wrap: break-word;
   }
+  #logo_footer::after {
+    content: "";
+    position: absolute;
+    left: -70%;
+    bottom: -20px; /* Отступ от элемента */
+    width: 99.7vw; /* На всю ширину родителя */
+    height: 1px; /* Толщина линии */
+    background-color: rgb(255, 255, 255); /* Цвет линии */
+  }
+
+  .footer-second__group {
+    margin-top: 5%;
+    flex-direction: column;
+    margin-left: -63%;
+    gap: 20px;
+  }
 }
 @media (min-width: 1280px) and (max-width: 1280px) and (min-height: 720px) and (max-height: 720px) {
   .youtuber__button {
     margin-left: 10%;
+  }
+  .footer-second__group {
+    margin-left: -53%;
+    margin-top: 6.5%;
   }
 }
 @media (min-width: 2560px) and (max-width: 2560px) and (min-height: 1440px) and (max-height: 1440px) {
@@ -213,6 +234,7 @@
   }
   .youtuber__button {
     font-size: 20px;
+    margin-left: 30%;
   }
   .youtuber__block {
     width: 1100px;
@@ -221,6 +243,33 @@
   .youtuber__image {
     width: 450px;
     height: 350px;
+  }
+  #logo_footer {
+    font-size: 35px;
+  }
+  #logo_footer::after {
+    content: "";
+    position: absolute;
+    left: -70%;
+    bottom: -20px; /* Отступ от элемента */
+    width: 99.7vw; /* На всю ширину родителя */
+    height: 1px; /* Толщина линии */
+    background-color: rgb(255, 255, 255); /* Цвет линии */
+  }
+  .footer-second__group {
+    margin-top: 4%;
+    flex-direction: column;
+    margin-left: -65%;
+    gap: 20px;
+  }
+  .footer__btns-container {
+    margin-top: 0.7%;
+  }
+  .footer__last-section {
+    margin-top: 9%;
+  }
+  .footer-third__group-text {
+    font-size: 22px;
   }
 }
 @media (min-width: 768px) and (max-width: 768px) and (min-height: 1024px) and (max-height: 1024px) {
@@ -263,8 +312,20 @@
   #contentType {
     margin-top: 40px;
   }
-  #Terms {
-    margin-left: 20px;
+
+  .footer-second__group {
+    margin-left: -21.5%;
+    margin-top: 10%;
+  }
+  #logo_footer {
+    margin-left: 5%;
+  }
+  .footer__last-section {
+    margin-left: 4%;
+  }
+  #logo_footer::after {
+    width: 110.5vw; /* На всю ширину родителя */
+    height: 1px; /* Толщина линии */
   }
 }
 @media (max-width: 430px) and (max-height: 920px) {
@@ -314,5 +375,20 @@
   }
   .youtuber__button.fail {
     width: 350px;
+  }
+  #logo_footer {
+    margin-top: 5%;
+    font-size: 20px;
+  }
+  .footer-second__group {
+    margin-top: 6%;
+    flex-wrap: wrap;
+    margin-left: 0%;
+    gap: 20px;
+    
+  }
+  #logo_footer::after {
+    width: 114vw; /* На всю ширину родителя */
+    height: 1px; /* Толщина линии */
   }
 }

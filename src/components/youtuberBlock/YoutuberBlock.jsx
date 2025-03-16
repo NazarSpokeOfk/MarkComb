@@ -92,7 +92,7 @@ const YoutuberBlock = ({
           );
           dataToDB.validatePurchaseData(
             {
-              thumbnail: SimilarChannelData?.channelStats?.thumbnail || "",
+              thumbnail: SimilarChannelData?.thumbnail || "",
               email: response?.[0] || "",
               channelName: SimilarChannelData?.channelStats?.title || "",
               uses: 1,
@@ -101,12 +101,12 @@ const YoutuberBlock = ({
             csrfToken
           );
         } else {
-          console.log("Ало бял  ");
+          console.log("Ало бял : ", channelData);
           dataToDB.validatePurchaseData(
             {
-              thumbnail: channelData?.channelStats?.thumbnail || "",
+              thumbnail: channelData?.updatedData[0]?.thumbnail || "",
               email: response?.[0] || "",
-              channelName: channelData?.channelStats?.title || "",
+              channelName: channelData?.updatedData[0]?.title || "",
               uses: 1,
             },
             userData?.user?.user_id,
@@ -198,7 +198,7 @@ const YoutuberBlock = ({
                 (isLoggedIn && channelData?.updatedData?.[0]?.thumbnail) ||
                 YoutuberImgOne
               }
-              alt="MrBeast"
+              alt="youtuber"
               className="youtuber__image"
               loading="lazy"
             />
@@ -279,7 +279,7 @@ const YoutuberBlock = ({
                 (userData && SimilarChannelData?.channelStats?.thumbnail) ||
                 YoutuberImgTwo
               }
-              alt="MrBeast"
+              alt="youtuber"
               className="youtuber__image"
             />
           </div>
@@ -324,7 +324,25 @@ const YoutuberBlock = ({
             <div id="logo_footer" className="logo">
               Mark<span>Comb</span>
             </div>
+          </div>
 
+          <div className="footer-second__group">
+            <Link id="Terms" to="/terms" className="footer__terms none">
+              {t("Terms of service")}
+            </Link>
+            <Link to="/purpose" className="footer__purpose none">
+              {t("Our purpose")}
+            </Link>
+            <Link to="/dataprocessing" className="footer__purpose none">
+              {t("Personal Data Processing Agreement")}
+            </Link>
+            <h4 className="footer-third__group-text">2025 MarkComb</h4>
+            <h4 className="footer-third__group-text">
+              📧{" "}
+              <a href="mailto:markcombsup@gmail.com">markcombsup@gmail.com</a>
+            </h4>
+          </div>
+          <div className="footer__btns-container">
             <button
               onClick={() => {
                 SmoothEffect().then(() => {
@@ -348,32 +366,6 @@ const YoutuberBlock = ({
               En
             </button>
           </div>
-
-          <hr className="footer-first__group__divider" />
-
-          <div className="footer-second__group">
-            <Link id="Terms" to="/terms" className="footer__terms none">
-              {t("Terms of service")}
-            </Link>
-            <Link to="/purpose" className="footer__purpose none">
-              {t("Our purpose")}
-            </Link>
-            <Link to="/dataprocessing" className="footer__purpose none">
-              {t("Personal Data Processing Agreement")}
-            </Link>
-          </div>
-
-          <hr className="footer-second__group__divider" />
-
-          <div className="footer-third__group">
-            <h4 className="footer-third__group-text">
-              2025 MarkComb
-            </h4>
-            <h4 className="footer-third__group-text">
-              {t("Contact us : markcombsup@gmail.com")}
-            </h4>
-          </div>
-
         </div>
       </section>
     </>

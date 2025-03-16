@@ -75,7 +75,7 @@ header {
   margin: 0 auto;
   margin-top: 70px;
   min-height: 35px;
-  border-radius: 100px;
+  border-radius: 15px;
   margin-bottom: 60px;
   border: 1px solid black;
 }
@@ -324,7 +324,7 @@ header {
 }
 @media (min-width: 2560px) and (max-width: 2560px) and (min-height: 1440px) and (max-height: 1440px) {
   .search__main{
-    width: 65%;
+    width: 42%;
     height: 50px;
     font-size: 25px;
   }
@@ -341,19 +341,20 @@ header {
     font-size: 22px;
   }
   .search__glass{
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
     img{
       width: inherit;
       height: inherit;
     }
   }
   .search__filters{
-    height: 50px;
-    width: 50px;
+    height: 45px;
+    width: 45px;
   }
   .buttons{
-    margin-top: -128px;
+    margin-top: -130px;
+    margin-left: 63%;
   }
   .filters{
     margin-left: 5%;
@@ -389,7 +390,7 @@ header {
 }
 @media (min-width: 768px) and (max-width: 768px) and (min-height: 1024px) and (max-height: 1024px) {
  .login{
-  margin-left: 68%;
+  margin-left: 65%;
  }
  .search__main{
   width: 80%;

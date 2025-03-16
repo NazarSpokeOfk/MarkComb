@@ -200,26 +200,31 @@ const Profile = ({ userData, setUserData , setIsLoggedIn , csrfToken , isLoggedI
         ) : null}
         <ToastContainer />
 
-        <section className="footer">
-          <div className="footer__container">
-            <h3 className="footer__logo">MK,2024</h3>
-            <Link to="/terms" className="footer__terms">
-              {t("Terms of Service")}
-            </Link>
-            <Link to="/purpose" className="footer__purpose">
-              {t("Our Purpose")}
-            </Link>
-            <button
-              onClick={() => {
-                SmoothEffect().then(() => {
-                  i18n.changeLanguage("en");
-                });
-              }}
-              className="footer__button"
-            >
-              English
-            </button>
+        <section id="profile__footer" className="footer">
+        <div className="footer__container">
+          <div className="footer-first__group">
+            <div id="logo_footer" className="logo">
+              Mark<span>Comb</span>
+            </div>
+          </div>
 
+          <div className="footer-second__group">
+            <Link id="Terms" to="/terms" className="footer__terms none">
+              {t("Terms of service")}
+            </Link>
+            <Link to="/purpose" className="footer__purpose none">
+              {t("Our purpose")}
+            </Link>
+            <Link to="/dataprocessing" className="footer__purpose none">
+              {t("Personal Data Processing Agreement")}
+            </Link>
+            <h4 className="footer-third__group-text">2025 MarkComb</h4>
+            <h4 className="footer-third__group-text">
+              📧{" "}
+              <a href="mailto:markcombsup@gmail.com">markcombsup@gmail.com</a>
+            </h4>
+          </div>
+          <div className="footer__btns-container">
             <button
               onClick={() => {
                 SmoothEffect().then(() => {
@@ -227,10 +232,23 @@ const Profile = ({ userData, setUserData , setIsLoggedIn , csrfToken , isLoggedI
                 });
               }}
               className="footer__button"
+              id="RuButton"
             >
-              Русский
+              Ru
+            </button>
+            <button
+              onClick={() => {
+                SmoothEffect().then(() => {
+                  console.log(i18n);
+                  i18n.changeLanguage("en");
+                });
+              }}
+              className="footer__button"
+            >
+              En
             </button>
           </div>
+        </div>
         </section>
       </HelmetProvider>
     </>

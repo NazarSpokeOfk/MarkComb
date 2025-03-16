@@ -12,7 +12,6 @@
   }
 }
 
-
 .list__container {
   display: flex;
   gap: 100px;
@@ -50,7 +49,7 @@
 }
 
 .list-container__button {
-  margin-left:74%;
+  margin-left: 74%;
   width: 70px;
   height: 50px;
   border: none;
@@ -126,10 +125,10 @@
 }
 
 .imgActive {
-  height: 180px;
+  height: 167px;
   width: 350px;
   position: absolute;
-  top: 53%;
+  top: 57%;
   left: -9%;
   transition: all 0.6s ease;
 }
@@ -151,7 +150,7 @@
   margin-top: 15%;
 }
 
-#promotion_footer{
+#promotion_footer {
   margin-top: 25%;
 }
 
@@ -190,6 +189,7 @@
   margin-left: 15%;
   margin-top: -8.5%;
   margin-bottom: 5%;
+  font-size: 15px;
 }
 
 .views {
@@ -200,7 +200,8 @@
 
 .views__text {
   margin-left: 20%;
-  margin-top: -8.5%;
+  margin-top: -6.5%;
+  font-size: 15px;
 }
 
 .suggested-block__getDetailedAnalitics {
@@ -226,18 +227,49 @@
     margin-left: 26%;
   }
   .list-container__button {
-    right: 490px;
+    position: absolute;
+    right: 550px;
+    top: 300px;
   }
   .list-container__button.rotate {
     rotate: -90deg;
   }
+  .search-suggested__block{
+    margin-left: 26%;
+  }
 }
 @media (min-width: 1280px) and (max-width: 1280px) and (min-height: 720px) and (max-height: 720px) {
   .list-container__button {
-    right: 190px;
+    position: absolute;
+    top: 280px;
+    right: 220px;
+  }
+  .title_promotion{
+    margin-left: 14%;
+  }
+  .list__container{
+    margin-left: 14%;
+  }
+  .list__container__more{
+    margin-left: 14%;
+  }
+  .search__input{
+    margin-left: 14%;
+  }
+  .search-suggested__block{
+    margin-left: 14%;
   }
 }
 @media (min-width: 2560px) and (max-width: 2560px) and (min-height: 1440px) and (max-height: 1440px) {
+  .title_promotion {
+    margin-left: 30%;
+  }
+  .list__container {
+    margin-left: 30%;
+  }
+  .list__container__more {
+    margin-left: 30%;
+  }
   .search__input {
     margin-left: 30%;
     font-size: 30px;
@@ -272,67 +304,87 @@
   }
 }
 @media (min-width: 768px) and (max-width: 768px) and (min-height: 1024px) and (max-height: 1024px) {
-  .search__input{
+  .search__input {
     width: 65%;
   }
-  .list-container__button{
+  .list-container__button {
     right: 120px;
     top: 250px;
   }
-  #promotion{
+  #promotion {
     margin-top: 80%;
   }
-  .footer__terms{
-    margin-left: 5%;
+  #promotion_footer {
+    margin-top: 55%;
+  }
+  .list-container__button {
+    position: absolute;
+    top: 250px;
+    right: 120px;
+  }
+  .search-suggested__block {
+    width: 73%;
+  }
+  .suggested-block__img {
+    margin-left: 52%;
+    margin-top: -13%;
+  }
+  .imgActive{
+    height: 156px;
+    width: 320px;
+    top: 46%;
   }
 }
 @media (max-width: 430px) and (max-height: 920px) {
-  .title_promotion{
+  .title_promotion {
     font-size: 40px;
     margin-left: 0;
     margin-left: 5%;
   }
-  .search__input{
+  .search__input {
     width: 70%;
     margin-left: 9%;
     height: 35px;
+    font-size: 15px;
+    text-overflow: ellipsis
   }
   .search-input__button {
     width: 30px;
     height: 30px;
-    top: 8px;
-    margin-left: -80px;
+    top: 10 px;
+    margin-left: -60px;
   }
-  .list-container__member{
+  .list-container__member {
     font-size: 20px;
   }
-  .list__container{
+  .list__container {
     margin-left: 5%;
   }
-  .list-container__button{
+  .list-container__button {
+    position: absolute;
     right: 75px;
-    top: 175px;
+    top: 180px;
     width: 50px;
     height: 30px;
   }
-  .list__container__more{
+  .list__container__more {
     margin-left: 5%;
   }
   .search-suggested__block {
     max-width: 314px;
     margin-left: 10%;
   }
-  .suggested-block__img{
+  .suggested-block__img {
     margin-left: 0%;
     margin-top: 5%;
     width: 314px;
     border-radius: 25px;
   }
-  .suggested-block__name{
+  .suggested-block__name {
     width: auto;
     margin-bottom: 0;
   }
-  .suggested-block__likes{
+  .suggested-block__likes {
     margin-top: -10%;
   }
   .imgActive {
@@ -344,11 +396,14 @@
     transition: all 0.6s ease;
   }
 
-.search-suggested__block {
-  height: 250px;
-  border-radius: 25px;
-}
-.no_available{
-  font-size: 20px;
-}
+  .search-suggested__block {
+    height: 250px;
+    border-radius: 25px;
+  }
+  .no_available {
+    font-size: 20px;
+  }
+  #promotion_footer {
+    margin-top: 85%;
+  }
 }

@@ -289,7 +289,25 @@ const Terms = () => {
             <div id="logo_footer" className="logo">
               Mark<span>Comb</span>
             </div>
+          </div>
 
+          <div className="footer-second__group">
+            <Link id="Terms" to="/terms" className="footer__terms none">
+              {t("Terms of service")}
+            </Link>
+            <Link to="/purpose" className="footer__purpose none">
+              {t("Our purpose")}
+            </Link>
+            <Link to="/dataprocessing" className="footer__purpose none">
+              {t("Personal Data Processing Agreement")}
+            </Link>
+            <h4 className="footer-third__group-text">2025 MarkComb</h4>
+            <h4 className="footer-third__group-text">
+              📧{" "}
+              <a href="mailto:markcombsup@gmail.com">markcombsup@gmail.com</a>
+            </h4>
+          </div>
+          <div className="footer__btns-container">
             <button
               onClick={() => {
                 SmoothEffect().then(() => {
@@ -313,32 +331,6 @@ const Terms = () => {
               En
             </button>
           </div>
-
-          <hr className="footer-first__group__divider" />
-
-          <div className="footer-second__group">
-            <Link id="Terms" to="/terms" className="footer__terms none">
-              {t("Terms of service")}
-            </Link>
-            <Link to="/purpose" className="footer__purpose none">
-              {t("Our purpose")}
-            </Link>
-            <Link to="/dataprocessing" className="footer__purpose none">
-              {t("Personal Data Processing Agreement")}
-            </Link>
-          </div>
-
-          <hr className="footer-second__group__divider" />
-
-          <div className="footer-third__group">
-            <h4 className="footer-third__group-text">
-              2025 MarkComb
-            </h4>
-            <h4 className="footer-third__group-text">
-              {t("Contact us : markcombsup@gmail.com")}
-            </h4>
-          </div>
-
         </div>
       </section>
       </HelmetProvider>

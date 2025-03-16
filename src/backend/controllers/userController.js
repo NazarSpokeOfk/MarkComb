@@ -19,7 +19,7 @@ class UserController {
         `https://ipinfo.io/json?token=${this.ipInfoKey}`
       );
       const data = await response.json();
-      
+
       switch (data.country) {
         case "RU":
           return "ru";
@@ -46,7 +46,6 @@ class UserController {
   async getUserByPassword(req, res) {
     const startTime = process.hrtime();
 
-    
     const { email, password } = req.body;
     try {
       const userResult = await pool.query(
@@ -66,7 +65,6 @@ class UserController {
 
       user.lang = lang;
 
-      
       const isPasswordValid = await this.comparePassword(
         password,
         user.password
@@ -101,9 +99,7 @@ class UserController {
       const csrfToken = crypto.randomBytes(16).toString("hex");
       req.session.csrfToken = csrfToken;
 
-      
-
-      try{
+      try {
         res.cookie("csrfToken", csrfToken, {
           httpOnly: false,
           secure: false,
@@ -111,10 +107,7 @@ class UserController {
           sameSite: "lax",
         });
       } catch (error) {
-        console.log(
-          "Ошибка при загрузке csrfТокена на сайт",
-          error
-        );
+        console.log("Ошибка при загрузке csrfТокена на сайт", error);
       }
 
       res.json({
@@ -134,8 +127,6 @@ class UserController {
 
       const endTime = process.hrtime(startTime);
       const executionTime = endTime[0] * 1000 + endTime[1] / 1e6;
-
-      
     } catch (error) {
       logger.error("Возникла ошибка в getUserByPassword:", error);
       res
@@ -145,7 +136,6 @@ class UserController {
   }
 
   async getUserByUserId(req, res) {
-    
     const user_id = req.params.id;
 
     try {
@@ -190,14 +180,11 @@ class UserController {
     try {
       const { email, password, username, verification_code, recaptchaValue } =
         req.body.data;
-      
 
-      
       if (!req.session.captchaVerified && recaptchaValue) {
         // Если капча еще не была проверена
         const isCaptchaValid = await verifyCaptcha(recaptchaValue);
         if (!isCaptchaValid) {
-          
           return res.status(400).json({ message: "Ошибка проверки CAPTCHA" });
         }
 
@@ -205,16 +192,10 @@ class UserController {
         req.session.captchaVerified = true;
         req.session.save((err) => {
           if (err) {
-            console.error("Ошибка сохранения сессии:", err);
-          } else {
-            console.log(
-              "✅ Флаг captchaVerified успешно сохранен в сессии:",
-              req.session
-            );
+            logger.error("Ошибка сохранения сессии:", err);
+            return;
           }
         });
-
-        
       }
 
       // Теперь продолжаем обработку кода и регистрации пользователя
@@ -224,11 +205,8 @@ class UserController {
       );
 
       if (!result.success) {
-        
         return res.status(400).json({ message: result.message });
       }
-
-      
 
       await mailVerification.clearUpVerifCodes(email);
 
@@ -249,7 +227,6 @@ class UserController {
 
       const user = addUser.rows[0];
 
-      
       res.json({
         csrfToken,
         user: {
@@ -260,7 +237,6 @@ class UserController {
           password: user.password,
         },
       });
-      
     } catch (error) {
       if (error.code === "23505") {
         // Ошибка "duplicate key value"
@@ -276,7 +252,6 @@ class UserController {
   async updateUser(req, res) {
     const id = parseInt(req.params.id, 10);
     const { newPassword, oldPassword, username, changeMethod } = req.body;
-    
 
     try {
       const userResult = await pool.query(
@@ -311,7 +286,7 @@ class UserController {
         if (!hashedPassword) {
           return res.status(400).json({ message: "Ошибка хеширования пароля" });
         }
-        
+
         updateUser = await pool.query(
           `UPDATE users SET password = $1 WHERE user_id = $2 RETURNING *`,
           [hashedPassword, id]
@@ -326,7 +301,7 @@ class UserController {
         if (!hashedPassword) {
           return res.status(400).json({ message: "Ошибка хеширования пароля" });
         }
-        
+
         updateUser = await pool.query(
           `UPDATE users SET username = $1, password = $2 WHERE user_id = $3 RETURNING *`,
           [username, hashedPassword, id]
@@ -360,8 +335,6 @@ class UserController {
 
     const tokenFromClient = req.headers["x-csrf-token"];
     const tokenFromSession = req.session.csrfToken;
-
-    
 
     if (tokenFromClient !== tokenFromSession) {
       return res.status(403).json({ message: "Несовпадение токенов!" });
@@ -439,8 +412,6 @@ class UserController {
   async isVerificationCodeCorrect(req, res) {
     const { email, verification_code } = req.body;
 
-    
-
     try {
       const emailCheck = await mailVerification.verifyCode(
         email,
@@ -462,10 +433,7 @@ class UserController {
   async changePassword(req, res) {
     const { newPassword, email } = req.body;
 
-    
-
     try {
-
       const hashedPassword = await this.hashPassword(newPassword);
 
       const changeUserPassword = await pool.query(
@@ -473,15 +441,16 @@ class UserController {
         [hashedPassword, email]
       );
 
-      if(changeUserPassword.rows.length != 0) {
-        
-        res.status(200).json({message : "Пароль был сменен!"})
+      if (changeUserPassword.rows.length != 0) {
+        res.status(200).json({ message: "Пароль был сменен!" });
       } else {
-        
-        res.status(500).json({message : "Аккаунта не существует"})
+        res.status(500).json({ message: "Аккаунта не существует" });
       }
     } catch (error) {
-      logger.error(" (changePassword) Возникла ошибка в изменении пароля :", error);
+      logger.error(
+        " (changePassword) Возникла ошибка в изменении пароля :",
+        error
+      );
     }
   }
 
@@ -507,7 +476,6 @@ class UserController {
   });
 
   validateInput(input, method) {
-    
     if (method === "update") {
       const { error } = this.userUpdateSchema.validate(input);
       if (error) throw new Error(error.details[0].message);

@@ -349,7 +349,7 @@
     height: auto;
   }
   .modal__input{
-    width: auto;
+    width: 80%;
     margin-left: 5%;
   }
   .modal__button{
@@ -374,7 +374,18 @@
     transform: scale(0.85);
   }
   .modal__checkbox{
-    left: -10px;
-    top: 135px;
+    left: -15px;
+    top: 130px;
+    width: 17px;
+    height: 17px;
+  }
+  .modal__checkbox:checked::after {
+    top: -2px;
+    left: -1px;
+    width: 10px;
+    height: 8px;
+  }
+  .modal__forgot-password{
+    margin-left: 20%;
   }
 }
