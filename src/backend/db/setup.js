@@ -1,7 +1,7 @@
-import logger from "../winston/winston.js"
+import logger from "../winston/winston.js";
 async function createTables(pool) {
-    try{
-        const createUsersTable = `CREATE TABLE IF NOT EXISTS users (
+  try {
+    const createUsersTable = `CREATE TABLE IF NOT EXISTS users (
         user_id SERIAL,
         email VARCHAR(255) NOT NULL UNIQUE,
         password VARCHAR(255) NOT NULL,
@@ -10,34 +10,37 @@ async function createTables(pool) {
         PRIMARY KEY(user_id)
         )`;
 
-        
-
-        const createUserVerificationTable = `CREATE TABLE IF NOT EXISTS user_verifications (
+    const createUserVerificationTable = `CREATE TABLE IF NOT EXISTS user_verifications (
         email VARCHAR(255) PRIMARY KEY,
         verification_code VARCHAR(10) NOT NULL,
         verification_expiry TIMESTAMP NOT NULL 
-        )`
+        )`;
 
-        const createPurchasesTable = `CREATE TABLE IF NOT EXISTS purchases_channels(
+    const createPurchasesTable = `CREATE TABLE IF NOT EXISTS purchases_channels(
             transaction_id SERIAL PRIMARY KEY,
             user_id INTEGER REFERENCES users(user_id) ON DELETE CASCADE,
             channel_name VARCHAR(255) NOT NULL,
             thumbnail VARCHAR(255) NOT NULL,
             email VARCHAR(255) NOT NULL,
             created_at DATE DEFAULT CURRENT_DATE NOT NULL
-        )`; 
+        )`;
 
-        await pool.query(createUsersTable)
-        
+    const createReviewsTable = `CREATE TABLE IF NOT EXISTS reviews(
+        review_id SERIAL PRIMARY KEY,
+        review VARCHAR(200),
+        mark INT,
+        created_at DATE DEFAULT CURRENT_DATE NOT NULL
+        )`;
 
-        await pool.query(createPurchasesTable)
-        
+    await pool.query(createUsersTable);
 
-        await pool.query(createUserVerificationTable)
-        
+    await pool.query(createPurchasesTable);
 
-    } catch(error){
-        logger.error('Возникла ошибка в setup.js:',error)
-    }
+    await pool.query(createUserVerificationTable);
+
+    await pool.query(createReviewsTable);
+  } catch (error) {
+    logger.error("Возникла ошибка в setup.js:", error);
+  }
 }
 export default createTables;

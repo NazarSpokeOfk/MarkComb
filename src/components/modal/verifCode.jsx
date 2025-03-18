@@ -35,7 +35,7 @@ const VerifCode = ({
     const email = logInData.email;
     try {
       console.log("Запрос исполнен");
-      const result = await fetch(`http://localhost:5001/api/verification`, {
+      const result = await fetch(`https://markcomb.com/api/verification`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",

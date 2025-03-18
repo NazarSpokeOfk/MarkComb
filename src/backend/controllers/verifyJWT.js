@@ -18,7 +18,7 @@ const verifyJWT = async (req,res) => {
             lang : decoded.lang
         }
 
-        const response = await fetch(`http://localhost:5001/api/loginbyid/${userData.user_id}` , {
+        const response = await fetch(`https://markcomb.com/api/loginbyid/${userData.user_id}` , {
             method : "GET",
             credentials : "include",
         })

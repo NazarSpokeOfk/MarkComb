@@ -97,7 +97,7 @@ const HeaderFilter = ({
   const searchFetch = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:5001/api/search", {
+      const response = await fetch("https://markcomb.com/api/search", {
         method: "POST",
         credentials: "include",
         headers: {

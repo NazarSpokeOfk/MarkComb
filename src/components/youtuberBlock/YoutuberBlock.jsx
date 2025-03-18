@@ -3,6 +3,9 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
+
+import FeedbackForm from "../modal/FeedbackForm";
+
 import DataToDB from "../../dataToDB/dataToDB";
 
 import SmoothEffect from "../smoothText";
@@ -12,6 +15,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import YoutuberImgOne from "../../images/YouTuber.jpg";
 import YoutuberImgTwo from "../../images/Youtubertow.jpg";
+import Envelope from "../../icons/email.svg";
 
 const YoutuberBlock = ({
   channelData,
@@ -22,7 +26,10 @@ const YoutuberBlock = ({
   csrfToken,
 }) => {
   const { t, i18n } = useTranslation();
+
   const [btnsState, setBtnsState] = useState({});
+  const [isFeedbackWillBeWrited, setIsFeedbackWillBeWrited] = useState(false);
+
   const isProcessingRef = useRef({});
 
   const dataToDB = new DataToDB(true, setUserData);
@@ -61,7 +68,7 @@ const YoutuberBlock = ({
 
     if (userData.user.uses > 0) {
       try {
-        const result = await fetch("http://localhost:5001/api/getdata", {
+        const result = await fetch("https://markcomb.com/api/getdata", {
           method: "POST",
           credentials: "include",
           headers: {
@@ -317,6 +324,28 @@ const YoutuberBlock = ({
           <ToastContainer />
         </div>
       </section>
+
+      <section className="feedback">
+        <div className="container">
+          <button
+            onClick={() => {
+              setIsFeedbackWillBeWrited((prev) => !prev);
+            }}
+            className="feedback__button"
+          >
+            <img
+              src={Envelope}
+              alt="Please,send us a feedback!"
+              className="feedback__button-envelope"
+            />
+          </button>
+        </div>
+      </section>
+
+      <FeedbackForm
+        isFeedbackWillBeWrited={isFeedbackWillBeWrited}
+        setIsFeedbackWillBeWrited={setIsFeedbackWillBeWrited}
+      />
 
       <section className="footer">
         <div className="footer__container">

@@ -7,7 +7,7 @@ const manageFiltersFetch = async (
 ) => {
   try {
     let response;
-    response = await fetch(`http://localhost:5001/api/filter`, {
+    response = await fetch(`https://markcomb.com/api/filter`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",

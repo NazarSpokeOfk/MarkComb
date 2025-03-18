@@ -18,7 +18,7 @@ class DataToDB {
     console.log("Данные для удаления:", channelName, user_id);
     try {
       const response = await fetch(
-        `http://localhost:5001/api/rmpurchase/${user_id}`,
+        `https://markcomb.com/api/rmpurchase/${user_id}`,
         {
           method: "DELETE",
           headers: {
@@ -46,7 +46,7 @@ class DataToDB {
       );
       console.log("Данные, переданные в validatePurchaseData:", data);
       const response = await fetch(
-        `http://localhost:5001/api/purchase/${user_id}`,
+        `https://markcomb.com/api/purchase/${user_id}`,
         {
           method: "POST",
           headers: {
@@ -77,7 +77,7 @@ class DataToDB {
   async validateSignIn(data,setCsrfToken) {
     try {
       console.log({ data });
-      const response = await fetch("http://localhost:5001/api/user", {
+      const response = await fetch("https://markcomb.com/api/user", {
         method: "POST",
         credentials : "include",
         headers: {
@@ -107,7 +107,7 @@ class DataToDB {
 
   async validateLogIn(data) {
     try {
-      const response = await fetch(`http://localhost:5001/api/login`, {
+      const response = await fetch(`https://markcomb.com/api/login`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -141,7 +141,7 @@ class DataToDB {
   async updateData(data) {
     console.log('setUserData in updateData:', this.setUserData);
     try {
-      const response = await fetch(`http://localhost:5001/api/update/${data.user_id}`,
+      const response = await fetch(`https://markcomb.com/api/update/${data.user_id}`,
         {
             method : "PUT",
             headers : {
@@ -168,7 +168,7 @@ class DataToDB {
   async deleteProfile(data,userId,csrfToken){
     console.log("Данные, пришедшие в deleteProfile:",userId,data)
     try{
-      const response = await fetch(`http://localhost:5001/api/user/${userId}` , {
+      const response = await fetch(`https://markcomb.com/api/user/${userId}` , {
         method : "DELETE",
         credentials : "include",
         headers : {
@@ -193,7 +193,7 @@ class DataToDB {
 
   async isVerificationCodeCorrect(email,verification_code){
     try {
-      const request = await fetch("http://localhost:5001/api/checkCode", {
+      const request = await fetch("https://markcomb.com/api/checkCode", {
         method : "POST",
         headers : {
           "Content-type" : "application/json"
@@ -214,7 +214,7 @@ class DataToDB {
   async changePassword(newPassword,email){
     console.log("Новый пароль, почта : " , newPassword , email)
     try { 
-      const request = await fetch("http://localhost:5001/api/changePassword" , {
+      const request = await fetch("https://markcomb.com/api/changePassword" , {
         method : "PUT",
         headers : {
           "Content-type" : "application/json"

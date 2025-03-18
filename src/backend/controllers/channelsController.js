@@ -10,13 +10,6 @@ const apiKey = process.env.GOOGLE_API_KEY;
 class ChannelsController {
   async selectChannel(req, res) {
     const { age_group, minsubs, maxsubs, content_type } = req.body;
-    console.log(
-      "Данные полученные в selectChannel : ",
-      age_group,
-      minsubs,
-      maxsubs,
-      content_type
-    );
     let query = "SELECT * FROM channels WHERE 1=1";
     let params = [];
     let index = 1; // Переменная для нумерации параметров ($1, $2, $3)

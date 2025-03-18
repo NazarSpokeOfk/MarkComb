@@ -19,6 +19,7 @@ import userRouter from "./routers/userRouter.js";
 import purchasesRouter from "./routers/purchasesRouter.js";
 import googleAPIRouter from "./routers/googleAPIRouter.js"
 import storageRouter from "./routers/storageRouter.js";
+import reviewsRouter from "./routers/reviewsRouter.js"
 
 import logger from "./winston/winston.js";
 
@@ -34,8 +35,8 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      httpOnly: false,
-      secure: false,
+      httpOnly: true,
+      secure: true,
       maxAge: 600000 ,
     },
   })
@@ -49,7 +50,7 @@ app.use((err, req, res, next) => {
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "https://markcomb:3000",
     credentials: true,
   })
 );
@@ -63,7 +64,7 @@ app.use((req,res,next) => {
   )
   next()
 })
-//Тут надо аккуратным быть
+
 const PORT = process.env.port || 5001;
 
 app.use("/api",ParserController)
@@ -71,6 +72,7 @@ app.use("/api", googleAPIRouter)
 app.use("/api", purchasesRouter);
 app.use("/api", userRouter);
 app.use("/api", storageRouter);
+app.use("/api", reviewsRouter)
 
 async function initializeApp() {
   try {

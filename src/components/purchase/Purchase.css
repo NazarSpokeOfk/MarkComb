@@ -140,6 +140,7 @@
   }
 }
 .package__button {
+  transition: background-color 0.6s ease, color 0.6s ease, border-color 0.6s ease;
   position: absolute;
   top: 410px;
   left: -2px;
@@ -152,19 +153,17 @@
   text-transform: uppercase;
   font-weight: bold;
   cursor: pointer;
-  transition: all 0.6s;
-  span {
-    transition: all 0.6s;
-    color: var(--main-red-col);
-  }
 }
 
-.package__button:hover {
+.package__button span {
+  transition: color 0.6s ease;
   color: var(--main-red-col);
-  span {
-    color: #000;
-  }
 }
+
+.package__button:hover span {
+  color: #000;  /* Цвет текста внутри span при наведении */
+}
+
 
 .packages__wrapper {
   flex-wrap: wrap;
@@ -252,6 +251,7 @@
 }
 
 .package__button-bussines:hover {
+  transition: all 0.6s ease;
   color: var(--main-red-col);
   span {
     color: #000;

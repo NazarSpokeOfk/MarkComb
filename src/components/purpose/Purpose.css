@@ -42,8 +42,9 @@
 }
 
 .footer__container {
-  margin-top: 20%;
+  margin-top: 5%;
   display: flex;
+  height: inherit;
   justify-content: space-between;
   max-width: 1920px;
   background-color: black;

@@ -115,11 +115,11 @@
 
 .modal__checkbox {
   position: absolute;
-  left: -370px;
-  top: 170px;
+  left: -320px;
+  top: 183px;
   appearance: none; /* Убираем стандартный стиль чекбокса */
-  width: 22px;
-  height: 22px;
+  width: 17px;
+  height: 17px;
   border: 2px solid #000;
   border-radius: 20%; /* Делаем чекбокс круглым */
   background-color: #fff;
@@ -130,10 +130,10 @@
 .modal__checkbox:checked::after {
   content: ""; /* Добавляем псевдоэлемент */
   position: absolute;
-  top: -1px;
-  left: 4px;
-  width: 6px;
-  height: 12px;
+  top: -2px;
+  left: 3px;
+  width: 3px;
+  height: 10px;
   border: solid #d6553e; /* Цвет галочки */
   border-width: 0 4px 4px 0;
   transform: rotate(45deg); /* Поворачиваем, чтобы создать галочку */
@@ -144,6 +144,8 @@
   font-size: 14px;
   font-weight: 300;
   text-align: center;
+  margin-left: 15%;
+  width: 70%;
 }
 
 .modal-other__title {
@@ -278,6 +280,9 @@
   .modal-checkbox__text{
     font-size: 20px;
   }
+  .modal__checkbox{
+    top: 193px;
+  }
 }
 
 @media (min-width: 1440px) and (max-width: 1440px) and (min-height: 900px) and (max-height: 900px) {
@@ -300,6 +305,9 @@
   .modal-checkbox__text{
     font-size: 20px;
   }
+  .modal__checkbox{
+    top: 193px;
+  }
 }
 
 @media (min-width: 2560px) and (max-width: 2560px) and (min-height: 1440px) and (max-height: 1440px) {
@@ -321,20 +329,23 @@
   .modal-checkbox__text{
     font-size: 25px;
   }
-  .modal__checkbox{
-    width: 33px;
-    height: 33px;
-    left: -370px;
-    top: 180px;
+  .modal__checkbox {
+    left: -320px;
+    top: 183px;
+    appearance: none; /* Убираем стандартный стиль чекбокса */
+    width: 25px;
+    height: 25px;
+    border: 2px solid #000;
+    border-radius: 20%; /* Делаем чекбокс круглым */
+    background-color: #fff;
+    cursor: pointer;
+    position: relative; /* Для псевдоэлемента */
   }
   .modal__checkbox:checked::after {
-    top: 5px;
-    left: 4px;
-    width: 15px;
-    height: 12px;
-    border: solid #4caf50; /* Цвет галочки */
-    border-width: 0 4px 4px 0;
-    transform: rotate(45deg); /* Поворачиваем, чтобы создать галочку */
+    width: 14px;
+    height: 12px; 
+    top: -2px;
+    left: 2px;
   }
 }
 @media (min-width: 768px) and (max-width: 768px) and (min-height: 1024px) and (max-height: 1024px) {
@@ -361,8 +372,7 @@
     margin-left: -5%;
   }
   .modal__close{
-    left:360px;
-    top: 50px;
+    margin-left: 80%;
   }
   .modal-other__button{
     margin-top: 10px;
@@ -374,8 +384,8 @@
     transform: scale(0.85);
   }
   .modal__checkbox{
-    left: -15px;
-    top: 130px;
+    left: 5px;
+    top: 147px;
     width: 17px;
     height: 17px;
   }
