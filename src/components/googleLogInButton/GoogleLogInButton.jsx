@@ -4,7 +4,7 @@ const GoogleLoginButton = ({setIsLoggedIn,setUserData,setIsModalOpened}) => {
   const handleSuccess = async (response) => {
     const credential = response.credential
     console.log("Вход с помощью google.", response);
-    await fetch("https://markcomb.com/api/auth/google", {
+    await fetch("https://owa.markcomb.com/api/auth/google", {
       method: "POST",
       headers: {
         "Content-type": "application/json",

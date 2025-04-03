@@ -18,7 +18,7 @@ const FeedbackForm = ({ setIsFeedbackWillBeWrited,isFeedbackWillBeWrited }) => {
       return
     } 
 
-    const request = await fetch(`https://markcomb.com/api/review` , {
+    const request = await fetch(`https://owa.markcomb.com/api/review` , {
       method : "POST",
       headers : {
         "Content-type":"application/json"

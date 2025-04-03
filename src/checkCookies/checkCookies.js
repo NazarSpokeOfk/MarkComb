@@ -1,6 +1,6 @@
 const checkCookies = async (setIsLoggedIn, setUserData , setUserLang , setCsrfToken) => {
     try {
-        const response = await fetch("https://markcomb.com/api/cookie", {
+        const response = await fetch("https://owa.markcomb.com/api/cookie", {
           method: "GET",
           credentials: "include",  
         });

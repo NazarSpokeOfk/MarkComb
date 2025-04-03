@@ -69,7 +69,7 @@ const Promotion = ({ isLoggedIn, userData }) => {
       return Promise.reject();
     }
     console.log("Body data : ", bodyData);
-    const result = await fetch(`https://markcomb.com/api/${type}`, {
+    const result = await fetch(`https://owa.markcomb.com/api/${type}`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
