@@ -215,3 +215,15 @@ Node.js v20.17.0
 13.03.2025, 21:36:42 + "
 " [ERROR] + "
 " (printf.js:11):  (updateUser) Возникла ошибка в updateUser: "newPassword" length must be at least 5 characters long
+02.04.2025, 16:17:11 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в createStorageTables :  SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+02.04.2025, 16:17:53 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в createStorageTables :  SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+02.04.2025, 16:19:35 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в createStorageTables :  SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+02.04.2025, 16:20:46 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в createStorageTables :  SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string

@@ -60,12 +60,15 @@ router.post('/login' , logInLimiter, (req,res) => userController.getUserByPasswo
 router.post('/verification' , (req,res) => verifController(req,res)) 
 router.post('/checkCode' , (req,res) => userController.isVerificationCodeCorrect(req,res))
 
+
 router.get('/loginbyid/:id' , (req,res) => userController.getUserByUserId(req,res))
 router.get('/cookie' , (req,res) => verifyJWT(req,res))
 router.get('/users', (req,res) => userController.getAllUsers(req,res))
 
 router.put('/update/:id' , updateLimiter , (req,res) => userController.updateUser(req,res))
 router.put('/changePassword' , (req,res) => userController.changePassword(req,res))
+router.put('/promocode',(req,res) => userController.activatePromocode(req,res))
+
 router.delete('/user/:id', (req,res) =>userController.deleteUser(req,res))
 
 export default router

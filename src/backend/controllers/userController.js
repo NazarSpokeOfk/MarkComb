@@ -454,6 +454,37 @@ class UserController {
     }
   }
 
+  async activatePromocode(req, res) {
+    const { promocode, email } = req.body;
+  
+    try {
+      if (promocode !== process.env.USES_PROMOCODE) {
+        return res.status(400).json({ status: false, message: "Неверный промокод" });
+      }
+  
+      const updateQuery = `
+        UPDATE users 
+        SET uses = uses + 10,
+        promo_activated = true
+        WHERE email = $1 AND promo_activated = false
+        RETURNING uses, promo_activated;
+      `;
+  
+      const { rowCount, rows } = await pool.query(updateQuery, [email]);
+  
+      if (rowCount === 0) {
+        return res.status(404).json({ status: false, message: "Промокод уже активирован." });
+      }
+  
+      res.status(200).json({ status: true, newUses: rows[0].uses });
+  
+    } catch (error) {
+      console.error("Ошибка в activatePromocode:", error);
+      res.status(500).json({ status: false, message: "Ошибка сервера" });
+    }
+  }
+  
+
   async hashPassword(password) {
     const saltRounds = 10;
     return await bcrypt.hash(password, saltRounds);

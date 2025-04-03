@@ -1,25 +1,32 @@
 import "./profile.css";
 import Edit from "../../images/image 70.png";
-import bin from "../../icons/bin.svg"
+import bin from "../../icons/bin.svg";
+import arrow from "../../icons/arrow.svg";
 
 import SmoothEffect from "../smoothText.js";
 import VerifPassword from "../modal/verifPassword.jsx";
 
-import { ToastContainer , toast } from "react-toastify";
-import { Link,useNavigate } from "react-router-dom";
+import DataToDB from "../../dataToDB/dataToDB.js";
+
+import { ToastContainer, toast } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useState, useEffect } from "react";
 
-const Profile = ({ userData, setUserData , setIsLoggedIn , csrfToken , isLoggedIn }) => {
+const Profile = ({
+  userData,
+  setUserData,
+  setIsLoggedIn,
+  csrfToken,
+  isLoggedIn,
+}) => {
   const { t, i18n } = useTranslation();
   const [isNameChanged, setIsNameChanged] = useState(false);
   const [localName, setLocalName] = useState(userData?.user?.username || "");
   const [isPasswordChanged, setIsPasswordChanged] = useState(false);
-  const [isAccountWillBeDeleted,setIsAccountWillBeDeleted] = useState(false)
-  const [localPassword, setLocalPassword] = useState(
-    ""
-  );
+  const [isAccountWillBeDeleted, setIsAccountWillBeDeleted] = useState(false);
+  const [localPassword, setLocalPassword] = useState("");
   const [changedData, setChangedData] = useState({
     username: "",
     newPassword: "",
@@ -28,13 +35,18 @@ const Profile = ({ userData, setUserData , setIsLoggedIn , csrfToken , isLoggedI
     changeMethod: "",
   });
 
-  const navigate = useNavigate()
+  const [isPromocodeActive, setIsPromocodeActive] = useState(false);
+  const [promocodeValue, setPromocodeValue] = useState("");
 
-  useEffect(()=>{
-    if(!isLoggedIn){
-      navigate("/")
+  const dataToDb = new DataToDB();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate("/");
     }
-  },[isLoggedIn])
+  }, [isLoggedIn]);
 
   const handleNameChange = (e) => {
     const value = e.target.value;
@@ -65,7 +77,7 @@ const Profile = ({ userData, setUserData , setIsLoggedIn , csrfToken , isLoggedI
       }));
     } else if (changedData.newPassword != "" && changedData.username === "") {
       setChangedData((prevData) => ({ ...prevData, changeMethod: "password" }));
-    } 
+    }
   };
 
   return (
@@ -130,6 +142,53 @@ const Profile = ({ userData, setUserData , setIsLoggedIn , csrfToken , isLoggedI
             <h3 className="profile_uses-amount">
               {userData ? userData?.user?.uses : ""}
             </h3>
+            <button
+              onClick={() => {
+                setIsPromocodeActive(true);
+              }}
+              className={`profile__promocode-activation ${
+                isPromocodeActive ? "none" : ""
+              }`}
+            >
+              Activate <span>promocode</span>
+            </button>
+            {isPromocodeActive ? (
+              <>
+                {" "}
+                <input
+                  onChange={(e) => {
+                    setPromocodeValue(e.target.value);
+                  }}
+                  autoFocus
+                  value={promocodeValue}
+                  placeholder="promocode"
+                  className="promocode_input"
+                  maxLength={15}
+                  type="text"
+                />
+                <button
+                  onClick={() => {
+                    dataToDb.activatePromocode(
+                      promocodeValue,
+                      userData.user.email
+                    ).then((response) => {
+                      if (response?.status === true) {
+                        setIsPromocodeActive(false);
+                        toast.success(`Promocode activated! Your current uses: ${response?.newUses}`);
+                      } else {
+                        toast.error("Failed to activate promocode. Please try again.");
+                      }
+                    }).catch((error) => {
+                      toast.error("An error occurred while activating the promocode.");
+                      console.error("Error activating promocode: ", error);
+                    });
+                  }}
+                  className="promocode__submit-btn"
+                >
+                  <img src={arrow} alt="send promocode" />
+                </button>
+              </>
+            ) : null}
 
             <div className="info_block">
               <h3 className="info_block-title none">
@@ -178,7 +237,7 @@ const Profile = ({ userData, setUserData , setIsLoggedIn , csrfToken , isLoggedI
           </div>
           <button
             onClick={() => {
-              setIsAccountWillBeDeleted(true)
+              setIsAccountWillBeDeleted(true);
             }}
             id="delete"
             className="edit__button"
@@ -192,63 +251,63 @@ const Profile = ({ userData, setUserData , setIsLoggedIn , csrfToken , isLoggedI
             changedData={changedData}
             setChangedData={setChangedData}
             setUserData={setUserData}
-            isAccountWillBeDeleted = {isAccountWillBeDeleted}
+            isAccountWillBeDeleted={isAccountWillBeDeleted}
             setIsLoggedIn={setIsLoggedIn}
-            setIsAccountWillBeDeleted = {setIsAccountWillBeDeleted}
-            csrfToken = {csrfToken}
+            setIsAccountWillBeDeleted={setIsAccountWillBeDeleted}
+            csrfToken={csrfToken}
           />
         ) : null}
         <ToastContainer />
 
         <section id="profile__footer" className="footer">
-        <div className="footer__container">
-          <div className="footer-first__group">
-            <div id="logo_footer" className="logo">
-              Mark<span>Comb</span>
+          <div className="footer__container">
+            <div className="footer-first__group">
+              <div id="logo_footer" className="logo">
+                Mark<span>Comb</span>
+              </div>
+            </div>
+
+            <div className="footer-second__group">
+              <Link id="Terms" to="/terms" className="footer__terms none">
+                {t("Terms of service")}
+              </Link>
+              <Link to="/purpose" className="footer__purpose none">
+                {t("Our purpose")}
+              </Link>
+              <Link to="/dataprocessing" className="footer__purpose none">
+                {t("Personal Data Processing Agreement")}
+              </Link>
+              <h4 className="footer-third__group-text">2025 MarkComb</h4>
+              <h4 className="footer-third__group-text">
+                📧{" "}
+                <a href="mailto:markcombsup@gmail.com">markcombsup@gmail.com</a>
+              </h4>
+            </div>
+            <div className="footer__btns-container">
+              <button
+                onClick={() => {
+                  SmoothEffect().then(() => {
+                    i18n.changeLanguage("ru");
+                  });
+                }}
+                className="footer__button"
+                id="RuButton"
+              >
+                Ru
+              </button>
+              <button
+                onClick={() => {
+                  SmoothEffect().then(() => {
+                    console.log(i18n);
+                    i18n.changeLanguage("en");
+                  });
+                }}
+                className="footer__button"
+              >
+                En
+              </button>
             </div>
           </div>
-
-          <div className="footer-second__group">
-            <Link id="Terms" to="/terms" className="footer__terms none">
-              {t("Terms of service")}
-            </Link>
-            <Link to="/purpose" className="footer__purpose none">
-              {t("Our purpose")}
-            </Link>
-            <Link to="/dataprocessing" className="footer__purpose none">
-              {t("Personal Data Processing Agreement")}
-            </Link>
-            <h4 className="footer-third__group-text">2025 MarkComb</h4>
-            <h4 className="footer-third__group-text">
-              📧{" "}
-              <a href="mailto:markcombsup@gmail.com">markcombsup@gmail.com</a>
-            </h4>
-          </div>
-          <div className="footer__btns-container">
-            <button
-              onClick={() => {
-                SmoothEffect().then(() => {
-                  i18n.changeLanguage("ru");
-                });
-              }}
-              className="footer__button"
-              id="RuButton"
-            >
-              Ru
-            </button>
-            <button
-              onClick={() => {
-                SmoothEffect().then(() => {
-                  console.log(i18n);
-                  i18n.changeLanguage("en");
-                });
-              }}
-              className="footer__button"
-            >
-              En
-            </button>
-          </div>
-        </div>
         </section>
       </HelmetProvider>
     </>

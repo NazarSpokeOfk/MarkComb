@@ -50,7 +50,7 @@ app.use((err, req, res, next) => {
 
 app.use(
   cors({
-    origin: "https://markcomb:3000",
+    origin: "http://localhost:3000",
     credentials: true,
   })
 );
