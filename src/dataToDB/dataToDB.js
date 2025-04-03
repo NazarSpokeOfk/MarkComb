@@ -61,7 +61,7 @@ class DataToDB {
 
   async validateLogIn(data) {
     try {
-      const result = await this.fetchData(`${this.localApiUrl}/login`, "POST", data);
+      const result = await this.fetchData(`${this.apiUrl}/login`, "POST", data);
       this.setIsLoggedIn(true);
       this.setUserData(result);
       this.setCsrfToken(result.csrfToken);
@@ -105,7 +105,7 @@ class DataToDB {
   }
 
   activatePromocode(promocode, email) {
-    return this.fetchData(`${this.localApiUrl}/promocode`, "PUT", { promocode, email })
+    return this.fetchData(`${this.apiUrl}/promocode`, "PUT", { promocode, email })
       .then((response) => {return response});
   }
 }
