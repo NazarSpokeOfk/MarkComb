@@ -4,7 +4,7 @@ class DataToDB {
     this.setUserData = setUserData;
     this.setIsModalOpened = setIsModalOpened;
     this.setCsrfToken = setCsrfToken;
-    this.apiUrl = "https://owa.markcomb.com/api";
+    this.apiUrl = "c";
     this.localApiUrl = "http://localhost:5001/api";
   }
 
