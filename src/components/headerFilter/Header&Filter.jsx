@@ -6,6 +6,8 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import { toast, ToastContainer } from "react-toastify";
 
+import { useMediaQuery } from "react-responsive";
+
 import Modal from "../modal/Modal";
 import VerifModal from "../modal/VerifModal";
 import VerifCode from "../modal/verifCode";
@@ -41,6 +43,8 @@ const HeaderFilter = ({
   const [isDataFilledIn, setIsDataFilledIn] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [entryMethod, setEntryMethod] = useState("");
+
+  const isLittleMobile = useMediaQuery({ maxWidth: 375 });
 
   const [selectedFilter, setSelectedFilter] = useState({
     type: null, // 'audience', 'contentType', 'subscribers'
@@ -96,8 +100,8 @@ const HeaderFilter = ({
 
   const searchFetch = async (e) => {
     e.preventDefault();
-    if(!mainInputValue){
-      setIsSearching(false)
+    if (!mainInputValue) {
+      setIsSearching(false);
       return;
     }
     try {
@@ -107,7 +111,7 @@ const HeaderFilter = ({
         headers: {
           "Content-type": "application/json",
           "X-CSRF-Token": csrfToken,
-          "x-api-key": import.meta.env.VITE_API_KEY
+          "x-api-key": import.meta.env.VITE_API_KEY,
         },
         body: JSON.stringify({ mainInputValue }),
       });
@@ -142,7 +146,20 @@ const HeaderFilter = ({
         <header>
           <div className="container">
             <div className="logo">
-              Mark<span>Comb</span>
+              {isLittleMobile ? (
+                <>
+                  <Link to="/">
+                    M<span>K</span>
+                  </Link>
+                </>
+              ) : (
+                <>
+                  {" "}
+                  <Link to="/">
+                    Mark<span>Comb</span>
+                  </Link>
+                </>
+              )}
             </div>
             <div className="header__links">
               <Link to="/purchases" className="header__link">
@@ -221,7 +238,7 @@ const HeaderFilter = ({
                   searchFetch(e);
                 } else {
                   logInFirstly();
-                  setIsSearching(false)
+                  setIsSearching(false);
                 }
               }}
             >

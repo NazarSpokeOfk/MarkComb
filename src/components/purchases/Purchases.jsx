@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import { useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+
+import { useMediaQuery } from "react-responsive";
+
 import "./Purchases.css";
 import SmoothEffect from "../smoothText";
 
@@ -12,7 +15,7 @@ import glass from "../../images/magnifying glass.png";
 
 import DataToDB from "../../dataToDB/dataToDB";
 
-const Purchases = ({ userData, setUserData , csrfToken }) => {
+const Purchases = ({ userData, setUserData, csrfToken }) => {
   const dataToDb = new DataToDB(true);
   const blocksRef = useRef([]),
     binButtonsRef = useRef([]),
@@ -20,21 +23,26 @@ const Purchases = ({ userData, setUserData , csrfToken }) => {
 
   const { t, i18n } = useTranslation();
 
+  const isLittleMobile = useMediaQuery({ maxWidth: 375 });
+
   const changeLanguage = (lang) => {
     i18n.changeLanguage(lang);
   };
 
-  useEffect(()=>{
-    console.log("userData:",userData)
-  },[userData])
+  useEffect(() => {
+    console.log("userData:", userData);
+  }, [userData]);
 
   const removePurchase = async (index, user_id, channelName) => {
     try {
-      await toast.promise(dataToDb.deletePurchaseData(channelName, user_id , csrfToken), {
-        pending: "Removing channel...",
-        success: "Channel has successfully removed!",
-        error: "There was an error during removing channel!",
-      });
+      await toast.promise(
+        dataToDb.deletePurchaseData(channelName, user_id, csrfToken),
+        {
+          pending: "Removing channel...",
+          success: "Channel has successfully removed!",
+          error: "There was an error during removing channel!",
+        }
+      );
 
       setUserData((prevData) => ({
         ...prevData,
@@ -44,7 +52,6 @@ const Purchases = ({ userData, setUserData , csrfToken }) => {
       console.error("Error removing channel:", error);
     }
   };
-
 
   useEffect(() => {
     let timers = [];
@@ -63,24 +70,40 @@ const Purchases = ({ userData, setUserData , csrfToken }) => {
       <HelmetProvider>
         <Helmet>
           <title>Your purchases</title>
-          <meta name="description" content="You can watch your purchases here." />
+          <meta
+            name="description"
+            content="You can watch your purchases here."
+          />
         </Helmet>
         <header>
           <div className="container">
             <div className="logo">
-              <Link to="/">
-                Mark<span>Comb</span>
-              </Link>
+              {isLittleMobile ? (
+                <>
+                  <Link to="/">
+                    M<span>K</span>
+                  </Link>
+                </>
+              ) : (
+                <>
+                  {" "}
+                  <Link to="/">
+                    Mark<span>Comb</span>
+                  </Link>
+                </>
+              )}
             </div>
             <div className="header__links">
               <Link to="/purchases" className="header__link">
                 {t("purc")}
                 <span className="highlight">{t("hases")}</span>
               </Link>
+
               <Link to="/promotion" className="header__link">
                 {t("prom")}
                 <span>{t("otion")}</span>
               </Link>
+
               <Link to="/purchase" className="header__link">
                 {t("purch")}
                 <span>{t("ase")}</span>
@@ -121,7 +144,12 @@ const Purchases = ({ userData, setUserData , csrfToken }) => {
                     }
                     className="recent-block__bin"
                   >
-                    <img loading="lazy" src={binBtn} alt="bin" className="bin" />
+                    <img
+                      loading="lazy"
+                      src={binBtn}
+                      alt="bin"
+                      className="bin"
+                    />
                   </button>
                   <img
                     loading="lazy"
@@ -152,55 +180,55 @@ const Purchases = ({ userData, setUserData , csrfToken }) => {
         </section>
 
         <section id="promotion_footer" className="footer">
-        <div className="footer__container">
-          <div className="footer-first__group">
-            <div id="logo_footer" className="logo">
-              Mark<span>Comb</span>
+          <div className="footer__container">
+            <div className="footer-first__group">
+              <div id="logo_footer" className="logo">
+                Mark<span>Comb</span>
+              </div>
+            </div>
+
+            <div className="footer-second__group">
+              <Link id="Terms" to="/terms" className="footer__terms none">
+                {t("Terms of service")}
+              </Link>
+              <Link to="/purpose" className="footer__purpose none">
+                {t("Our purpose")}
+              </Link>
+              <Link to="/dataprocessing" className="footer__purpose none">
+                {t("Personal Data Processing Agreement")}
+              </Link>
+              <h4 className="footer-third__group-text">2025 MarkComb</h4>
+              <h4 className="footer-third__group-text">
+                📧{" "}
+                <a href="mailto:markcombsup@gmail.com">markcombsup@gmail.com</a>
+              </h4>
+            </div>
+            <div className="footer__btns-container">
+              <button
+                onClick={() => {
+                  SmoothEffect().then(() => {
+                    i18n.changeLanguage("ru");
+                  });
+                }}
+                className="footer__button"
+                id="RuButton"
+              >
+                Ru
+              </button>
+              <button
+                onClick={() => {
+                  SmoothEffect().then(() => {
+                    console.log(i18n);
+                    i18n.changeLanguage("en");
+                  });
+                }}
+                className="footer__button"
+              >
+                En
+              </button>
             </div>
           </div>
-
-          <div className="footer-second__group">
-            <Link id="Terms" to="/terms" className="footer__terms none">
-              {t("Terms of service")}
-            </Link>
-            <Link to="/purpose" className="footer__purpose none">
-              {t("Our purpose")}
-            </Link>
-            <Link to="/dataprocessing" className="footer__purpose none">
-              {t("Personal Data Processing Agreement")}
-            </Link>
-            <h4 className="footer-third__group-text">2025 MarkComb</h4>
-            <h4 className="footer-third__group-text">
-              📧{" "}
-              <a href="mailto:markcombsup@gmail.com">markcombsup@gmail.com</a>
-            </h4>
-          </div>
-          <div className="footer__btns-container">
-            <button
-              onClick={() => {
-                SmoothEffect().then(() => {
-                  i18n.changeLanguage("ru");
-                });
-              }}
-              className="footer__button"
-              id="RuButton"
-            >
-              Ru
-            </button>
-            <button
-              onClick={() => {
-                SmoothEffect().then(() => {
-                  console.log(i18n);
-                  i18n.changeLanguage("en");
-                });
-              }}
-              className="footer__button"
-            >
-              En
-            </button>
-          </div>
-        </div>
-      </section>
+        </section>
       </HelmetProvider>
     </>
   );

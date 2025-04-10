@@ -2,12 +2,14 @@ import { useTranslation } from "react-i18next";
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import { toast , ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+
+import { useMediaQuery } from "react-responsive";
 
 import "./Purchase.css";
 import SmoothEffect from "../smoothText";
 
-const Purchase = ({isLoggedIn,userData}) => {
+const Purchase = ({ isLoggedIn, userData }) => {
   const titleRef = useRef();
 
   const { t, i18n } = useTranslation();
@@ -16,32 +18,47 @@ const Purchase = ({isLoggedIn,userData}) => {
     i18n.changeLanguage(lang);
   };
 
+  const isLittleMobile = useMediaQuery({ maxWidth: 375 });
+
   const warnToast = () => {
-    toast.warn(t("Sorry, payment is unavailable at the moment. Come back later"))
-  }
-  
+    toast.warn(
+      t("Sorry, payment is unavailable at the moment. Come back later")
+    );
+  };
+
   useEffect(() => {
     const timer = setInterval(() => {
       titleRef.current.classList.add("active");
     }, 50);
 
     return () => {
-      clearInterval(timer)
-    } 
-  },[]);
+      clearInterval(timer);
+    };
+  }, []);
   return (
     <>
       <HelmetProvider>
         <Helmet>
           <title>Purchase uses</title>
-          <meta name="description" content="You can purchase uses here."/>
+          <meta name="description" content="You can purchase uses here." />
         </Helmet>
         <header>
           <div className="container">
             <div className="logo">
-              <Link to="/">
-                Mark<span>Comb</span>
-              </Link>
+              {isLittleMobile ? (
+                <>
+                  <Link to="/">
+                    M<span>K</span>
+                  </Link>
+                </>
+              ) : (
+                <>
+                  {" "}
+                  <Link to="/">
+                    Mark<span>Comb</span>
+                  </Link>
+                </>
+              )}
             </div>
             <div className="header__links">
               <Link to="/purchases" className="header__link">
@@ -53,6 +70,7 @@ const Purchase = ({isLoggedIn,userData}) => {
                 {t("prom")}
                 <span>{t("otion")}</span>
               </Link>
+
               <Link to="/purchase" className="header__link">
                 {t("purch")}
                 <span>{t("ase")}</span>
@@ -111,7 +129,7 @@ const Purchase = ({isLoggedIn,userData}) => {
                 $<span>15</span> usd
               </h4>
               <button
-                 onClick={() => warnToast()}
+                onClick={() => warnToast()}
                 className="package__button none"
               >
                 {t("purch")}
@@ -129,7 +147,7 @@ const Purchase = ({isLoggedIn,userData}) => {
                 $<span>25</span> usd
               </h4>
               <button
-                 onClick={() => warnToast()}
+                onClick={() => warnToast()}
                 className="package__button none"
               >
                 {t("purch")}
@@ -149,7 +167,7 @@ const Purchase = ({isLoggedIn,userData}) => {
                 $<span>45</span> usd / <span id="month none">{t("Month")}</span>
               </h4>
               <button
-                 onClick={() => warnToast()}
+                onClick={() => warnToast()}
                 className="package__button-bussines none"
               >
                 {t("purch")}
@@ -160,57 +178,57 @@ const Purchase = ({isLoggedIn,userData}) => {
         </section>
 
         <section className="footer">
-        <div className="footer__container">
-          <div className="footer-first__group">
-            <div id="logo_footer" className="logo">
-              Mark<span>Comb</span>
+          <div className="footer__container">
+            <div className="footer-first__group">
+              <div id="logo_footer" className="logo">
+                Mark<span>Comb</span>
+              </div>
+            </div>
+
+            <div className="footer-second__group">
+              <Link id="Terms" to="/terms" className="footer__terms none">
+                {t("Terms of service")}
+              </Link>
+              <Link to="/purpose" className="footer__purpose none">
+                {t("Our purpose")}
+              </Link>
+              <Link to="/dataprocessing" className="footer__purpose none">
+                {t("Personal Data Processing Agreement")}
+              </Link>
+              <h4 className="footer-third__group-text">2025 MarkComb</h4>
+              <h4 className="footer-third__group-text">
+                📧{" "}
+                <a href="mailto:markcombsup@gmail.com">markcombsup@gmail.com</a>
+              </h4>
+            </div>
+            <div className="footer__btns-container">
+              <button
+                onClick={() => {
+                  SmoothEffect().then(() => {
+                    i18n.changeLanguage("ru");
+                  });
+                }}
+                className="footer__button"
+                id="RuButton"
+              >
+                Ru
+              </button>
+              <button
+                onClick={() => {
+                  SmoothEffect().then(() => {
+                    console.log(i18n);
+                    i18n.changeLanguage("en");
+                  });
+                }}
+                className="footer__button"
+              >
+                En
+              </button>
             </div>
           </div>
-
-          <div className="footer-second__group">
-            <Link id="Terms" to="/terms" className="footer__terms none">
-              {t("Terms of service")}
-            </Link>
-            <Link to="/purpose" className="footer__purpose none">
-              {t("Our purpose")}
-            </Link>
-            <Link to="/dataprocessing" className="footer__purpose none">
-              {t("Personal Data Processing Agreement")}
-            </Link>
-            <h4 className="footer-third__group-text">2025 MarkComb</h4>
-            <h4 className="footer-third__group-text">
-              📧{" "}
-              <a href="mailto:markcombsup@gmail.com">markcombsup@gmail.com</a>
-            </h4>
-          </div>
-          <div className="footer__btns-container">
-            <button
-              onClick={() => {
-                SmoothEffect().then(() => {
-                  i18n.changeLanguage("ru");
-                });
-              }}
-              className="footer__button"
-              id="RuButton"
-            >
-              Ru
-            </button>
-            <button
-              onClick={() => {
-                SmoothEffect().then(() => {
-                  console.log(i18n);
-                  i18n.changeLanguage("en");
-                });
-              }}
-              className="footer__button"
-            >
-              En
-            </button>
-          </div>
-        </div>
-      </section>
+        </section>
       </HelmetProvider>
-      <ToastContainer/>
+      <ToastContainer />
     </>
   );
 };

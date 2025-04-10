@@ -3,7 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { toast } from "react-toastify";
-import { useMediaQuery } from "@react-hook/media-query";
+
+import { useMediaQuery } from "react-responsive";
 
 import "./Promotion.css";
 import SmoothEffect from "../smoothText";
@@ -19,7 +20,8 @@ const Promotion = ({ isLoggedIn, userData }) => {
   const [activeIndex, setActiveIndex] = useState(null);
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const isMobile = useMediaQuery("(max-width:480px)");
+  const isMobile = useMediaQuery({ maxWidth: 480 });
+  const isLittleMobile = useMediaQuery({ maxWidth: 375 });
 
   useEffect(() => {
     console.log("userdata : ", userData);
@@ -73,7 +75,7 @@ const Promotion = ({ isLoggedIn, userData }) => {
       method: "POST",
       headers: {
         "Content-type": "application/json",
-        "x-api-key": import.meta.env.VITE_API_KEY 
+        "x-api-key": import.meta.env.VITE_API_KEY,
       },
       body: JSON.stringify({ bodyData }),
     });
@@ -151,9 +153,20 @@ const Promotion = ({ isLoggedIn, userData }) => {
         <header>
           <div className="container">
             <div className="logo">
-              <Link to="/">
-                Mark<span>Comb</span>
-              </Link>
+              {isLittleMobile ? (
+                <>
+                  <Link to="/">
+                    M<span>K</span>
+                  </Link>
+                </>
+              ) : (
+                <>
+                  {" "}
+                  <Link to="/">
+                    Mark<span>Comb</span>
+                  </Link>
+                </>
+              )}
             </div>
             <div className="header__links">
               <Link to="/purchases" className="header__link">
@@ -165,6 +178,7 @@ const Promotion = ({ isLoggedIn, userData }) => {
                 {t("prom")}
                 <span>{t("otion")}</span>
               </Link>
+
               <Link to="/purchase" className="header__link">
                 {t("purch")}
                 <span>{t("ase")}</span>
@@ -282,54 +296,54 @@ const Promotion = ({ isLoggedIn, userData }) => {
         </section>
 
         <section id="promotion_footer" className="footer">
-        <div className="footer__container">
-          <div className="footer-first__group">
-            <div id="logo_footer" className="logo">
-              Mark<span>Comb</span>
+          <div className="footer__container">
+            <div className="footer-first__group">
+              <div id="logo_footer" className="logo">
+                Mark<span>Comb</span>
+              </div>
+            </div>
+
+            <div className="footer-second__group">
+              <Link id="Terms" to="/terms" className="footer__terms none">
+                {t("Terms of service")}
+              </Link>
+              <Link to="/purpose" className="footer__purpose none">
+                {t("Our purpose")}
+              </Link>
+              <Link to="/dataprocessing" className="footer__purpose none">
+                {t("Personal Data Processing Agreement")}
+              </Link>
+              <h4 className="footer-third__group-text">2025 MarkComb</h4>
+              <h4 className="footer-third__group-text">
+                📧{" "}
+                <a href="mailto:markcombsup@gmail.com">markcombsup@gmail.com</a>
+              </h4>
+            </div>
+            <div className="footer__btns-container">
+              <button
+                onClick={() => {
+                  SmoothEffect().then(() => {
+                    i18n.changeLanguage("ru");
+                  });
+                }}
+                className="footer__button"
+                id="RuButton"
+              >
+                Ru
+              </button>
+              <button
+                onClick={() => {
+                  SmoothEffect().then(() => {
+                    console.log(i18n);
+                    i18n.changeLanguage("en");
+                  });
+                }}
+                className="footer__button"
+              >
+                En
+              </button>
             </div>
           </div>
-
-          <div className="footer-second__group">
-            <Link id="Terms" to="/terms" className="footer__terms none">
-              {t("Terms of service")}
-            </Link>
-            <Link to="/purpose" className="footer__purpose none">
-              {t("Our purpose")}
-            </Link>
-            <Link to="/dataprocessing" className="footer__purpose none">
-              {t("Personal Data Processing Agreement")}
-            </Link>
-            <h4 className="footer-third__group-text">2025 MarkComb</h4>
-            <h4 className="footer-third__group-text">
-              📧{" "}
-              <a href="mailto:markcombsup@gmail.com">markcombsup@gmail.com</a>
-            </h4>
-          </div>
-          <div className="footer__btns-container">
-            <button
-              onClick={() => {
-                SmoothEffect().then(() => {
-                  i18n.changeLanguage("ru");
-                });
-              }}
-              className="footer__button"
-              id="RuButton"
-            >
-              Ru
-            </button>
-            <button
-              onClick={() => {
-                SmoothEffect().then(() => {
-                  console.log(i18n);
-                  i18n.changeLanguage("en");
-                });
-              }}
-              className="footer__button"
-            >
-              En
-            </button>
-          </div>
-        </div>
         </section>
       </HelmetProvider>
     </>

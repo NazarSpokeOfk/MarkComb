@@ -162,7 +162,6 @@
   .footer__container {
     flex-direction: column;
     margin-top: 20%;
-    min-width: 400px;
     max-width: 438px;
     &:nth-child(1) {
       padding-left: 10px;
@@ -190,5 +189,10 @@
   }
   .footer__purpose {
     margin-right: 20px;
+  }
+}
+@media (max-width: 375px){
+  .footer__container{
+    margin-top: 100%;
   }
 }

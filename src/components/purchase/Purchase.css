@@ -445,3 +445,8 @@
     margin-top: 32%;
   }
 }
+@media (max-width: 375px){
+.packages__wrapper{
+  margin-left: 11%;
+}
+}

@@ -146,4 +146,17 @@
   }
 }
 
+@media (max-width: 375px){
+  .logo{
+    margin-top: -5px;
+    
+  }
+  .header__link{
+    margin-right: 5px;
+  }
+  .header__links{
+    margin-left: 10%;
+  }
+}
+
 

@@ -19,32 +19,42 @@ const UserDataProcessing = () => {
           <title>User data processing agreement</title>
           <meta name="description" content="Study the agreement with the processing of personal data" />
         </Helmet>
-      <header>
-        <div className="container">
-          <div className="logo">
-            <Link to="/">
-              Mark<span>Comb</span>
-            </Link>
+        <header>
+          <div className="container">
+            <div className="logo">
+              {isLittleMobile ? (
+                <>
+                  <Link to="/">
+                    M<span>K</span>
+                  </Link>
+                </>
+              ) : (
+                <>
+                  {" "}
+                  <Link to="/">
+                    Mark<span>Comb</span>
+                  </Link>
+                </>
+              )}
+            </div>
+            <div className="header__links">
+              <Link to="/purchases" className="header__link">
+                {t("purc")}
+                <span className="highlight">{t("hases")}</span>
+              </Link>
+
+              <Link to="/promotion" className="header__link">
+                {t("prom")}
+                <span>{t("otion")}</span>
+              </Link>
+
+              <Link to="/purchase" className="header__link">
+                {t("purch")}
+                <span>{t("ase")}</span>
+              </Link>
+            </div>
           </div>
-          <div className="header__links">
-            <Link to="/purchases" className="header__link">
-              <Trans i18nKey="purchases">
-                purc<span>hases</span>
-              </Trans>
-            </Link>
-            <Link to="/promotion" className="header__link">
-              <Trans i18nKey="promotion">
-                prom<span>otion</span>
-              </Trans>
-            </Link>
-            <Link to="/purchase" className="header__link">
-              <Trans i18nKey="purchase">
-                purc<span>hase</span>
-              </Trans>
-            </Link>
-          </div>
-        </div>
-      </header>
+        </header>
       <section className="terms">
         <h1 className="terms__title">
           {t("Personal Data Processing Agreement")}

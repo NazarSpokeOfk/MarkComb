@@ -346,13 +346,14 @@
     margin-left: 9%;
     height: 35px;
     font-size: 15px;
-    text-overflow: ellipsis
+    text-overflow: ellipsis;
+    padding-left: 5%;
   }
   .search-input__button {
     width: 30px;
     height: 30px;
-    top: 10 px;
-    margin-left: -60px;
+    top: 10px;
+    margin-left: -52px;
   }
   .list-container__member {
     font-size: 20px;
@@ -405,5 +406,13 @@
   }
   #promotion_footer {
     margin-top: 85%;
+  }
+}
+@media (max-width: 375px){
+  .search__input{
+    width: 80%;
+  }
+  .list-container__button{
+    right: 30px;
   }
 }

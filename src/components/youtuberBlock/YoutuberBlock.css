@@ -413,8 +413,7 @@
     margin-top: 6%;
     flex-wrap: wrap;
     margin-left: 0%;
-    gap: 20px;
-    
+    gap: 10px;
   }
   #logo_footer::after {
     width: 114vw; /* На всю ширину родителя */
