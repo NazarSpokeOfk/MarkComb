@@ -1,5 +1,5 @@
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 const GoogleLoginButton = ({setIsLoggedIn,setUserData,setIsModalOpened}) => {
   const handleSuccess = async (response) => {
     const credential = response.credential
@@ -8,6 +8,7 @@ const GoogleLoginButton = ({setIsLoggedIn,setUserData,setIsModalOpened}) => {
       method: "POST",
       headers: {
         "Content-type": "application/json",
+        "x-api-key": import.meta.env.VITE_API_KEY
       },
       body: JSON.stringify({credential}),
     })
