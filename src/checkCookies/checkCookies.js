@@ -3,6 +3,9 @@ const checkCookies = async (setIsLoggedIn, setUserData , setUserLang , setCsrfTo
         const response = await fetch("https://owa.markcomb.com/api/cookie", {
           method: "GET",
           credentials: "include",  
+          headers : {
+            "x-api-key": import.meta.env.VITE_API_KEY
+          }
         });
       
         if (!response.ok) {

@@ -73,7 +73,8 @@ const YoutuberBlock = ({
           credentials: "include",
           headers: {
             "Content-type": "application/json",
-            "X-CSRF-Token": csrfToken,
+            "x-csrf-token": csrfToken,
+            "x-api-key": import.meta.env.VITE_API_KEY
           },
           body: JSON.stringify({ channelId: data.channelId }),
         });

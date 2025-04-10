@@ -96,13 +96,18 @@ const HeaderFilter = ({
 
   const searchFetch = async (e) => {
     e.preventDefault();
+    if(!mainInputValue){
+      setIsSearching(false)
+      return;
+    }
     try {
-      const response = await fetch("https://markcomb.com/api/search", {
+      const response = await fetch("https://owa.markcomb.com/api/search", {
         method: "POST",
         credentials: "include",
         headers: {
           "Content-type": "application/json",
           "X-CSRF-Token": csrfToken,
+          "x-api-key": import.meta.env.VITE_API_KEY
         },
         body: JSON.stringify({ mainInputValue }),
       });
@@ -216,6 +221,7 @@ const HeaderFilter = ({
                   searchFetch(e);
                 } else {
                   logInFirstly();
+                  setIsSearching(false)
                 }
               }}
             >

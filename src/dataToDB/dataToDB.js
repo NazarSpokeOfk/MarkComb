@@ -1,10 +1,11 @@
+
 class DataToDB {
   constructor(setIsLoggedIn, setUserData, setIsModalOpened, setCsrfToken) {
     this.setIsLoggedIn = setIsLoggedIn;
     this.setUserData = setUserData;
     this.setIsModalOpened = setIsModalOpened;
     this.setCsrfToken = setCsrfToken;
-    this.apiUrl = "c";
+    this.apiUrl = "https://owa.markcomb.com/api";
     this.localApiUrl = "http://localhost:5001/api";
   }
 
@@ -16,8 +17,9 @@ class DataToDB {
   };
 
   async fetchData(endpoint, method, body = null, csrfToken = "") {
-    const headers = { "Content-Type": "application/json" };
-    if (csrfToken) headers["X-CSRF-TOKEN"] = csrfToken;
+    console.log(`поинт : ${endpoint} , метод : ${method} , токен : ${csrfToken}`)
+    const headers = { "Content-Type": "application/json" ,  "x-api-key": import.meta.env.VITE_API_KEY };
+    if (csrfToken) headers["x-csrf-token"] = csrfToken;
     
     const options = { method, headers };
     if (body) options.body = JSON.stringify(body);
@@ -41,8 +43,8 @@ class DataToDB {
       const result = await this.fetchData(`${this.apiUrl}/purchase/${userId}`, "POST", data, csrfToken);
       this.setUserData((prevData) => ({ ...prevData, channels: [...prevData.channels, result.purchase] }));
       console.log("Успешная покупка!", result);
-    } catch {
-      console.log("Ошибка при покупке данных. Возможно, недостаточно использований на балансе.");
+    } catch (error) {
+      console.log("Ошибка : ", error);
     }
   }
 

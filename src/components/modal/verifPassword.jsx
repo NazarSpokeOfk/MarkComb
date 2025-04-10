@@ -13,6 +13,7 @@ const VerifPassword = ({
   setIsLoggedIn,
   setIsAccountWillBeDeleted,
   csrfToken,
+  setIsNameChanged
 }) => {
 
   const dataToDB = new DataToDB(setIsLoggedIn, setUserData, true);
@@ -71,9 +72,8 @@ const VerifPassword = ({
             });
         } else {
           dataToDB.updateData(changedData).then((response) => {
-            console.log("Ну окей");
             if (response.message === true) {
-              console.log("Успешно сменили пароль");
+              setIsNameChanged(false)
               setChangedData((prevData) => ({
                 ...prevData,
                 changeMethod: false,

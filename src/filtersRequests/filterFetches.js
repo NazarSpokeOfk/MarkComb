@@ -11,6 +11,7 @@ const manageFiltersFetch = async (
       method: "POST",
       headers: {
         "Content-type": "application/json",
+        "x-api-key": import.meta.env.VITE_API_KEY
       },
       body: JSON.stringify({ age_group, minsubs, maxsubs, content_type }),
     });

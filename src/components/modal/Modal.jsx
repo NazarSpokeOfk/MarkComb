@@ -66,9 +66,10 @@ const Modal = ({
         modalButtonRef.current.classList.remove("shake-animation");
       }, 4000);
     } else {
+      const loadToast = toast.loading("Recalling your profile...")
       dataToDB.validateLogIn(logInData).then((response) => {
-        console.log(response.message);
         if (response.message === true) {
+          toast.dismiss(loadToast)
           modalRef.current.classList.remove("open");
           setTimeout(() => {
             setIsModalOpened(false);

@@ -1,10 +1,14 @@
 import jwt from "jsonwebtoken"
+import path from "path"
+import dotenv from 'dotenv';
+dotenv.config();
+
+dotenv.config({ path: path.resolve(process.cwd(), "./environment/.env") });
+
 const verifyJWT = async (req,res) => {
 
     const token = req.cookies.sessionToken;
-    const csrfToken = req.cookies.csrfToken;
-
-    
+    const csrfToken = req.cookies.csrfToken;    
 
     if(!token || !csrfToken){
         return
@@ -21,6 +25,9 @@ const verifyJWT = async (req,res) => {
         const response = await fetch(`https://owa.markcomb.com/api/loginbyid/${userData.user_id}` , {
             method : "GET",
             credentials : "include",
+            headers : {
+                "x-api-key": process.env.VITE_KEY 
+            }
         })
         const result = await response.json()
 

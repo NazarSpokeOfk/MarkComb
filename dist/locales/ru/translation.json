@@ -212,5 +212,6 @@
     "password,5 characters min.":"Пароль, минимум 5 символов.",
     "Enter the verification code that was sent to your email":"Введите код верификации, который мы отправили на вашу почту:",
     "verification code":"код верификации",
-    "Contact us : markcombsup@gmail.com":"Свяжитесь с нами : markcombsup@gmail.com"
+    "Contact us : markcombsup@gmail.com":"Свяжитесь с нами : markcombsup@gmail.com",
+    "Sorry, payment is unavailable at the moment. Come back later":"Простите, оплата недоступна в данный момент. Попробуйте попозже"
 }

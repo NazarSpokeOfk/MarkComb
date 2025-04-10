@@ -1,7 +1,8 @@
 import { useTranslation } from "react-i18next";
 import { useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import { toast , ToastContainer } from "react-toastify";
 
 import "./Purchase.css";
 import SmoothEffect from "../smoothText";
@@ -9,20 +10,15 @@ import SmoothEffect from "../smoothText";
 const Purchase = ({isLoggedIn,userData}) => {
   const titleRef = useRef();
 
-  const navigate = useNavigate();
-
   const { t, i18n } = useTranslation();
 
   const changeLanguage = (lang) => {
     i18n.changeLanguage(lang);
   };
-  const handleClick = () => {
-    if (isLoggedIn) {
-      console.log("successed purchase");
-    } else {
-      navigate("/");
-    }
-  };
+
+  const warnToast = () => {
+    toast.warn(t("Sorry, payment is unavailable at the moment. Come back later"))
+  }
   
   useEffect(() => {
     const timer = setInterval(() => {
@@ -97,7 +93,7 @@ const Purchase = ({isLoggedIn,userData}) => {
                 $<span>5</span> usd
               </h4>
               <button
-                onClick={() => handleClick()}
+                onClick={() => warnToast()}
                 className="package__button none"
               >
                 {t("purch")}
@@ -115,7 +111,7 @@ const Purchase = ({isLoggedIn,userData}) => {
                 $<span>15</span> usd
               </h4>
               <button
-                onClick={() => handleClick()}
+                 onClick={() => warnToast()}
                 className="package__button none"
               >
                 {t("purch")}
@@ -133,7 +129,7 @@ const Purchase = ({isLoggedIn,userData}) => {
                 $<span>25</span> usd
               </h4>
               <button
-                onClick={() => handleClick()}
+                 onClick={() => warnToast()}
                 className="package__button none"
               >
                 {t("purch")}
@@ -153,7 +149,7 @@ const Purchase = ({isLoggedIn,userData}) => {
                 $<span>45</span> usd / <span id="month none">{t("Month")}</span>
               </h4>
               <button
-                onClick={() => handleClick()}
+                 onClick={() => warnToast()}
                 className="package__button-bussines none"
               >
                 {t("purch")}
@@ -214,6 +210,7 @@ const Purchase = ({isLoggedIn,userData}) => {
         </div>
       </section>
       </HelmetProvider>
+      <ToastContainer/>
     </>
   );
 };

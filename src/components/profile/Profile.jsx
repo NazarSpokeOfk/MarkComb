@@ -255,6 +255,7 @@ const Profile = ({
             setIsLoggedIn={setIsLoggedIn}
             setIsAccountWillBeDeleted={setIsAccountWillBeDeleted}
             csrfToken={csrfToken}
+            setIsNameChanged = {setIsNameChanged}
           />
         ) : null}
         <ToastContainer />

@@ -39,6 +39,7 @@ const VerifCode = ({
         method: "POST",
         headers: {
           "Content-type": "application/json",
+          "x-api-key": import.meta.env.VITE_API_KEY
         },
         body: JSON.stringify({ email }),
       });
