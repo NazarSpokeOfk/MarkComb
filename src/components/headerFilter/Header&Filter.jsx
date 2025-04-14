@@ -88,10 +88,6 @@ const HeaderFilter = ({
     "10-20M": [10000000, 20000000],
   };
 
-  useEffect(() => {
-    console.log("selectedFilter : ", selectedFilter);
-  }, [selectedFilter]);
-
   const filterRef = useRef();
 
   const logInFirstly = () => {
@@ -118,7 +114,6 @@ const HeaderFilter = ({
       const result = await response.json();
       setChannelData(result);
       setIsSearching(false);
-      console.log(isSearching);
     } catch (error) {
       toast.error(
         t("There was an error during channel search. Please, try again later")
@@ -130,11 +125,6 @@ const HeaderFilter = ({
   const openFilters = () => {
     filterRef.current.classList.toggle("active");
   };
-
-  useEffect(() => {
-    console.log("Запрос");
-    checkCookies(setIsLoggedIn, setUserData, setUserLang, setCsrfToken);
-  }, []);
 
   return (
     <>

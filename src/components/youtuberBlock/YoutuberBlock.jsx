@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -20,6 +20,7 @@ import Envelope from "../../icons/email.svg";
 const YoutuberBlock = ({
   channelData,
   SimilarChannelData,
+  setSimilarChannelData,
   userData,
   isLoggedIn,
   setUserData,
@@ -45,7 +46,6 @@ const YoutuberBlock = ({
   };
 
   const handleButtonClick = async (data, buttonId) => {
-    console.log("Данные полученные в handleButtonClick : ", data);
     let timeout1, timeout2, timeout3;
 
     if (!data?.channelId) {
@@ -68,18 +68,17 @@ const YoutuberBlock = ({
 
     if (userData.user.uses > 0) {
       try {
-        const result = await fetch("https://owa.markcomb.com/api/getdata", {
+        const result = await fetch("http://localhost:5001/api/getdata", {
           method: "POST",
           credentials: "include",
           headers: {
             "Content-type": "application/json",
             "x-csrf-token": csrfToken,
-            "x-api-key": import.meta.env.VITE_API_KEY
+            "x-api-key": import.meta.env.VITE_API_KEY,
           },
           body: JSON.stringify({ channelId: data.channelId }),
         });
         const response = await result.json();
-        console.log("Ответ от getData в youtuberblock:", response);
 
         if (!response || response.length === 0) {
           setBtnsState((prev) => ({
@@ -94,41 +93,46 @@ const YoutuberBlock = ({
         }
 
         if (buttonId === 1) {
-          console.log(
-            "Проверочка:",
-            SimilarChannelData.channelStats?.[0]?.thumbnail
-          );
           dataToDB.validatePurchaseData(
             {
-              thumbnail: SimilarChannelData?.thumbnail || "",
-              email: response?.[0] || "",
-              channelName: SimilarChannelData?.channelStats?.title || "",
+              thumbnail: SimilarChannelData?.channelStats?.thumbnail || "",
+              email: response?.description?.[0] || "",
+              channelName: response?.title || "",
               uses: 1,
             },
             userData?.user?.user_id,
             csrfToken
           );
+          setSimilarChannelData((prevState) => ({
+            ...prevState,
+            title: response?.title,
+          }));
+          setBtnsState((prev) => ({
+            ...prev,
+            [buttonId]: {
+              isProcessing: false,
+              class: response?.description?.length === 0 ? "fail" : "success",
+            },
+          }));
         } else {
-          console.log("Ало бял : ", channelData);
           dataToDB.validatePurchaseData(
             {
               thumbnail: channelData?.updatedData[0]?.thumbnail || "",
-              email: response?.[0] || "",
+              email: response?.description?.[0] || "",
               channelName: channelData?.updatedData[0]?.title || "",
               uses: 1,
             },
             userData?.user?.user_id,
             csrfToken
           );
+          setBtnsState((prev) => ({
+            ...prev,
+            [buttonId]: {
+              isProcessing: false,
+              class: response?.description?.length === 0 ? "fail" : "success",
+            },
+          }));
         }
-        console.log(response);
-        setBtnsState((prev) => ({
-          ...prev,
-          [buttonId]: {
-            isProcessing: false,
-            class: response.length === 0 ? "fail" : "success", //тут был result
-          },
-        }));
       } catch (error) {
         console.log("Ошибка в передаче данных:", error);
       } finally {
@@ -245,11 +249,18 @@ const YoutuberBlock = ({
               userData && SimilarChannelData ? "youtuber__block" : "pulse"
             }`}
           >
-            <div className="youtuber__name none">
-              {userData && SimilarChannelData
-                ? SimilarChannelData?.channelStats?.title
-                : "?"}
+            <div
+              className="youtuber__name none"
+            >
+              {!SimilarChannelData ? (
+                "?"
+              ) : !SimilarChannelData.title ? (
+                <div className="blur-shimmer" />
+              ) : (
+                SimilarChannelData.title
+              )}
             </div>
+
             <div className="youtuber__information">
               <div className="youtuber__definitions">
                 <h4 className="youtuber__definition none">
@@ -295,19 +306,23 @@ const YoutuberBlock = ({
           <button
             className={`youtuber__button ${btnsState[1]?.class || ""}`}
             onClick={() => {
+              console.log("Юзердата так называемая  :", userData);
+              console.log(SimilarChannelData);
               if (
                 userData.channels &&
                 userData.channels.some(
                   (channel) =>
-                    channel.channel_name ===
-                    SimilarChannelData?.channelStats?.title
+                    channel.channel_name === SimilarChannelData?.title
                 )
               ) {
                 alreadyHave();
                 return;
               } else {
-                console.log("SimilarChannelData:", SimilarChannelData);
-                if (isLoggedIn) {
+                if (isLoggedIn && !SimilarChannelData) {
+                  toast.warn(
+                    t("Select channel, which contact data you wanna get")
+                  );
+                } else if (isLoggedIn) {
                   handleButtonClick(SimilarChannelData.channelStats, 1);
                 } else {
                   toast.error(t("Log in firstly"));

@@ -5,9 +5,11 @@ const manageFiltersFetch = async (
   minsubs,
   maxsubs
 ) => {
+  const apiUrl = "https://owa.markcomb.com/api";
+  const localApiUrl = "http://localhost:5001/api";
   try {
     let response;
-    response = await fetch(`https://owa.markcomb.com/api/filter`, {
+    response = await fetch(`${localApiUrl}/filter`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -22,7 +24,6 @@ const manageFiltersFetch = async (
 
     const result = await response.json();
     if (result?.status) {
-      console.log("Получены данные с бэка : ", result);
       setSimilarChannelData(result);
     } else {
       console.error("Возникла ошибка в contentTypeFilter");

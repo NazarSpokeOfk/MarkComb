@@ -29,10 +29,6 @@ const Purchases = ({ userData, setUserData, csrfToken }) => {
     i18n.changeLanguage(lang);
   };
 
-  useEffect(() => {
-    console.log("userData:", userData);
-  }, [userData]);
-
   const removePurchase = async (index, user_id, channelName) => {
     try {
       await toast.promise(
@@ -64,6 +60,10 @@ const Purchases = ({ userData, setUserData, csrfToken }) => {
 
     return () => timers.forEach(clearInterval);
   }, []);
+
+  useEffect(() => {
+    console.log("Данные каналов в purchases:",userData.channels) 
+  },[userData])
 
   return (
     <>

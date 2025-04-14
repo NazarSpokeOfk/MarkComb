@@ -51,6 +51,9 @@ function App() {
     password: "",
   });
 
+  useEffect(() => {
+    console.log("Дата пользователя:",userData)
+  },[userData])
   return (
     <Router>
       <Routes>
@@ -99,6 +102,7 @@ function App() {
                   setUserData={setUserData}
                   isLoggedIn={isLoggedIn}
                   csrfToken={csrfToken}
+                  setSimilarChannelData = {setSimilarChannelData}
                 />
               </ErrorBoundary>
             </>

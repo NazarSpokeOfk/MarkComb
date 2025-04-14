@@ -3,33 +3,18 @@ import crypto from "crypto";
 import nodemailer from "nodemailer";
 import pool from "./db/index.js";
 import { google } from "googleapis";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
-
-const CLIENT_ID = process.env.CLIENT_ID;
-const CLIENT_SECRET = process.env.CLIENT_SECRET;
-const REDIRECT_URI = process.env.REDIRECT_URI;
-const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
-
-const oAuth2Client = new google.auth.OAuth2(
-  CLIENT_ID,
-  CLIENT_SECRET,
-  REDIRECT_URI
-);
-oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
-const accessToken = await oAuth2Client.getAccessToken();
 
 class MailVerification {
   constructor() {
     this.transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "mail.hosting.reg.ru",
+      port: 465,
+      secure: true,
       auth: {
-        type: "OAuth2",
-        user: "mknoreplyy@gmail.com",
-        clientId: CLIENT_ID,
-        clientSecret: CLIENT_SECRET,
-        refreshToken: REFRESH_TOKEN,
-        accessToken: accessToken.token, // Получаем свежий токен
+        user: "noreplymk@markcomb.com",
+        pass: "HSRaFhhkhUbE7j2",
       },
     });
   }
@@ -38,8 +23,12 @@ class MailVerification {
     const verificationCode = crypto.randomBytes(3).toString("hex");
     const expiryTime = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes in milliseconds
 
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return Promise.reject("Неверный формат email");
+    }
+
     const mailOptions = {
-      from: "mknoreplyy@gmail.com",
+      from: "noreplymk@markcomb.com",
       to: email,
       subject: "Подтверждение регистрации",
       text: `Ваш код подтверждения: ${verificationCode}`,
@@ -53,7 +42,10 @@ class MailVerification {
       await this.transporter.sendMail(mailOptions);
       return Promise.resolve(true);
     } catch (error) {
-      logger.error(" (sendVerificationCode) Error sending verification email:", error);
+      logger.error(
+        " (sendVerificationCode) Error sending verification email:",
+        error
+      );
       return Promise.reject("Ошибка при отправке кода");
     }
   }
@@ -64,7 +56,6 @@ class MailVerification {
         `SELECT * FROM user_verifications WHERE email = $1 AND verification_code = $2 AND verification_expiry > NOW()`,
         [email, code]
       );
-
 
       if (verif.rowCount === 0) {
         return { success: false, message: "Неправильный код" };
@@ -79,11 +70,11 @@ class MailVerification {
 
   async clearUpVerifCodes(email) {
     try {
-      await pool.query(
-        `DELETE FROM user_verifications WHERE email = $1`
-      , [email]);
+      await pool.query(`DELETE FROM user_verifications WHERE email = $1`, [
+        email,
+      ]);
     } catch (error) {
-      logger.error( "(clearUpVerifCodes)" , error);
+      logger.error("(clearUpVerifCodes)", error);
     }
   }
 }

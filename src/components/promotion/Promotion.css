@@ -14,10 +14,11 @@
 
 .list__container {
   display: flex;
-  gap: 100px;
+  gap: 50px;
   margin-left: 17%;
   flex-wrap: wrap;
   flex: 1 1 200px;
+  width: 80%;
 }
 
 .list__container__more {

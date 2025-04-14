@@ -7,6 +7,9 @@ dotenv.config({ path: path.resolve(process.cwd(), "./environment/.env") });
 
 const verifyJWT = async (req,res) => {
 
+    const apiUrl = "https://owa.markcomb.com/api";
+    const localApiUrl = "http://localhost:5001/api";
+
     const token = req.cookies.sessionToken;
     const csrfToken = req.cookies.csrfToken;    
 
@@ -22,7 +25,7 @@ const verifyJWT = async (req,res) => {
             lang : decoded.lang
         }
 
-        const response = await fetch(`https://owa.markcomb.com/api/loginbyid/${userData.user_id}` , {
+        const response = await fetch(`${apiUrl}/loginbyid/${userData.user_id}` , {
             method : "GET",
             credentials : "include",
             headers : {

@@ -1,4 +1,3 @@
-
 class DataToDB {
   constructor(setIsLoggedIn, setUserData, setIsModalOpened, setCsrfToken) {
     this.setIsLoggedIn = setIsLoggedIn;
@@ -17,10 +16,12 @@ class DataToDB {
   };
 
   async fetchData(endpoint, method, body = null, csrfToken = "") {
-    console.log(`поинт : ${endpoint} , метод : ${method} , токен : ${csrfToken}`)
-    const headers = { "Content-Type": "application/json" ,  "x-api-key": import.meta.env.VITE_API_KEY };
+    const headers = {
+      "Content-Type": "application/json",
+      "x-api-key": import.meta.env.VITE_API_KEY,
+    };
     if (csrfToken) headers["x-csrf-token"] = csrfToken;
-    
+
     const options = { method, headers };
     if (body) options.body = JSON.stringify(body);
     if (method !== "GET") options.credentials = "include";
@@ -35,14 +36,34 @@ class DataToDB {
   }
 
   deletePurchaseData(channelName, userId, csrfToken) {
-    return this.fetchData(`${this.apiUrl}/rmpurchase/${userId}`, "DELETE", { channelName }, csrfToken);
+    return this.fetchData(
+      `${this.apiUrl}/rmpurchase/${userId}`,
+      "DELETE",
+      { channelName },
+      csrfToken
+    );
   }
 
   async validatePurchaseData(data, userId, csrfToken) {
+    console.log("Дата в validatePurchaseData : ", data);
+    if (!data.email) {
+      return;
+    }
     try {
-      const result = await this.fetchData(`${this.apiUrl}/purchase/${userId}`, "POST", data, csrfToken);
-      this.setUserData((prevData) => ({ ...prevData, channels: [...prevData.channels, result.purchase] }));
-      console.log("Успешная покупка!", result);
+      const result = await this.fetchData(
+        `${this.apiUrl}/purchase/${userId}`,
+        "POST",
+        data,
+        csrfToken
+      );
+      this.setUserData((prevData) => ({
+        ...prevData,
+        channels: [...prevData.channels, result.purchase],
+        user: {
+          ...prevData.user,
+          uses : prevData.user.uses - 1 
+        }
+      }));
     } catch (error) {
       console.log("Ошибка : ", error);
     }
@@ -50,7 +71,9 @@ class DataToDB {
 
   async validateSignIn(data, setCsrfToken) {
     try {
-      const result = await this.fetchData(`${this.apiUrl}/user`, "POST", { data });
+      const result = await this.fetchData(`${this.apiUrl}/user`, "POST", {
+        data,
+      });
       this.setIsLoggedIn(true);
       this.setUserData(result);
       setCsrfToken(result.csrfToken);
@@ -63,7 +86,11 @@ class DataToDB {
 
   async validateLogIn(data) {
     try {
-      const result = await this.fetchData(`${this.apiUrl}/login`, "POST", data);
+      const result = await this.fetchData(
+        `${this.apiUrl}/login`,
+        "POST",
+        data
+      );
       this.setIsLoggedIn(true);
       this.setUserData(result);
       this.setCsrfToken(result.csrfToken);
@@ -76,7 +103,11 @@ class DataToDB {
 
   async updateData(data) {
     try {
-      const result = await this.fetchData(`${this.apiUrl}/update/${data.user_id}`, "PUT", data);
+      const result = await this.fetchData(
+        `${this.apiUrl}/update/${data.user_id}`,
+        "PUT",
+        data
+      );
       this.setUserData(result);
       return { message: true };
     } catch {
@@ -85,7 +116,12 @@ class DataToDB {
   }
 
   deleteProfile(userId, csrfToken) {
-    return this.fetchData(`${this.apiUrl}/user/${userId}`, "DELETE", {}, csrfToken)
+    return this.fetchData(
+      `${this.apiUrl}/user/${userId}`,
+      "DELETE",
+      {},
+      csrfToken
+    )
       .then(() => {
         this.setIsLoggedIn(false);
         this.setUserData({});
@@ -95,20 +131,30 @@ class DataToDB {
   }
 
   isVerificationCodeCorrect(email, verificationCode) {
-    return this.fetchData(`${this.apiUrl}/checkCode`, "POST", { email, verification_code: verificationCode })
+    return this.fetchData(`${this.apiUrl}/checkCode`, "POST", {
+      email,
+      verification_code: verificationCode,
+    })
       .then(() => ({ message: true }))
       .catch(() => ({ message: false }));
   }
 
   changePassword(newPassword, email) {
-    return this.fetchData(`${this.apiUrl}/changePassword`, "PUT", { newPassword, email })
+    return this.fetchData(`${this.apiUrl}/changePassword`, "PUT", {
+      newPassword,
+      email,
+    })
       .then(() => ({ message: true }))
       .catch(() => ({ message: false }));
   }
 
   activatePromocode(promocode, email) {
-    return this.fetchData(`${this.apiUrl}/promocode`, "PUT", { promocode, email })
-      .then((response) => {return response});
+    return this.fetchData(`${this.apiUrl}/promocode`, "PUT", {
+      promocode,
+      email,
+    }).then((response) => {
+      return response;
+    });
   }
 }
 

@@ -187,7 +187,30 @@
   transform: scale(0.95);
 }
 
+.blur-shimmer {
+  width: 100px; /* или auto */
+  height: 20px;
+  border-radius: 5px;
+  background: linear-gradient(
+    90deg,
+    rgba(220, 220, 220, 0.2) 25%,
+    rgba(200, 200, 200, 0.5) 50%,
+    rgba(220, 220, 220, 0.2) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite;
+  backdrop-filter: blur(4px);
+  transition: all 0.3s ease;
+}
 
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
 
 @keyframes pulse {
   0% {
@@ -359,45 +382,52 @@
 }
 @media (max-width: 430px) and (max-height: 920px) {
   .youtuber__block {
-    width: 70%;
-    height: 210px;
+    width: 100%;
+    height: 372px;
     margin-left: 0;
     border-radius: 40px;
   }
   .youtuber__image {
-    width: 80%;
-    height: 210px;
+    width:100%;
+    height: 250px;
     border-radius: 40px;
-    left: 64%;
+    left: 0%;
+    bottom: -15%;
   }
   .youtuber__name {
-    font-size: 17px;
+    font-size: 20px;
     margin-top: 30px;
     margin-left: 30px;
   }
   .youtuber__information {
-    margin-left: 11%;
-  }
-  .youtuber__definition {
-    font-size: 15px;
-    margin-bottom: 0;
-    margin-top: 5px;
-    width: 60px;
-  }
-  .youtuber__stats {
-    margin-left: 40%;
+    margin-left: 8.5%;
+    width: 100%;
     margin-top: 0;
   }
+  .youtuber__definition {
+    font-size: 17px;
+    margin-bottom: 0;
+    margin-top: 15px;
+    width: auto;
+  }
+  .youtuber__definitions{
+    width: 150px;
+  }
+  .youtuber__stats {
+    margin-left: 0%;
+    margin-top: 2.6%;
+  }
   .statistic {
-    font-size: 15px;
-    margin-top: 23px;
-    margin-bottom: 20px;
+    font-size: 17px;
+    margin-top: 15px;
+    margin-bottom: 0px;
     &:first-child {
       margin-top: 5px;
     }
   }
   .youtuber__button {
     margin-left: 0;
+    margin-top: 20%;
   }
   .youtuber__button.success {
     width: 350px;
@@ -421,5 +451,8 @@
   }
   .feedback{
     margin-left: 75%;
+  }
+  .youtuber__information{
+    width: 90%;
   }
 }

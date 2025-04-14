@@ -25,6 +25,8 @@ class PurchasesController {
     const { id } = req.params; // Получаем id пользователя из параметров
     const { uses, thumbnail, email, channelName } = req.body; // Получаем данные из тела запроса
 
+    console.log(`${uses} использований, ${thumbnail} заглушка ${email} почта, ${channelName} имя`)
+
     const tokenFromClient = req.headers["X-CSRF-TOKEN"];
     const tokenFromSession = req.session.csrfToken;
 

@@ -52,8 +52,6 @@ class ChannelsController {
         result.age_group
       );
 
-      
-
       res.json({ status: true, channelStats });
     } catch (error) {
       logger.error(" (selectChannel) Возникла ошибка в selectChannel:", error);
@@ -62,7 +60,6 @@ class ChannelsController {
   }
 
   async fetchChannelData(channelId, contentType, audience) {
-    
     try {
       const response = await fetch(
         `https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${channelId}&key=${apiKey}`
@@ -70,7 +67,6 @@ class ChannelsController {
       const result = await response.json();
       if (result) {
         const channelData = {
-          title: result?.items?.[0]?.snippet?.title,
           subs: result?.items?.[0]?.statistics?.subscriberCount,
           contenttype: contentType,
           targetAudience: audience,
