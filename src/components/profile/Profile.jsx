@@ -256,9 +256,9 @@ const Profile = ({
             setIsAccountWillBeDeleted={setIsAccountWillBeDeleted}
             csrfToken={csrfToken}
             setIsNameChanged = {setIsNameChanged}
+            setIsPasswordChanged={setIsPasswordChanged}
           />
         ) : null}
-        <ToastContainer />
 
         <section id="profile__footer" className="footer">
           <div className="footer__container">
@@ -310,6 +310,7 @@ const Profile = ({
             </div>
           </div>
         </section>
+        <ToastContainer />
       </HelmetProvider>
     </>
   );

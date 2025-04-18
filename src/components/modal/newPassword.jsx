@@ -47,7 +47,9 @@ const NewPassword = ({email,isVerificationCodeCorrect,setIsVerificationCodeCorre
                 return
               }
               modalRef.current.classList.remove("open")
+              document.body.style.overflow = "";
               setIsVerificationCodeCorrect(false)
+              toast.success("Password changed.")
             });
           }}
         />

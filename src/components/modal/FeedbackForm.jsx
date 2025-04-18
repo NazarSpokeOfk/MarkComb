@@ -21,7 +21,8 @@ const FeedbackForm = ({ setIsFeedbackWillBeWrited,isFeedbackWillBeWrited }) => {
     const request = await fetch(`https://owa.markcomb.com/api/review` , {
       method : "POST",
       headers : {
-        "Content-type":"application/json"
+        "Content-type":"application/json",
+        "x-api-key": import.meta.env.VITE_API_KEY,
       },
       body : JSON.stringify({reviewText,websiteMark})
     })

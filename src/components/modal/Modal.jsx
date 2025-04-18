@@ -76,6 +76,7 @@ const Modal = ({
           }, 500);
           document.body.style.overflow = "";
         } else {
+          toast.dismiss(loadToast)
           setTimeout(() => {
             setIsUserMakeAMistake((prevState) => prevState + 1);
             toast.error("Wrong password, or account doesn't exist");

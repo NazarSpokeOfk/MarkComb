@@ -1,4 +1,6 @@
-import { useEffect , useRef } from "react";
+import { useEffect, useRef } from "react";
+
+import 'react-toastify/dist/ReactToastify.css';
 
 import DataToDB from "../../dataToDB/dataToDB";
 import { toast } from "react-toastify";
@@ -13,12 +15,12 @@ const VerifPassword = ({
   setIsLoggedIn,
   setIsAccountWillBeDeleted,
   csrfToken,
-  setIsNameChanged
+  setIsNameChanged,
+  setIsPasswordChanged,
 }) => {
-
   const dataToDB = new DataToDB(setIsLoggedIn, setUserData, true);
 
-  const modalRef = useRef();  
+  const modalRef = useRef();
 
   useEffect(() => {
     if (changedData.changeMethod || isAccountWillBeDeleted) {
@@ -36,61 +38,72 @@ const VerifPassword = ({
   }, [isAccountWillBeDeleted]);
 
   return (
-    <VerifLayout
-      modalRef = {modalRef}
-      classExpression={`modal__overlay-verif`}
-      titleText=" Enter your password to change/remove the data."
-      onChangeAction={(e) => {
-        const { value } = e.target;
-        setChangedData((prevData) => ({
-          ...prevData,
-          oldPassword: value,
-        }));
-      }}
-      onClickAction={() => {
-        if (isAccountWillBeDeleted) {
-          console.log("csrfToken  : " ,csrfToken)
-          dataToDB
-            .deleteProfile(
-              changedData?.oldPassword,
-              changedData?.user_id,
-              csrfToken
-            )
-            .then((response) => {
-              console.log(response);
-              if (response.message === true) {
-                setIsAccountWillBeDeleted(false);
-                setTimeout(() => {
+    <>
+      <VerifLayout
+        modalRef={modalRef}
+        classExpression={`modal__overlay-verif`}
+        titleText=" Enter your password to change/remove the data."
+        onChangeAction={(e) => {
+          const { value } = e.target;
+          setChangedData((prevData) => ({
+            ...prevData,
+            oldPassword: value,
+          }));
+        }}
+        onClickAction={() => {
+          if (isAccountWillBeDeleted) {
+            console.log("csrfToken в verifPassword  : ", csrfToken);
+            dataToDB
+              .deleteProfile(
+                changedData?.user_id,
+                csrfToken,
+                changedData?.oldPassword
+              )
+              .then((response) => {
+                console.log("Ответ от dataToDB:", response);
+                if (response.message === true) {
+                  setIsAccountWillBeDeleted(false);
+
                   toast.success("Account deleted.");
-                }, 100);
+
+                  document.body.style.overflow = "";
+                } else if (response.message === "csrftoken is obsolete") {
+                  toast.error(
+                    "Your session is obsolete. Please re-login to your account."
+                  );
+                } else {
+                  setTimeout(() => {
+                    toast.error("Wrong password");
+                  }, 100);
+                }
+              });
+          } else {
+            dataToDB.updateData(changedData).then((response) => {
+              console.log("response.message:", response.message);
+              if (response?.message === true) {
+                console.log("Data changed, showing toast...");
+                console.log(toast)
+                toast.success("Data changed successfully.");
+                setIsNameChanged(false);
+                setIsPasswordChanged(false);
+                setChangedData((prevData) => ({
+                  ...prevData,
+                  changeMethod: false,
+                }));
                 document.body.style.overflow = "";
-              } else {
-                setTimeout(() => {
-                  toast.error("Wrong password");
-                }, 100);
               }
             });
-        } else {
-          dataToDB.updateData(changedData).then((response) => {
-            if (response.message === true) {
-              setIsNameChanged(false)
-              setChangedData((prevData) => ({
-                ...prevData,
-                changeMethod: false,
-              }));
-              document.body.style.overflow = "";
-            }
-          });
-        }
-      }}
-      changedData = {changedData}
-      setIsAccountWillBeDeleted = {setIsAccountWillBeDeleted}
-      isAccountWillBeDeleted = {isAccountWillBeDeleted}
-      setChangedData = {setChangedData}
-      csrfToken = {csrfToken}
-      setIsLoggedIn ={setIsLoggedIn}
-      setUserData = {setUserData}
-    />
+          }
+        }}
+        changedData={changedData}
+        setIsAccountWillBeDeleted={setIsAccountWillBeDeleted}
+        isAccountWillBeDeleted={isAccountWillBeDeleted}
+        setChangedData={setChangedData}
+        csrfToken={csrfToken}
+        setIsLoggedIn={setIsLoggedIn}
+        setUserData={setUserData}
+      />
+    </>
   );
 };
 export default VerifPassword;

@@ -18,15 +18,14 @@ const VerifModal = ({
   setSignInData,
   isLoggedIn,
   isPasswordWillBeReset,
-  setCsrfToken
+  setCsrfToken,
 }) => {
-
   const { t } = useTranslation();
   const dataToDB = new DataToDB(setIsLoggedIn, setUserData);
   const modalRef = useRef();
 
   useEffect(() => {
-    console.log('isDataFilledIn', isDataFilledIn);
+    console.log("isDataFilledIn", isDataFilledIn);
 
     if (isDataFilledIn) {
       setTimeout(() => {
@@ -45,15 +44,15 @@ const VerifModal = ({
 
   const makeFetchForCode = async () => {
     try {
-      let email = signInData.email
+      let email = signInData.email;
       console.log(signInData);
       const result = await fetch(`https://owa.markcomb.com/api/verification`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",
-          "x-api-key": import.meta.env.VITE_API_KEY
+          "x-api-key": import.meta.env.VITE_API_KEY,
         },
-        body: JSON.stringify({email}),
+        body: JSON.stringify({ email }),
       });
       if (result.ok) {
         return Promise.resolve();
@@ -61,7 +60,9 @@ const VerifModal = ({
         console.log("Че за нахуй");
       }
     } catch (error) {
-      toast.error("We occured a server error sending verification code. Please, try again later")
+      toast.error(
+        "We occured a server error sending verification code. Please, try again later"
+      );
     }
   };
 
@@ -83,12 +84,14 @@ const VerifModal = ({
             "Код, отправленный с фронта:",
             signInData.verification_code
           );
-          dataToDB.validateSignIn(signInData,setCsrfToken).then((response) => {
+          dataToDB.validateSignIn(signInData, setCsrfToken).then((response) => {
             console.log(response);
             if (response.status != true) {
               toast.error("Wrong authentication code, or code expired.");
+            } else if (response.status == "already") {
+              toast.error("This account already exists.");
             } else {
-              modalRef.current.classList.remove("open")
+              modalRef.current.classList.remove("open");
               document.body.style.overflow = "";
             }
           });

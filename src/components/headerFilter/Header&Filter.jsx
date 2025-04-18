@@ -126,6 +126,10 @@ const HeaderFilter = ({
     filterRef.current.classList.toggle("active");
   };
 
+  useEffect(() => {
+    checkCookies(setIsLoggedIn,setUserData,setUserLang,setCsrfToken)
+  },[])
+
   return (
     <>
       <HelmetProvider>
@@ -431,6 +435,7 @@ const HeaderFilter = ({
           />
         ) : null}
       </HelmetProvider>
+      <ToastContainer/>
     </>
   );
 };

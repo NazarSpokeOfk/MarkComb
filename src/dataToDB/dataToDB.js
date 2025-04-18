@@ -112,14 +112,18 @@ class DataToDB {
       return { message: true };
     } catch {
       console.log("Не удалось изменить данные аккаунта.");
+      return { message: false };
     }
   }
 
-  deleteProfile(userId, csrfToken) {
+  deleteProfile(userId, csrfToken, password) {
+    console.log("Токен в dataToDB:", csrfToken);
+    console.log("ID пользователя в deleteProfile:", userId);
+  
     return this.fetchData(
       `${this.apiUrl}/user/${userId}`,
       "DELETE",
-      {},
+      { password },
       csrfToken
     )
       .then(() => {
@@ -127,8 +131,16 @@ class DataToDB {
         this.setUserData({});
         return { message: true };
       })
-      .catch(() => ({ message: false }));
+      .catch(async (error) => {
+        try {
+          const errData = await error.json?.();
+          return { message: errData?.message || "Unknown error" };
+        } catch (e) {
+          return { message: "Unknown error" };
+        }
+      });
   }
+  
 
   isVerificationCodeCorrect(email, verificationCode) {
     return this.fetchData(`${this.apiUrl}/checkCode`, "POST", {

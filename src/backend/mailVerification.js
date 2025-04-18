@@ -2,7 +2,6 @@ import logger from "./winston/winston.js";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
 import pool from "./db/index.js";
-import { google } from "googleapis";
 import dotenv from "dotenv";
 dotenv.config();
 
