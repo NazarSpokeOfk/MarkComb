@@ -68,7 +68,7 @@ const YoutuberBlock = ({
 
     if (userData.user.uses > 0) {
       try {
-        const result = await fetch("https://owa.markcomb.com/api/getdata", {
+        const result = await fetch("http://localhost:5001/api/getdata", {
           method: "POST",
           credentials: "include",
           headers: {

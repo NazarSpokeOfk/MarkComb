@@ -67,6 +67,14 @@ app.use((req,res,next) => {
 
 const PORT = process.env.port || 5001;
 
+function checkApiKey(req, res, next) {
+  const key = req.headers['x-api-key'];
+  if (!key || key !== process.env.VITE_KEY) {
+    return res.status(403).json({ error: 'Forbidden: Invalid API key' });
+  }
+  next();
+}
+
 app.use("/api",ParserController)
 app.use("/api", googleAPIRouter)
 app.use("/api", purchasesRouter);

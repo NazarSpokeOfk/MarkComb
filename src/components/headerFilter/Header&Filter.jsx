@@ -101,7 +101,7 @@ const HeaderFilter = ({
       return;
     }
     try {
-      const response = await fetch("https://owa.markcomb.com/api/search", {
+      const response = await fetch("http://localhost:5001/api/search", {
         method: "POST",
         credentials: "include",
         headers: {
