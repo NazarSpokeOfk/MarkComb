@@ -2,12 +2,15 @@ import { useTranslation } from "react-i18next";
 import { Trans } from "react-i18next";
 import { Link } from "react-router-dom";
 
+import { useMediaQuery } from "react-responsive";
+
 import SmoothEffect from "../smoothText";
 
 import "./Purpose.css";
 
 const Purpose = () => {
   const { t, i18n } = useTranslation();
+  const isLittleMobile = useMediaQuery({ maxWidth: 375 });
   document.body.style.overflow = "";
   return (
     <>

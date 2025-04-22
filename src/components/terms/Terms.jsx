@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { Trans } from "react-i18next";
 import { Link } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
 
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
@@ -10,6 +11,7 @@ import "./Terms.css";
 const Terms = () => {
   const { t, i18n } = useTranslation();
   document.body.style.overflow = "";
+  const isLittleMobile = useMediaQuery({ maxWidth: 375 });
   return (
     <>
       <HelmetProvider>
