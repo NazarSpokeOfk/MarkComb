@@ -3,7 +3,7 @@ import path from "path"
 const { Pool } = pkg;
 import dotenv from 'dotenv';
 
-dotenv.config({ path: path.resolve(process.cwd(), "./environment/.env.storage") });
+dotenv.config({ path: path.resolve(process.cwd(), "../environment/.env.storage") });
 
 const storagePool = new Pool({
     user : process.env.ST_DB_USER,
