@@ -35,8 +35,8 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      httpOnly: true,
-      secure: true,
+      httpOnly: false,
+      secure: false,
       maxAge: 600000 ,
     },
   })
@@ -75,7 +75,7 @@ function checkApiKey(req, res, next) {
   next();
 }
 
-app.use("/api",ParserController)
+app.use("/api", checkApiKey , ParserController)
 app.use("/api", googleAPIRouter)
 app.use("/api", purchasesRouter);
 app.use("/api", userRouter);

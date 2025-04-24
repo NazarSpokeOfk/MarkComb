@@ -127,8 +127,8 @@ const HeaderFilter = ({
   };
 
   useEffect(() => {
-    checkCookies(setIsLoggedIn,setUserData,setUserLang,setCsrfToken)
-  },[])
+    checkCookies(setIsLoggedIn, setUserData, setUserLang, setCsrfToken);
+  }, []);
 
   return (
     <>
@@ -420,9 +420,9 @@ const HeaderFilter = ({
 
         {isPasswordWillBeReset ? (
           <VerifCode
-            logInData={logInData}
-            isPasswordWillBeReset={isPasswordWillBeReset}
-            setIsPasswordWillBeReset={setIsPasswordWillBeReset}
+            data={logInData}
+            isTriggered={isPasswordWillBeReset}
+            setIsTriggered={setIsPasswordWillBeReset}
             setIsVerificationCodeCorrect={setIsVerificationCodeCorrect}
           />
         ) : null}
@@ -435,7 +435,7 @@ const HeaderFilter = ({
           />
         ) : null}
       </HelmetProvider>
-      <ToastContainer/>
+      <ToastContainer />
     </>
   );
 };

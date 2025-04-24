@@ -68,7 +68,7 @@ const YoutuberBlock = ({
 
     if (userData.user.uses > 0) {
       try {
-        const result = await fetch("https://owa.markcomb.com/api/getdata", {
+        const result = await fetch("https://owa.markcomb.com/api/getemail", {
           method: "POST",
           credentials: "include",
           headers: {
@@ -96,29 +96,29 @@ const YoutuberBlock = ({
           dataToDB.validatePurchaseData(
             {
               thumbnail: SimilarChannelData?.channelStats?.thumbnail || "",
-              email: response?.description?.[0] || "",
-              channelName: response?.title || "",
-              uses: 1,
+              email: response?.email || "",
+              channelName: response?.name || "",
+              uses:1
             },
             userData?.user?.user_id,
             csrfToken
           );
           setSimilarChannelData((prevState) => ({
             ...prevState,
-            title: response?.title,
+            title: response?.name,
           }));
           setBtnsState((prev) => ({
             ...prev,
             [buttonId]: {
               isProcessing: false,
-              class: response?.description?.length === 0 ? "fail" : "success",
+              class: response?.email?.length === 0 ? "fail" : "success",
             },
           }));
         } else {
           dataToDB.validatePurchaseData(
             {
               thumbnail: channelData?.updatedData[0]?.thumbnail || "",
-              email: response?.description?.[0] || "",
+              email: response?.email || "",
               channelName: channelData?.updatedData[0]?.title || "",
               uses: 1,
             },
@@ -129,7 +129,7 @@ const YoutuberBlock = ({
             ...prev,
             [buttonId]: {
               isProcessing: false,
-              class: response?.description?.length === 0 ? "fail" : "success",
+              class: response?.email?.length === 0 ? "fail" : "success",
             },
           }));
         }

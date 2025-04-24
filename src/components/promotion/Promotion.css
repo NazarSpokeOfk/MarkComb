@@ -220,7 +220,8 @@
   cursor: pointer;
 }
 
-@media (min-width: 1920px) and (max-width: 1920px) and (min-height: 1080px) and (max-height: 1080px) {
+@media (min-width: 1920px) and (min-height: 1080px)
+ {
   .list {
     margin-left: 10%;
   }
@@ -239,7 +240,8 @@
     margin-left: 26%;
   }
 }
-@media (min-width: 1280px) and (max-width: 1280px) and (min-height: 720px) and (max-height: 720px) {
+@media (min-width: 1280px) and (max-width: 1439px) and (min-height: 720px)
+ {
   .list-container__button {
     position: absolute;
     top: 280px;
@@ -261,7 +263,8 @@
     margin-left: 14%;
   }
 }
-@media (min-width: 2560px) and (max-width: 2560px) and (min-height: 1440px) and (max-height: 1440px) {
+@media (min-width: 2560px) and (max-height: 1024px)
+ {
   .title_promotion {
     margin-left: 30%;
   }
@@ -276,7 +279,7 @@
     font-size: 30px;
   }
   .list-container__button {
-    right: 860px;
+    right: 870px;
   }
   .list-container__member {
     font-size: 30px;
@@ -304,13 +307,10 @@
     margin-top: -14.5%;
   }
 }
-@media (min-width: 768px) and (max-width: 768px) and (min-height: 1024px) and (max-height: 1024px) {
+@media (min-width: 768px) and (max-width: 1024px)
+ {
   .search__input {
     width: 65%;
-  }
-  .list-container__button {
-    right: 120px;
-    top: 250px;
   }
   #promotion {
     margin-top: 80%;
@@ -321,7 +321,7 @@
   .list-container__button {
     position: absolute;
     top: 250px;
-    right: 120px;
+    right: 155px;
   }
   .search-suggested__block {
     width: 73%;

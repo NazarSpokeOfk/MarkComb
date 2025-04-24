@@ -14,6 +14,9 @@ import { useTranslation } from "react-i18next";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useState, useEffect } from "react";
 
+import VerifCode from "../modal/verifCode.jsx";
+import NewPassword from "../modal/newPassword.jsx";
+
 const Profile = ({
   userData,
   setUserData,
@@ -23,10 +26,14 @@ const Profile = ({
 }) => {
   const { t, i18n } = useTranslation();
   const [isNameChanged, setIsNameChanged] = useState(false);
+  const [isNameSuccessFullyChanged, setIsNameSuccessFullyChanged] =
+    useState(false);
   const [localName, setLocalName] = useState(userData?.user?.username || "");
   const [isPasswordChanged, setIsPasswordChanged] = useState(false);
   const [isAccountWillBeDeleted, setIsAccountWillBeDeleted] = useState(false);
-  const [localPassword, setLocalPassword] = useState("");
+  const [isVerificationCodeCorrect, setIsVerificationCodeCorrect] =
+    useState(false);
+
   const [changedData, setChangedData] = useState({
     username: "",
     newPassword: "",
@@ -48,21 +55,30 @@ const Profile = ({
     }
   }, [isLoggedIn]);
 
+  useEffect(() => {
+    if (isVerificationCodeCorrect && isAccountWillBeDeleted) {
+      dataToDb.deleteProfile(userData.user.user_id, csrfToken);
+      document.body.style.overflow = "";
+
+      toast.success(t("Account deleted."), {
+        duration: 1500,
+      });
+
+      const timer = setTimeout(() => {
+        setIsLoggedIn(false);
+      }, 1500);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isVerificationCodeCorrect, isAccountWillBeDeleted]);
+
+
   const handleNameChange = (e) => {
     const value = e.target.value;
     setLocalName(value);
     setChangedData((prevData) => ({
       ...prevData,
       username: value,
-    }));
-  };
-
-  const handlePasswordChange = (e) => {
-    const value = e.target.value;
-    setLocalPassword(value);
-    setChangedData((prevData) => ({
-      ...prevData,
-      newPassword: value,
     }));
   };
 
@@ -168,20 +184,26 @@ const Profile = ({
                 />
                 <button
                   onClick={() => {
-                    dataToDb.activatePromocode(
-                      promocodeValue,
-                      userData.user.email
-                    ).then((response) => {
-                      if (response?.status === true) {
-                        setIsPromocodeActive(false);
-                        toast.success(`Promocode activated! Your current uses: ${response?.newUses}`);
-                      } else {
-                        toast.error("Failed to activate promocode. Please try again.");
-                      }
-                    }).catch((error) => {
-                      toast.error("An error occurred while activating the promocode.");
-                      console.error("Error activating promocode: ", error);
-                    });
+                    dataToDb
+                      .activatePromocode(promocodeValue, userData.user.email)
+                      .then((response) => {
+                        if (response?.status === true) {
+                          setIsPromocodeActive(false);
+                          toast.success(
+                            `Promocode activated! Your current uses: ${response?.newUses}`
+                          );
+                        } else {
+                          toast.error(
+                            "Failed to activate promocode. Please try again."
+                          );
+                        }
+                      })
+                      .catch((error) => {
+                        toast.error(
+                          "An error occurred while activating the promocode."
+                        );
+                        console.error("Error activating promocode: ", error);
+                      });
                   }}
                   className="promocode__submit-btn"
                 >
@@ -200,20 +222,12 @@ const Profile = ({
                 <span>{t("AIL")}</span> :{" "}
                 {userData ? userData?.user?.email : ""}
               </h2>
-              {isPasswordChanged ? (
-                <input
-                  className="password__input"
-                  value={localPassword}
-                  onChange={handlePasswordChange}
-                  type="text"
-                  placeholder="Enter your new password,5 characters long"
-                />
-              ) : (
-                <h2 className="info_block-password none">
-                  {t("PASS")}
-                  <span>{t("WORD")}</span> : *****
-                </h2>
-              )}
+
+              <h2 className="info_block-password none">
+                {t("PASS")}
+                <span>{t("WORD")}</span> : *
+              </h2>
+
               <button
                 onClick={() => {
                   setIsPasswordChanged(true);
@@ -246,7 +260,35 @@ const Profile = ({
           </button>
         </section>
 
-        {changedData.changeMethod || isAccountWillBeDeleted ? (
+        {isAccountWillBeDeleted ? (
+          <VerifCode
+            data={userData.user}
+            isTriggered={isAccountWillBeDeleted}
+            setIsTriggered={setIsAccountWillBeDeleted}
+            setIsVerificationCodeCorrect={setIsVerificationCodeCorrect}
+          />
+        ) : null}
+
+        {isPasswordChanged ? (
+          <VerifCode
+            data={userData.user}
+            isTriggered={isPasswordChanged}
+            setIsTriggered={setIsPasswordChanged}
+            setIsVerificationCodeCorrect={setIsVerificationCodeCorrect}
+          />
+        ) : null}
+
+        {isVerificationCodeCorrect && isPasswordChanged ? (
+          <>
+            <NewPassword
+              email={userData.user.email}
+              isVerificationCodeCorrect={isVerificationCodeCorrect}
+              setIsVerificationCodeCorrect={setIsVerificationCodeCorrect}
+            />
+          </>
+        ) : null}
+
+        {changedData.changeMethod ? (
           <VerifPassword
             changedData={changedData}
             setChangedData={setChangedData}
@@ -255,7 +297,7 @@ const Profile = ({
             setIsLoggedIn={setIsLoggedIn}
             setIsAccountWillBeDeleted={setIsAccountWillBeDeleted}
             csrfToken={csrfToken}
-            setIsNameChanged = {setIsNameChanged}
+            setIsNameChanged={setIsNameChanged}
             setIsPasswordChanged={setIsPasswordChanged}
           />
         ) : null}

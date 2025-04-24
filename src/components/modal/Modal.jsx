@@ -7,7 +7,6 @@ import GoogleLoginButton from "../googleLogInButton/GoogleLogInButton";
 import DataToDB from "../../dataToDB/dataToDB";
 import ReCAPTCHA from "react-google-recaptcha";
 
-import VerifLayout from "./verifLayout";
 
 import { toast } from "react-toastify";
 

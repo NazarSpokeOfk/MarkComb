@@ -44,7 +44,7 @@ class DataToDB {
     );
   }
 
-  async validatePurchaseData(data, userId, csrfToken) {
+  async validatePurchaseData(data, userId, csrfToken,uses) {
     console.log("Дата в validatePurchaseData : ", data);
     if (!data.email) {
       return;
@@ -54,7 +54,8 @@ class DataToDB {
         `${this.apiUrl}/purchase/${userId}`,
         "POST",
         data,
-        csrfToken
+        csrfToken,
+        uses
       );
       this.setUserData((prevData) => ({
         ...prevData,
@@ -116,14 +117,14 @@ class DataToDB {
     }
   }
 
-  deleteProfile(userId, csrfToken, password) {
+  async deleteProfile(userId, csrfToken) {
     console.log("Токен в dataToDB:", csrfToken);
     console.log("ID пользователя в deleteProfile:", userId);
   
     return this.fetchData(
       `${this.apiUrl}/user/${userId}`,
       "DELETE",
-      { password },
+      null,
       csrfToken
     )
       .then(() => {

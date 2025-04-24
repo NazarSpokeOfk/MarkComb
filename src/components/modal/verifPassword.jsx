@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
 import DataToDB from "../../dataToDB/dataToDB";
 import { toast } from "react-toastify";
@@ -16,7 +16,7 @@ const VerifPassword = ({
   setIsAccountWillBeDeleted,
   csrfToken,
   setIsNameChanged,
-  setIsPasswordChanged,
+  setIsPasswordChanged
 }) => {
   const dataToDB = new DataToDB(setIsLoggedIn, setUserData, true);
 
@@ -51,49 +51,21 @@ const VerifPassword = ({
           }));
         }}
         onClickAction={() => {
-          if (isAccountWillBeDeleted) {
-            console.log("csrfToken в verifPassword  : ", csrfToken);
-            dataToDB
-              .deleteProfile(
-                changedData?.user_id,
-                csrfToken,
-                changedData?.oldPassword
-              )
-              .then((response) => {
-                console.log("Ответ от dataToDB:", response);
-                if (response.message === true) {
-                  setIsAccountWillBeDeleted(false);
-
-                  toast.success("Account deleted.");
-
-                  document.body.style.overflow = "";
-                } else if (response.message === "csrftoken is obsolete") {
-                  toast.error(
-                    "Your session is obsolete. Please re-login to your account."
-                  );
-                } else {
-                  setTimeout(() => {
-                    toast.error("Wrong password");
-                  }, 100);
-                }
-              });
-          } else {
-            dataToDB.updateData(changedData).then((response) => {
-              console.log("response.message:", response.message);
-              if (response?.message === true) {
-                console.log("Data changed, showing toast...");
-                console.log(toast)
-                toast.success("Data changed successfully.");
-                setIsNameChanged(false);
-                setIsPasswordChanged(false);
-                setChangedData((prevData) => ({
-                  ...prevData,
-                  changeMethod: false,
-                }));
-                document.body.style.overflow = "";
-              }
-            });
-          }
+          dataToDB.updateData(changedData).then((response) => {
+            console.log("response.message:", response.message);
+            if (response?.message === true) {
+              console.log("Data changed, showing toast...");
+              console.log(toast);
+              toast.success("Data changed successfully.");
+              setIsNameChanged(false);
+              setIsPasswordChanged(false);
+              setChangedData((prevData) => ({
+                ...prevData,
+                changeMethod: false,
+              }));
+              document.body.style.overflow = "";
+            }
+          });
         }}
         changedData={changedData}
         setIsAccountWillBeDeleted={setIsAccountWillBeDeleted}

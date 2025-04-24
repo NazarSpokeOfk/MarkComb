@@ -110,6 +110,8 @@ class UserController {
         console.log("Ошибка при загрузке csrfТокена на сайт", error);
       }
 
+      console.log( "Создание csrf токена :",req.session)
+
       res.json({
         message: "Успешный вход",
         token,
@@ -253,6 +255,7 @@ class UserController {
     const id = parseInt(req.params.id, 10);
     const { newPassword, oldPassword, username, changeMethod } = req.body;
 
+
     try {
       const userResult = await pool.query(
         `SELECT password FROM users WHERE user_id = $1`,
@@ -331,10 +334,12 @@ class UserController {
 
   async deleteUser(req, res) {
     const id = parseInt(req.params.id, 10);
-    const password = req.body.data;
 
     const tokenFromClient = req.headers["x-csrf-token"];
+    console.log(req.session)
     const tokenFromSession = req.session.csrfToken;
+
+    console.log( "Токен с клиента : ", tokenFromClient, "токен с сессии:",tokenFromSession)
 
     if (tokenFromClient !== tokenFromSession) {
       return res.status(403).json({ message: "Несовпадение токенов!" });
@@ -350,22 +355,15 @@ class UserController {
         return res.status(404).json({ message: "Пользователь не найден" });
       }
 
-      const storedHash = userResult.rows[0].password;
-      const isPasswordValid = await this.comparePassword(password, storedHash);
-
-      if (!isPasswordValid) {
-        return res.status(400).json({ message: "Неверный пароль" });
-      }
-
       const user = await pool.query(
         `DELETE FROM users WHERE user_id = $1 RETURNING *`,
         [id]
       );
 
       res.clearCookie("sessionToken", {
-        path: "/", // Убедись, что путь совпадает с тем, что использовался при установке
-        secure: false, // Если secure был false, то указывай его так же
-        sameSite: "lax", // Указание sameSite, если это нужно
+        path: "/", 
+        secure: false, 
+        sameSite: "lax",
       });
 
       res.json({ message: "Пользователь удален", user: user.rows[0] });
@@ -433,6 +431,7 @@ class UserController {
   async changePassword(req, res) {
     const { newPassword, email } = req.body;
 
+    console.log(req.body)
     try {
       const hashedPassword = await this.hashPassword(newPassword);
 

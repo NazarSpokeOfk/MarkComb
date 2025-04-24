@@ -5,18 +5,22 @@ import VerifLayout from "./verifLayout";
 import DataToDB from "../../dataToDB/dataToDB";
 
 const VerifCode = ({
-  logInData,
-  isPasswordWillBeReset,
-  setIsPasswordWillBeReset,
+  data,
+  isTriggered,
+  setIsTriggered,
   setIsVerificationCodeCorrect,
 }) => {
   const [verification_code, setVerificationCode] = useState("");
+
+  useEffect(() => {
+    console.log("data : ", data);
+  }, [data]);
 
   const modalRef = useRef({});
 
   useEffect(() => {
     makeFetchForCode();
-    if (isPasswordWillBeReset) {
+    if (isTriggered) {
       setTimeout(() => {
         modalRef.current.classList.add("open");
         document.body.style.overflow = "hidden";
@@ -27,26 +31,26 @@ const VerifCode = ({
         modalRef.current.style.visibility = "hidden";
       }, 600);
     }
-  }, [isPasswordWillBeReset]);
+  }, [isTriggered]);
 
   const dataToDB = new DataToDB();
 
   const makeFetchForCode = async () => {
-    const email = logInData.email;
+    const email = data.email;
     try {
       console.log("Запрос исполнен");
-      const result = await fetch(`https://owa.markcomb.com/api/verification`, {
+      const result = await fetch(`http://localhost:5001/api/verification`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",
-          "x-api-key": import.meta.env.VITE_API_KEY
+          "x-api-key": import.meta.env.VITE_API_KEY,
         },
         body: JSON.stringify({ email }),
       });
       if (result.ok) {
         return Promise.resolve();
       } else {
-        console.log("Че за нахуй");
+        console.log(result);
       }
     } catch (error) {
       throw new Error(error);
@@ -65,7 +69,7 @@ const VerifCode = ({
       onClickAction={() => {
         console.log("Код, отправленный с фронта:", verification_code);
         dataToDB
-          .isVerificationCodeCorrect(logInData.email, verification_code)
+          .isVerificationCodeCorrect(data.email, verification_code)
           .then((response) => {
             console.log(response);
             if (response.message != true) {
@@ -73,7 +77,7 @@ const VerifCode = ({
             } else {
               modalRef.current.classList.remove("open");
               setTimeout(() => {
-                setIsPasswordWillBeReset(false);
+                setIsTriggered(true);
                 setIsVerificationCodeCorrect(true);
               }, 600);
             }
