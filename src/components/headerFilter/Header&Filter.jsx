@@ -6,12 +6,11 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import { toast, ToastContainer } from "react-toastify";
 
-import { useMediaQuery } from "react-responsive";
-
 import Modal from "../modal/Modal";
 import VerifModal from "../modal/VerifModal";
 import VerifCode from "../modal/verifCode";
 import NewPassword from "../modal/newPassword";
+import Header from "../header/Header";
 
 import checkCookies from "../../checkCookies/checkCookies";
 import manageFiltersFetch from "../../filtersRequests/filterFetches";
@@ -22,6 +21,8 @@ import "react-toastify/dist/ReactToastify.css";
 import Loading from "../../images/loading-gif.gif";
 import FilterBtnImg from "../../icons/filters.png";
 import SearchBtn from "../../icons/magnifing_glass.png";
+import ResetIcon from "../../icons/reseticon.png";
+import CloseFilter from "../../icons/closefilter.png";
 
 const HeaderFilter = ({
   setChannelData,
@@ -39,24 +40,30 @@ const HeaderFilter = ({
   setUserCountry,
   setUserLang,
 }) => {
+  const { t } = useTranslation();
+
   const [isModalOpened, setIsModalOpened] = useState(false);
   const [isDataFilledIn, setIsDataFilledIn] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
+  const [isFiltersFetching, setIsFiltersFetching] = useState(false);
   const [entryMethod, setEntryMethod] = useState("");
+  const [isMultiFiltersEnabled, setIsMultiFiltersEnabled] = useState(false);
+  const [activeAnimations, setActiveAnimations] = useState([]);
+  const [removingIndex, setRemovingIndex] = useState(null);
 
-  const isLittleMobile = useMediaQuery({ maxWidth: 375 });
 
   const [selectedFilter, setSelectedFilter] = useState({
-    type: null, // 'audience', 'contentType', 'subscribers'
+    type: null,
     value: null,
   });
-
-  const { t } = useTranslation();
 
   const [mainInputValue, setMainInputValue] = useState("");
   const [isPasswordWillBeReset, setIsPasswordWillBeReset] = useState(false);
   const [isVerificationCodeCorrect, setIsVerificationCodeCorrect] =
     useState(null);
+  const [selectedFilterLabels, setSelectedFilterLabels] = useState([]);
+
+  const filterRef = useRef();
 
   const audienceButtonLabels = [
     t("Kids"),
@@ -88,8 +95,6 @@ const HeaderFilter = ({
     "10-20M": [10000000, 20000000],
   };
 
-  const filterRef = useRef();
-
   const logInFirstly = () => {
     toast.warn(t("Log in firstly"));
   };
@@ -101,7 +106,7 @@ const HeaderFilter = ({
       return;
     }
     try {
-      const response = await fetch("https://owa.markcomb.com/api/search", {
+      const response = await fetch("http://localhost:5001/api/search", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -130,6 +135,98 @@ const HeaderFilter = ({
     checkCookies(setIsLoggedIn, setUserData, setUserLang, setCsrfToken);
   }, []);
 
+  useEffect(() => {
+    console.log("Выбранные фильтры :", selectedFilterLabels);
+  }, [selectedFilterLabels]);
+
+  useEffect(() => {
+    const newAnimations = selectedFilterLabels.map((_, index) => false);
+    setActiveAnimations(newAnimations);
+
+    selectedFilterLabels.forEach((_, index) => {
+      setTimeout(() => {
+        setActiveAnimations(prev => {
+          const updated = [...prev];
+          updated[index] = true;
+          return updated;
+        });
+      }, 50); 
+    });
+  }, [selectedFilterLabels]);
+
+  const resetSelectedFilters = () => {
+    setSelectedFilterLabels([]);
+  };
+
+  const removeSelectedFilter = (index) => {
+    setRemovingIndex(index);
+    setTimeout(() => {
+      setSelectedFilterLabels(prev =>
+        prev.filter((_, i) => i !== index)
+      );
+      setRemovingIndex(null); 
+    }, 300);
+  };
+
+  const addSelectedFilter = (label, type, min, max) => {
+    setSelectedFilterLabels((prevState) => {
+      const withoutSameType = prevState.filter((item) => item.type !== type);
+      return [
+        ...withoutSameType,
+        { type: type, value: label, min: min, max: max },
+      ];
+    });
+  };
+
+  const searchWithMultiplyFilters = async () => {
+    setIsFiltersFetching(true);
+
+    try {
+      const filterData = {
+        content_type: false,
+        age_group: false,
+        minsubs: false,
+        maxsubs: false,
+      };
+
+      selectedFilterLabels.forEach(({ type, value, min, max }) => {
+        switch (type) {
+          case "contentType":
+            filterData.content_type = value;
+            break;
+
+          case "audience":
+            filterData.age_group = value;
+            break;
+
+          case "subscribers":
+            filterData.minsubs = min;
+            filterData.maxsubs = max;
+            break;
+
+          default:
+            break;
+        }
+      });
+
+      const response = await manageFiltersFetch(
+        filterData.content_type,
+        setSimilarChannelData,
+        filterData.age_group,
+        filterData.minsubs,
+        filterData.maxsubs,
+        setIsFiltersFetching
+      );
+      console.log("response :" , response)
+      if(response === false) {
+        toast.error(t("Unfortunately, the filters don't match"), {autoClose : 3000})
+      }
+      
+    } catch (error) {
+      console.log("Возникла ошибка в searchWithMultiplyFilters :", error);
+    }
+  };
+
   return (
     <>
       <HelmetProvider>
@@ -137,42 +234,8 @@ const HeaderFilter = ({
           <title>Main page</title>
           <meta name="description" content="Main page of the markcomb" />
         </Helmet>
-        <header>
-          <div className="container">
-            <div className="logo">
-              {isLittleMobile ? (
-                <>
-                  <Link to="/">
-                    M<span>K</span>
-                  </Link>
-                </>
-              ) : (
-                <>
-                  {" "}
-                  <Link to="/">
-                    Mark<span>Comb</span>
-                  </Link>
-                </>
-              )}
-            </div>
-            <div className="header__links">
-              <Link to="/purchases" className="header__link">
-                {t("purc")}
-                <span className="highlight">{t("hases")}</span>
-              </Link>
 
-              <Link to="/promotion" className="header__link">
-                {t("prom")}
-                <span>{t("otion")}</span>
-              </Link>
-
-              <Link to="/purchase" className="header__link">
-                {t("purch")}
-                <span>{t("ase")}</span>
-              </Link>
-            </div>
-          </div>
-        </header>
+        <Header />
 
         <section className="login">
           {isLoggedIn ? (
@@ -269,6 +332,78 @@ const HeaderFilter = ({
 
         <section ref={filterRef} className="filters">
           <div className="container">
+            <hr className="filter__divider" />
+            <div className="multifilter__block">
+              <h2 className="multifilter__title">
+                {t("Multi - ")}<span>{t("Filter")}</span>
+              </h2>
+
+              <label className="switch">
+                <input
+                  type="checkbox"
+                  onClick={() => {
+                    setIsMultiFiltersEnabled(!isMultiFiltersEnabled);
+                    setSelectedFilterLabels([]);
+                  }}
+                />
+                <span className="slider round"></span>
+              </label>
+
+              <h2
+                className={`selectedfilters__title ${
+                  isMultiFiltersEnabled ? "active" : ""
+                }`}
+              >
+               {t("Selected filters")}
+              </h2>
+
+              {isMultiFiltersEnabled ? (
+                <>
+                  <div className="selectedfilters__blocks">
+                    {selectedFilterLabels.map((filter, index) => (
+                      <div
+                        key={index}
+                        className={`selectedfilter__block 
+                          ${activeAnimations[index] ? 'fade-in' : ''} 
+                          ${removingIndex === index ? 'fade-out' : ''}`}
+                      >
+                        <span>{filter.value}</span>
+                        <button
+                          onClick={() => removeSelectedFilter(index)}
+                          className="close__filter"
+                          aria-label="Закрыть фильтр"
+                        >
+                          <img src={CloseFilter} alt="closefilter" />
+                        </button>
+                      </div>
+                    ))}
+
+                    <button
+                      onClick={() => {
+                        resetSelectedFilters(selectedFilterLabels);
+                      }}
+                      className="reset__button"
+                    >
+                      <img src={ResetIcon} alt="reset filters" />
+                    </button>
+
+                    {Object.keys(selectedFilterLabels).length > 0 ? (
+                      <button
+                        onClick={() => {
+                          searchWithMultiplyFilters();
+                        }}
+                        className="search__multifilters-btn"
+                      >
+                        <img
+                          src={isFiltersFetching ? Loading : SearchBtn}
+                          alt="search with selected filters"
+                        />
+                      </button>
+                    ) : null}
+                  </div>
+                </>
+              ) : null}
+            </div>
             <div className="target__audence">
               <h2 className="target-audence__title text">
                 {t("target")}
@@ -285,7 +420,16 @@ const HeaderFilter = ({
                         : ""
                     }`}
                     onClick={() => {
-                      setSelectedFilter({ type: "audience", value: label });
+                      const newFilter = {
+                        type: "audience",
+                        value: label,
+                      };
+                      if (isMultiFiltersEnabled) {
+                        addSelectedFilter(label, "audience", null, null);
+                        setSelectedFilter(newFilter);
+                        return;
+                      }
+                      setSelectedFilter(newFilter);
                       if (isLoggedIn) {
                         manageFiltersFetch(
                           false,
@@ -323,10 +467,23 @@ const HeaderFilter = ({
                         : ""
                     }`}
                     onClick={() => {
-                      setSelectedFilter({
+                      const newFilter = {
                         type: "subscribers",
                         value: label[1],
-                      });
+                      };
+
+                      if (isMultiFiltersEnabled) {
+                        addSelectedFilter(
+                          label[0],
+                          "subscribers",
+                          label?.[1]?.[0],
+                          label?.[1]?.[1]
+                        );
+                        setSelectedFilter(newFilter);
+                        return;
+                      }
+
+                      setSelectedFilter(newFilter);
                       if (isLoggedIn) {
                         manageFiltersFetch(
                           false,
@@ -362,7 +519,16 @@ const HeaderFilter = ({
                         : ""
                     }`}
                     onClick={() => {
-                      setSelectedFilter({ type: "contentType", value: label });
+                      const newFilter = {
+                        type: "contentType",
+                        value: label,
+                      };
+                      if (isMultiFiltersEnabled) {
+                        addSelectedFilter(label, "contentType", null, null);
+                        setSelectedFilter(newFilter);
+                        return;
+                      }
+                      setSelectedFilter(newFilter);
                       if (isLoggedIn) {
                         manageFiltersFetch(
                           label,
@@ -382,7 +548,6 @@ const HeaderFilter = ({
               </div>
             </div>
           </div>
-          <hr className="filter__divider" />
         </section>
 
         {isModalOpened ? (
@@ -435,7 +600,6 @@ const HeaderFilter = ({
           />
         ) : null}
       </HelmetProvider>
-      <ToastContainer />
     </>
   );
 };

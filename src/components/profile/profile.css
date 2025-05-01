@@ -58,45 +58,7 @@
   }
 }
 
-.footer__container {
-  margin-top: 7%;
-  display: flex;
-  border: 1px solid black;
-  justify-content: space-between;
-  &:nth-child(1) {
-    padding-left: 105px;
-  }
-}
 
-.footer__logo {
-  font-weight: 600;
-  font-size: 20px;
-}
-
-.footer__terms {
-  font-weight: 500;
-  font-size: 20px;
-  cursor: pointer;
-}
-
-.footer__purpose {
-  font-weight: 500;
-  font-size: 20px;
-  cursor: pointer;
-}
-
-.footer__button {
-  border: 1px solid #000;
-  border-radius: 11px;
-  background-color: #fff;
-  font-size: 20px;
-  cursor: pointer;
-
-  width: 232px;
-  height: 31px;
-  margin-top: 15px;
-  margin-right: 30px;
-}
 
 .username__edit-button{
   position: absolute;
@@ -221,10 +183,10 @@
   transform: scale(0.95);
 }
 
-@media (min-width: 2560px) and (max-height: 800px)
+@media (min-width: 2560px) and (min-height: 1024px)
  {
   #delete{
-    margin-left: 20%;
+    margin-left: 27.5%;
   }
   .promocode__submit-btn{
     top: 50.5%;
@@ -298,6 +260,9 @@
     top: 33%;
     left: 50%;
   }
+  #delete{
+    margin-bottom: 10%;
+  }
 }
 @media (max-width: 430px) and (max-height: 920px){
 .promocode_input{
@@ -306,5 +271,9 @@
 .promocode__submit-btn{
   top: 29%;
   left: 60%;
+}
+.profile__promocode-activation {
+  margin-left: 5%;
+  width: 50%;
 }
 }

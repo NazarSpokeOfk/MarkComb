@@ -37,7 +37,7 @@ class DataToDB {
 
   deletePurchaseData(channelName, userId, csrfToken) {
     return this.fetchData(
-      `${this.apiUrl}/rmpurchase/${userId}`,
+      `${this.localApiUrl}/rmpurchase/${userId}`,
       "DELETE",
       { channelName },
       csrfToken
@@ -51,7 +51,7 @@ class DataToDB {
     }
     try {
       const result = await this.fetchData(
-        `${this.apiUrl}/purchase/${userId}`,
+        `${this.localApiUrl}/purchase/${userId}`,
         "POST",
         data,
         csrfToken,
@@ -72,7 +72,7 @@ class DataToDB {
 
   async validateSignIn(data, setCsrfToken) {
     try {
-      const result = await this.fetchData(`${this.apiUrl}/user`, "POST", {
+      const result = await this.fetchData(`${this.localApiUrl}/user`, "POST", {
         data,
       });
       this.setIsLoggedIn(true);
@@ -88,7 +88,7 @@ class DataToDB {
   async validateLogIn(data) {
     try {
       const result = await this.fetchData(
-        `${this.apiUrl}/login`,
+        `${this.localApiUrl}/login`,
         "POST",
         data
       );
@@ -105,7 +105,7 @@ class DataToDB {
   async updateData(data) {
     try {
       const result = await this.fetchData(
-        `${this.apiUrl}/update/${data.user_id}`,
+        `${this.localApiUrl}/update/${data.user_id}`,
         "PUT",
         data
       );
@@ -122,7 +122,7 @@ class DataToDB {
     console.log("ID пользователя в deleteProfile:", userId);
   
     return this.fetchData(
-      `${this.apiUrl}/user/${userId}`,
+      `${this.localApiUrl}/user/${userId}`,
       "DELETE",
       null,
       csrfToken
@@ -144,7 +144,7 @@ class DataToDB {
   
 
   isVerificationCodeCorrect(email, verificationCode) {
-    return this.fetchData(`${this.apiUrl}/checkCode`, "POST", {
+    return this.fetchData(`${this.localApiUrl}/checkCode`, "POST", {
       email,
       verification_code: verificationCode,
     })
@@ -153,7 +153,7 @@ class DataToDB {
   }
 
   changePassword(newPassword, email) {
-    return this.fetchData(`${this.apiUrl}/changePassword`, "PUT", {
+    return this.fetchData(`${this.localApiUrl}/changePassword`, "PUT", {
       newPassword,
       email,
     })
@@ -162,7 +162,7 @@ class DataToDB {
   }
 
   activatePromocode(promocode, email) {
-    return this.fetchData(`${this.apiUrl}/promocode`, "PUT", {
+    return this.fetchData(`${this.localApiUrl}/promocode`, "PUT", {
       promocode,
       email,
     }).then((response) => {

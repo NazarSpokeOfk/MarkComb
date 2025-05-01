@@ -1,17 +1,18 @@
 import { useTranslation } from "react-i18next";
 import { Trans } from "react-i18next";
 import { Link } from "react-router-dom";
-import { useMediaQuery } from "react-responsive";
 
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import SmoothEffect from "../smoothText";
 
+import Header from "../header/Header";
+import Footer from "../footer/Footer";
+
 import "./Terms.css";
 const Terms = () => {
   const { t, i18n } = useTranslation();
   document.body.style.overflow = "";
-  const isLittleMobile = useMediaQuery({ maxWidth: 375 });
   return (
     <>
       <HelmetProvider>
@@ -19,42 +20,7 @@ const Terms = () => {
           <title>Study the terms of use of MarkComb</title>
           <meta name="description" content="Terms of use of MarkComb" />
         </Helmet>
-        <header>
-          <div className="container">
-            <div className="logo">
-              {isLittleMobile ? (
-                <>
-                  <Link to="/">
-                    M<span>K</span>
-                  </Link>
-                </>
-              ) : (
-                <>
-                  {" "}
-                  <Link to="/">
-                    Mark<span>Comb</span>
-                  </Link>
-                </>
-              )}
-            </div>
-            <div className="header__links">
-              <Link to="/purchases" className="header__link">
-                {t("purc")}
-                <span className="highlight">{t("hases")}</span>
-              </Link>
-
-              <Link to="/promotion" className="header__link">
-                {t("prom")}
-                <span>{t("otion")}</span>
-              </Link>
-
-              <Link to="/purchase" className="header__link">
-                {t("purch")}
-                <span>{t("ase")}</span>
-              </Link>
-            </div>
-          </div>
-        </header>
+        <Header/>
         <section className="terms">
           <h1 className="terms__title">{t("Terms of service")}</h1>
           <div className="terms__container">
@@ -310,56 +276,7 @@ const Terms = () => {
           </div>
         </section>
 
-        <section className="footer">
-          <div className="footer__container">
-            <div className="footer-first__group">
-              <div id="logo_footer" className="logo">
-                Mark<span>Comb</span>
-              </div>
-            </div>
-
-            <div className="footer-second__group">
-              <Link id="Terms" to="/terms" className="footer__terms none">
-                {t("Terms of service")}
-              </Link>
-              <Link to="/purpose" className="footer__purpose none">
-                {t("Our purpose")}
-              </Link>
-              <Link to="/dataprocessing" className="footer__purpose none">
-                {t("Personal Data Processing Agreement")}
-              </Link>
-              <h4 className="footer-third__group-text">2025 MarkComb</h4>
-              <h4 className="footer-third__group-text">
-                📧{" "}
-                <a href="mailto:markcombsup@gmail.com">markcombsup@gmail.com</a>
-              </h4>
-            </div>
-            <div className="footer__btns-container">
-              <button
-                onClick={() => {
-                  SmoothEffect().then(() => {
-                    i18n.changeLanguage("ru");
-                  });
-                }}
-                className="footer__button"
-                id="RuButton"
-              >
-                Ru
-              </button>
-              <button
-                onClick={() => {
-                  SmoothEffect().then(() => {
-                    console.log(i18n);
-                    i18n.changeLanguage("en");
-                  });
-                }}
-                className="footer__button"
-              >
-                En
-              </button>
-            </div>
-          </div>
-        </section>
+        <Footer/>
       </HelmetProvider>
     </>
   );

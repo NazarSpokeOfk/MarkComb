@@ -4,7 +4,7 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import HttpApi from 'i18next-http-backend'; 
 
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import NotFound from "./components/notFound/NotFound";
@@ -51,9 +51,6 @@ function App() {
     password: "",
   });
 
-  useEffect(() => {
-    console.log("Дата пользователя:",userData)
-  },[userData])
   return (
     <Router>
       <Routes>

@@ -1,14 +1,13 @@
 import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
 import { useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
 import FeedbackForm from "../modal/FeedbackForm";
 
-import DataToDB from "../../dataToDB/dataToDB";
+import Footer from "../footer/Footer";
 
-import SmoothEffect from "../smoothText";
+import DataToDB from "../../dataToDB/dataToDB";
 
 import "./YoutuberBlock.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -68,7 +67,7 @@ const YoutuberBlock = ({
 
     if (userData.user.uses > 0) {
       try {
-        const result = await fetch("https://owa.markcomb.com/api/getemail", {
+        const result = await fetch("http://localhost:5001/api/getemail", {
           method: "POST",
           credentials: "include",
           headers: {
@@ -363,56 +362,7 @@ const YoutuberBlock = ({
         setIsFeedbackWillBeWrited={setIsFeedbackWillBeWrited}
       />
 
-      <section className="footer">
-        <div className="footer__container">
-          <div className="footer-first__group">
-            <div id="logo_footer" className="logo">
-              Mark<span>Comb</span>
-            </div>
-          </div>
-
-          <div className="footer-second__group">
-            <Link id="Terms" to="/terms" className="footer__terms none">
-              {t("Terms of service")}
-            </Link>
-            <Link to="/purpose" className="footer__purpose none">
-              {t("Our purpose")}
-            </Link>
-            <Link to="/dataprocessing" className="footer__purpose none">
-              {t("Personal Data Processing Agreement")}
-            </Link>
-            <h4 className="footer-third__group-text">2025 MarkComb</h4>
-            <h4 className="footer-third__group-text">
-              📧{" "}
-              <a href="mailto:markcombsup@gmail.com">markcombsup@gmail.com</a>
-            </h4>
-          </div>
-          <div className="footer__btns-container">
-            <button
-              onClick={() => {
-                SmoothEffect().then(() => {
-                  i18n.changeLanguage("ru");
-                });
-              }}
-              className="footer__button"
-              id="RuButton"
-            >
-              Ru
-            </button>
-            <button
-              onClick={() => {
-                SmoothEffect().then(() => {
-                  console.log(i18n);
-                  i18n.changeLanguage("en");
-                });
-              }}
-              className="footer__button"
-            >
-              En
-            </button>
-          </div>
-        </div>
-      </section>
+    <Footer/>        
     </>
   );
 };

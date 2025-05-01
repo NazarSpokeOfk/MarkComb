@@ -1,6 +1,6 @@
 const checkCookies = async (setIsLoggedIn, setUserData , setUserLang , setCsrfToken) => {
     try {
-        const response = await fetch("https://owa.markcomb.com/api/cookie", {
+        const response = await fetch("http://localhost:5001/api/cookie", {
           method: "GET",
           credentials: "include",  
           headers : {
@@ -15,7 +15,6 @@ const checkCookies = async (setIsLoggedIn, setUserData , setUserLang , setCsrfTo
       
         const result = await response.json(); 
 
-        console.log(result)
         
         setIsLoggedIn(true);
         setUserData(result.result); 

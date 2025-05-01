@@ -25,7 +25,7 @@ const verifyJWT = async (req,res) => {
             lang : decoded.lang
         }
 
-        const response = await fetch(`${apiUrl}/loginbyid/${userData.user_id}` , {
+        const response = await fetch(`${localApiUrl}/loginbyid/${userData.user_id}` , {
             method : "GET",
             credentials : "include",
             headers : {

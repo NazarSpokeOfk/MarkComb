@@ -9,6 +9,9 @@ import { useMediaQuery } from "react-responsive";
 import "./Promotion.css";
 import SmoothEffect from "../smoothText";
 
+import Header from "../header/Header";
+import Footer from "../footer/Footer";
+
 import buttonIcon from "../../icons/morefilters.png";
 import glass from "../../icons/magnifing_glass.png";
 import like from "../../icons/like.png";
@@ -150,42 +153,8 @@ const Promotion = ({ isLoggedIn, userData }) => {
             content="Here you can see how the content maker's video has progressed"
           />
         </Helmet>
-        <header>
-          <div className="container">
-            <div className="logo">
-              {isLittleMobile ? (
-                <>
-                  <Link to="/">
-                    M<span>K</span>
-                  </Link>
-                </>
-              ) : (
-                <>
-                  {" "}
-                  <Link to="/">
-                    Mark<span>Comb</span>
-                  </Link>
-                </>
-              )}
-            </div>
-            <div className="header__links">
-              <Link to="/purchases" className="header__link">
-                {t("purc")}
-                <span className="highlight">{t("hases")}</span>
-              </Link>
-
-              <Link to="/promotion" className="header__link">
-                {t("prom")}
-                <span>{t("otion")}</span>
-              </Link>
-
-              <Link to="/purchase" className="header__link">
-                {t("purch")}
-                <span>{t("ase")}</span>
-              </Link>
-            </div>
-          </div>
-        </header>
+        
+        <Header/>
 
         <section className="list">
           <div className="container">
@@ -295,56 +264,7 @@ const Promotion = ({ isLoggedIn, userData }) => {
           {videoData?.title ? resultBlock(videoData) : ""}
         </section>
 
-        <section id="promotion_footer" className="footer">
-          <div className="footer__container">
-            <div className="footer-first__group">
-              <div id="logo_footer" className="logo">
-                Mark<span>Comb</span>
-              </div>
-            </div>
-
-            <div className="footer-second__group">
-              <Link id="Terms" to="/terms" className="footer__terms none">
-                {t("Terms of service")}
-              </Link>
-              <Link to="/purpose" className="footer__purpose none">
-                {t("Our purpose")}
-              </Link>
-              <Link to="/dataprocessing" className="footer__purpose none">
-                {t("Personal Data Processing Agreement")}
-              </Link>
-              <h4 className="footer-third__group-text">2025 MarkComb</h4>
-              <h4 className="footer-third__group-text">
-                📧{" "}
-                <a href="mailto:markcombsup@gmail.com">markcombsup@gmail.com</a>
-              </h4>
-            </div>
-            <div className="footer__btns-container">
-              <button
-                onClick={() => {
-                  SmoothEffect().then(() => {
-                    i18n.changeLanguage("ru");
-                  });
-                }}
-                className="footer__button"
-                id="RuButton"
-              >
-                Ru
-              </button>
-              <button
-                onClick={() => {
-                  SmoothEffect().then(() => {
-                    console.log(i18n);
-                    i18n.changeLanguage("en");
-                  });
-                }}
-                className="footer__button"
-              >
-                En
-              </button>
-            </div>
-          </div>
-        </section>
+        <Footer/>
       </HelmetProvider>
     </>
   );

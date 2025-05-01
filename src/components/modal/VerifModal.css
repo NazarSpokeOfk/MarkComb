@@ -101,7 +101,7 @@
     top: 143px;
   }
 }
-@media (min-width: 2560px) and (max-width: 2560px) and (min-height: 1440px) and (max-height: 1440px) {
+@media (min-width: 2480px) and (max-height: 1024px) {
   .modal__title-verif {
     font-size: 40px;
   }

@@ -33,7 +33,7 @@
 .list__container__more.active {
   opacity: 1;
   display: flex;
-  max-height: 50px;
+  max-height: 100px;
 }
 
 .list-container__member {
@@ -79,6 +79,7 @@
   padding-left: 50px;
   font-size: 20px;
   z-index: 2;
+  margin-bottom: 20%;
 }
 
 .search-input__button {
@@ -147,19 +148,7 @@
   }
 }
 
-.footer {
-  margin-top: 5%;
-}
 
-#promotion_footer {
-  margin-top: 25%;
-}
-
-.footer__purpose {
-  margin-top: 20px;
-  text-decoration: none;
-  color: black;
-}
 
 .suggested-block__views {
   display: block;
@@ -263,23 +252,21 @@
     margin-left: 14%;
   }
 }
-@media (min-width: 2560px) and (max-height: 1024px)
+@media (min-width: 2560px) and (min-height: 1024px)
  {
   .title_promotion {
-    margin-left: 30%;
+    margin-left: 16%;
   }
   .list__container {
-    margin-left: 30%;
+    margin-left: 16%;
+    width: 70%;
   }
   .list__container__more {
-    margin-left: 30%;
-  }
-  .search__input {
-    margin-left: 30%;
-    font-size: 30px;
+    margin-left: 16%;
+    max-height: 100px;
   }
   .list-container__button {
-    right: 870px;
+    right: 34.7%;
   }
   .list-container__member {
     font-size: 30px;
@@ -287,6 +274,7 @@
   .search__input {
     width: 890px;
     height: 65px;
+    margin-left: 30%;
   }
   .search-input__button {
     width: 50px;
@@ -309,8 +297,17 @@
 }
 @media (min-width: 768px) and (max-width: 1024px)
  {
+  .list__container{
+    flex-direction: column;
+    gap: 0;
+    justify-content: space-between;
+  }
+  .search-input__button{
+    margin-left: -8%;
+  }
   .search__input {
-    width: 65%;
+    width: 60%;
+    padding-left: 2%;
   }
   #promotion {
     margin-top: 80%;
@@ -354,13 +351,16 @@
     width: 30px;
     height: 30px;
     top: 10px;
-    margin-left: -52px;
+    margin-left: -55px;
   }
   .list-container__member {
     font-size: 20px;
   }
   .list__container {
     margin-left: 5%;
+    flex-direction: column;
+    gap: 0;
+    justify-content: space-between;
   }
   .list-container__button {
     position: absolute;
@@ -405,9 +405,7 @@
   .no_available {
     font-size: 20px;
   }
-  #promotion_footer {
-    margin-top: 85%;
-  }
+
 }
 @media (max-width: 375px){
   .search__input{
