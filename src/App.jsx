@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useState, useEffect } from "react";
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
-import HttpApi from 'i18next-http-backend'; 
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
+import HttpApi from "i18next-http-backend";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -18,13 +18,15 @@ import Purchase from "./components/purchase/Purchase";
 import Terms from "./components/terms/Terms";
 import Purpose from "./components/purpose/Purpose";
 import UserDataProcessing from "./components/userDataProccessing/userDataProcessing";
+import SuccessThumbnail from "./components/purchasesTrumbnails/successThumbnail/SuccessThumbnail";
+import FailThumbnail from "./components/purchasesTrumbnails/failThumbnail/FailThumbnail";
 
 i18n
   .use(HttpApi)
   .use(initReactI18next)
   .init({
     lng: "en",
-    fallbackLng: "en", 
+    fallbackLng: "en",
     interpolation: { escapeValue: false },
     backend: {
       loadPath: "/locales/{{lng}}/translation.json",
@@ -87,8 +89,8 @@ function App() {
                   userData={userData}
                   setCsrfToken={setCsrfToken}
                   csrfToken={csrfToken}
-                  setUserCountry = {setUserCountry}
-                  setUserLang = {setUserLang}
+                  setUserCountry={setUserCountry}
+                  setUserLang={setUserLang}
                 />
               </ErrorBoundary>
               <ErrorBoundary>
@@ -99,7 +101,7 @@ function App() {
                   setUserData={setUserData}
                   isLoggedIn={isLoggedIn}
                   csrfToken={csrfToken}
-                  setSimilarChannelData = {setSimilarChannelData}
+                  setSimilarChannelData={setSimilarChannelData}
                 />
               </ErrorBoundary>
             </>
@@ -139,12 +141,12 @@ function App() {
           }
         />
         <Route
-        path="/dataprocessing"
-        element ={
-        <ErrorBoundary>
-          <UserDataProcessing/>
-        </ErrorBoundary>
-        }
+          path="/dataprocessing"
+          element={
+            <ErrorBoundary>
+              <UserDataProcessing />
+            </ErrorBoundary>
+          }
         />
         <Route
           path="/profile"
@@ -165,6 +167,22 @@ function App() {
           element={
             <ErrorBoundary>
               <NotFound />
+            </ErrorBoundary>
+          }
+        />
+        <Route
+          path="/paymentsuccess"
+          element={
+            <ErrorBoundary>
+              <SuccessThumbnail />
+            </ErrorBoundary>
+          }
+        />
+        <Route
+          path="/paymenterror"
+          element={
+            <ErrorBoundary>
+              <FailThumbnail />
             </ErrorBoundary>
           }
         />

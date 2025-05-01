@@ -28,11 +28,21 @@ const Footer = () => {
           <Link to="/dataprocessing" className="footer__purpose none">
             {t("Personal Data Processing Agreement")}
           </Link>
+          <a
+            href="/offer.pages"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="footer__purpose none"
+          >
+            {t("Offer")}
+          </a>
+
           <h4 className="footer-third__group-text">2025 MarkComb</h4>
           <h4 className="footer-third__group-text">
             📧 <a href="mailto:markcombsup@gmail.com">markcombsup@gmail.com</a>
           </h4>
         </div>
+
         <div className="footer__btns-container">
           <button
             onClick={() => {

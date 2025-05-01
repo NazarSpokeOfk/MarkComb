@@ -169,6 +169,19 @@ class DataToDB {
       return response;
     });
   }
+
+  async handlePurchase(packageName,user_id){
+    const url = new URL("http://localhost:5001/payment-link");
+    url.searchParams.append("package",packageName);
+    url.searchParams.append("user_id",user_id);
+
+    const request = await fetch(url, {
+      method : "GET"
+    });
+
+    const data = await request.json();
+    return data;
+  }
 }
 
 export default DataToDB;

@@ -74,7 +74,7 @@ header {
 
 .logo {
   margin-top: -10px; /* Увеличь значение, если нужно больше места сверху */
-  margin-left: 5%;
+  margin-left: 60px;
   font-size: 30px;
   max-width: 150px;
   cursor: pointer;

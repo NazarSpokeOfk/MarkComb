@@ -5,49 +5,46 @@ import { useTranslation } from "react-i18next";
 
 import "./Header.css"
 
-const Header = () => {
+const Header = ({ hideLinks = false }) => {
   const { t } = useTranslation();
   const isLittleMobile = useMediaQuery({ maxWidth: 375 });
 
   return (
-    <>
-      <header>
-        <div className="container">
-          <div className="logo">
+    <header>
+      <div className="container">
+        <div className="logo">
+          <Link to="/">
             {isLittleMobile ? (
               <>
-                <Link to="/">
-                  M<span>K</span>
-                </Link>
+                M<span>K</span>
               </>
             ) : (
               <>
-                {" "}
-                <Link to="/">
-                  Mark<span>Comb</span>
-                </Link>
+                Mark<span>Comb</span>
               </>
             )}
-          </div>
+          </Link>
+        </div>
+
+        {!hideLinks && (
           <div className="header__links">
             <Link to="/purchases" className="header__link">
               {t("purc")}
               <span className="highlight">{t("hases")}</span>
             </Link>
-
             <Link to="/promotion" className="header__link">
               {t("prom")}
               <span>{t("otion")}</span>
             </Link>
-
             <Link to="/purchase" className="header__link">
               {t("purch")}
               <span>{t("ase")}</span>
             </Link>
           </div>
-        </div>
-      </header>
-    </>
+        )}
+      </div>
+    </header>
   );
 };
+
 export default Header;

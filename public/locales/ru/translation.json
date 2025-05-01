@@ -217,5 +217,12 @@
     "Multi - " : "Мульти - ",
     "Filter" : "Фильтр",
     "Selected filters":"Фильтры",
-    "Unfortunately, the filters don't match":"К сожалению, фильтры не сочитаются"
+    "Unfortunately, the filters don't match":"К сожалению, фильтры не сочитаются",
+    "Success":"Успех",
+    "Thank you for your purchase!":"Спасибо за покупку!",
+    "To":"На",
+    "main page":"главную",
+    "Error":"Ошибка",
+    "There was a purchase error":"Ошибка оплаты",
+    "Offer":"Оферта"
 }
