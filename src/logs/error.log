@@ -1,3 +1,24 @@
 24.04.2025, 18:33:54 + "
 " [ERROR] + "
 " (printf.js:11): Ошибка: Unexpected token '"', ""74801280f"... is not valid JSON
+02.05.2025, 14:51:52 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в setup.js: syntax error at or near "PRIMARY"
+02.05.2025, 14:52:15 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в setup.js: syntax error at or near "PRIMARY"
+02.05.2025, 14:52:18 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в setup.js: syntax error at or near ")"
+02.05.2025, 14:52:20 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в setup.js: syntax error at or near ")"
+02.05.2025, 14:52:24 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в setup.js: foreign key constraint "votes_user_id_fkey" cannot be implemented
+02.05.2025, 14:52:31 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в setup.js: foreign key constraint "votes_user_id_fkey" cannot be implemented
+02.05.2025, 14:52:52 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в setup.js: foreign key constraint "votes_user_id_fkey" cannot be implemented

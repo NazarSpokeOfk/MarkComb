@@ -22,7 +22,8 @@ const verifyJWT = async (req,res) => {
         const userData = {
             email : decoded.email,
             user_id : decoded.user_id,
-            lang : decoded.lang
+            lang : decoded.lang,
+            isVoteEnabled : decoded.isVoteEnabled
         }
 
         const response = await fetch(`${localApiUrl}/loginbyid/${userData.user_id}` , {

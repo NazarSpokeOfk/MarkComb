@@ -44,7 +44,7 @@ class DataToDB {
     );
   }
 
-  async validatePurchaseData(data, userId, csrfToken,uses) {
+  async validatePurchaseData(data, userId, csrfToken, uses) {
     console.log("Дата в validatePurchaseData : ", data);
     if (!data.email) {
       return;
@@ -62,8 +62,8 @@ class DataToDB {
         channels: [...prevData.channels, result.purchase],
         user: {
           ...prevData.user,
-          uses : prevData.user.uses - 1 
-        }
+          uses: prevData.user.uses - 1,
+        },
       }));
     } catch (error) {
       console.log("Ошибка : ", error);
@@ -120,7 +120,7 @@ class DataToDB {
   async deleteProfile(userId, csrfToken) {
     console.log("Токен в dataToDB:", csrfToken);
     console.log("ID пользователя в deleteProfile:", userId);
-  
+
     return this.fetchData(
       `${this.localApiUrl}/user/${userId}`,
       "DELETE",
@@ -141,7 +141,6 @@ class DataToDB {
         }
       });
   }
-  
 
   isVerificationCodeCorrect(email, verificationCode) {
     return this.fetchData(`${this.localApiUrl}/checkCode`, "POST", {
@@ -170,17 +169,26 @@ class DataToDB {
     });
   }
 
-  async handlePurchase(packageName,user_id){
+  async generateLink(packageName, user_id) {
     const url = new URL("http://localhost:5001/payment-link");
-    url.searchParams.append("package",packageName);
-    url.searchParams.append("user_id",user_id);
+    url.searchParams.append("package", packageName);
+    url.searchParams.append("user_id", user_id);
 
     const request = await fetch(url, {
-      method : "GET"
+      method: "GET",
     });
 
     const data = await request.json();
     return data;
+  }
+
+  async makeVote(featureName, user_id) {
+    return this.fetchData(`${this.localApiUrl}/vote`, "POST", {
+      featureName,
+      user_id,
+    })
+      .then(() => ({ message: true }))
+      .catch(() => ({ message: false }));
   }
 }
 

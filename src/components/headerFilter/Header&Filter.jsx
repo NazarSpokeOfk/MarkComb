@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import React from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 import Modal from "../modal/Modal";
 import VerifModal from "../modal/VerifModal";

@@ -5,7 +5,8 @@ const generateJWT = (user) =>{
     const payload = {
         user_id : user.user_id,
         email : user.email,
-        lang : user.lang
+        lang : user.lang,
+        isVoteEnabled : user.isvoteenabled
     }
 
     const token = jwt.sign(payload,process.env.JWT_SECRET , {

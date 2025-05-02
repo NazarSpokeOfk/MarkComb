@@ -20,6 +20,7 @@ import purchasesRouter from "./routers/purchasesRouter.js";
 import googleAPIRouter from "./routers/googleAPIRouter.js"
 import storageRouter from "./routers/storageRouter.js";
 import reviewsRouter from "./routers/reviewsRouter.js"
+import voteRouter from "./routers/voteRouter.js"
 
 import logger from "./winston/winston.js";
 
@@ -75,12 +76,13 @@ function checkApiKey(req, res, next) {
   next();
 }
 
-app.use("/api", checkApiKey , ParserController)
-app.use("/api", googleAPIRouter)
+app.use("/api", checkApiKey , ParserController);
+app.use("/api", googleAPIRouter);
 app.use("/api", purchasesRouter);
 app.use("/api", userRouter);
 app.use("/api", storageRouter);
-app.use("/api", reviewsRouter)
+app.use("/api", reviewsRouter);
+app.use("/api", voteRouter);
 
 async function initializeApp() {
   try {

@@ -24,7 +24,6 @@ const Promotion = ({ isLoggedIn, userData }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const isMobile = useMediaQuery({ maxWidth: 480 });
-  const isLittleMobile = useMediaQuery({ maxWidth: 375 });
 
   useEffect(() => {
     console.log("userdata : ", userData);

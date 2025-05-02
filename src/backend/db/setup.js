@@ -32,6 +32,12 @@ async function createTables(pool) {
         created_at DATE DEFAULT CURRENT_DATE NOT NULL
         )`;
 
+    const createVotesTable = `CREATE TABLE IF NOT EXISTS votes (
+    user_id INTEGER PRIMARY KEY REFERENCES users(user_id) ON DELETE CASCADE,
+    feature_name TEXT NOT NULL,
+    voted_at TIMESTAMP DEFAULT NOW()
+    );`;
+
     await pool.query(createUsersTable);
 
     await pool.query(createPurchasesTable);
@@ -39,6 +45,8 @@ async function createTables(pool) {
     await pool.query(createUserVerificationTable);
 
     await pool.query(createReviewsTable);
+
+    await pool.query(createVotesTable);
   } catch (error) {
     logger.error("Возникла ошибка в setup.js:", error);
   }

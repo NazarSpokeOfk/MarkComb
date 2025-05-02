@@ -1,9 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { useState, useEffect } from "react";
-import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
-import HttpApi from "i18next-http-backend";
+import { useEffect, useState } from "react";
 
+import "./i18";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -20,18 +18,8 @@ import Purpose from "./components/purpose/Purpose";
 import UserDataProcessing from "./components/userDataProccessing/userDataProcessing";
 import SuccessThumbnail from "./components/purchasesTrumbnails/successThumbnail/SuccessThumbnail";
 import FailThumbnail from "./components/purchasesTrumbnails/failThumbnail/FailThumbnail";
-
-i18n
-  .use(HttpApi)
-  .use(initReactI18next)
-  .init({
-    lng: "en",
-    fallbackLng: "en",
-    interpolation: { escapeValue: false },
-    backend: {
-      loadPath: "/locales/{{lng}}/translation.json",
-    },
-  });
+import SponsorsPage from "./components/sponsorsPage/sponsorsPage";
+import VotingPage from "./components/votingPage/votingPage";
 
 function App() {
   const [channelData, setChannelData] = useState(null);
@@ -52,6 +40,10 @@ function App() {
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    console.log(userData)
+  },[userData])
 
   return (
     <Router>
@@ -185,6 +177,23 @@ function App() {
               <FailThumbnail />
             </ErrorBoundary>
           }
+        />
+        <Route
+          path="/sponsors"
+          element={
+            <ErrorBoundary>
+              <SponsorsPage />
+            </ErrorBoundary>
+          }
+        />
+        <Route
+        path="/vote"
+        element={
+          <ErrorBoundary>
+            <VotingPage userData={userData}/>
+            <ToastContainer/>
+          </ErrorBoundary>
+        }
         />
       </Routes>
     </Router>

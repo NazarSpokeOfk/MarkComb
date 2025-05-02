@@ -1,27 +1,38 @@
 import { useTranslation } from "react-i18next";
 import { useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { toast, ToastContainer } from "react-toastify";
 
-import { useMediaQuery } from "react-responsive";
-
 import "./Purchase.css";
-import SmoothEffect from "../smoothText";
 
 import Header from "../header/Header";
 import Footer from "../footer/Footer";
+import DataToDB from "../../dataToDB/dataToDB";
 
 const Purchase = ({ isLoggedIn, userData }) => {
+  const dataToDB = new DataToDB();
+
   const titleRef = useRef();
 
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
-  const changeLanguage = (lang) => {
-    i18n.changeLanguage(lang);
+  const packages = {
+    Light: {
+      uses: 10,
+      oldPrice: 1000,
+      newPrice: 500,
+    },
+    Medium: {
+      uses: 50,
+      oldPrice: 5000,
+      newPrice: 1500,
+    },
+    Big: {
+      uses: 75,
+      oldPrice: 7500,
+      newPrice: 2500,
+    },
   };
-
-  const isLittleMobile = useMediaQuery({ maxWidth: 375 });
 
   const warnToast = () => {
     toast.warn(
@@ -45,8 +56,8 @@ const Purchase = ({ isLoggedIn, userData }) => {
           <title>Purchase uses</title>
           <meta name="description" content="You can purchase uses here." />
         </Helmet>
-        
-        <Header/>
+
+        <Header />
 
         <section className="balance">
           <div className="container">
@@ -70,59 +81,29 @@ const Purchase = ({ isLoggedIn, userData }) => {
         <section className="packages">
           <h2 className="packages__title none">{t("packages")}</h2>
           <div className="packages__wrapper">
-            <div className="packages-light__package">
-              <h3 className="package__title none">{t("Light")}</h3>
-              <h4 className="package__usages none">10 {t("uses(s)")}</h4>
-              <h4 className="package__price">
-                $<span>10 </span>usd
-              </h4>
-              <h4 className="package__newprice">
-                $<span>5</span> usd
-              </h4>
-              <button
-                onClick={() => warnToast()}
-                className="package__button none"
-              >
-                {t("purch")}
-                <span>{t("ase")}</span>
-              </button>
-            </div>
-
-            <div className="packages-light__package">
-              <h3 className="package__title none">{t("Medium")}</h3>
-              <h4 className="package__usages none">50 {t("uses(s)")}</h4>
-              <h4 className="package__price none">
-                $<span>50 </span>usd
-              </h4>
-              <h4 className="package__newprice">
-                $<span>15</span> usd
-              </h4>
-              <button
-                onClick={() => warnToast()}
-                className="package__button none"
-              >
-                {t("purch")}
-                <span>{t("ase")}</span>
-              </button>
-            </div>
-
-            <div className="packages-light__package">
-              <h3 className="package__title none">{t("Big")}</h3>
-              <h4 className="package__usages none">75 {t("uses(s)")}</h4>
-              <h4 className="package__price">
-                $<span>75 </span>usd
-              </h4>
-              <h4 className="package__newprice">
-                $<span>25</span> usd
-              </h4>
-              <button
-                onClick={() => warnToast()}
-                className="package__button none"
-              >
-                {t("purch")}
-                <span>{t("ase")}</span>
-              </button>
-            </div>
+            {Object.entries(packages).map(([key, item]) => (
+              <div key={key} className="packages-light__package">
+                <h3 className="package__title none">{t(key)}</h3>
+                <h4 className="package__usages none">
+                  {item.uses} {t("uses(s)")}
+                </h4>
+                <h4 className="package__price">
+                  <span>{item.oldPrice}</span>₽
+                </h4>
+                <h4 className="package__newprice">
+                  <span>{item.newPrice}</span>₽
+                </h4>
+                <button
+                  onClick={() =>
+                    dataToDB.generateLink(key, userData.user.user_id)
+                  }
+                  className="package__button none"
+                >
+                  {t("purch")}
+                  <span>{t("ase")}</span>
+                </button>
+              </div>
+            ))}
 
             <div id="business" className="packages-light__package">
               <h3 className="package__title-business none">{t("Business")}</h3>
@@ -130,10 +111,10 @@ const Purchase = ({ isLoggedIn, userData }) => {
                 5 {t("uses(s)")} / {t("day")}
               </h4>
               <h4 className="package__price-business">
-                $<span>225 </span>usd
+                <span>22500</span>₽
               </h4>
               <h4 className="package__newprice-business none">
-                $<span>45</span> usd / <span id="month none">{t("Month")}</span>
+                <span>4500</span>₽ / <span id="month none">{t("Month")}</span>
               </h4>
               <button
                 onClick={() => warnToast()}
@@ -146,7 +127,7 @@ const Purchase = ({ isLoggedIn, userData }) => {
           </div>
         </section>
 
-        <Footer/>
+        <Footer />
       </HelmetProvider>
       <ToastContainer />
     </>

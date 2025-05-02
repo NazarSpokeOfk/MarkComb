@@ -1,0 +1,94 @@
+import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
+import DataToDB from "../../dataToDB/dataToDB";
+
+import { useNavigate } from "react-router-dom";
+
+import { useTranslation } from "react-i18next";
+
+import Header from "../header/Header";
+import Footer from "../footer/Footer";
+
+import "./votingPage.css";
+
+const VotingPage = ({ userData  }) => {
+  const { t } = useTranslation();
+
+  useEffect(() => {
+    console.log(userData)
+  },[userData])
+
+  const navigate = useNavigate();
+
+  const dataToDB = new DataToDB();
+
+  const [isVoted,setIsVoted] = useState(false)
+
+  const updatesVariants = {
+    one: {
+      name: "Dead channels Filtration",
+      description: "desc",
+    },
+    two: {
+      name: "Recommendation System",
+      description: "desc",
+    },
+    three: {
+      name: "Purchased data export",
+      description: "desc",
+    },
+  };
+
+  const selectFeature = async (selectedFeature) => {
+    if(isVoted){
+        return;
+    }
+    setIsVoted(true)
+    const request = await dataToDB.makeVote(
+      selectedFeature,
+      157
+    );
+    console.log(request);
+    if(request.message === true){
+        toast.success(t("Thank you for your vote."))
+    } else {
+        toast.error(t("Unfortunately, we can't get your vote"))
+    }
+    setTimeout(() => {
+        navigate("/")
+    }, 5000);
+  };
+
+  return (
+    <>
+      <Header />
+
+      <div className="container">
+        <h1 className="vote__title">
+          {t("Voting for new features in")} <br />
+          Mark<span>Comb</span>
+        </h1>
+
+        <div className="voting__blocks">
+          {Object.keys(updatesVariants).map((key) => {
+            const variant = updatesVariants[key];
+            return (
+              <div key={key} className="voting__block">
+                <h3 className="voting__block-title">{t(variant.name)}</h3>
+                <p className="voting__block-description">
+                  {variant.description}
+                </p>
+                <button onClick={()=>{selectFeature(variant.name)}} className="vote__button">
+                  Vo<span>te</span>
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <Footer />
+    </>
+  );
+};
+export default VotingPage;

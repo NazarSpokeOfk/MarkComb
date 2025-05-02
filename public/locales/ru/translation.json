@@ -103,7 +103,7 @@
     "You have no purchases." : "У вас нет никаких покупок.",
     "PUR":"ПРИО",
     "CHASE":"БРЕСТИ",
-    "Firstly,log in to your account" : "Сначала, войдите в свой аккаунт.",
+    "Firstly,log in to your account" : "Сначала, войдите в аккаунт.",
     "Log out" : "Выйти",
     "Registration and account" : "Регистрация и учетная запись",
     "2.1":"Пользователь обязан предоставить точную информацию при регистрации.",
@@ -224,5 +224,16 @@
     "main page":"главную",
     "Error":"Ошибка",
     "There was a purchase error":"Ошибка оплаты",
-    "Offer":"Оферта"
+    "Offer":"Оферта",
+    "Please,leave your mark and review about":"Пожалуйста, оцените и оставьте отзыв о",
+    "Unfortunately,we can't get your review. Please,try later":"К сожалению, мы не можем получить ваш отзыв. Пожалуйста, попробуйте попозже",
+    "Thanks for your review, you help us improve MarkComb!":"Спасибо за ваш отзыв, вы очень помогаете нам улучшить MarkComb",
+    "Too many requests!":"Слишком много запросов",
+    "Optional, but we look forward to your feedback":"Необязательно, но мы бы хотели узнать ваше мнение о MarkComb",
+    "top-":"топ-",
+    "sponsors":"спонсоры",
+    "Dead channels Filtration":"Фильтрация мертвых каналов",
+    "Recommendation System":"Система рекомендаций",
+    "Purchased data export":"Экспорт купленных данных",
+    "Voting for new features in":"Голосование за новые функции в"
 }

@@ -49,7 +49,7 @@ class UserController {
     const { email, password } = req.body;
     try {
       const userResult = await pool.query(
-        `SELECT user_id,email,password,username,uses FROM users WHERE email = $1`,
+        `SELECT user_id,email,password,username,uses,isvoteenabled FROM users WHERE email = $1`,
         [email]
       );
 
@@ -123,6 +123,7 @@ class UserController {
           uses: user.uses,
           password: user.password,
           lang: user.lang,
+          isVoteEnabled : user.isvoteenabled
         },
         channels: userChannels.rows,
       });

@@ -1,10 +1,5 @@
 import { useTranslation } from "react-i18next";
 import { Trans } from "react-i18next";
-import { Link } from "react-router-dom";
-
-import { useMediaQuery } from "react-responsive";
-
-import SmoothEffect from "../smoothText";
 
 import Header from "../header/Header";
 import Footer from "../footer/Footer";

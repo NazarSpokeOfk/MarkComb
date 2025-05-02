@@ -448,28 +448,6 @@ const UserDataProcessing = () => {
                 </a>
               </Trans>
             </p>
-
-            <h3 className="terms__subtitle none">
-              10. {t("Operator of personal data:")}
-            </h3>
-
-            <p className="terms__defenition none">
-              <Trans i18nKey="The personal data">
-                10.1 The personal data controller is [Kuryatnikov Nazar
-                Alekseevich], registered as a tax payer on professional income
-                (self-employed) residing at the following address: [Kuryatnikov
-                Nazar]. professional income (self-employed)
-              </Trans>
-            </p>
-
-            <p className="terms__defenition none">
-              <Trans i18nKey="Contact details">
-                10.2 Contact details of the operator for communication regarding
-                processing of personal data: 📧 Email:{" "}
-                <a href="mailto:markcombsup@gmail">markcombsup@gmail</a> 📞
-                Phone: <a href="tel:79299913911">+7-929-991-39-11</a>
-              </Trans>
-            </p>
           </div>
         </section>
 

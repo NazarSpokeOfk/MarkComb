@@ -60,7 +60,8 @@
 
 .footer-second__group {
   margin-top: 6%;
-  margin-left: -66.5%;
+  margin-left: -64%;
+  max-width: 475px;
 }
 
 .footer-third__group-text {
