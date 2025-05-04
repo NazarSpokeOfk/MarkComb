@@ -214,7 +214,7 @@
     gap: 10px;
   }
   #logo_footer::after {
-    width: 116.1vw; /* На всю ширину родителя */
+    width: 114vw; /* На всю ширину родителя */
     height: 1px; /* Толщина линии */
   }
   #promotion_footer {
