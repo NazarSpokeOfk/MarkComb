@@ -36,12 +36,12 @@ const verifyJWT = async (req,res) => {
         const result = await response.json()
 
         result.lang = userData.lang
+        result.isVoteEnabled = userData.isVoteEnabled
 
         if(response.ok){
             return res.json({result,csrfToken})
         } else {
-            
-            
+            console.log("Ошибка проверки jwt")
         }
         
     } catch (error) {

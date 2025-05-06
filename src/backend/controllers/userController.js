@@ -110,7 +110,7 @@ class UserController {
         console.log("Ошибка при загрузке csrfТокена на сайт", error);
       }
 
-      console.log( "Создание csrf токена :",req.session)
+     
 
       res.json({
         message: "Успешный вход",
@@ -129,7 +129,6 @@ class UserController {
       });
 
       const endTime = process.hrtime(startTime);
-      const executionTime = endTime[0] * 1000 + endTime[1] / 1e6;
     } catch (error) {
       logger.error("Возникла ошибка в getUserByPassword:", error);
       res

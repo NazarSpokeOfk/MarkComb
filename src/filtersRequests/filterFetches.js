@@ -17,7 +17,7 @@ const manageFiltersFetch = async (
   const localApiUrl = "http://localhost:5001/api";
   try {
     let response;
-    response = await fetch(`${localApiUrl}/filter`, {
+    response = await fetch(`${apiUrl}/filter`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",

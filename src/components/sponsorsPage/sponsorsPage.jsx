@@ -22,19 +22,10 @@ const SponsorsPage = () => {
                 <div className="sponsor__blocks">
                     <div className="sponsor__block">
                         <h3 className="sponsor__block-name">
-                            Sponsor name
+                            {t("This could be your name")}
                         </h3>
                         <p className="sponsor__block-comment">
-                            Sponsor Comment
-                        </p>
-                    </div>
-
-                    <div className="sponsor__block">
-                        <h3 className="sponsor__block-name">
-                            Sponsor name
-                        </h3>
-                        <p className="sponsor__block-comment">
-                            Sponsor Comment
+                            {t("This could be your comment")}
                         </p>
                     </div>
                 </div>
@@ -44,7 +35,7 @@ const SponsorsPage = () => {
                 </h2>
                 <div className="dsponsors__block">
                     <h3 className="dsponsors__name">
-                        sponsorname
+                        {t("This could be your name")}
                     </h3>
                 </div>
             </div>

@@ -79,6 +79,31 @@
   }
 }
 
+.become__sponsor-title{
+  margin-top: 5%;
+  text-align: center;
+}
+
+.become__sponsor-button{
+  transition: all 0.6s ease;
+  display: block;
+  margin: 0 auto;
+  margin-top: 5%;
+  background-color: #3ED65A;
+  color: white;
+  border : none;
+  width: 30%;
+  height: 50px;
+  margin-bottom: 28%;
+  border-radius : 10px;
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.become__sponsor-button:hover{
+  scale: 0.95;
+}
+
 @media (min-width: 2480px) and (max-height: 1024px){
   .vote__button{
     margin-left: 84%;

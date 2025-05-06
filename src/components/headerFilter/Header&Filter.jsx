@@ -106,7 +106,7 @@ const HeaderFilter = ({
       return;
     }
     try {
-      const response = await fetch("http://localhost:5001/api/search", {
+      const response = await fetch("https://owa.markcomb.com/api/search", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -235,7 +235,7 @@ const HeaderFilter = ({
           <meta name="description" content="Main page of the markcomb" />
         </Helmet>
 
-        <Header />
+        <Header hideLinks = {false} isVoteEnabled={userData?.isVoteEnabled} />
 
         <section className="login">
           {isLoggedIn ? (
