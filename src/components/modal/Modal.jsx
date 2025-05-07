@@ -10,7 +10,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 
 import { toast } from "react-toastify";
 
-import "./Modal.css";
+import "./css/Modal.css";
 
 import Cross from "../../icons/cross.png";
 

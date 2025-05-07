@@ -26,7 +26,7 @@ const verifyJWT = async (req,res) => {
             isVoteEnabled : decoded.isVoteEnabled
         }
 
-        const response = await fetch(`${localApiUrl}/loginbyid/${userData.user_id}` , {
+        const response = await fetch(`${apiUrl}/loginbyid/${userData.user_id}` , {
             method : "GET",
             credentials : "include",
             headers : {

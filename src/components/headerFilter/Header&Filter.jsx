@@ -136,10 +136,6 @@ const HeaderFilter = ({
   }, []);
 
   useEffect(() => {
-    console.log("Выбранные фильтры :", selectedFilterLabels);
-  }, [selectedFilterLabels]);
-
-  useEffect(() => {
     const newAnimations = selectedFilterLabels.map((_, index) => false);
     setActiveAnimations(newAnimations);
 
@@ -424,7 +420,7 @@ const HeaderFilter = ({
                         type: "audience",
                         value: label,
                       };
-                      if (isMultiFiltersEnabled) {
+                      if (isMultiFiltersEnabled && isLoggedIn) {
                         addSelectedFilter(label, "audience", null, null);
                         setSelectedFilter(newFilter);
                         return;
@@ -472,7 +468,7 @@ const HeaderFilter = ({
                         value: label[1],
                       };
 
-                      if (isMultiFiltersEnabled) {
+                      if (isMultiFiltersEnabled && isLoggedI) {
                         addSelectedFilter(
                           label[0],
                           "subscribers",
@@ -523,7 +519,7 @@ const HeaderFilter = ({
                         type: "contentType",
                         value: label,
                       };
-                      if (isMultiFiltersEnabled) {
+                      if (isMultiFiltersEnabled && isLoggedIn) {
                         addSelectedFilter(label, "contentType", null, null);
                         setSelectedFilter(newFilter);
                         return;

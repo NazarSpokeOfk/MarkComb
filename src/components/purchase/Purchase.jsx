@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { toast, ToastContainer } from "react-toastify";
 
@@ -7,9 +7,13 @@ import "./Purchase.css";
 
 import Header from "../header/Header";
 import Footer from "../footer/Footer";
+import PurchaseModal from "../modal/purchaseModal";
+
 import DataToDB from "../../dataToDB/dataToDB";
 
 const Purchase = ({ isLoggedIn, userData }) => {
+  const [isModalOpened, setIsModalOpened] = useState(false);
+
   const dataToDB = new DataToDB();
 
   const titleRef = useRef();
@@ -33,6 +37,13 @@ const Purchase = ({ isLoggedIn, userData }) => {
       newPrice: 2500,
     },
   };
+
+  const [selectedPackage, setSelectedPackage] = useState({
+    packageName: "",
+    usesQuantity: 0,
+    price: 0,
+    isBusiness : false
+  });
 
   const warnToast = () => {
     toast.warn(
@@ -78,6 +89,15 @@ const Purchase = ({ isLoggedIn, userData }) => {
           </div>
         </section>
 
+        <PurchaseModal
+          isModalOpened={isModalOpened}
+          setIsModalOpened={setIsModalOpened}
+          packageName={selectedPackage.packageName}
+          usesQuantity={selectedPackage.usesQuantity}
+          price={selectedPackage.price}
+          isBusiness={selectedPackage.isBusiness}
+        />
+
         <section className="packages">
           <h2 className="packages__title none">{t("packages")}</h2>
           <div className="packages__wrapper">
@@ -94,9 +114,14 @@ const Purchase = ({ isLoggedIn, userData }) => {
                   <span>{item.newPrice}</span>₽
                 </h4>
                 <button
-                  onClick={() =>
-                    dataToDB.generateLink(key, userData.user.user_id)
-                  }
+                  onClick={() => {
+                    setSelectedPackage({
+                      packageName: key,
+                      usesQuantity: item.uses,
+                      price: item.newPrice,
+                    });
+                    setIsModalOpened(true);
+                  }}
                   className="package__button none"
                 >
                   {t("purch")}
@@ -108,7 +133,7 @@ const Purchase = ({ isLoggedIn, userData }) => {
             <div id="business" className="packages-light__package">
               <h3 className="package__title-business none">{t("Business")}</h3>
               <h4 className="package__usages-business none">
-                5 {t("uses(s)")} / {t("day")}
+                5 {t("5 uses per day for 30 days")}
               </h4>
               <h4 className="package__price-business">
                 <span>22500</span>₽
@@ -117,7 +142,15 @@ const Purchase = ({ isLoggedIn, userData }) => {
                 <span>4500</span>₽ / <span id="month none">{t("Month")}</span>
               </h4>
               <button
-                onClick={() => warnToast()}
+                onClick={() => {
+                  setSelectedPackage({
+                    packageName: "business",
+                    usesQuantity: "5",
+                    price: "4500₽/month",
+                    isBusiness : true
+                  });
+                  setIsModalOpened(true);
+                }}
                 className="package__button-bussines none"
               >
                 {t("purch")}

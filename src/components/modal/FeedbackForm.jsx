@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 
 import arrow from "../../icons/arrow.svg";
 
-import "./FeedbackForm.css";
+import "./css/FeedbackForm.css";
 
 const FeedbackForm = ({
   setIsFeedbackWillBeWrited,

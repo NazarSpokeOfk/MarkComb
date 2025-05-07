@@ -188,8 +188,8 @@
 }
 @media (min-width: 768px) and (max-width: 1024px) {
   .footer-second__group {
-    margin-left: -43%;
-    margin-top: 9%;
+    margin-left: -53%;
+    margin-top: 8%;
   }
   #logo_footer {
     margin-left: 5%;
@@ -198,7 +198,7 @@
     margin-left: 4%;
   }
   #logo_footer::after {
-    width: 110.7vw; /* На всю ширину родителя */
+    width: 108vw; /* На всю ширину родителя */
     height: 1px; /* Толщина линии */
   }
 }
@@ -213,11 +213,42 @@
     margin-left: 0%;
     gap: 10px;
   }
-  #logo_footer::after {
-    width: 114vw; /* На всю ширину родителя */
-    height: 1px; /* Толщина линии */
+  #logo_footer::after{
+    left: -21%;
+    width: 100vw;
   }
   #promotion_footer {
     margin-top: 85%;
+  }
+  .footer__container {
+    flex-direction: column;
+    margin-top: 30%;
+    max-width: 438px;
+    &:nth-child(1) {
+      padding-left: 10px;
+    }
+  }
+  .footer__button {
+    margin-left: 0;
+    &:last-child {
+      margin-bottom: 5%;
+    }
+  }
+  .footer__logo {
+    font-size: 15px;
+    margin-top: 20px;
+    margin-left: 0;
+  }
+  .footer__purpose {
+    margin-left: 0;
+  }
+  .footer__terms::after {
+    width: 110vw;
+  }
+  .footer__terms{
+    margin-right: 20px;
+  }
+  .footer__purpose {
+    margin-right: 20px;
   }
 }

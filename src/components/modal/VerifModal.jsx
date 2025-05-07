@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import DataToDB from "../../dataToDB/dataToDB";
 
-import "./VerifModal.css";
+import "./css/VerifModal.css";
 
 import { toast } from "react-toastify";
 

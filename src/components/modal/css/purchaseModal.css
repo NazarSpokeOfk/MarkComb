@@ -1,0 +1,135 @@
+body {
+  margin: 0;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+:root {
+  --main-red-col: #ff0000;
+}
+* {
+  font-family: "Inter", sans-serif;
+}
+
+.purchase__modal-block{
+    width: 50%;
+    display: block;
+    margin: 0 auto;
+    border-radius : 30px;
+    background-color: #fff;
+    z-index: 2;
+}
+
+.purchase__modal-title{
+    margin-left: 7%;
+    font-weight: 600;
+}
+.definitions__title{
+    margin-left: 3%;
+    span{
+        color: var(--main-red-col);
+    }
+    font-weight: 500;
+}
+.purchase__modal-button{
+    transition: all 0.3s ease;
+    border: none;
+    background-color: var(--main-red-col);
+    width: 30%;
+    height: 55px;
+    margin-left: 65%;
+    margin-bottom: 3%;
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
+    border-radius: 13px;
+}
+
+.purchase__modal-button:hover{
+    scale: 0.95;
+}
+
+.definitions__ul{
+    li{
+        font-weight: 700;
+    }
+}
+
+li::marker {
+    color: red;
+    
+}
+
+.purchase__modal-definitions{
+    margin-left: 5%;
+}
+
+.modal__purchase{
+    visibility: hidden;
+}
+
+.modal__purchase.active{
+    visibility: visible;
+}
+
+.close__modal{
+    transition: all 0.3s ease;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    margin: 0;
+    border:none;
+    background-color: #fff;
+    img{
+        height: inherit;
+        width: inherit;
+    }
+}
+.close__modal:hover{
+    scale: 0.95;
+}
+.purchase__modal-top{
+    display: flex;
+    align-items: center;  
+    margin-top: 2%; 
+    justify-content:space-between;
+    margin-right: 4%;
+}
+
+@media (min-width: 2480px) and (max-height: 1024px){
+    .purchase__modal-block{
+        width: 40%;
+    }
+    .purchase__modal-title{
+        font-size: 25px;
+    }
+    .definitions__title{
+        font-size: 20px;
+    }
+    .definitions__ul{
+        li{
+            font-size: 20px;
+        }
+    }
+    .close__modal{
+        width: 50px;
+        height: 50px;
+    }
+    .purchase__modal-button{
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 430px) and (max-height: 920px){
+    .purchase__modal-block{
+        width: 90%;
+    }
+    .purchase__modal-button{
+        margin-bottom: 5%;
+    }
+}
