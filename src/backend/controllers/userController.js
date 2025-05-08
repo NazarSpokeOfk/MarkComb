@@ -5,6 +5,7 @@ import logger from "../winston/winston.js";
 import pool from "../db/index.js";
 import verifyCaptcha from "./authController.js";
 import generateJWT from "../generateJWT.js";
+import domains from "disposable-email-domains/index.json" assert { type: "json" };
 
 import MailVerification from "../mailVerification.js";
 
@@ -182,6 +183,15 @@ class UserController {
     try {
       const { email, password, username, verification_code, recaptchaValue } =
         req.body.data;
+
+      const domain = email.split('@')[1].toLowerCase();
+
+      if (domains.includes(domain)) {
+        return res.status(400).json({
+          message: "У вас не получится зарегистрироваться с временной почтой :(",
+          status: false
+        });
+      }
 
       if (!req.session.captchaVerified && recaptchaValue) {
         // Если капча еще не была проверена

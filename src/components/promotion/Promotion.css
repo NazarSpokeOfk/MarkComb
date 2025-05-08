@@ -15,10 +15,15 @@
 .list__container {
   display: flex;
   gap: 50px;
-  margin-left: 17%;
+  margin-left: 17.5%;
   flex-wrap: wrap;
   flex: 1 1 200px;
   width: 80%;
+  flex-direction: column;
+  p{
+    text-align: left;
+    display: inline;
+  }
 }
 
 .list__container__more {
@@ -27,7 +32,7 @@
   overflow: hidden;
   transition: all 0.6s;
   gap: 100px;
-  margin-left: 17%;
+  margin-left: 18.5%;
 }
 
 .list__container__more.active {
@@ -252,31 +257,32 @@
     margin-left: 14%;
   }
 }
-@media (min-width: 2560px) and (min-height: 920px)
+@media (min-width: 2560px) and (min-height: 1080px)
  {
   .title_promotion {
-    margin-left: 30%;
+    margin-left: 18%;
   }
   .list__container {
-    margin-left: 30%;
     width: 70%;
     flex-direction: column;
   }
   .list__container__more {
-    margin-left: 16%;
+    
     max-height: 100px;
   }
   .list-container__button {
-    margin-left: 63%;
+    right: 32%;
   }
   .list-container__member {
     font-size: 30px;
   }
   .search__input {
+    display: block;
+    margin: 0 auto;
     width: 890px;
     height: 65px;
-    margin-left: 30%;
     margin-top: 0;
+    margin-bottom: 10%;
   }
   .search-input__button {
     width: 50px;

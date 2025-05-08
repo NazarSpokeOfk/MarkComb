@@ -319,7 +319,7 @@ input:checked + .slider:before {
   display: flex;
   gap: 3%;
   margin-top: 5%;
-  margin-left: -14%;
+  margin-left: -9%;
 }
 
 
@@ -451,7 +451,7 @@ input:checked + .slider:before {
     font-size: 22px;
   }
   .login{
-    margin-left: 65%;
+    margin-left: 60%;
   }
   .sign__in {
     font-size: 22px;
@@ -493,9 +493,9 @@ input:checked + .slider:before {
     margin-left: 75%;
   }
 }
-@media (min-width: 2480px) and (max-height: 1024px){
+@media (min-width: 2560px) and (max-height: 1080px){
   .search__main {
-    width: 42%;
+    width: 50%;
     height: 50px;
     font-size: 25px;
   }
@@ -525,7 +525,7 @@ input:checked + .slider:before {
   }
   .buttons {
     margin-top: -130px;
-    margin-left: 64.5%;
+    margin-left: 68%;
   }
   .filters {
     margin-left: 5%;
@@ -544,29 +544,33 @@ input:checked + .slider:before {
     font-size: 22px;
   }
   .target__audence {
-    margin-left: 25%;
+    margin-left: 20%;
   }
   .number__of__subs {
-    margin-left: 25%;
+    margin-left: 20%;
   }
   .content__type {
-    margin-left: 25%;
+    margin-left: 20%;
   }
   .filter__divider{
-    width: 46%;
-    margin-left: 24.5%;
+    width: 52%;
+    margin-left: 21%;
     margin-top: 5%;
   }
   .multifilter__title{
-    margin-left: 12.5%;
+    margin-left: 12%;
+    margin-bottom: 0;
   }
   .switch {
-    margin-left: -6.5%;
+    margin-left: -7.5%;
   }
   .selectedfilters__blocks{
-    margin-left: -8%;
+    margin-left: -9%;
   }
   .selectedfilters__title{
+    margin-left: 10%;
+  }
+  .multifilter__block{
     margin-left: 10%;
   }
 }

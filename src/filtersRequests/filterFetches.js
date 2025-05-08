@@ -17,7 +17,7 @@ const manageFiltersFetch = async (
   const localApiUrl = "http://localhost:5001/api";
   try {
     let response;
-    response = await fetch(`${apiUrl}/filter`, {
+    response = await fetch(`${localApiUrl}/filter`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -35,7 +35,7 @@ const manageFiltersFetch = async (
       setSimilarChannelData(result);
       setIsFiltersFetching(false)
     } else {
-      console.error("Возникла ошибка в contentTypeFilter");
+      console.error("Возникла ошибка в contentTypeFilter", result);
       setIsFiltersFetching(false)
       return false;
     }

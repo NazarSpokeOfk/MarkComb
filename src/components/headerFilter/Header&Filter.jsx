@@ -51,7 +51,6 @@ const HeaderFilter = ({
   const [activeAnimations, setActiveAnimations] = useState([]);
   const [removingIndex, setRemovingIndex] = useState(null);
 
-
   const [selectedFilter, setSelectedFilter] = useState({
     type: null,
     value: null,
@@ -65,25 +64,20 @@ const HeaderFilter = ({
 
   const filterRef = useRef();
 
-  const audienceButtonLabels = [
-    t("Kids"),
-    t("Adults"),
-    t("Teenagers"),
-    t("OlderGen"),
-  ];
+  const audienceButtonLabels = ["Kids", "Adults", "Teenagers", "OlderGen"];
   const contentButtonLabels = [
-    t("Comedy"),
-    t("Vlogs"),
-    t("Animation"),
-    t("Education"),
-    t("Entertaiment"),
-    t("Fitness"),
-    t("Health"),
-    t("Music"),
-    t("News"),
-    t("Gaming"),
-    t("Travel"),
-    t("Fashion"),
+    "Comedy",
+    "Vlogs",
+    "Animation",
+    "Education",
+    "Entertaiment",
+    "Fitness",
+    "Health",
+    "Music",
+    "News",
+    "Gaming",
+    "Travel",
+    "Fashion",
   ];
   const subscribersButtonLabels = {
     "0-1K": [0, 1000],
@@ -141,12 +135,12 @@ const HeaderFilter = ({
 
     selectedFilterLabels.forEach((_, index) => {
       setTimeout(() => {
-        setActiveAnimations(prev => {
+        setActiveAnimations((prev) => {
           const updated = [...prev];
           updated[index] = true;
           return updated;
         });
-      }, 50); 
+      }, 50);
     });
   }, [selectedFilterLabels]);
 
@@ -157,10 +151,8 @@ const HeaderFilter = ({
   const removeSelectedFilter = (index) => {
     setRemovingIndex(index);
     setTimeout(() => {
-      setSelectedFilterLabels(prev =>
-        prev.filter((_, i) => i !== index)
-      );
-      setRemovingIndex(null); 
+      setSelectedFilterLabels((prev) => prev.filter((_, i) => i !== index));
+      setRemovingIndex(null);
     }, 300);
   };
 
@@ -213,11 +205,12 @@ const HeaderFilter = ({
         filterData.maxsubs,
         setIsFiltersFetching
       );
-      console.log("response :" , response)
-      if(response === false) {
-        toast.error(t("Unfortunately, the filters don't match"), {autoClose : 3000})
+      console.log("response :", response);
+      if (response === false) {
+        toast.error(t("Unfortunately, the filters don't match"), {
+          autoClose: 3000,
+        });
       }
-      
     } catch (error) {
       console.log("Возникла ошибка в searchWithMultiplyFilters :", error);
     }
@@ -231,7 +224,7 @@ const HeaderFilter = ({
           <meta name="description" content="Main page of the markcomb" />
         </Helmet>
 
-        <Header hideLinks = {false} isVoteEnabled={userData?.isVoteEnabled} />
+        <Header hideLinks={false} isVoteEnabled={userData?.isVoteEnabled} />
 
         <section className="login">
           {isLoggedIn ? (
@@ -331,7 +324,8 @@ const HeaderFilter = ({
             <hr className="filter__divider" />
             <div className="multifilter__block">
               <h2 className="multifilter__title">
-                {t("Multi - ")}<span>{t("Filter")}</span>
+                {t("Multi - ")}
+                <span>{t("Filter")}</span>
               </h2>
 
               <label className="switch">
@@ -350,7 +344,7 @@ const HeaderFilter = ({
                   isMultiFiltersEnabled ? "active" : ""
                 }`}
               >
-               {t("Selected filters")}
+                {t("Selected filters")}
               </h2>
 
               {isMultiFiltersEnabled ? (
@@ -360,8 +354,8 @@ const HeaderFilter = ({
                       <div
                         key={index}
                         className={`selectedfilter__block 
-                          ${activeAnimations[index] ? 'fade-in' : ''} 
-                          ${removingIndex === index ? 'fade-out' : ''}`}
+                          ${activeAnimations[index] ? "fade-in" : ""} 
+                          ${removingIndex === index ? "fade-out" : ""}`}
                       >
                         <span>{filter.value}</span>
                         <button
@@ -432,14 +426,15 @@ const HeaderFilter = ({
                           setSimilarChannelData,
                           label,
                           false,
-                          false
+                          false,
+                          setIsFiltersFetching
                         );
                       } else {
                         logInFirstly();
                       }
                     }}
                   >
-                    {label}
+                    {t(label)}
                   </button>
                 ))}
               </div>
@@ -468,7 +463,7 @@ const HeaderFilter = ({
                         value: label[1],
                       };
 
-                      if (isMultiFiltersEnabled && isLoggedI) {
+                      if (isMultiFiltersEnabled && isLoggedIn) {
                         addSelectedFilter(
                           label[0],
                           "subscribers",
@@ -486,7 +481,8 @@ const HeaderFilter = ({
                           setSimilarChannelData,
                           false,
                           label?.[1]?.[0],
-                          label?.[1]?.[1]
+                          label?.[1]?.[1],
+                          setIsFiltersFetching
                         );
                       } else {
                         logInFirstly();
@@ -531,14 +527,15 @@ const HeaderFilter = ({
                           setSimilarChannelData,
                           false,
                           false,
-                          false
+                          false,
+                          setIsFiltersFetching
                         );
                       } else {
                         logInFirstly();
                       }
                     }}
                   >
-                    {label}
+                    {t(label)}
                   </button>
                 ))}
               </div>

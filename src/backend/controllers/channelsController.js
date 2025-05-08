@@ -9,6 +9,8 @@ const apiKey = process.env.GOOGLE_API_KEY;
 
 class ChannelsController {
   async selectChannel(req, res) {
+
+    console.log(req.body)
     
     const { age_group, minsubs, maxsubs, content_type } = req.body;
 
@@ -40,10 +42,11 @@ class ChannelsController {
     try {
       
       const request = await storagePool.query(query, params);
+      console.log("реквест",request)
       const result = request.rows[0];
 
       
-
+      console.log("результ в контроллере:",result)
       if(!result){
         res.json({status : false})
         return;

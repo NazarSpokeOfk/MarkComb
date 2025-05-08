@@ -97,7 +97,7 @@ const YoutuberBlock = ({
               thumbnail: SimilarChannelData?.channelStats?.thumbnail || "",
               email: response?.email || "",
               channelName: response?.name || "",
-              uses:1
+              uses: 1,
             },
             userData?.user?.user_id,
             csrfToken
@@ -174,36 +174,31 @@ const YoutuberBlock = ({
                 : "?"}
             </div>
             <div className="youtuber__information">
-              <div className="youtuber__definitions">
-                <h4 className="youtuber__definition none">
-                  {t("Target Audience")}-
-                </h4>
-                <h4 className="youtuber__definition none">
-                  {t("Number of subs")} -
-                </h4>
-                <h4 className="youtuber__definition none">
-                  {t("Content type")} -
-                </h4>
-              </div>
+              <h4 className="youtuber__info">{t("Target Audience")}</h4>
+              <span className="youtuber__dash">-</span>
+              <h4 className="youtuber__info">
+                {isLoggedIn && channelData
+                  ? channelData?.updatedData?.[0]?.targetAudience
+                  : "?"}
+              </h4>
 
-              <div className="youtuber__stats">
-                <h4 className="statistic none">
-                  {isLoggedIn && channelData
-                    ? channelData?.updatedData?.[0]?.targetAudience
-                    : "?"}
-                </h4>
-                <h4 className="statistic none">
-                  {isLoggedIn && channelData
-                    ? channelData?.updatedData?.[0]?.subsCount
-                    : "?"}
-                </h4>
-                <h4 className="statistic none">
-                  {isLoggedIn && channelData
-                    ? channelData?.updatedData?.[0]?.genre
-                    : "?"}
-                </h4>
-              </div>
+              <h4 className="youtuber__info">{t("Number of subs")}</h4>
+              <span className="youtuber__dash">-</span>
+              <h4 className="youtuber__info">
+                {isLoggedIn && channelData
+                  ? channelData?.updatedData?.[0]?.subsCount
+                  : "?"}
+              </h4>
+
+              <h4 className="youtuber__info">{t("Content type")}</h4>
+              <span className="youtuber__dash">-</span>
+              <h4 className="youtuber__info">
+                {isLoggedIn && channelData
+                  ? channelData?.updatedData?.[0]?.genre
+                  : "?"}
+              </h4>
             </div>
+
             <img
               src={
                 (isLoggedIn && channelData?.updatedData?.[0]?.thumbnail) ||
@@ -248,9 +243,7 @@ const YoutuberBlock = ({
               userData && SimilarChannelData ? "youtuber__block" : "pulse"
             }`}
           >
-            <div
-              className="youtuber__name none"
-            >
+            <div className="youtuber__name none">
               {!SimilarChannelData ? (
                 "?"
               ) : !SimilarChannelData.title ? (
@@ -261,35 +254,29 @@ const YoutuberBlock = ({
             </div>
 
             <div className="youtuber__information">
-              <div className="youtuber__definitions">
-                <h4 className="youtuber__definition none">
-                  {t("Target Audience")}-
-                </h4>
-                <h4 className="youtuber__definition none">
-                  {t("Number of subs")} -
-                </h4>
-                <h4 className="youtuber__definition none">
-                  {t("Content type")} -
-                </h4>
-              </div>
-
-              <div className="youtuber__stats">
-                <h4 className="statistic none">
-                  {userData && SimilarChannelData
+              <h4 className="youtuber__info">{t("Target Audience")}</h4>
+              <span className="youtuber__dash">-</span>
+              <h4 className="youtuber__info">
+              {userData && SimilarChannelData
                     ? SimilarChannelData?.channelStats?.targetAudience
                     : "?"}
-                </h4>
-                <h4 className="statistic none">
-                  {userData && SimilarChannelData
+              </h4>
+
+              <h4 className="youtuber__info">{t("Number of subs")}</h4>
+              <span className="youtuber__dash">-</span>
+              <h4 className="youtuber__info">
+              {userData && SimilarChannelData
                     ? SimilarChannelData?.channelStats?.subs
                     : "?"}
-                </h4>
-                <h4 id="contentType" className="statistic none">
-                  {userData && SimilarChannelData
+              </h4>
+
+              <h4 className="youtuber__info">{t("Content type")}</h4>
+              <span className="youtuber__dash">-</span>
+              <h4 className="youtuber__info">
+                {userData && SimilarChannelData
                     ? SimilarChannelData?.channelStats?.contenttype
                     : "?"}
-                </h4>
-              </div>
+              </h4>
             </div>
             <img
               loading="lazy"
@@ -362,7 +349,7 @@ const YoutuberBlock = ({
         setIsFeedbackWillBeWrited={setIsFeedbackWillBeWrited}
       />
 
-    <Footer/>        
+      <Footer />
     </>
   );
 };

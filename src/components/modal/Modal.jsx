@@ -91,8 +91,7 @@ const Modal = ({
       !isChecked ||
       !emailRegex.test(signInData.email) ||
       !signInData.password ||
-      !signInData.username ||
-      !signInData.recaptchaValue
+      !signInData.username
     ) {
       setIsLoggedIn(false);
       e.preventDefault();

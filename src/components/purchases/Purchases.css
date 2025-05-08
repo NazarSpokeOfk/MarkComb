@@ -132,37 +132,12 @@
   }
 }
 
-@media (min-width: 2480px) and (max-height: 1024px)
+@media (min-width: 2560px) and (max-height: 1080px)
  {
-  .title {
-    font-size: 90px;
-  }
-  .no_available {
-    font-size: 35px;
-  }
-  .magnifying_glass {
-    top: 750px;
-    right: 1100px;
-  }
-  .no_available_img {
-    width: 350px;
-    height: 460px;
-  }
-  .recent__block {
-    width: 800px;
-    height: 300px;
-  }
-  .recent-block__name {
-    font-size: 30px;
-  }
-  .recent-block__email {
-    font-size: 25px;
-  }
-  .recent-block__thumbnail {
-    width: 350px;
-    height: 300px;
-  }
-}
+    .title{
+      margin-left: 31%;
+    }
+ } 
 @media (min-width: 768px) and (max-width: 1024px)
  {
   .title{

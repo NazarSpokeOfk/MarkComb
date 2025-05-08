@@ -2,6 +2,8 @@ import { useEffect, useRef } from "react";
 
 import { useTranslation } from "react-i18next";
 
+import { Link } from "react-router-dom";
+
 import "./css/purchaseModal.css";
 
 import Cross from "../../icons/cross.png";
@@ -70,12 +72,12 @@ const PurchaseModal = ({
               <ul className="definitions__ul">
                 {isBusiness ? (
                   <>
-                    <li>5 {t("5 uses per day for 30 days")}</li>
+                    <li>{t("5 uses per day for 30 days")}</li>
                   </>
                 ) : (
                   <li>
                     {usesQuantity}
-                    {t("USES")}
+                    {" "} {t("USES")}
                   </li>
                 )}
               </ul>
@@ -92,8 +94,19 @@ const PurchaseModal = ({
                 {isBusiness ? <li>{price}</li> : <li>{price}₽</li>}
               </ul>
             </div>
-
-            <button className="purchase__modal-button">{t("Buy")}</button>
+            <div className="purchase__modal-bottom">
+              <h3 className="offer__suggestion">
+                {t("Before purchase, you can study")}{" "}
+                <a
+                  href="/offer.pages"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {t("Offer")}
+                </a>
+              </h3>
+              <button className="purchase__modal-button">{t("Buy")}</button>
+            </div>
           </div>
         </div>
       </section>
