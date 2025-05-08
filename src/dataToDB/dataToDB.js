@@ -72,7 +72,7 @@ class DataToDB {
 
   async validateSignIn(data, setCsrfToken) {
     try {
-      const result = await this.fetchData(`${this.localApiUrl}/user`, "POST", {
+      const result = await this.fetchData(`${this.apiUrl}/user`, "POST", {
         data,
       });
       console.log(result)
@@ -89,7 +89,7 @@ class DataToDB {
   async validateLogIn(data) {
     try {
       const result = await this.fetchData(
-        `${this.localApiUrl}/login`,
+        `${this.apiUrl}/login`,
         "POST",
         data
       );

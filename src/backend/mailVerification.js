@@ -11,7 +11,6 @@ const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const REDIRECT_URI = process.env.REDIRECT_URI;
 const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 
-
 const oAuth2Client = new google.auth.OAuth2(
   CLIENT_ID,
   CLIENT_SECRET,
@@ -36,12 +35,18 @@ class MailVerification {
   }
 
   async sendVerificationCode(email) {
-    const verificationCode = crypto.randomBytes(3).toString("hex");
-    const expiryTime = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes in milliseconds
-
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return Promise.reject("Неверный формат email");
     }
+
+    const generateNumericCode = (length = 6) => {
+      return Array.from({ length }, () => Math.floor(Math.random() * 10)).join(
+        ""
+      );
+    };
+
+    const verificationCode = generateNumericCode(); // например, "483920"
+    const expiryTime = new Date(Date.now() + 10 * 60 * 1000); // 10 минут
 
     const mailOptions = {
       from: "mknoreplyy@gmail.com",

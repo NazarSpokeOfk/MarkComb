@@ -46,7 +46,7 @@ const VerifModal = ({
     try {
       let email = signInData.email;
       console.log(signInData);
-      const result = await fetch(`http://localhost:5001/api/verification`, {
+      const result = await fetch(`https://owa.markcomb.com/api/verification`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",

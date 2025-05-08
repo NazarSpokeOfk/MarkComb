@@ -30,7 +30,7 @@ const VerifLayout = ({
     <div className="container">
       <div ref={modalRef} className={classExpression}>
         <div className="modal__block-verif">
-          <h2 className="modal__title-verif">{titleText}</h2>
+          <h2 className="modal__title-verif">{t(titleText)}</h2>
           <input
             required
             type="text"
@@ -43,7 +43,7 @@ const VerifLayout = ({
             type="submit"
             className="modal__verif-button"
           >
-            <img className="next_btn-img" src={next} alt="click here" />
+            {t("Send")} <span>{t("code")}</span>
           </button>
         </div>
       </div>

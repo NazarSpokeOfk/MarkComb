@@ -42,7 +42,7 @@ const VerifPassword = ({
       <VerifLayout
         modalRef={modalRef}
         classExpression={`modal__overlay-verif`}
-        titleText=" Enter your password to change/remove the data."
+        titleText="Enter your password to change/remove the data."
         onChangeAction={(e) => {
           const { value } = e.target;
           setChangedData((prevData) => ({
