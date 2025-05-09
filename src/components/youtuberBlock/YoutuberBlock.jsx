@@ -25,6 +25,8 @@ const YoutuberBlock = ({
   setUserData,
   csrfToken,
 }) => {
+  const apiBaseUrl = import.meta.env.VITE_API_URL;
+
   const { t, i18n } = useTranslation();
 
   const [btnsState, setBtnsState] = useState({});
@@ -67,7 +69,7 @@ const YoutuberBlock = ({
 
     if (userData.user.uses > 0) {
       try {
-        const result = await fetch("https://owa.markcomb.com/api/getemail", {
+        const result = await fetch(`${apiBaseUrl}/getemail`, {
           method: "POST",
           credentials: "include",
           headers: {

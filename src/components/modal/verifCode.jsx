@@ -10,6 +10,8 @@ const VerifCode = ({
   setIsTriggered,
   setIsVerificationCodeCorrect,
 }) => {
+  const apiBaseUrl = import.meta.env.VITE_API_URL;
+
   const [verification_code, setVerificationCode] = useState("");
 
   useEffect(() => {
@@ -39,7 +41,7 @@ const VerifCode = ({
     const email = data.email;
     try {
       console.log("Запрос исполнен");
-      const result = await fetch(`https://owa.markcomb.com/api/verification`, {
+      const result = await fetch(`${apiBaseUrl}/verification`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",

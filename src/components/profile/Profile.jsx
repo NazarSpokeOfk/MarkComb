@@ -108,30 +108,32 @@ const Profile = ({
 
         <section className="profile">
           <div className="container">
-            <button
-              onClick={() => {
-                setIsNameChanged(true);
-              }}
-              className={`username__edit-button ${
-                isNameChanged ? "unactive" : ""
-              }`}
-            >
-              <img src={Edit} alt="edit" />
-            </button>
+            <div className="name__container">
+              {isNameChanged ? (
+                <input
+                  className="name__input"
+                  value={localName}
+                  onChange={handleNameChange}
+                  type="text"
+                  placeholder="Enter your new username"
+                />
+              ) : (
+                <h1 className="profile_name">
+                  {userData ? userData?.user?.username : "Log in firstly"}
+                </h1>
+              )}
 
-            {isNameChanged ? (
-              <input
-                className="name__input"
-                value={localName}
-                onChange={handleNameChange}
-                type="text"
-                placeholder="Enter your new username"
-              />
-            ) : (
-              <h1 className="profile_name">
-                {userData ? userData?.user?.username : "Log in firstly"}
-              </h1>
-            )}
+              <button
+                onClick={() => {
+                  setIsNameChanged(true);
+                }}
+                className={`username__edit-button ${
+                  isNameChanged ? "unactive" : ""
+                }`}
+              >
+                <img src={Edit} alt="edit" />
+              </button>
+            </div>
 
             <h2 className="profile_uses-title none">{t("uses")}</h2>
             <h3 className="profile_uses-amount">
@@ -145,8 +147,10 @@ const Profile = ({
                 isPromocodeActive ? "none" : ""
               }`}
             >
-              Activate <span>promocode</span>
+              {t("Activate")} <span>{t("promocode")}</span>
             </button>
+            
+            <div className="promocode__container">
             {isPromocodeActive ? (
               <>
                 {" "}
@@ -190,6 +194,7 @@ const Profile = ({
                 </button>
               </>
             ) : null}
+            </div>
 
             <div className="info_block">
               <h3 className="info_block-title none">
@@ -202,21 +207,23 @@ const Profile = ({
                 {userData ? userData?.user?.email : ""}
               </h2>
 
-              <h2 className="info_block-password none">
-                {t("PASS")}
-                <span>{t("WORD")}</span> : *
-              </h2>
+              <div className="password__container">
+                <h2 className="info_block-password none">
+                  {t("PASS")}
+                  <span>{t("WORD")}</span> : *
+                </h2>
 
-              <button
-                onClick={() => {
-                  setIsPasswordChanged(true);
-                }}
-                className={`password__edit-button ${
-                  isPasswordChanged ? "unactive" : ""
-                }`}
-              >
-                <img src={Edit} alt="edit" />
-              </button>
+                <button
+                  onClick={() => {
+                    setIsPasswordChanged(true);
+                  }}
+                  className={`password__edit-button ${
+                    isPasswordChanged ? "unactive" : ""
+                  }`}
+                >
+                  <img src={Edit} alt="edit" />
+                </button>
+              </div>
             </div>
 
             <button

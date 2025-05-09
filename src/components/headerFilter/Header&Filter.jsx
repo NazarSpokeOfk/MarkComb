@@ -40,6 +40,9 @@ const HeaderFilter = ({
   setUserCountry,
   setUserLang,
 }) => {
+
+  const apiBaseUrl = import.meta.env.VITE_API_URL;
+
   const { t } = useTranslation();
 
   const [isModalOpened, setIsModalOpened] = useState(false);
@@ -100,7 +103,7 @@ const HeaderFilter = ({
       return;
     }
     try {
-      const response = await fetch("https://owa.markcomb.com/api/search", {
+      const response = await fetch(`${apiBaseUrl}/search`, {
         method: "POST",
         credentials: "include",
         headers: {

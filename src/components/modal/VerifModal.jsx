@@ -20,6 +20,8 @@ const VerifModal = ({
   isPasswordWillBeReset,
   setCsrfToken,
 }) => {
+  const apiBaseUrl = import.meta.env.VITE_API_URL;
+
   const { t } = useTranslation();
   const dataToDB = new DataToDB(setIsLoggedIn, setUserData);
   const modalRef = useRef();
@@ -46,7 +48,7 @@ const VerifModal = ({
     try {
       let email = signInData.email;
       console.log(signInData);
-      const result = await fetch(`https://owa.markcomb.com/api/verification`, {
+      const result = await fetch(`${apiBaseUrl}/verification`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",

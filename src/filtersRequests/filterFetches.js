@@ -1,3 +1,5 @@
+const apiBaseUrl = import.meta.env.VITE_API_URL;
+
 const manageFiltersFetch = async (
   content_type,
   setSimilarChannelData,
@@ -13,11 +15,10 @@ const manageFiltersFetch = async (
     minsubs,
     maxsubs 
   );
-  const apiUrl = "https://owa.markcomb.com/api";
-  const localApiUrl = "http://localhost:5001/api";
+
   try {
     let response;
-    response = await fetch(`${apiUrl}/filter`, {
+    response = await fetch(`${apiBaseUrl}/filter`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",

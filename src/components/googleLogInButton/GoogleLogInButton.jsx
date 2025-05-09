@@ -1,10 +1,13 @@
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { toast } from "react-toastify";
+
+const apiBaseUrl = import.meta.env.VITE_API_URL;
+
 const GoogleLoginButton = ({setIsLoggedIn,setUserData,setIsModalOpened}) => {
   const handleSuccess = async (response) => {
     const credential = response.credential
     console.log("Вход с помощью google.", response);
-    await fetch("https://owa.markcomb.com/api/auth/google", {
+    await fetch(`${apiBaseUrl}/auth/google`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",

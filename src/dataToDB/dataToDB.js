@@ -1,11 +1,11 @@
+const apiBaseUrl = import.meta.env.VITE_API_URL;
+
 class DataToDB {
   constructor(setIsLoggedIn, setUserData, setIsModalOpened, setCsrfToken) {
     this.setIsLoggedIn = setIsLoggedIn;
     this.setUserData = setUserData;
     this.setIsModalOpened = setIsModalOpened;
     this.setCsrfToken = setCsrfToken;
-    this.apiUrl = "https://owa.markcomb.com/api";
-    this.localApiUrl = "http://localhost:5001/api";
   }
 
   makePurchaseForm = {
@@ -37,7 +37,7 @@ class DataToDB {
 
   deletePurchaseData(channelName, userId, csrfToken) {
     return this.fetchData(
-      `${this.apiUrl}/rmpurchase/${userId}`,
+      `${apiBaseUrl}/rmpurchase/${userId}`,
       "DELETE",
       { channelName },
       csrfToken
@@ -51,7 +51,7 @@ class DataToDB {
     }
     try {
       const result = await this.fetchData(
-        `${this.apiUrl}/purchase/${userId}`,
+        `${apiBaseUrl}/purchase/${userId}`,
         "POST",
         data,
         csrfToken,
@@ -72,7 +72,7 @@ class DataToDB {
 
   async validateSignIn(data, setCsrfToken) {
     try {
-      const result = await this.fetchData(`${this.apiUrl}/user`, "POST", {
+      const result = await this.fetchData(`${apiBaseUrl}/user`, "POST", {
         data,
       });
       console.log(result)
@@ -89,7 +89,7 @@ class DataToDB {
   async validateLogIn(data) {
     try {
       const result = await this.fetchData(
-        `${this.apiUrl}/login`,
+        `${apiBaseUrl}/login`,
         "POST",
         data
       );
@@ -106,7 +106,7 @@ class DataToDB {
   async updateData(data) {
     try {
       const result = await this.fetchData(
-        `${this.apiUrl}/update/${data.user_id}`,
+        `${apiBaseUrl}/update/${data.user_id}`,
         "PUT",
         data
       );
@@ -123,7 +123,7 @@ class DataToDB {
     console.log("ID пользователя в deleteProfile:", userId);
 
     return this.fetchData(
-      `${this.apiUrl}/user/${userId}`,
+      `${apiBaseUrl}/user/${userId}`,
       "DELETE",
       null,
       csrfToken
@@ -144,7 +144,7 @@ class DataToDB {
   }
 
   isVerificationCodeCorrect(email, verificationCode) {
-    return this.fetchData(`${this.apiUrl}/checkCode`, "POST", {
+    return this.fetchData(`${apiBaseUrl}/checkCode`, "POST", {
       email,
       verification_code: verificationCode,
     })
@@ -153,7 +153,7 @@ class DataToDB {
   }
 
   changePassword(newPassword, email) {
-    return this.fetchData(`${this.apiUrl}/changePassword`, "PUT", {
+    return this.fetchData(`${apiBaseUrl}/changePassword`, "PUT", {
       newPassword,
       email,
     })
@@ -162,7 +162,7 @@ class DataToDB {
   }
 
   activatePromocode(promocode, email) {
-    return this.fetchData(`${this.apiUrl}/promocode`, "PUT", {
+    return this.fetchData(`${apiBaseUrl}/promocode`, "PUT", {
       promocode,
       email,
     }).then((response) => {
@@ -184,7 +184,7 @@ class DataToDB {
   }
 
   async makeVote(featureName, user_id) {
-    return this.fetchData(`${this.apiUrl}/vote`, "POST", {
+    return this.fetchData(`${apiBaseUrl}/vote`, "POST", {
       featureName,
       user_id,
     })

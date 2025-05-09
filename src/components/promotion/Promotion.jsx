@@ -18,6 +18,8 @@ import like from "../../icons/like.png";
 import views from "../../icons/views.png";
 
 const Promotion = ({ isLoggedIn, userData }) => {
+  const apiBaseUrl = import.meta.env.VITE_API_URL;
+
   const [channelName, setChannelName] = useState("");
   const [videoData, setVideoData] = useState({});
   const [activeIndex, setActiveIndex] = useState(null);
@@ -73,7 +75,7 @@ const Promotion = ({ isLoggedIn, userData }) => {
       return Promise.reject();
     }
     console.log("Body data : ", bodyData);
-    const result = await fetch(`https://owa.markcomb.com/api/${type}`, {
+    const result = await fetch(`${apiBaseUrl}/${type}`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",

@@ -19,7 +19,7 @@ class EmailAndNameController {
 
     if (!email) {
       try {
-        const request = await fetch(`https://owa.markcomb.com/api/getdata`, {
+        const request = await fetch(`${process.env.API_URL}/getdata`, {
           method: "POST",
           headers: {
             "Content-type": "application/json",

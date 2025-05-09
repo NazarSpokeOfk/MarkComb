@@ -12,6 +12,9 @@ const FeedbackForm = ({
   setIsFeedbackWillBeWrited,
   isFeedbackWillBeWrited,
 }) => {
+
+  const apiBaseUrl = import.meta.env.VITE_API_URL;
+
   const { t } = useTranslation();
 
   const [reviewText, setReviewText] = useState("");
@@ -23,7 +26,7 @@ const FeedbackForm = ({
       return;
     }
 
-    const request = await fetch(`https://owa.markcomb.com/api/review`, {
+    const request = await fetch(`${apiBaseUrl}/review`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
