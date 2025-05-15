@@ -39,6 +39,7 @@ const HeaderFilter = ({
   csrfToken,
   setUserCountry,
   setUserLang,
+  isFilterCTAActive
 }) => {
 
   const apiBaseUrl = import.meta.env.VITE_API_URL;
@@ -133,6 +134,12 @@ const HeaderFilter = ({
   }, []);
 
   useEffect(() => {
+    if(isFilterCTAActive){
+      openFilters()
+    }
+  },[isFilterCTAActive])
+
+  useEffect(() => {
     const newAnimations = selectedFilterLabels.map((_, index) => false);
     setActiveAnimations(newAnimations);
 
@@ -223,8 +230,8 @@ const HeaderFilter = ({
     <>
       <HelmetProvider>
         <Helmet>
-          <title>Main page</title>
-          <meta name="description" content="Main page of the markcomb" />
+          <title>{t("Filters and search")}</title>
+          <meta name="description" content="Use filters and search to get accurate results." />
         </Helmet>
 
         <Header hideLinks={false} isVoteEnabled={userData?.isVoteEnabled} />

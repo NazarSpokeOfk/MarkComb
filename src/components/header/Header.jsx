@@ -20,7 +20,7 @@ const Header = ({ hideLinks = false, isVoteEnabled }) => {
   return (
     <header className={`${isHeaderExpanded ? "active" : ""}`}>
       <div className="logo">
-        <Link to="/">
+        <Link to="/search">
           {isLittleMobile ? (
             <>
               M<span>K</span>

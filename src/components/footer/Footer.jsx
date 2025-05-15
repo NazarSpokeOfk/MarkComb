@@ -29,7 +29,7 @@ const Footer = () => {
             {t("Personal Data Processing Agreement")}
           </Link>
           <a
-            href="/offer.pages"
+            href="/offer.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="footer__purpose none"

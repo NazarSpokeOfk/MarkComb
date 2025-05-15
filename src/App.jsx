@@ -20,6 +20,8 @@ import SuccessThumbnail from "./components/purchasesTrumbnails/successThumbnail/
 import FailThumbnail from "./components/purchasesTrumbnails/failThumbnail/FailThumbnail";
 import SponsorsPage from "./components/sponsorsPage/sponsorsPage";
 import VotingPage from "./components/votingPage/votingPage";
+import MainPage from "./components/mainPage/MainPage";
+import ScrollToTop from "./components/scrollToTop/scrollToTop";
 
 function App() {
   const [channelData, setChannelData] = useState(null);
@@ -29,6 +31,7 @@ function App() {
   const [csrfToken, setCsrfToken] = useState("");
   const [userCountry, setUserCountry] = useState("");
   const [userLang, setUserLang] = useState("");
+  const [isFilterCTAActive,setIsFilterCTAActive] = useState(false)
 
   const [signInData, setSignInData] = useState({
     email: "",
@@ -42,12 +45,21 @@ function App() {
   });
 
   useEffect(() => {
-    console.log(userData)
-  },[userData])
+    console.log(userData);
+  }, [userData]);
 
   return (
     <Router>
+      <ScrollToTop/>
       <Routes>
+       <Route
+          path="/"
+          element={
+            <ErrorBoundary>
+              <MainPage setIsFilterCTAActive={setIsFilterCTAActive} />
+            </ErrorBoundary>
+          }
+        />
         <Route
           path="/purchases"
           element={
@@ -62,7 +74,7 @@ function App() {
           }
         />
         <Route
-          path="/"
+          path="/search"
           element={
             <>
               <ErrorBoundary>
@@ -83,6 +95,7 @@ function App() {
                   csrfToken={csrfToken}
                   setUserCountry={setUserCountry}
                   setUserLang={setUserLang}
+                  isFilterCTAActive={isFilterCTAActive}
                 />
               </ErrorBoundary>
               <ErrorBoundary>
@@ -187,13 +200,13 @@ function App() {
           }
         />
         <Route
-        path="/vote"
-        element={
-          <ErrorBoundary>
-            <VotingPage userData={userData}/>
-            <ToastContainer/>
-          </ErrorBoundary>
-        }
+          path="/vote"
+          element={
+            <ErrorBoundary>
+              <VotingPage userData={userData} />
+              <ToastContainer />
+            </ErrorBoundary>
+          }
         />
       </Routes>
     </Router>

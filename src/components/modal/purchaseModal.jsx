@@ -48,7 +48,16 @@ const PurchaseModal = ({
           >
             <div className="purchase__modal-top">
               <h1 className="purchase__modal-title">
-                {t("You're going to buy")} - {packageName}
+                {isBusiness ? (
+                  <>
+                    {t("You're going to buy")} - {t("subscription")}{" "}
+                    {t(packageName)}
+                  </>
+                ) : (
+                  <>
+                    {t("You're going to buy")} - {t(packageName)}{" "}{t("package")}{" "}{t("of uses")}
+                  </>
+                )}
               </h1>
               <button
                 onClick={() => {
@@ -66,7 +75,7 @@ const PurchaseModal = ({
 
             <div className="purchase__modal-definitions">
               <h3 className="definitions__title">
-                {packageName} <span>{t("contains")}</span> :
+                {t(packageName)} <span>{t("contains")}</span> :
               </h3>
 
               <ul className="definitions__ul">
@@ -76,8 +85,7 @@ const PurchaseModal = ({
                   </>
                 ) : (
                   <li>
-                    {usesQuantity}
-                    {" "} {t("USES")}
+                    {usesQuantity} {t("USES")}
                   </li>
                 )}
               </ul>
@@ -91,17 +99,13 @@ const PurchaseModal = ({
               <h3 className="definitions__title">{t("Price")} :</h3>
 
               <ul className="definitions__ul">
-                {isBusiness ? <li>{price}</li> : <li>{price}₽</li>}
+                {isBusiness ? <li>{price}{" "}₽ / {t("Month")}</li> : <li>{price}₽</li>}
               </ul>
             </div>
             <div className="purchase__modal-bottom">
               <h3 className="offer__suggestion">
                 {t("Before purchase, you can study")}{" "}
-                <a
-                  href="/offer.pages"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <a href="/offer.pdf" target="_blank" rel="noopener noreferrer">
                   {t("Offer")}
                 </a>
               </h3>

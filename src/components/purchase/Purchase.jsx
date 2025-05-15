@@ -64,7 +64,7 @@ const Purchase = ({ isLoggedIn, userData }) => {
     <>
       <HelmetProvider>
         <Helmet>
-          <title>Purchase uses</title>
+          <title>{t("Purchase uses")}</title>
           <meta name="description" content="You can purchase uses here." />
         </Helmet>
 
@@ -74,7 +74,7 @@ const Purchase = ({ isLoggedIn, userData }) => {
           <div className="container">
             <h2 ref={titleRef} className="title__purchase">
               {t("PUR")}
-              <span>{t("CHASE")}</span>
+              <span>{t("CHASE")}</span>{" "}{t("Uses")}
             </h2>
             <div className="balance__block">
               <h3 className="balance-block__money">
@@ -133,7 +133,7 @@ const Purchase = ({ isLoggedIn, userData }) => {
             <div id="business" className="packages-light__package">
               <h3 className="package__title-business none">{t("Business")}</h3>
               <h4 className="package__usages-business none">
-                5 {t("5 uses per day for 30 days")}
+                {t("5 uses per day for 30 days")}
               </h4>
               <h4 className="package__price-business">
                 <span>22500</span>₽
@@ -144,9 +144,9 @@ const Purchase = ({ isLoggedIn, userData }) => {
               <button
                 onClick={() => {
                   setSelectedPackage({
-                    packageName: "business",
-                    usesQuantity: "5",
-                    price: "4500₽/month",
+                    packageName: "Business",
+                    usesQuantity: 5,
+                    price: 4500,
                     isBusiness : true
                   });
                   setIsModalOpened(true);

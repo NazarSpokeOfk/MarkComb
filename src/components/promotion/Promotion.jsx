@@ -148,7 +148,7 @@ const Promotion = ({ isLoggedIn, userData }) => {
     <>
       <HelmetProvider>
         <Helmet>
-          <title>Promotion</title>
+          <title>{t("Promotion")}</title>
           <meta
             name="description"
             content="Here you can see how the content maker's video has progressed"

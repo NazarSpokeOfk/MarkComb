@@ -1,6 +1,8 @@
+const apiBaseUrl = import.meta.env.VITE_API_URL;
+
 const checkCookies = async (setIsLoggedIn, setUserData , setUserLang , setCsrfToken) => {
     try {
-        const response = await fetch("http://localhost:5001/api/cookie", {
+        const response = await fetch(`${apiBaseUrl}/cookie`, {
           method: "GET",
           credentials: "include",  
           headers : {

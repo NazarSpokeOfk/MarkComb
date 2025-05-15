@@ -71,7 +71,7 @@ const Purchases = ({ userData, setUserData, csrfToken }) => {
     <>
       <HelmetProvider>
         <Helmet>
-          <title>Your purchases</title>
+          <title>{t("Your purchases")}</title>
           <meta
             name="description"
             content="You can watch your purchases here."
@@ -87,7 +87,7 @@ const Purchases = ({ userData, setUserData, csrfToken }) => {
               className="title none"
             >
               {t("rec")}
-              <span>{t("ent")}</span>
+              <span>{t("ent")}{" "}</span>{t("purchases")}
             </h2>
             {userData?.channels?.length > 0 ? (
               userData?.channels.map((channel, index) => (

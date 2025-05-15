@@ -22,6 +22,8 @@ const verifyJWT = async (req,res) => {
             isVoteEnabled : decoded.isVoteEnabled
         }
 
+        console.log(process.env.API_URL)
+
         const response = await fetch(`${process.env.API_URL}/loginbyid/${userData.user_id}` , {
             method : "GET",
             credentials : "include",

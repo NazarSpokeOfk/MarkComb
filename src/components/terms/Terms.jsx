@@ -16,7 +16,7 @@ const Terms = () => {
     <>
       <HelmetProvider>
         <Helmet>
-          <title>Study the terms of use of MarkComb</title>
+          <title>{t("Study the terms of use of MarkComb")}</title>
           <meta name="description" content="Terms of use of MarkComb" />
         </Helmet>
         <Header/>

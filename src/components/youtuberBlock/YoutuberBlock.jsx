@@ -259,25 +259,25 @@ const YoutuberBlock = ({
               <h4 className="youtuber__info">{t("Target Audience")}</h4>
               <span className="youtuber__dash">-</span>
               <h4 className="youtuber__info">
-              {userData && SimilarChannelData
-                    ? SimilarChannelData?.channelStats?.targetAudience
-                    : "?"}
+                {userData && SimilarChannelData
+                  ? SimilarChannelData?.channelStats?.targetAudience
+                  : "?"}
               </h4>
 
               <h4 className="youtuber__info">{t("Number of subs")}</h4>
               <span className="youtuber__dash">-</span>
               <h4 className="youtuber__info">
-              {userData && SimilarChannelData
-                    ? SimilarChannelData?.channelStats?.subs
-                    : "?"}
+                {userData && SimilarChannelData
+                  ? SimilarChannelData?.channelStats?.subs
+                  : "?"}
               </h4>
 
               <h4 className="youtuber__info">{t("Content type")}</h4>
               <span className="youtuber__dash">-</span>
               <h4 className="youtuber__info">
                 {userData && SimilarChannelData
-                    ? SimilarChannelData?.channelStats?.contenttype
-                    : "?"}
+                  ? SimilarChannelData?.channelStats?.contenttype
+                  : "?"}
               </h4>
             </div>
             <img

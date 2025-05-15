@@ -125,11 +125,11 @@
 }
 .package__price::after {
   position: absolute;
-  top: 20px;
+  top: 15px;
   left: -5px;
   display: block;
   content: "";
-  width: 110px;
+  width: 100px;
   height: 2px;
   background-color: var(--main-red-col);
 }

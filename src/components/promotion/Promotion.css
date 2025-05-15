@@ -323,10 +323,8 @@
   #promotion_footer {
     margin-top: 55%;
   }
-  .list-container__button {
-    position: absolute;
-    top: 250px;
-    right: 155px;
+  .list-container__button{
+    margin-left: 72%
   }
   .search-suggested__block {
     width: 73%;

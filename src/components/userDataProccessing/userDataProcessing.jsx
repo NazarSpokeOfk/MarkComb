@@ -1,10 +1,8 @@
 import { useTranslation } from "react-i18next";
 import { Trans } from "react-i18next";
-import { Link } from "react-router-dom";
 
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
-import SmoothEffect from "../smoothText";
 
 import Header from "../header/Header";
 import Footer from "../footer/Footer";
@@ -20,7 +18,7 @@ const UserDataProcessing = () => {
     <>
       <HelmetProvider>
         <Helmet>
-          <title>User data processing agreement</title>
+          <title>{t("User data processing agreement")}</title>
           <meta
             name="description"
             content="Study the agreement with the processing of personal data"
