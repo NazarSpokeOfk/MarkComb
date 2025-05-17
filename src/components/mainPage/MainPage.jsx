@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import Footer from "../footer/Footer";
 import Header from "../header/Header";
+
+import { useSlideToggle } from "../../hooks/useSlideToggle";
 
 import "./MainPage.css";
 
@@ -17,6 +19,7 @@ import elipse from "../../icons/redelipse.png";
 import binBtn from "../../icons/bin.svg";
 import toRightArrow from "../../icons/torightarrow.png";
 import MrBeast from "../../images/MrBeast.webp";
+import StopGame from "../../images/stopgame.jpg"
 
 const MainPage = ({ setIsFilterCTAActive }) => {
   const [isFiltersExpanded, setIsFilterExpanded] = useState({
@@ -24,11 +27,37 @@ const MainPage = ({ setIsFilterCTAActive }) => {
     isSecondOpened: false,
     isThirdOpened: false,
   });
+
+  const firstRef = useSlideToggle(isFiltersExpanded.isFirstOpened, 400);
+  const secondRef = useSlideToggle(isFiltersExpanded.isSecondOpened, 400);
+  const thirdRef = useSlideToggle(isFiltersExpanded.isThirdOpened, 400);
+
   const { t } = useTranslation();
 
   useEffect(() => {
     console.log("Состояние списков:", isFiltersExpanded);
   }, [isFiltersExpanded]);
+
+  useEffect(() => {
+    const wrapper = document.querySelector(".expanded__filters-wrapper");
+    if (!wrapper) return;
+
+    if (isFiltersExpanded.isFirstOpened) {
+      wrapper.style.transition = "none"; // сначала убираем анимацию
+      wrapper.style.maxHeight = "0px"; // сбросим, чтобы сработал триггер
+
+      requestAnimationFrame(() => {
+        wrapper.style.transition = "max-height 0.6s ease"; // возвращаем анимацию
+        wrapper.style.maxHeight = wrapper.scrollHeight + "px";
+      });
+    } else {
+      wrapper.style.maxHeight = wrapper.scrollHeight + "px"; // установим текущую высоту
+      requestAnimationFrame(() => {
+        wrapper.style.maxHeight = "0px"; // а теперь плавно схлопываем
+      });
+    }
+  }, [isFiltersExpanded.isFirstOpened]);
+
   return (
     <>
       <HelmetProvider>
@@ -99,7 +128,7 @@ const MainPage = ({ setIsFilterCTAActive }) => {
             <div className="youtuber__information">
               <h4 className="youtuber__info">{t("Target Audience")}</h4>
               <span className="youtuber__dash">-</span>
-              <h4 className="youtuber__info">{t("Kids,Teenagers")}</h4>
+              <h4 className="youtuber__info">{t("Teenagers")}</h4>
 
               <h4 className="youtuber__info">{t("Number of subs")}</h4>
               <span className="youtuber__dash">-</span>
@@ -111,7 +140,7 @@ const MainPage = ({ setIsFilterCTAActive }) => {
             </div>
 
             <img
-              src={YoutuberImgOne}
+              src={StopGame}
               alt="youtuber"
               className="youtuber__image"
               loading="lazy"
@@ -144,7 +173,7 @@ const MainPage = ({ setIsFilterCTAActive }) => {
                 {t("target")} <span>{t("audience")}</span>
               </h3>
 
-              <div
+              <div ref={firstRef}
                 className={`expanded__filters-wrapper ${
                   isFiltersExpanded.isFirstOpened ? "active" : ""
                 }`}
@@ -180,7 +209,7 @@ const MainPage = ({ setIsFilterCTAActive }) => {
                 {t("number of")} <span>{t("subscribers")}</span>
               </h3>
 
-              <div
+              <div ref={secondRef} 
                 className={`expanded__filters-wrapper ${
                   isFiltersExpanded.isSecondOpened ? "active" : ""
                 }`}
@@ -216,7 +245,7 @@ const MainPage = ({ setIsFilterCTAActive }) => {
                 {t("content")} <span>{t("type")}</span>
               </h3>
 
-              <div
+              <div ref={thirdRef} 
                 className={`expanded__filters-wrapper ${
                   isFiltersExpanded.isThirdOpened ? "active" : ""
                 }`}
@@ -277,7 +306,7 @@ const MainPage = ({ setIsFilterCTAActive }) => {
             </button>
             <img
               loading="lazy"
-              src={YoutuberImgOne}
+              src={StopGame}
               alt="youtuber picture"
               className="recent-block__thumbnail"
             />
