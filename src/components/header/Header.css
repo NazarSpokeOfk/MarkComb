@@ -152,6 +152,9 @@ header.active .header__sublinks {
   .logo{
     margin-left: 10px;
   }
+  .header__sublinks{
+    margin-left: 0%;
+  }
 }
 
 @media (max-width: 375px) {
@@ -187,7 +190,7 @@ header.active .header__sublinks {
 }
 
 
-@media (min-width: 1920px) and (min-height: 1080px){
+@media (min-width: 1920px) and (min-height: 1050px){
   header.active .header__sublinks{
     margin-top: 1%;
     margin-left: 2.5%;

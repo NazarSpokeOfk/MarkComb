@@ -264,7 +264,7 @@
 
 
 
-@media (min-width: 1920px) and (min-height: 1080px)
+@media (min-width: 1920px) and (min-height: 1050px)
  {
   .balance {
     margin-left: 9%;
@@ -274,6 +274,9 @@
   }
   .packages__title {
     margin-left: -12%;
+  }
+  .title__purchase{
+    width: 1000px;
   }
 }
 @media (min-width: 1280px) and (max-width: 1439px) and (min-height: 720px)

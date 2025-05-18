@@ -155,17 +155,51 @@
     box-shadow: 0 0 70px rgba(0, 0, 0, 0.4);
     .suggested-block__name {
       margin-top: 4vw;
+      margin-bottom: 0;
     }
   }
   .suggested-block__img {
-    margin-left: 39.5vw;
-    margin-top: -6.9vw;
+    margin-left: 37vw;
+    margin-top: -10.5vw;
     border: none;
     height: 155px;
   }
   .block-text {
     margin-top: 3vw;
     font-size: 23px;
+  }
+
+  .statistic__flex-block{
+    transition: all 0.6s ease;
+    opacity: 0;
+    display: flex;
+    padding-left: 6%;
+    gap: 5%;
+  }
+
+  .statistic__flex-block.active{
+    opacity: 1;
+  }
+
+  .statistic__subflex {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    width: auto;
+  }
+  
+  .statistic__subflex img {
+    width: 46px;
+    height: 46px;
+    object-fit: contain;
+  }
+  
+  .statistic__subflex .like {
+    width: 26px;
+    height: 26px;
+    margin-right: 0;
   }
 }
 
@@ -467,7 +501,8 @@
   }
 }
 
-@media (min-width: 1920px) and (min-height: 1080px) {
+
+@media (min-width: 1920px) and (min-height: 1050px) {
   .second__block {
     .youtuber__block {
       width: 80%;
@@ -486,7 +521,7 @@
     #second__block-text {
       margin-left: 37vw;
     }
-    .youtuber__information{
+    .youtuber__information {
       margin: 10px 100px;
     }
   }
@@ -527,8 +562,8 @@
       width: 80%;
       margin-left: 3vw;
       .suggested-block__img {
-        margin-top: -5.3vw;
-        margin-left: 32vw;
+        margin-top: -8vw;
+        margin-left: 30vw;
       }
       .suggested-block__name {
         margin-top: 7%;
@@ -579,42 +614,42 @@
     .success {
       margin-left: 0vw;
     }
-    #seventh__block-second-text{
+    #seventh__block-second-text {
       margin-left: 0;
       margin-right: 2vw;
     }
-    .block-button{
+    .block-button {
       margin-left: 22vw;
     }
   }
 }
 
-@media (min-width: 2560px) and (max-height: 1080px){
-  .block-button{
-    border-radius : 15px;
+@media (min-width: 2560px) and (max-height: 1080px) {
+  .block-button {
+    border-radius: 15px;
     height: 2vw;
     width: 10vw;
   }
-  .second__block{
-    #main__page-search{
+  .second__block {
+    #main__page-search {
       width: 95%;
     }
-    .youtuber__block{
+    .youtuber__block {
       width: 73%;
-      .youtuber__name{
+      .youtuber__name {
         margin-top: 2vw;
       }
-      .youtuber__image{
+      .youtuber__image {
         left: 67%;
       }
     }
-    .block-text{
+    .block-text {
       font-size: 20px;
     }
-    #second__block-text{
+    #second__block-text {
       margin-left: 35vw;
     }
-    #second__block-button{
+    #second__block-button {
       margin-left: 40vw;
     }
     #main__page-buttons {
@@ -622,248 +657,248 @@
     }
   }
 
-  .third__block{
-    #third__block-title{
+  .third__block {
+    #third__block-title {
       line-height: 2vw;
     }
-    .third__block-flex-text{
+    .third__block-flex-text {
       font-size: 18px;
     }
-    .expanded-filters-text{
+    .expanded-filters-text {
       font-size: 18px;
     }
   }
 
-  .fourth__block{
-    .recent__block{
+  .fourth__block {
+    .recent__block {
       margin: 0 auto;
       width: 75%;
-      .recent-block__thumbnail{
+      .recent-block__thumbnail {
         left: 30vw;
       }
     }
-    .block-text{
+    .block-text {
       margin-top: 3vw;
       width: 750px;
       margin-left: 20vw;
     }
   }
 
-  .fifth__block{
-    .block-title{
+  .fifth__block {
+    .block-title {
       width: 750px;
       margin-bottom: 2vw;
     }
 
-    #fifth__block-text{
+    #fifth__block-text {
       font-size: 23px;
       margin-left: 16vw;
       text-align: right;
     }
 
-    .search-suggested__block{
+    .search-suggested__block {
       margin: 0 auto;
-      .suggested-block__img{
+      .suggested-block__img {
         width: 27.3%;
         height: 7.5vw;
-        margin-top: -5.45vw;
+        margin-top: -6.8vw;
       }
     }
   }
 
-  .sixth__block{
-    .packages__block{
+  .sixth__block {
+    .packages__block {
       margin-left: 9vw;
       gap: 2vw;
       width: 100%;
-      .package__newprice{
+      .package__newprice {
         margin-top: 3vw;
       }
     }
-    .block-button{
+    .block-button {
       margin-top: 3vw;
       margin-left: 22.5vw;
       width: 20%;
       font-size: 25px;
     }
-    .packages-light__package{
+    .packages-light__package {
       height: 12vw;
     }
   }
 
-  .seventh__block{
-    .block-text{
+  .seventh__block {
+    .block-text {
       line-height: 1.5vw;
       margin-bottom: 2vw;
     }
-    .youtuber__block{
+    .youtuber__block {
       margin-top: 3vw;
       margin: 0 auto;
     }
-    .success{
+    .success {
       width: 50%;
-      margin-left:5vw;
+      margin-left: 5vw;
     }
-    #seventh__block-second-text{
+    #seventh__block-second-text {
       margin-right: 4vw;
     }
-    .block-button{
+    .block-button {
       margin-top: 5vw;
       font-size: 20px;
     }
   }
 }
 
-@media (min-width: 768px) and (max-width: 1024px){
-  .block-button{
+@media (min-width: 768px) and (max-width: 1024px) {
+  .block-button {
     width: 15vw;
     height: 5vw;
   }
-  .fourth__block{
-    .recent__block{
-      .recent-block__thumbnail{
+  .fourth__block {
+    .recent__block {
+      .recent-block__thumbnail {
         left: 12vw;
       }
     }
   }
 
-  .second__block{
-    #main__page-search{
+  .second__block {
+    #main__page-search {
       width: 86%;
     }
-    #main__page-buttons{
+    #main__page-buttons {
       margin-left: -10vw;
     }
 
-    .youtuber__block{
-      .youtuber__image{
+    .youtuber__block {
+      .youtuber__image {
         left: 61%;
       }
     }
 
-    #second__block-text{
+    #second__block-text {
       margin-left: 27vw;
       width: 320px;
     }
 
-    #second__block-button{
+    #second__block-button {
       margin-left: 42vw;
     }
   }
 
-  .third__block{
-    .expanded__filters-flex{
+  .third__block {
+    .expanded__filters-flex {
       gap: 2vw;
     }
   }
 
-  .fifth__block{
-    .search-suggested__block{
-      .suggested-block__name{
+  .fifth__block {
+    .search-suggested__block {
+      .suggested-block__name {
         margin-top: 6vw;
       }
-      .suggested-block__img{
+      .suggested-block__img {
         margin-top: -18%;
         margin-left: 33vw;
       }
     }
   }
 
-  .sixth__block{
-    .packages-light__package{
+  .sixth__block {
+    .packages-light__package {
       border-radius: 30px;
     }
-    .package__title{
+    .package__title {
       font-size: 23px;
     }
-    .packages__block{
+    .packages__block {
       gap: 2vw;
-      .package__newprice{
+      .package__newprice {
         margin-top: 5vw;
       }
-      .packages-light__package{
+      .packages-light__package {
         height: 20vw;
-        .package__usages{
+        .package__usages {
           margin-left: 5%;
         }
       }
     }
-    .block-button{
+    .block-button {
       margin-left: 20vw;
     }
   }
 
-  .seventh__block{
-    .youtuber__block{
-      .youtuber__image{
+  .seventh__block {
+    .youtuber__block {
+      .youtuber__image {
         left: 75%;
       }
     }
   }
 }
 
-@media (max-width: 430px){
-  .block-button{
+@media (max-width: 430px) {
+  .block-button {
     width: 35vw;
     height: 10vw;
   }
-  .first__block{
-    .block-title{
+  .first__block {
+    .block-title {
       margin-top: 5vw;
       font-size: 20px;
     }
-    .first__block-text{
+    .first__block-text {
       font-size: 17px;
     }
-    .ul__title{
+    .ul__title {
       font-size: 17px;
       margin-bottom: 2vw;
     }
-    .ul__flex{
+    .ul__flex {
       height: 50px;
     }
   }
-  .second__block{
+  .second__block {
     margin-top: 20vw;
     width: 100%;
-    .block-title{
+    .block-title {
       font-size: 20px;
       margin-left: 14vw;
     }
-    .block-text{
+    .block-text {
       margin-left: 14vw;
       font-size: 15px;
     }
-    #main__page-search{
+    #main__page-search {
       margin-left: 14vw;
       width: 74%;
     }
-    #main__page-buttons{
+    #main__page-buttons {
       position: absolute;
       left: 77%;
     }
-    .youtuber__block{
+    .youtuber__block {
       margin-left: 14vw;
-      .youtuber__name{
+      .youtuber__name {
         margin-top: 7vw;
         margin-left: 10%;
       }
-      .youtuber__information{
+      .youtuber__information {
         margin-left: 10%;
       }
     }
-    #second__block-text{
+    #second__block-text {
       margin-top: 30vw;
       width: 260px;
       margin-left: 32vw;
     }
-    #second__block-button{
+    #second__block-button {
       margin-left: 54vw;
     }
   }
-  .third__block{
+  .third__block {
     margin-top: 15vw;
-    #third__block-title{
+    #third__block-title {
       line-height: 7vw;
       margin-left: 2vw;
       width: 400px;
@@ -877,7 +912,7 @@
     .third__block-flex-img.active {
       rotate: -90deg;
     }
-    .third__block-flex-block{
+    .third__block-flex-block {
       flex-direction: column;
       align-items: baseline;
       padding-bottom: 3%;
@@ -887,7 +922,7 @@
       max-height: 0;
       transition: max-height 0.6s ease;
     }
-    
+
     .expanded__filters-wrapper.active {
       max-height: 500px; /* или auto с JS-хаком, см. ниже */
     }
@@ -899,92 +934,137 @@
       white-space: normal; /* разрешаем перенос */
       margin-left: 0;
     }
-    
   }
-  .fourth__block{
+  .fourth__block {
+    width: 100%;
     margin: 0;
     margin-top: 20vw;
-    .block-text{
-      margin-left: 40vw;
+    .block-text {
+      margin-left: 30vw;
     }
-    .block-title{
+    .block-title {
       margin-left: 7vw;
     }
-    .recent__block{
+    .recent__block {
       margin-left: 7vw;
-      width: 120%;
-      border-radius : 20px;
-      .recent-block__thumbnail{
+      width: 80%;
+      border-radius: 20px;
+      .recent-block__thumbnail {
         left: 50%;
         width: 60%;
         height: 101%;
         top: -1px;
       }
-      .recent-block__bin{
+      .recent-block__bin {
         margin-left: 2%;
       }
     }
   }
-  .fifth__block{
+  .fifth__block {
     margin: 0;
     width: 100%;
     margin-top: 20vw;
-    .search-suggested__block{
-      margin-left: 5vw;
-      .suggested-block__img{
+    .search-suggested__block {
+      margin-left: 13vw;
+      .suggested-block__img {
         margin-left: 0vw;
         margin-top: 13.2vw;
         width: 100%;
       }
     }
-    .block-title{
+    .block-title {
       text-align: left;
-      margin-left: 5vw;
+      margin-left: 13vw;
     }
-    #fifth__block-text{
+    #fifth__block-text {
       font-size: 17px;
-      margin-left: 8vw;
-      text-align: right;
+      margin-left: 14vw;
+      text-align: center;
       width: 300px;
       line-height: 5vw;
     }
   }
 
-  .sixth__block{
+  .sixth__block {
     margin: 0;
     width: 100%;
     margin-top: 30vw;
-    .block-title{
+    .block-title {
       margin-left: 7vw;
       width: 300px;
     }
 
-    .packages__block{
-      margin-left: 17vw;
+    .packages__block {
+      margin-left: 25vw;
       flex-direction: column;
       gap: 10vw;
     }
 
-    .packages-light__package{
+    .packages-light__package {
       height: 60vw;
       width: 50vw;
-      .package__title{
+      .package__title {
         margin-top: 10vw;
         margin-left: 7vw;
         font-size: 20px;
       }
-      .package__usages{
+      .package__usages {
         margin-left: 7vw;
         font-size: 15px;
       }
-      .package__newprice{
+      .package__newprice {
         margin-top: 20vw;
         margin-left: 7vw;
       }
     }
 
+    .block-button {
+      margin-left: 32vw;
+      margin-top: 10vw;
+    }
+  }
+
+  .seventh__block {
+    margin: 0;
+    margin-top: 15vw;
+    width: 100%;
+    .block-title {
+      margin-left: 7vw;
+    }
+    .block-text {
+      margin-left: 7vw;
+      line-height: 5vw;
+      width: 380px;
+    }
+    .youtuber__block {
+      margin-left: 13vw;
+      .youtuber__name {
+        margin-top: 7vw;
+        margin-left: 10%;
+      }
+      .youtuber__information {
+        margin-left: 10%;
+      }
+      .youtuber__image{
+        left: -2px;
+      }
+    }
+
+    .success{
+      margin-left: 15vw;
+      font-size: 17px;
+      margin-bottom: 10vw;   
+    }
+
+    #seventh__block-second-text{
+      margin-left: 15vw;
+      font-size: 21px;
+      width: 300px;
+    }
+
     .block-button{
-      margin-left: 25vw;
+      margin-top: 15vw;
+      margin-left: 33vw;
     }
   }
 }

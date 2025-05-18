@@ -124,7 +124,7 @@
   font-size: 20px;
 }
 
-@media (min-width: 1920px) and (min-height: 1080px) {
+@media (min-width: 1920px) and (min-height: 1050px) {
   #logo_footer::after {
     content: "";
     position: absolute;

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import { useMediaQuery } from "react-responsive";
 
 import Footer from "../footer/Footer";
 import Header from "../header/Header";
@@ -19,9 +20,14 @@ import elipse from "../../icons/redelipse.png";
 import binBtn from "../../icons/bin.svg";
 import toRightArrow from "../../icons/torightarrow.png";
 import MrBeast from "../../images/MrBeast.webp";
-import StopGame from "../../images/stopgame.jpg"
+import StopGame from "../../images/stopgame.jpg";
+import VideoPreview from "../../images/videopreview.jpg";
 
 const MainPage = ({ setIsFilterCTAActive }) => {
+  const [isClicked, setIsClicked] = useState(false);
+
+  const isMobile = useMediaQuery({ maxWidth: 480 });
+
   const [isFiltersExpanded, setIsFilterExpanded] = useState({
     isFirstOpened: false,
     isSecondOpened: false,
@@ -33,30 +39,6 @@ const MainPage = ({ setIsFilterCTAActive }) => {
   const thirdRef = useSlideToggle(isFiltersExpanded.isThirdOpened, 400);
 
   const { t } = useTranslation();
-
-  useEffect(() => {
-    console.log("Состояние списков:", isFiltersExpanded);
-  }, [isFiltersExpanded]);
-
-  useEffect(() => {
-    const wrapper = document.querySelector(".expanded__filters-wrapper");
-    if (!wrapper) return;
-
-    if (isFiltersExpanded.isFirstOpened) {
-      wrapper.style.transition = "none"; // сначала убираем анимацию
-      wrapper.style.maxHeight = "0px"; // сбросим, чтобы сработал триггер
-
-      requestAnimationFrame(() => {
-        wrapper.style.transition = "max-height 0.6s ease"; // возвращаем анимацию
-        wrapper.style.maxHeight = wrapper.scrollHeight + "px";
-      });
-    } else {
-      wrapper.style.maxHeight = wrapper.scrollHeight + "px"; // установим текущую высоту
-      requestAnimationFrame(() => {
-        wrapper.style.maxHeight = "0px"; // а теперь плавно схлопываем
-      });
-    }
-  }, [isFiltersExpanded.isFirstOpened]);
 
   return (
     <>
@@ -173,7 +155,8 @@ const MainPage = ({ setIsFilterCTAActive }) => {
                 {t("target")} <span>{t("audience")}</span>
               </h3>
 
-              <div ref={firstRef}
+              <div
+                ref={isMobile ? firstRef : null}
                 className={`expanded__filters-wrapper ${
                   isFiltersExpanded.isFirstOpened ? "active" : ""
                 }`}
@@ -209,7 +192,8 @@ const MainPage = ({ setIsFilterCTAActive }) => {
                 {t("number of")} <span>{t("subscribers")}</span>
               </h3>
 
-              <div ref={secondRef} 
+              <div
+                ref={isMobile ? secondRef : null}
                 className={`expanded__filters-wrapper ${
                   isFiltersExpanded.isSecondOpened ? "active" : ""
                 }`}
@@ -245,7 +229,8 @@ const MainPage = ({ setIsFilterCTAActive }) => {
                 {t("content")} <span>{t("type")}</span>
               </h3>
 
-              <div ref={thirdRef} 
+              <div
+                ref={isMobile ? thirdRef : null}
                 className={`expanded__filters-wrapper ${
                   isFiltersExpanded.isThirdOpened ? "active" : ""
                 }`}
@@ -323,33 +308,32 @@ const MainPage = ({ setIsFilterCTAActive }) => {
             {t("Track")} <span>{t("video promotion")}</span>
           </h2>
 
-          <div className={`search-suggested__block`}>
+          <div
+            onClick={() => {
+              setIsClicked(!isClicked);
+            }}
+            className={`search-suggested__block`}
+          >
             <h2 className="suggested-block__name">
               {t("Обзор Marvel Rivals")}
             </h2>
+            <div className={`statistic__flex-block  ${isClicked ? "active" : ""} `}>
+              <div className="statistic__subflex">
+                <img src={views} alt="" />
+                <h3>15678</h3>
+              </div>
+
+              <div className="statistic__subflex">
+                <img className="like" src={like} alt="" />
+                <h3>14678</h3>
+              </div>
+            </div>
             <img
               loading="lazy"
-              src={YoutuberImgOne}
+              src={VideoPreview}
               alt="a video thumbnail"
               className={`suggested-block__img`}
             />
-            {/* <h2 className="suggested-block__views">
-      {" "}
-      {videoData?.analitics && (
-        <>
-          <img loading="lazy" src={views} alt="eye" className="views" />{" "}
-          <div className="views__text">{videoData?.analitics?.views}</div>
-        </>
-      )}
-    </h2>
-    <h2 className="suggested-block__likes">
-      {videoData?.analitics && (
-        <>
-          <img loading="lazy" src={like} alt="eye" className="like" />{" "}
-          <div className="likes__text">{videoData?.analitics?.likes}</div>
-        </>
-      )}
-    </h2> */}
           </div>
 
           <h3 id="fifth__block-text" className="block-text">

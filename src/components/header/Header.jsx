@@ -72,7 +72,8 @@ const Header = ({ hideLinks = false, isVoteEnabled }) => {
         </Link>
 
         <Link to="/purchase" className="header__link">
-          {t("support")} <span>{t("project")}</span>
+          {t("support")} {isLittleMobile ? <br /> : null}{" "}
+          <span>{t("project")}</span>
         </Link>
       </div>
     </header>

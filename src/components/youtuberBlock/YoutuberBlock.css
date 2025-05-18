@@ -177,8 +177,7 @@
     opacity: 0.5;
   }
 }
-
-@media (min-width: 1920px) and (min-height: 1080px)
+@media (min-width: 1920px) and (min-height: 1050px)
  {
   .youtuber__button {
     margin-left: 23%;

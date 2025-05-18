@@ -126,10 +126,16 @@
   }
 }
 
-@media (min-width: 1920px) and (min-height: 1080px)
+@media (min-width: 1920px) and (min-height: 1050px)
  {
   .no_available_img {
-    margin-left: 42.5%;
+    margin-left: 45%;
+  }
+  .magnifying_glass{
+    right: 800px;
+  }
+  .title{
+    margin-left: 29%;
   }
 }
 
