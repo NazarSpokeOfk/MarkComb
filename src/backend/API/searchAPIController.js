@@ -197,7 +197,7 @@ class SearchApiController{
               : "Unknown category";
             return {
               ...channel,
-              genre: genreName[1],
+              contenttype: genreName[1],
               targetAudience: genreName[0],
             }; // Добавляем жанр
           } catch (error) {
@@ -221,13 +221,14 @@ class SearchApiController{
       if (!data || data.length === 0) {
         return;
       }
-      const updatedData = await Promise.all(
+      const dataInArr = await Promise.all(
         data.map(async (channel) => {
           const subsCount = await this.getSubsCount(channel.channelId);
           return { ...channel, subsCount };
         })
       );
 
+      let updatedData = dataInArr[0]
       res.json({status : true,updatedData})
       return;
     } catch (error) {

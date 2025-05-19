@@ -52,13 +52,13 @@ class ChannelsController {
         return;
       }
 
-      const channelStats = await this.fetchChannelData(
+      const updatedData = await this.fetchChannelData(
         result.channelid,
         result.content_type,
         result.age_group
       );
 
-      res.json({ status: true, channelStats });
+      res.json({ status: true, updatedData });
     } catch (error) {
       logger.error(" (selectChannel) Возникла ошибка в selectChannel:", error);
       res.status(500).json({ error: "Ошибка при выполнении запроса" });
@@ -72,14 +72,14 @@ class ChannelsController {
       );
       const result = await response.json();
       if (result) {
-        const channelData = {
-          subs: result?.items?.[0]?.statistics?.subscriberCount,
+        const updatedData = {
+          subsCount: result?.items?.[0]?.statistics?.subscriberCount,
           contenttype: contentType,
           targetAudience: audience,
           thumbnail: result?.items?.[0]?.snippet?.thumbnails?.medium?.url,
           channelId: channelId,
         };
-        return channelData;
+        return updatedData;
       } else {
         return false;
       }

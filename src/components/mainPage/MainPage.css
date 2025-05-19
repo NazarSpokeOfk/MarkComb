@@ -624,7 +624,7 @@
   }
 }
 
-@media (min-width: 2560px) and (max-height: 1080px) {
+@media (min-width: 2560px) and (max-height: 1480px) {
   .block-button {
     border-radius: 15px;
     height: 2vw;

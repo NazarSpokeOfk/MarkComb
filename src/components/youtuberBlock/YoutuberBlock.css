@@ -1,4 +1,4 @@
-.youtuber__block {
+/* .youtuber__block {
   position: relative;
   border: 1px solid #000;
   border-radius: 55px;
@@ -14,9 +14,6 @@
   margin-top: 130px;
 }
 .youtuber__image {
-  position: absolute;
-  left: 60.7%;
-  bottom: 0%;
   border-radius: 55px;
   width: 400px;
   height: 309px;
@@ -115,7 +112,7 @@
 }
 
 
-
+*/
 .feedback{
   margin-left: 85%;
 }
@@ -127,10 +124,10 @@
   height: 70px;
   border: 1px solid black;
   border-radius: 50%;
-  display: flex; /* Центрируем иконку */
+  display: flex; 
   align-items: center;
   justify-content: center;
-  background-color: white; /* На случай прозрачности */
+  background-color: white;
   img {
     height: 50%;
     width: 50%;
@@ -140,9 +137,9 @@
 .feedback__button:hover{
   transform: scale(0.95);
 }
-
+/*
 .blur-shimmer {
-  width: 100px; /* или auto */
+  width: 100px;
   height: 20px;
   border-radius: 5px;
   background: linear-gradient(
@@ -201,10 +198,10 @@
     margin-left: 10%;
   }
 }
-@media (min-width: 2480px) and (max-height: 1024px)
+@media (min-width: 2560px) and (max-height: 1480px)
  {
   .youtuber__button {
-    margin-left: 18%;
+    margin-left: 21%;
   }
   .youtuber__name {
     margin-top: 45px;
@@ -216,10 +213,6 @@
   .statistic {
     font-size: 25px;
     word-wrap: break-word;
-  }
-  .youtuber__button {
-    font-size: 20px;
-    margin-left: 30%;
   }
   .youtuber__block {
     width: 1100px;
@@ -254,7 +247,7 @@
     display: block;
     margin: 0 auto;
     width: 80%;
-    /* margin-left: 5%; */
+    margin-left: 5%;
     height: 250px;
     border-radius: 50px;
   }
@@ -342,4 +335,4 @@
   .youtuber__information{
     width: 90%;
   }
-}
+} */

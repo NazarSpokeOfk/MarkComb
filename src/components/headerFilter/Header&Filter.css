@@ -493,9 +493,9 @@ input:checked + .slider:before {
     margin-left: 75%;
   }
 }
-@media (min-width: 2560px) and (max-height: 1080px){
+@media (min-width: 2560px) and (max-height: 1480px){
   .search__main {
-    width: 50%;
+    width: 55%;
     height: 50px;
     font-size: 25px;
   }
@@ -536,10 +536,7 @@ input:checked + .slider:before {
   .filter__block {
     font-size: 25px;
   }
-  .filter__divider {
-    margin-top: 2px;
-    height: 5px;
-  }
+  
   .profile__name {
     font-size: 22px;
   }
@@ -553,8 +550,8 @@ input:checked + .slider:before {
     margin-left: 20%;
   }
   .filter__divider{
-    width: 52%;
-    margin-left: 21%;
+    width: 57%;
+    margin-left: 18%;
     margin-top: 5%;
   }
   .multifilter__title{
