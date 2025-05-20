@@ -44,6 +44,28 @@ class DataToDB {
     );
   }
 
+  async getEmail (csrfToken,channelId) {
+    console.log("Поступившие данные : " ,channelId,csrfToken)
+    try {
+      const result = await fetch(`${apiBaseUrl}/getemail`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-type": "application/json",
+          "x-csrf-token": csrfToken,
+          "x-api-key": import.meta.env.VITE_API_KEY,
+        },
+        body: JSON.stringify({ channelId }),
+      });
+      const response = await result.json();
+
+      return response
+
+    } catch (error) {
+      return { message : error,status: false };
+    }
+  }
+
   async validatePurchaseData(data, userId, csrfToken, uses) {
     console.log("Дата в validatePurchaseData : ", data);
     if (!data.email) {

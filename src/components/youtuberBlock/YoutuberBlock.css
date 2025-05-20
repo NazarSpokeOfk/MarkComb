@@ -1,83 +1,46 @@
-/* .youtuber__block {
-  position: relative;
-  border: 1px solid #000;
-  border-radius: 55px;
-  width: 1020px;
-  height: 310px;
-  margin: 0 auto;
-  z-index: -1;
-}
-:root {
-  --main-red-col: #ff0000;
-}
-.youtubers {
-  margin-top: 130px;
-}
-.youtuber__image {
-  border-radius: 55px;
-  width: 400px;
-  height: 309px;
-  z-index: -1;
-  border: 1px solid black;
-}
-
-.youtuber__information {
-  display: grid;
-  grid-template-columns: auto 10px 1fr;
-  gap: 10px 15px;
-  margin: 20px 100px;
-  align-items: center;
-}
-
-.youtuber__info {
-  font-weight: bold;
-}
-
-.youtuber__dash {
-  font-weight: bold;
-}
-
-.youtuber__name {
-  margin-top: 60px;
-  margin-left: 100px;
-  display: inline-block;
-  font-weight: 700;
-  font-size: 20px;
-  color: #000;
-  margin-bottom: 0;
-}
-.pulse {
-  animation: pulse 1.5s infinite;
-}
-.youtuber__definitions {
-  width: 30%;
-}
-.youtuber__definition {
-  text-align: left; 
-  font-weight: 300;
-  font-size: 20px;
-  color: #000;
-  margin-bottom: 40px;
+.youtuber__block {
+    border: 1px solid #000;
+    border-radius: 55px;
+    width: 1020px;
+    height: 310px;
+    margin: 0 auto;
+    margin-top: 10vw;
+    background-color: #fff;
+    box-sizing: border-box;
+  }
+  
+  .youtuber__flex-subblock {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .youtuber__information {
+    display: grid;
+    grid-template-columns: auto 10px 1fr;
+    grid-template-rows: auto repeat(3, auto);
+    gap: 10px 15px;
+    align-items: center;
+    margin-left: 10%;
+    margin-top: 5%;
+  }
+  
+  .youtuber__name {
+    grid-column: 1 / -1;
+    font-size: 24px;
+    font-weight: 600;
+  }
+  
+  .youtuber__image {
+    width: 400px;
+    height: 100%;
+    border-radius: 55px;
+    border: 1px solid black;
+    object-fit: cover;
 }
 
-.statistic {
-  font-weight: 300;
-  font-size: 20px;
-  color: #060606;
-  margin-bottom: 40px;
-  transition: all 0.4s;
-}
-
-#subs {
-  padding-bottom: 150px;
-}
-.none {
-  opacity: 1;
-  transition: 0.2s all;
-}
-.youtuber__stats {
-  width: 30%;
-}
 
 .youtuber__button {
   border: 1px solid black;
@@ -86,7 +49,6 @@
   height: 80px;
   margin-top: 50px;
   margin-left: 200px;
-  margin-bottom: 100px;
   font-weight: 600;
 
   font-size: 17px;
@@ -111,33 +73,10 @@
   border-color: rgba(255, 0, 0, 0.838);
 }
 
-
-*/
-.feedback{
-  margin-left: 85%;
+.pulse {
+  animation: pulse 1.5s infinite;
 }
 
-.feedback__button {
-  transition: all 0.6s ease;
-  margin-top: 5%;
-  width: 70px;
-  height: 70px;
-  border: 1px solid black;
-  border-radius: 50%;
-  display: flex; 
-  align-items: center;
-  justify-content: center;
-  background-color: white;
-  img {
-    height: 50%;
-    width: 50%;
-  }
-  cursor: pointer;
-}
-.feedback__button:hover{
-  transform: scale(0.95);
-}
-/*
 .blur-shimmer {
   width: 100px;
   height: 20px;
@@ -174,54 +113,9 @@
     opacity: 0.5;
   }
 }
-@media (min-width: 1920px) and (min-height: 1050px)
- {
-  .youtuber__button {
-    margin-left: 23%;
-    font-size: 20px;
-  }
-  .youtuber__name {
-    margin-top: 35px;
-    font-size: 25px;
-  }
-  .youtuber__definition {
-    font-size: 25px;
-  }
-  .statistic {
-    font-size: 25px;
-    word-wrap: break-word;
-  }
-}
-@media (min-width: 1280px) and (max-width: 1439px) and (min-height: 720px)
- {
-  .youtuber__button {
-    margin-left: 10%;
-  }
-}
-@media (min-width: 2560px) and (max-height: 1480px)
- {
-  .youtuber__button {
-    margin-left: 21%;
-  }
-  .youtuber__name {
-    margin-top: 45px;
-    font-size: 30px;
-  }
-  .youtuber__definition {
-    font-size: 25px;
-  }
-  .statistic {
-    font-size: 25px;
-    word-wrap: break-word;
-  }
-  .youtuber__block {
-    width: 1100px;
-    height: 350px;
-  }
-  .youtuber__image {
-    width: 450px;
-    height: 350px;
-  }
+
+
+@media (min-width: 2560px) and (max-height: 1480px) {
   .feedback__button{
     margin-left: -410px;
   }
@@ -240,99 +134,67 @@
      height: 50px; 
     }
   }
-}
-@media (min-width: 768px) and (max-width: 1024px)
- {
   .youtuber__block {
-    display: block;
-    margin: 0 auto;
-    width: 80%;
-    margin-left: 5%;
-    height: 250px;
-    border-radius: 50px;
-  }
-  .youtuber__image {
-    left: 62%;
-    bottom: -0.5%;
-    width: 300px;
-    height: 250px;
-    border-radius: 50px;
-  }
-  .youtuber__definitions {
-    margin-right: 5%;
-  }
-  .youtuber__definition {
-    word-wrap: break-word;
-    margin-bottom: 0px;
-    margin-top: 5%;
-  }
-  .youtuber__definition:nth-child(1){
-    margin-top: 0;
-  }
-  .youtuber__information {
-    margin-left: 10%;
-    word-wrap: break-word;
-    font-size: 14px;
-    line-height: 0.5;
-  }
-  .youtuber__name {
-    margin-top: 6%;
-    margin-left: 10%;
+    margin-top: 5vw;
+    width: 1100px;
+    height: 350px;
   }
   .youtuber__button {
-    margin-left: 10%;
-  }
-  .statistic {
-    margin-top: 30px;
-    margin-bottom: 0;
-  }
-  #contentType {
-    margin-top: 40px;
-  }
-  .youtuber__stats{
-    margin-top: -4%;
+    margin-left: 21%;
   }
 }
-@media (max-width: 430px) and (max-height: 920px) {
-  .youtuber__block {
-    width: 100%;
-    height: 372px;
-    margin-left: 0;
-    border-radius: 40px;
-  }
-  .youtuber__image {
-    width:100%;
-    height: 250px;
-    border-radius: 40px;
-    left: 0%;
-    bottom: -30%;
-  }
-  .youtuber__name {
-    font-size: 20px;
-    margin-top: 30px;
-    margin-left: 30px;
-  }
-  .youtuber__information {
-    margin-left: 10%;
-    word-wrap: break-word;
-    font-size: 14px;
-    line-height: 0.5;
-  }
 
+@media (min-width: 1920px) and (min-height: 1050px) {
   .youtuber__button {
-    margin-left: 0;
-    margin-top: 35%;
+    margin-left: 23%;
+    font-size: 20px;
   }
-  .youtuber__button.success {
+  .youtuber__block {
+    margin-top: 5vw;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px){
+  .youtuber__block {
+    width: 89%;
+  }
+  .youtuber__button {
+    margin-left: 5%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 850px) {
+  .youtuber__image {
     width: 350px;
+    border-radius: 50px;
   }
-  .youtuber__button.fail {
-    width: 350px;
+  .youtuber__flex-subblock{
+    gap: 5%;
   }
-  .feedback{
-    margin-left: 75%;
+}
+
+@media (max-width: 430px){
+  .youtuber__block{
+    width: 100%;
+    height: 100%;
+    margin-top: 20vw;
+  }
+  .youtuber__flex-subblock{
+    flex-direction: column;
+  }
+  .youtuber__image{
+    width: 100%;
+    height: 350px;
   }
   .youtuber__information{
-    width: 90%;
+    margin-top: 10%;
+    margin-left: 4%;
+    margin-right: 5%;
+    .youtuber__info{
+      word-break:break-all;
+    }
   }
-} */
+  .youtuber__button {
+    margin-left: 1vw;
+  }
+} 

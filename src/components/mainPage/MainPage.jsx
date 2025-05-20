@@ -106,28 +106,32 @@ const MainPage = ({ setIsFilterCTAActive }) => {
           </div>
 
           <div className="youtuber__block">
-            <div className="youtuber__name none">Stopgame</div>
-            <div className="youtuber__information">
-              <h4 className="youtuber__info">{t("Target Audience")}</h4>
-              <span className="youtuber__dash">-</span>
-              <h4 className="youtuber__info">{t("Teenagers")}</h4>
+            <div className="youtuber__flex-subblock">
+              <div className="youtuber__information">
+                <div className="youtuber__name">Stopgame</div>
 
-              <h4 className="youtuber__info">{t("Number of subs")}</h4>
-              <span className="youtuber__dash">-</span>
-              <h4 className="youtuber__info">2430000</h4>
+                <h4 className="youtuber__info">{t("Target Audience")}</h4>
+                <span className="youtuber__dash">-</span>
+                <h4 className="youtuber__info">Teenagers</h4>
 
-              <h4 className="youtuber__info">{t("Content type")}</h4>
-              <span className="youtuber__dash">-</span>
-              <h4 className="youtuber__info">{t("Gaming")}</h4>
+                <h4 className="youtuber__info">{t("Number of subs")}</h4>
+                <span className="youtuber__dash">-</span>
+                <h4 className="youtuber__info">235600</h4>
+
+                <h4 className="youtuber__info">{t("Content type")}</h4>
+                <span className="youtuber__dash">-</span>
+                <h4 className="youtuber__info">Gaming</h4>
+              </div>
+
+              <img
+                src={StopGame}
+                alt="youtuber"
+                className="youtuber__image"
+                loading="lazy"
+              />
             </div>
-
-            <img
-              src={StopGame}
-              alt="youtuber"
-              className="youtuber__image"
-              loading="lazy"
-            />
           </div>
+
           <h3 id="second__block-text" className="block-text">
             {t("MarkComb is your tool to find YouTube partners")} <br />
             {t("quickly and accurately")}.
@@ -317,7 +321,9 @@ const MainPage = ({ setIsFilterCTAActive }) => {
             <h2 className="suggested-block__name">
               {t("Обзор Marvel Rivals")}
             </h2>
-            <div className={`statistic__flex-block  ${isClicked ? "active" : ""} `}>
+            <div
+              className={`statistic__flex-block  ${isClicked ? "active" : ""} `}
+            >
               <div className="statistic__subflex">
                 <img src={views} alt="" />
                 <h3>15678</h3>
@@ -397,27 +403,30 @@ const MainPage = ({ setIsFilterCTAActive }) => {
           </h3>
 
           <div className="youtuber__block">
-            <div className="youtuber__name none">MrBeast</div>
-            <div className="youtuber__information">
-              <h4 className="youtuber__info">{t("Target Audience")}</h4>
-              <span className="youtuber__dash">-</span>
-              <h4 className="youtuber__info">{t("Kids,Teenagers")}</h4>
+            <div className="youtuber__flex-subblock">
+              <div className="youtuber__information">
+                <div className="youtuber__name">MrBeast</div>
 
-              <h4 className="youtuber__info">{t("Number of subs")}</h4>
-              <span className="youtuber__dash">-</span>
-              <h4 className="youtuber__info">315000000</h4>
+                <h4 className="youtuber__info">{t("Target Audience")}</h4>
+                <span className="youtuber__dash">-</span>
+                <h4 className="youtuber__info">Teenagers</h4>
 
-              <h4 className="youtuber__info">{t("Content type")}</h4>
-              <span className="youtuber__dash">-</span>
-              <h4 className="youtuber__info">{t("Entertainment")}</h4>
+                <h4 className="youtuber__info">{t("Number of subs")}</h4>
+                <span className="youtuber__dash">-</span>
+                <h4 className="youtuber__info">235000000</h4>
+
+                <h4 className="youtuber__info">{t("Content type")}</h4>
+                <span className="youtuber__dash">-</span>
+                <h4 className="youtuber__info">Entertainment</h4>
+              </div>
+
+              <img
+                src={MrBeast}
+                alt="youtuber"
+                className="youtuber__image"
+                loading="lazy"
+              />
             </div>
-
-            <img
-              src={MrBeast}
-              alt="youtuber"
-              className="youtuber__image"
-              loading="lazy"
-            />
           </div>
 
           <button className="youtuber__button success">

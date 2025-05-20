@@ -9,7 +9,7 @@ import NotFound from "./components/notFound/NotFound";
 import Profile from "./components/profile/Profile";
 import ErrorBoundary from "./errorBoundary/ErrorBoundary";
 import HeaderFilter from "./components/headerFilter/Header&Filter";
-import YoutuberBlock from "./components/youtuberBlock/YoutuberBlock";
+import YoutubersBlock from "./components/youtubersBlock/YoutubersBlock";
 import Purchases from "./components/purchases/Purchases";
 import Promotion from "./components/promotion/Promotion";
 import Purchase from "./components/purchase/Purchase";
@@ -99,7 +99,7 @@ function App() {
                 />
               </ErrorBoundary>
               <ErrorBoundary>
-                <YoutuberBlock
+                <YoutubersBlock
                   channelData={channelData}
                   SimilarChannelData={SimilarChannelData}
                   userData={userData}
@@ -109,6 +109,7 @@ function App() {
                   setSimilarChannelData={setSimilarChannelData}
                 />
               </ErrorBoundary>
+              <ToastContainer />
             </>
           }
         />

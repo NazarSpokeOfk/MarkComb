@@ -65,22 +65,15 @@
   }
   .youtuber__block {
     margin-top: 5vw;
-    width: 75%;
+    width: 90%;
     margin-left: 0;
-    .youtuber__name {
-      margin-left: 3vw;
-      margin-top: 3vw;
-    }
-    .youtuber__information {
-      margin-left: 3vw;
-    }
-    .youtuber__info {
-      font-weight: 300;
-    }
   }
   .youtuber__button {
     margin-left: 0;
     margin-bottom: 0;
+  }
+  .youtuber__information{
+    margin-left: 7%;
   }
 }
 
@@ -261,24 +254,15 @@
   }
   .youtuber__block {
     margin-top: 5vw;
-    width: 75%;
+    width: 100%;
     margin-left: 0;
-    .youtuber__name {
-      margin-left: 3vw;
-      margin-top: 3vw;
-    }
-    .youtuber__information {
-      margin-left: 3vw;
-    }
-    .youtuber__info {
-      font-weight: 300;
-    }
-    .youtuber__image {
-      left: 70%;
-      border: 1px solid rgba(0, 0, 0, 0);
-    }
-    box-shadow: 0 0 80px rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(0, 0, 0, 0);
+  }
+  .youtuber__button {
+    margin-left: 0;
+    margin-bottom: 0;
+  }
+  .youtuber__information{
+    margin-left: 7%;
   }
   .success {
     width: 70%;
@@ -297,7 +281,7 @@
 
 #seventh__block-second-text {
   text-align: right;
-  margin-top: 0;
+  margin-top: 5vw;
 }
 
 .block-title {
@@ -523,6 +507,7 @@
     }
     .youtuber__information {
       margin: 10px 100px;
+      margin-top: 5%;
     }
   }
 
@@ -607,6 +592,8 @@
     }
     .youtuber__block {
       margin-left: 3vw;
+      width: 93%;
+      margin-top: 0;
       .youtuber__name {
         margin-top: 2vw;
       }
@@ -632,16 +619,7 @@
   }
   .second__block {
     #main__page-search {
-      width: 95%;
-    }
-    .youtuber__block {
-      width: 73%;
-      .youtuber__name {
-        margin-top: 2vw;
-      }
-      .youtuber__image {
-        left: 67%;
-      }
+      width: 100%;
     }
     .block-text {
       font-size: 20px;
@@ -702,6 +680,7 @@
         width: 27.3%;
         height: 7.5vw;
         margin-top: -6.8vw;
+        margin-left: 32vw;
       }
     }
   }
@@ -733,6 +712,7 @@
     }
     .youtuber__block {
       margin-top: 3vw;
+      width: 90%;
       margin: 0 auto;
     }
     .success {
@@ -745,6 +725,9 @@
     .block-button {
       margin-top: 5vw;
       font-size: 20px;
+    }
+    .youtuber__information{
+      margin-top: 0;
     }
   }
 }
@@ -771,9 +754,14 @@
     }
 
     .youtuber__block {
+      width: 80%;
       .youtuber__image {
         left: 61%;
       }
+    }
+
+    .youtuber__flex-subblock{
+      flex-direction: column;
     }
 
     #second__block-text {
@@ -863,14 +851,14 @@
     width: 100%;
     .block-title {
       font-size: 20px;
-      margin-left: 14vw;
+      margin-left: 10vw;
     }
     .block-text {
-      margin-left: 14vw;
+      margin-left: 10vw;
       font-size: 15px;
     }
     #main__page-search {
-      margin-left: 14vw;
+      margin-left: 11vw;
       width: 74%;
     }
     #main__page-buttons {
@@ -878,11 +866,8 @@
       left: 77%;
     }
     .youtuber__block {
-      margin-left: 14vw;
-      .youtuber__name {
-        margin-top: 7vw;
-        margin-left: 10%;
-      }
+      width: 80%;
+      margin-left: 10vw;
       .youtuber__information {
         margin-left: 10%;
       }
@@ -1037,11 +1022,8 @@
       width: 380px;
     }
     .youtuber__block {
-      margin-left: 13vw;
-      .youtuber__name {
-        margin-top: 7vw;
-        margin-left: 10%;
-      }
+      width: 80%;
+      margin-left: 10vw;
       .youtuber__information {
         margin-left: 10%;
       }
