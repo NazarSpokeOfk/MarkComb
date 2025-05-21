@@ -1,8 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+
+import { toast } from "react-toastify";
 
 import { useTranslation } from "react-i18next";
 
-import { Link } from "react-router-dom";
+import DataToDB from "../../dataToDB/dataToDB";
 
 import "./css/purchaseModal.css";
 
@@ -15,7 +17,14 @@ const PurchaseModal = ({
   usesQuantity,
   price,
   isBusiness,
+  packageId,
+  user_id,
+  userEmail,
 }) => {
+  const [isPaymentPending, setIsPaymentPending] = useState(false);
+
+  const dataToDB = new DataToDB();
+
   const { t } = useTranslation();
 
   const modalRef = useRef();
@@ -55,7 +64,8 @@ const PurchaseModal = ({
                   </>
                 ) : (
                   <>
-                    {t("You're going to buy")} - {t(packageName)}{" "}{t("package")}{" "}{t("of uses")}
+                    {t("You're going to buy")} - {t(packageName)} {t("package")}{" "}
+                    {t("of uses")}
                   </>
                 )}
               </h1>
@@ -72,6 +82,12 @@ const PurchaseModal = ({
                 <img src={Cross} alt="" />
               </button>
             </div>
+            <h4 className="request">
+              {t(
+                "Please disable vpn/proxy if enabled, this is required for payment"
+              )}
+              .
+            </h4>
 
             <div className="purchase__modal-definitions">
               <h3 className="definitions__title">
@@ -99,7 +115,13 @@ const PurchaseModal = ({
               <h3 className="definitions__title">{t("Price")} :</h3>
 
               <ul className="definitions__ul">
-                {isBusiness ? <li>{price}{" "}₽ / {t("Month")}</li> : <li>{price}₽</li>}
+                {isBusiness ? (
+                  <li>
+                    {price} ₽ / {t("Month")}
+                  </li>
+                ) : (
+                  <li>{price}₽</li>
+                )}
               </ul>
             </div>
             <div className="purchase__modal-bottom">
@@ -109,7 +131,46 @@ const PurchaseModal = ({
                   {t("Offer")}
                 </a>
               </h3>
-              <button className="purchase__modal-button">{t("Buy")}</button>
+              <button
+                onClick={async () => {
+                  setIsPaymentPending(true);
+                  try {
+                    const response = await dataToDB.payment(
+                      user_id,
+                      packageId,
+                      userEmail
+                    );
+                    const { confirmationURL } = response;
+
+                    if (confirmationURL) {
+                      window.location.href = confirmationURL;
+                    } else {
+                      setIsPaymentPending(false);
+                      toast.error(
+                        t(
+                          "Unfortunately, we cannot direct you to payment. Please try again later"
+                        )
+                      );
+                    }
+                  } catch (error) {
+                    setIsPaymentPending(false);
+                    toast.error(
+                      t(
+                        "Unfortunately, we cannot direct you to payment. Please try again later"
+                      )
+                    );
+                  }
+                }}
+                className={`purchase__modal-button ${
+                  isPaymentPending ? "blur-shimmer" : ""
+                }`}
+              >
+                {isPaymentPending ? (
+                  <>{t("Redirecting")}...</>
+                ) : (
+                  <>{t("Buy")}</>
+                )}
+              </button>
             </div>
           </div>
         </div>

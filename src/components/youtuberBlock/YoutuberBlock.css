@@ -7,6 +7,7 @@
     margin-top: 10vw;
     background-color: #fff;
     box-sizing: border-box;
+    z-index: 0;
   }
   
   .youtuber__flex-subblock {

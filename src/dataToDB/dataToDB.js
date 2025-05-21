@@ -192,17 +192,16 @@ class DataToDB {
     });
   }
 
-  async generateLink(packageName, user_id) {
-    const url = new URL("http://localhost:5001/payment-link");
-    url.searchParams.append("package", packageName);
-    url.searchParams.append("user_id", user_id);
-
-    const request = await fetch(url, {
-      method: "GET",
-    });
-
-    const data = await request.json();
-    return data;
+  async payment (user_id,packageId,userEmail) {
+    console.log(packageId,user_id,userEmail)
+    return this.fetchData(`${apiBaseUrl}/payment`, "POST" , {
+      user_id,
+      packageId,
+      userEmail
+    }).then((response) => {
+      console.log("респонс в payment методе :",response)
+      return response;
+    })
   }
 
   async makeVote(featureName, user_id) {

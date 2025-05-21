@@ -12,7 +12,6 @@ import VerifCode from "../modal/verifCode";
 import NewPassword from "../modal/newPassword";
 import Header from "../header/Header";
 
-import checkCookies from "../../checkCookies/checkCookies";
 import manageFiltersFetch from "../../filtersRequests/filterFetches";
 
 import "./Header&Filter.css";
@@ -128,10 +127,6 @@ const HeaderFilter = ({
   const openFilters = () => {
     filterRef.current.classList.toggle("active");
   };
-
-  useEffect(() => {
-    checkCookies(setIsLoggedIn, setUserData, setUserLang, setCsrfToken);
-  }, []);
 
   useEffect(() => {
     if(isFilterCTAActive){

@@ -14,7 +14,7 @@ cron.schedule("0 0 * * *", async () => {
 
     console.log(`Начислено 5 uses ${result.rowCount} пользователям в ${today}`);
   } catch (error) {
-    console.log("Ошибка при начислении использований за подписку", error);
+    logger.error("Ошибка при начислении использований за подписку", error);
   }
 }, {
     scheduled : true,

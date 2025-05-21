@@ -322,5 +322,8 @@
     "will deduct the 1 usage from your":"мы спишем одно использование с вашего",
     "account":"аккаунта",
     "Purchase":"Купить",
-    "Filters and search":"Фильтры и поиск"
+    "Filters and search":"Фильтры и поиск",
+    "Redirecting":"Перенаправляем",
+    "Please disable vpn/proxy if enabled, this is required for payment":"Пожалуйста, отключите vpn/proxy, если он включен, это требуется для оплаты",
+    "Unfortunately, we cannot direct you to payment. Please try again later":"К сожалению, не можем вас направить на оплату. Пожалуйста, попробуйте позднее"
 }

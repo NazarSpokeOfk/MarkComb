@@ -23,6 +23,8 @@ import VotingPage from "./components/votingPage/votingPage";
 import MainPage from "./components/mainPage/MainPage";
 import ScrollToTop from "./components/scrollToTop/scrollToTop";
 
+import checkCookies from "./checkCookies/checkCookies";
+
 function App() {
   const [channelData, setChannelData] = useState(null);
   const [SimilarChannelData, setSimilarChannelData] = useState(null);
@@ -31,7 +33,7 @@ function App() {
   const [csrfToken, setCsrfToken] = useState("");
   const [userCountry, setUserCountry] = useState("");
   const [userLang, setUserLang] = useState("");
-  const [isFilterCTAActive,setIsFilterCTAActive] = useState(false)
+  const [isFilterCTAActive, setIsFilterCTAActive] = useState(false);
 
   const [signInData, setSignInData] = useState({
     email: "",
@@ -45,14 +47,18 @@ function App() {
   });
 
   useEffect(() => {
-    console.log(userData);
-  }, [userData]);
+    console.log(userData)
+  },[userData])
+
+  useEffect(() => {
+    checkCookies(setIsLoggedIn, setUserData, setUserLang, setCsrfToken);
+  }, []);
 
   return (
     <Router>
-      <ScrollToTop/>
+      <ScrollToTop />
       <Routes>
-       <Route
+        <Route
           path="/"
           element={
             <ErrorBoundary>

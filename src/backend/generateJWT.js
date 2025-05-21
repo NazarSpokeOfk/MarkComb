@@ -8,7 +8,8 @@ const generateJWT = (user) =>{
         user_id : user.user_id,
         email : user.email,
         lang : user.lang,
-        isVoteEnabled : user.isvoteenabled
+        isVoteEnabled : user.isvoteenabled,
+        isSubscriber : user.isSubscriber
     }
 
     const token = jwt.sign(payload,process.env.JWT_SECRET , {

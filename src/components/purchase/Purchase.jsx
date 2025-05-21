@@ -9,12 +9,12 @@ import Header from "../header/Header";
 import Footer from "../footer/Footer";
 import PurchaseModal from "../modal/purchaseModal";
 
-import DataToDB from "../../dataToDB/dataToDB";
-
 const Purchase = ({ isLoggedIn, userData }) => {
   const [isModalOpened, setIsModalOpened] = useState(false);
 
-  const dataToDB = new DataToDB();
+  useEffect(() => {
+    console.log("isLoggedIn : ", isLoggedIn);
+  }, [isLoggedIn]);
 
   const titleRef = useRef();
 
@@ -22,16 +22,19 @@ const Purchase = ({ isLoggedIn, userData }) => {
 
   const packages = {
     Light: {
+      packageId: 1,
       uses: 10,
       oldPrice: 1000,
       newPrice: 500,
     },
     Medium: {
+      packageId: 2,
       uses: 50,
       oldPrice: 5000,
       newPrice: 1500,
     },
     Big: {
+      packageId: 3,
       uses: 75,
       oldPrice: 7500,
       newPrice: 2500,
@@ -42,7 +45,8 @@ const Purchase = ({ isLoggedIn, userData }) => {
     packageName: "",
     usesQuantity: 0,
     price: 0,
-    isBusiness : false
+    isBusiness: false,
+    packageId: "",
   });
 
   const warnToast = () => {
@@ -74,7 +78,7 @@ const Purchase = ({ isLoggedIn, userData }) => {
           <div className="container">
             <h2 ref={titleRef} className="title__purchase">
               {t("PUR")}
-              <span>{t("CHASE")}</span>{" "}{t("Uses")}
+              <span>{t("CHASE")}</span> {t("Uses")}
             </h2>
             <div className="balance__block">
               <h3 className="balance-block__money">
@@ -96,6 +100,9 @@ const Purchase = ({ isLoggedIn, userData }) => {
           usesQuantity={selectedPackage.usesQuantity}
           price={selectedPackage.price}
           isBusiness={selectedPackage.isBusiness}
+          packageId={selectedPackage.packageId}
+          user_id={userData?.user?.user_id}
+          userEmail={userData?.user?.email}
         />
 
         <section className="packages">
@@ -115,12 +122,18 @@ const Purchase = ({ isLoggedIn, userData }) => {
                 </h4>
                 <button
                   onClick={() => {
-                    setSelectedPackage({
-                      packageName: key,
-                      usesQuantity: item.uses,
-                      price: item.newPrice,
-                    });
-                    setIsModalOpened(true);
+                    if (isLoggedIn) {
+                      setSelectedPackage({
+                        packageName: key,
+                        usesQuantity: item.uses,
+                        price: item.newPrice,
+                        isBusiness: false,
+                        packageId: item.packageId,
+                      });
+                      setIsModalOpened(true);
+                    } else {
+                      return;
+                    }
                   }}
                   className="package__button none"
                 >
@@ -143,13 +156,18 @@ const Purchase = ({ isLoggedIn, userData }) => {
               </h4>
               <button
                 onClick={() => {
-                  setSelectedPackage({
-                    packageName: "Business",
-                    usesQuantity: 5,
-                    price: 4500,
-                    isBusiness : true
-                  });
-                  setIsModalOpened(true);
+                  if (isLoggedIn) {
+                    setSelectedPackage({
+                      packageName: "Business",
+                      usesQuantity: 5,
+                      price: 4500,
+                      isBusiness: true,
+                      packageId : 4
+                    });
+                    setIsModalOpened(true);
+                  } else {
+                    return;
+                  }
                 }}
                 className="package__button-bussines none"
               >

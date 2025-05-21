@@ -17,7 +17,6 @@ const checkCookies = async (setIsLoggedIn, setUserData , setUserLang , setCsrfTo
       
         const result = await response.json(); 
 
-    
         setIsLoggedIn(true);
         setUserData(result.result); 
         setUserLang(result.lang)

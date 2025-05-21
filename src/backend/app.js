@@ -21,6 +21,7 @@ import googleAPIRouter from "./routers/googleAPIRouter.js"
 import storageRouter from "./routers/storageRouter.js";
 import reviewsRouter from "./routers/reviewsRouter.js"
 import voteRouter from "./routers/voteRouter.js"
+import yoomoneyRouter from "./routers/yoomoneyRouter.js";
 
 import logger from "./winston/winston.js";
 
@@ -83,6 +84,7 @@ app.use("/api", userRouter);
 app.use("/api", storageRouter);
 app.use("/api", reviewsRouter);
 app.use("/api", voteRouter);
+app.use("/api", yoomoneyRouter);
 
 async function initializeApp() {
   try {

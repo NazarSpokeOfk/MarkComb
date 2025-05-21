@@ -38,6 +38,13 @@ async function createTables(pool) {
     voted_at TIMESTAMP DEFAULT NOW()
     );`;
 
+    const createPackagesTable = `CREATE TABLE IF NOT EXISTS packages (
+    package_id SERIAL PRIMARY KEY,
+    title TEXT NOT NULL,
+    price INT NOT NULL,
+    uses INT NOT NULL
+    )`
+
     await pool.query(createUsersTable);
 
     await pool.query(createPurchasesTable);
@@ -47,6 +54,9 @@ async function createTables(pool) {
     await pool.query(createReviewsTable);
 
     await pool.query(createVotesTable);
+
+    await pool.query(createPackagesTable);
+    
   } catch (error) {
     logger.error("Возникла ошибка в setup.js:", error);
   }
