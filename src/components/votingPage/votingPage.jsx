@@ -52,7 +52,7 @@ const VotingPage = ({ userData }) => {
       toast.error(t("Unfortunately, we can't get your vote"));
     }
     setTimeout(() => {
-      navigate("/");
+      navigate("/search");
     }, 5000);
   };
 

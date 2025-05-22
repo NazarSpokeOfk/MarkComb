@@ -144,6 +144,7 @@ const PurchaseModal = ({
 
                     if (confirmationURL) {
                       window.location.href = confirmationURL;
+                      setIsPaymentPending(false);
                     } else {
                       setIsPaymentPending(false);
                       toast.error(

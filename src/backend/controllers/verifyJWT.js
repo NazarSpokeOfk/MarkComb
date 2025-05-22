@@ -19,8 +19,6 @@ const verifyJWT = async (req,res) => {
             email : decoded.email,
             user_id : decoded.user_id,
             lang : decoded.lang,
-            isVoteEnabled : decoded.isVoteEnabled,
-            isSubscriber : decoded.isSubscriber
         }
 
         console.log(process.env.API_URL)
@@ -35,8 +33,6 @@ const verifyJWT = async (req,res) => {
         const result = await response.json()
 
         result.lang = userData.lang
-        result.isVoteEnabled = userData.isVoteEnabled
-        result.isSubscriber = userData.isSubscriber
         
         console.log(result)
         if(response.ok){

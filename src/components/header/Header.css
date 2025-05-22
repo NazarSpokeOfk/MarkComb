@@ -187,6 +187,9 @@ header.active .header__sublinks {
     max-height: 120px;
     padding-bottom: 10px;
   }
+  .header__link {
+    font-size: 20px;
+  }
 }
 
 

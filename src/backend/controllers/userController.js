@@ -62,15 +62,7 @@ class UserController {
 
       let user = userResult.rows[0];
 
-      let isSubscriber;
-
-      if(user.subscription_expiration !== null) {
-        user.isSubscriber = true
-      } else {
-        user.isSubscriber = false
-      }
-
-      const lang = await this.getUserIp(); // Получаем язык
+      const lang = await this.getUserIp(); 
 
       user.lang = lang;
 
@@ -83,7 +75,7 @@ class UserController {
         return res.status(400).json({ message: "Неверный пароль!" });
       }
 
-      console.log("Юзер :",user)
+      console.log("Юзер :", user);
 
       const token = generateJWT(user);
 
@@ -96,9 +88,9 @@ class UserController {
       try {
         res.cookie("sessionToken", token, {
           httpOnly: false,
-          secure: false,
+          secure: true,
           maxAge: 3600000,
-          sameSite: "lax",
+          sameSite: "strict",
         });
       } catch (error) {
         logger.error(
@@ -113,14 +105,13 @@ class UserController {
       try {
         res.cookie("csrfToken", csrfToken, {
           httpOnly: false,
-          secure: false,
+          secure: true,
           maxAge: 3600000,
-          sameSite: "lax",
+          sameSite: "strict",
         });
       } catch (error) {
         console.log("Ошибка при загрузке csrfТокена на сайт", error);
       }
-
 
       res.json({
         message: "Успешный вход",
@@ -133,8 +124,7 @@ class UserController {
           uses: user.uses,
           password: user.password,
           lang: user.lang,
-          isVoteEnabled : user.isvoteenabled,
-          isSubscriber : isSubscriber
+          isVoteEnabled: user.isvoteenabled,
         },
         channels: userChannels.rows,
       });
@@ -153,7 +143,7 @@ class UserController {
 
     try {
       const userResult = await pool.query(
-        `SELECT user_id,email,password,username,uses FROM users WHERE user_id = $1`,
+        `SELECT user_id,email,username,uses,subscription_expiration,isvoteenabled FROM users WHERE user_id = $1`,
         [user_id]
       );
 
@@ -165,12 +155,18 @@ class UserController {
         });
       }
 
+      if (user.subscription_expiration !== null) {
+        user.isSubscriber = true;
+      } else {
+        user.isSubscriber = false;
+      }
+
       const userChannels = await pool.query(
         `SELECT channel_name,email,created_at,thumbnail FROM purchases_channels WHERE user_id = $1`,
         [user_id]
       );
 
-      console.log(">Юзер :" ,user)
+      console.log(">Юзер :", user);
 
       res.json({
         message: "Успешный вход",
@@ -179,7 +175,9 @@ class UserController {
           email: user.email,
           username: user.username,
           uses: user.uses,
-          password: user.password,
+          subscription_expiration: user.subscription_expiration || "",
+          isSubscriber: user.isSubscriber,
+          isVoteEnabled: user.isvoteenabled,
         },
         channels: userChannels.rows,
       });
@@ -196,12 +194,13 @@ class UserController {
       const { email, password, username, verification_code, recaptchaValue } =
         req.body.data;
 
-      const domain = email.split('@')[1].toLowerCase();
+      const domain = email.split("@")[1].toLowerCase();
 
       if (domains.includes(domain)) {
         return res.status(400).json({
-          message: "У вас не получится зарегистрироваться с временной почтой :(",
-          status: false
+          message:
+            "У вас не получится зарегистрироваться с временной почтой :(",
+          status: false,
         });
       }
 
@@ -276,7 +275,6 @@ class UserController {
   async updateUser(req, res) {
     const id = parseInt(req.params.id, 10);
     const { newPassword, oldPassword, username, changeMethod } = req.body;
-
 
     try {
       const userResult = await pool.query(
@@ -358,10 +356,15 @@ class UserController {
     const id = parseInt(req.params.id, 10);
 
     const tokenFromClient = req.headers["x-csrf-token"];
-    console.log(req.session)
+    console.log(req.session);
     const tokenFromSession = req.session.csrfToken;
 
-    console.log( "Токен с клиента : ", tokenFromClient, "токен с сессии:",tokenFromSession)
+    console.log(
+      "Токен с клиента : ",
+      tokenFromClient,
+      "токен с сессии:",
+      tokenFromSession
+    );
 
     if (tokenFromClient !== tokenFromSession) {
       return res.status(403).json({ message: "Несовпадение токенов!" });
@@ -383,8 +386,8 @@ class UserController {
       );
 
       res.clearCookie("sessionToken", {
-        path: "/", 
-        secure: false, 
+        path: "/",
+        secure: false,
         sameSite: "lax",
       });
 
@@ -453,7 +456,7 @@ class UserController {
   async changePassword(req, res) {
     const { newPassword, email } = req.body;
 
-    console.log(req.body)
+    console.log(req.body);
     try {
       const hashedPassword = await this.hashPassword(newPassword);
 
@@ -477,12 +480,14 @@ class UserController {
 
   async activatePromocode(req, res) {
     const { promocode, email } = req.body;
-  
+
     try {
       if (promocode !== process.env.USES_PROMOCODE) {
-        return res.status(400).json({ status: false, message: "Неверный промокод" });
+        return res
+          .status(400)
+          .json({ status: false, message: "Неверный промокод" });
       }
-  
+
       const updateQuery = `
         UPDATE users 
         SET uses = uses + 10,
@@ -490,21 +495,21 @@ class UserController {
         WHERE email = $1 AND promo_activated = false
         RETURNING uses, promo_activated;
       `;
-  
+
       const { rowCount, rows } = await pool.query(updateQuery, [email]);
-  
+
       if (rowCount === 0) {
-        return res.status(404).json({ status: false, message: "Промокод уже активирован." });
+        return res
+          .status(404)
+          .json({ status: false, message: "Промокод уже активирован." });
       }
-  
+
       res.status(200).json({ status: true, newUses: rows[0].uses });
-  
     } catch (error) {
       console.error("Ошибка в activatePromocode:", error);
       res.status(500).json({ status: false, message: "Ошибка сервера" });
     }
   }
-  
 
   async hashPassword(password) {
     const saltRounds = 10;

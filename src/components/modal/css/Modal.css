@@ -56,8 +56,8 @@
 }
 
 .modal__input {
-  border: none;
-  background-color: #eceaea;
+  border: 0.5px solid black;
+  border-radius: 10px;
   width: 270px;
   height: 40px;
   margin-left: 12%;
@@ -66,18 +66,18 @@
   margin-bottom: 15px;
 }
 
-
-
 .modal__button {
   transition: all 0.6s ease;
-  /* border-radius: 40px; */
+  border-radius: 15px;
   width: 304px;
   height: 55px;
-  background-color: #d6553e;
+  background-color: #000000;
   border: none;
   color: white;
   font-size: 18px;
-
+  span{
+    color: var(--main-red-col);
+  }
   margin-left: 12.5%;
   margin-top: 25px;
 }

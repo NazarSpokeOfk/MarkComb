@@ -2,6 +2,7 @@ import "./profile.css";
 import Edit from "../../images/image 70.png";
 import bin from "../../icons/bin.svg";
 import arrow from "../../icons/arrow.svg";
+import SponsorsImg from "../../icons/sponsorsimg.jpg";
 
 import Header from "../header/Header.jsx";
 import Footer from "../footer/Footer.jsx";
@@ -96,6 +97,16 @@ const Profile = ({
     }
   };
 
+  const date = new Date(userData?.user?.subscription_expiration);
+  let finalDate;
+
+  if (!date) {
+    return;
+  } else {
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    finalDate = date.toLocaleDateString("ru-RU", options);
+  }
+
   return (
     <>
       <HelmetProvider>
@@ -149,51 +160,68 @@ const Profile = ({
             >
               {t("Activate")} <span>{t("promocode")}</span>
             </button>
-            
-            <div className="promocode__container">
-            {isPromocodeActive ? (
-              <>
-                {" "}
-                <input
-                  onChange={(e) => {
-                    setPromocodeValue(e.target.value);
-                  }}
-                  autoFocus
-                  value={promocodeValue}
-                  placeholder="promocode"
-                  className="promocode_input"
-                  maxLength={15}
-                  type="text"
-                />
-                <button
-                  onClick={() => {
-                    dataToDb
-                      .activatePromocode(promocodeValue, userData.user.email)
-                      .then((response) => {
-                        if (response?.status === true) {
-                          setIsPromocodeActive(false);
-                          toast.success(
-                            `Promocode activated! Your current uses: ${response?.newUses}`
-                          );
-                        } else {
-                          toast.error(
-                            "Failed to activate promocode. Please try again."
-                          );
-                        }
-                      })
-                      .catch((error) => {
-                        toast.error(
-                          "An error occurred while activating the promocode."
-                        );
-                        console.error("Error activating promocode: ", error);
-                      });
-                  }}
-                  className="promocode__submit-btn"
-                >
-                  <img src={arrow} alt="send promocode" />
-                </button>
-              </>
+
+            {userData?.user?.isSubscriber ? (
+              <div className="subscription__block">
+                <div className="bussiness__subscriber-flex">
+                  <img
+                    src={SponsorsImg}
+                    alt=""
+                    className="bussiness__subscriber-img"
+                  />
+                  <h2 className="bussiness__subscriber-text">
+                    {" "}
+                    {t("Bussiness subscription expires in")} : <br />
+                  </h2>
+                  <h2 className="bussiness__subscriber-info">{finalDate}</h2>
+                </div>
+              </div>
             ) : null}
+
+            <div className="promocode__container">
+              {isPromocodeActive ? (
+                <>
+                  {" "}
+                  <input
+                    onChange={(e) => {
+                      setPromocodeValue(e.target.value);
+                    }}
+                    autoFocus
+                    value={promocodeValue}
+                    placeholder="promocode"
+                    className="promocode_input"
+                    maxLength={15}
+                    type="text"
+                  />
+                  <button
+                    onClick={() => {
+                      dataToDb
+                        .activatePromocode(promocodeValue, userData.user.email)
+                        .then((response) => {
+                          if (response?.status === true) {
+                            setIsPromocodeActive(false);
+                            toast.success(
+                              `Promocode activated! Your current uses: ${response?.newUses}`
+                            );
+                          } else {
+                            toast.error(
+                              "Failed to activate promocode. Please try again."
+                            );
+                          }
+                        })
+                        .catch((error) => {
+                          toast.error(
+                            "An error occurred while activating the promocode."
+                          );
+                          console.error("Error activating promocode: ", error);
+                        });
+                    }}
+                    className="promocode__submit-btn"
+                  >
+                    <img src={arrow} alt="send promocode" />
+                  </button>
+                </>
+              ) : null}
             </div>
 
             <div className="info_block">

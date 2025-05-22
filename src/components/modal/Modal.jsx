@@ -216,7 +216,7 @@ const Modal = ({
             className="modal__button"
             ref={modalButtonRef}
           >
-            {t("Continue")}
+            {t("con")}<span>{t("tinue")}</span>
           </button>
 
           {entryMethod === "logIn" ? (

@@ -1,5 +1,5 @@
 .footer__container {
-  margin-top: 5%;
+  margin-top: 5vw;
   display: flex;
   height: inherit;
   justify-content: space-between;
@@ -180,6 +180,7 @@
   }
   .footer__container{
     max-width: 100%;
+    margin-top: 17vw;
   }
   .footer-second__group{
     margin-top: 4%;

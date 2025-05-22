@@ -1,5 +1,4 @@
 import logger from "./winston/winston.js";
-import crypto from "crypto";
 import nodemailer from "nodemailer";
 import pool from "./db/index.js";
 import { google } from "googleapis";
@@ -51,7 +50,7 @@ class MailVerification {
     const mailOptions = {
       from: "mknoreplyy@gmail.com",
       to: email,
-      subject: "Подтверждение регистрации",
+      subject: "Код подтверждения",
       text: `Ваш код подтверждения: ${verificationCode}`,
     };
 

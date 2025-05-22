@@ -502,9 +502,6 @@ input:checked + .slider:before {
   .login {
     margin-left: 60%;
   }
-  .header__link {
-    font-size: 25px;
-  }
   .log__in {
     font-size: 22px;
   }
