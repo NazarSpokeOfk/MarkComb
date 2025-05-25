@@ -22,3 +22,6 @@
 02.05.2025, 14:52:52 + "
 " [ERROR] + "
 " (printf.js:11): Возникла ошибка в setup.js: foreign key constraint "votes_user_id_fkey" cannot be implemented
+22.05.2025, 19:42:17 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка при проверке покупки : syntax error at or near "RETURNING"

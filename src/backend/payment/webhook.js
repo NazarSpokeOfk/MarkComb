@@ -44,6 +44,7 @@ const handleWebHook = async (req, res) => {
 
   const { user_id, packageId } = req.body.object.metadata;
 
+  console.log(packageId)
   const event = req.body;
 
   if (event.event === "payment.succeeded") {
@@ -65,7 +66,9 @@ const handleWebHook = async (req, res) => {
 
       const { uses } = result;
 
-      if (packageId === 4) {
+      console.log("перед четверкой")
+      if (String(packageId) === "4") {
+        console.log("после четверки")
         const endingDate = dayjs().add(1, "month").toISOString();
 
         try {

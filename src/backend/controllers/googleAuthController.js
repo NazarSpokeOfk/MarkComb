@@ -1,11 +1,18 @@
 import pool from "../db/index.js";
 
+import bcrypt from "bcrypt";
+
 import logger from "../winston/winston.js";
 import crypto from "crypto";
 
 import generateJWT from "../generateJWT.js";
 
 import { OAuth2Client } from "google-auth-library";
+
+const hashPassword = async (password) => {
+  const saltRounds = 10;
+  return await bcrypt.hash(password, saltRounds);
+};
 
 const googleAuthController = async (req, res) => {
   const { credential } = req.body;
@@ -26,15 +33,54 @@ const googleAuthController = async (req, res) => {
 
     const user = findUser.rows[0];
 
-    const token = generateJWT(user);
+    if (!user) {
+      const generatedUsername = payload.email.split("@")[0];
+      const randomPassword = crypto.randomBytes(16).toString("hex");
+      const hashedPassword = await hashPassword(randomPassword);
 
-    if (!findUser) {
-      return res
-        .status(400)
-        .json({
-          message: "Аккаунта, в который вы пытаетесь зайти, не существует",
-        });
+      try {
+        const creatingUser = await pool.query(
+          "INSERT INTO users (email,password,username) VALUES ($1,$2,$3) RETURNING *",
+          [payload.email, hashedPassword, generatedUsername]
+        );
+        const user = creatingUser.rows[0];
+        if (user) {
+          const token = generateJWT(user);
+
+          console.log("Отправка куки :", token);
+
+          try {
+            res.cookie("sessionToken", token, {
+              httpOnly: false,
+              secure: true,
+              maxAge: 3600000,
+              sameSite: "lax",
+            });
+            console.log("Ответ отправлен. Заголовки:", res.getHeaders());
+          } catch (error) {
+            console.log("Ошибка при отправке куки.", error);
+          }
+          return res.status(200).json({
+            message: "Аккаунт создан через Google",
+            status: true,
+            user: {
+              user_id: user.user_id,
+              email: user.email,
+              uses: user.uses,
+              username: user.username,
+            },
+          });
+        } else {
+          return res
+            .status(500)
+            .json({ message: "Ошибка создания аккаунта через Google" });
+        }
+      } catch (error) {
+        return res.status(500).json({ message: "Ошибка сервера" });
+      }
     }
+
+    const token = generateJWT(user);
 
     const userId = await findUser.rows[0].user_id;
 

@@ -13,6 +13,7 @@ const GoogleLoginButton = ({setIsLoggedIn,setUserData,setIsModalOpened}) => {
         "Content-type": "application/json",
         "x-api-key": import.meta.env.VITE_API_KEY
       },
+      credentials : "include",
       body: JSON.stringify({credential}),
     })
       .then((res) => {

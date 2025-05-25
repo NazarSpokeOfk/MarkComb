@@ -11,25 +11,27 @@ import session from "express-session";
 import pool from "./db/index.js";
 import storagePool from "./db/storageIndex.js";
 
-import helmet from "helmet"
+import helmet from "helmet";
 
-import ParserController from "./controllers/parsersController.js"
+import ParserController from "./controllers/parsersController.js";
 
 import userRouter from "./routers/userRouter.js";
 import purchasesRouter from "./routers/purchasesRouter.js";
-import googleAPIRouter from "./routers/googleAPIRouter.js"
+import googleAPIRouter from "./routers/googleAPIRouter.js";
 import storageRouter from "./routers/storageRouter.js";
-import reviewsRouter from "./routers/reviewsRouter.js"
-import voteRouter from "./routers/voteRouter.js"
+import reviewsRouter from "./routers/reviewsRouter.js";
+import voteRouter from "./routers/voteRouter.js";
 import yoomoneyRouter from "./routers/yoomoneyRouter.js";
 
 import logger from "./winston/winston.js";
 
 const app = express();
 
-app.use(helmet())
+app.use(helmet());
 
 app.use(express.json());
+
+app.set("trust proxy",1);
 
 app.use(
   session({
@@ -39,7 +41,7 @@ app.use(
     cookie: {
       httpOnly: false,
       secure: false,
-      maxAge: 600000 ,
+      maxAge: 600000,
     },
   })
 );
@@ -48,7 +50,6 @@ app.use((err, req, res, next) => {
   logger.error(`Ошибка: ${err.message}`);
   res.status(500).json({ message: "Внутренняя ошибка сервера" });
 });
-
 
 app.use(
   cors({
@@ -59,25 +60,29 @@ app.use(
 
 app.use(cookieParser());
 
-app.use((req,res,next) => {
+app.use((req, res, next) => {
   res.setHeader(
     "Content-Security-Policy",
-     "default-src 'self'; script-src 'self' https://apis.google.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;"
-  )
-  next()
-})
+    "default-src 'self'; script-src 'self' https://apis.google.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;"
+  );
+  next();
+});
 
 const PORT = process.env.port || 5001;
 
 function checkApiKey(req, res, next) {
-  const key = req.headers['x-api-key'];
-  if (!key || key !== process.env.VITE_KEY) {
-    return res.status(403).json({ error: 'Forbidden: Invalid API key' });
+  if (req.path === "/checkpayment") {
+    return next();
   }
+  const key = req.headers["x-api-key"];
+  if (!key || key !== process.env.VITE_KEY) {
+    return res.status(403).json({ error: "Forbidden: Invalid API key" });
+  }
+
   next();
 }
 
-app.use("/api", checkApiKey , ParserController);
+app.use("/api", checkApiKey, ParserController);
 app.use("/api", googleAPIRouter);
 app.use("/api", purchasesRouter);
 app.use("/api", userRouter);
@@ -89,10 +94,8 @@ app.use("/api", yoomoneyRouter);
 async function initializeApp() {
   try {
     await createTables(pool);
-    await createStorageTables(storagePool)
-    app.listen(PORT, () => {
-      
-    });
+    await createStorageTables(storagePool);
+    app.listen(PORT, () => {});
   } catch (error) {
     logger.error("Возникла ошибка в Intialize app:", error);
   }
