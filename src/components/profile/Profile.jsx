@@ -40,7 +40,7 @@ const Profile = ({
     username: "",
     newPassword: "",
     oldPassword: "",
-    user_id: userData?.user?.user_id,
+    user_id: userData?.userInformation?.user_id,
     changeMethod: "",
   });
 
@@ -59,7 +59,7 @@ const Profile = ({
 
   useEffect(() => {
     if (isVerificationCodeCorrect && isAccountWillBeDeleted) {
-      dataToDb.deleteProfile(userData.user.user_id, csrfToken);
+      dataToDb.deleteProfile(userData.userInformation.user_id, csrfToken);
       document.body.style.overflow = "";
 
       toast.success(t("Account deleted."), {
@@ -97,7 +97,7 @@ const Profile = ({
     }
   };
 
-  const date = new Date(userData?.user?.subscription_expiration);
+  const date = new Date(userData?.userInformation?.subscription_expiration);
   let finalDate;
 
   if (!date) {
@@ -130,7 +130,7 @@ const Profile = ({
                 />
               ) : (
                 <h1 className="profile_name">
-                  {userData ? userData?.user?.username : "Log in firstly"}
+                  {userData ? userData?.userInformation?.username : "Log in firstly"}
                 </h1>
               )}
 
@@ -148,7 +148,7 @@ const Profile = ({
 
             <h2 className="profile_uses-title none">{t("uses")}</h2>
             <h3 className="profile_uses-amount">
-              {userData ? userData?.user?.uses : ""}
+              {userData ? userData?.userInformation?.uses : ""}
             </h3>
             <button
               onClick={() => {
@@ -232,7 +232,7 @@ const Profile = ({
               <h2 className="info_block-email none">
                 {t("EM")}
                 <span>{t("AIL")}</span> :{" "}
-                {userData ? userData?.user?.email : ""}
+                {userData ? userData?.userInformation?.email : ""}
               </h2>
 
               <div className="password__container">
@@ -276,7 +276,7 @@ const Profile = ({
 
         {isAccountWillBeDeleted ? (
           <VerifCode
-            data={userData.user}
+            data={userData.userInformation}
             isTriggered={isAccountWillBeDeleted}
             setIsTriggered={setIsAccountWillBeDeleted}
             setIsVerificationCodeCorrect={setIsVerificationCodeCorrect}
@@ -285,7 +285,7 @@ const Profile = ({
 
         {isPasswordChanged ? (
           <VerifCode
-            data={userData.user}
+            data={userData.userInformation}
             isTriggered={isPasswordChanged}
             setIsTriggered={setIsPasswordChanged}
             setIsVerificationCodeCorrect={setIsVerificationCodeCorrect}
@@ -295,7 +295,7 @@ const Profile = ({
         {isVerificationCodeCorrect && isPasswordChanged ? (
           <>
             <NewPassword
-              email={userData.user.email}
+              email={userData.userInformation.email}
               isVerificationCodeCorrect={isVerificationCodeCorrect}
               setIsVerificationCodeCorrect={setIsVerificationCodeCorrect}
             />

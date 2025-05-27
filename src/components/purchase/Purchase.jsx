@@ -83,11 +83,11 @@ const Purchase = ({ isLoggedIn, userData }) => {
             <div className="balance__block">
               <h3 className="balance-block__money">
                 {isLoggedIn
-                  ? userData?.user?.username
+                  ? userData?.userInformation?.username
                   : t("Firstly,log in to your account")}
               </h3>
               <h3 className="balance-block__uses">
-                {isLoggedIn ? userData?.user?.uses + " uses" : ""}
+                {isLoggedIn ? userData?.userInformation?.uses + " uses" : ""}
               </h3>
             </div>
           </div>
@@ -101,8 +101,8 @@ const Purchase = ({ isLoggedIn, userData }) => {
           price={selectedPackage.price}
           isBusiness={selectedPackage.isBusiness}
           packageId={selectedPackage.packageId}
-          user_id={userData?.user?.user_id}
-          userEmail={userData?.user?.email}
+          user_id={userData?.userInformation?.user_id}
+          userEmail={userData?.userInformation?.email}
         />
 
         <section className="packages">

@@ -8,11 +8,9 @@ dotenv.config({ path: path.resolve(process.cwd(), "./environment/.env") });
 const verifyJWT = async (req,res) => {
     const token = req.cookies.sessionToken;
     const csrfToken = req.cookies.csrfToken;    
-
     if(!token || !csrfToken){
         return
     }
-
     try{
         const decoded = jwt.verify(token , process.env.JWT_SECRET);
         const userData = {
@@ -22,7 +20,7 @@ const verifyJWT = async (req,res) => {
         }
 
         console.log(process.env.API_URL)
-
+        console.log("userData.user_id : ", userData.user_id)
         const response = await fetch(`${process.env.API_URL}/loginbyid/${userData.user_id}` , {
             method : "GET",
             credentials : "include",

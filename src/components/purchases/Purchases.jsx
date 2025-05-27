@@ -25,12 +25,6 @@ const Purchases = ({ userData, setUserData, csrfToken }) => {
 
   const { t, i18n } = useTranslation();
 
-  const isLittleMobile = useMediaQuery({ maxWidth: 375 });
-
-  const changeLanguage = (lang) => {
-    i18n.changeLanguage(lang);
-  };
-
   const removePurchase = async (index, user_id, channelName) => {
     try {
       await toast.promise(
@@ -106,7 +100,7 @@ const Purchases = ({ userData, setUserData, csrfToken }) => {
                     onClick={() =>
                       removePurchase(
                         index,
-                        userData.user.user_id,
+                        userData.userInformation.user_id,
                         channel.channel_name
                       )
                     }
@@ -145,9 +139,8 @@ const Purchases = ({ userData, setUserData, csrfToken }) => {
               </>
             )}
           </div>
+          <Footer/>
         </section>
-
-        <Footer/>
       </HelmetProvider>
     </>
   );

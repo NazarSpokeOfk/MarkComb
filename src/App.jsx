@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import "./i18";
@@ -22,8 +27,10 @@ import SponsorsPage from "./components/sponsorsPage/sponsorsPage";
 import VotingPage from "./components/votingPage/votingPage";
 import MainPage from "./components/mainPage/MainPage";
 import ScrollToTop from "./components/scrollToTop/scrollToTop";
+import ForbiddenThumbnail from "./components/forbiddenThumbnail/ForbiddenThumbnail";
 
 import checkCookies from "./checkCookies/checkCookies";
+import { setGlobalNavigate } from "./errorHandler/errorHandler";
 
 function App() {
   const [channelData, setChannelData] = useState(null);
@@ -34,6 +41,8 @@ function App() {
   const [userCountry, setUserCountry] = useState("");
   const [userLang, setUserLang] = useState("");
   const [isFilterCTAActive, setIsFilterCTAActive] = useState(false);
+  const [isModalOpened, setIsModalOpened] = useState(false);
+  const [entryMethod, setEntryMethod] = useState("");
 
   const [signInData, setSignInData] = useState({
     email: "",
@@ -46,16 +55,22 @@ function App() {
     password: "",
   });
 
+  const navigate = useNavigate();
+
   useEffect(() => {
-    console.log(userData)
-  },[userData])
+    console.log(userData);
+  }, [userData]);
 
   useEffect(() => {
     checkCookies(setIsLoggedIn, setUserData, setUserLang, setCsrfToken);
   }, []);
 
+  useEffect(() => {
+    setGlobalNavigate(navigate);
+  }, [navigate]);
+
   return (
-    <Router>
+    <>
       <ScrollToTop />
       <Routes>
         <Route
@@ -102,6 +117,10 @@ function App() {
                   setUserCountry={setUserCountry}
                   setUserLang={setUserLang}
                   isFilterCTAActive={isFilterCTAActive}
+                  isModalOpened={isModalOpened}
+                  setIsModalOpened={setIsModalOpened}
+                  entryMethod={entryMethod}
+                  setEntryMethod={setEntryMethod}
                 />
               </ErrorBoundary>
               <ErrorBoundary>
@@ -215,8 +234,19 @@ function App() {
             </ErrorBoundary>
           }
         />
+        <Route
+          path="/forbidden"
+          element={
+            <ErrorBoundary>
+              <ForbiddenThumbnail
+                setIsModalOpened={setIsModalOpened}
+                setEntryMethod={setEntryMethod}
+              />
+            </ErrorBoundary>
+          }
+        />
       </Routes>
-    </Router>
+    </>
   );
 }
 

@@ -27,7 +27,7 @@ class PurchasesController {
 
     console.log(`${uses} использований, ${thumbnail} заглушка ${email} почта, ${channelName} имя`)
 
-    const tokenFromClient = req.headers["X-CSRF-TOKEN"];
+    const tokenFromClient = req.headers["x-csrf-token"];
     const tokenFromSession = req.session.csrfToken;
 
     if (tokenFromClient !== tokenFromSession) {
@@ -96,9 +96,12 @@ class PurchasesController {
     const { channelName } = req.body;
     const id = req.params.id;
 
-    const tokenFromClient = req.headers["X-CSRF-TOKEN"];
+    const tokenFromClient = req.headers["x-csrf-token"];
     const tokenFromSession = req.session.csrfToken;
+    console.log("токен с клиента :" , tokenFromClient)
+    console.log("токен с сессии :", tokenFromSession)
 
+    console.log(req.session)
     if (tokenFromClient !== tokenFromSession) {
       return res.status(403).send('CSRF token mismatch');
     }

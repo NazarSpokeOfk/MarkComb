@@ -49,7 +49,7 @@ header.active .header__sublinks {
 .header__links {
   align-items: center;
   display: flex;
-  margin-left: 130px;
+  margin-left: 155px;
   margin-top: -30px;
   justify-content: center;
   a {
@@ -109,7 +109,7 @@ header.active .header__sublinks {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: 3%;
+  margin-left: 5%;
   transform: scaleY(0);
   transform-origin: top;
   transition: all 0.3s ease;
@@ -128,6 +128,12 @@ header.active .header__sublinks {
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {
+  .logo{
+    margin-left: 20px;
+    a{
+      font-size: 25px;
+    }
+  }
   .header__link {
     margin-right: 50px;
   }
@@ -202,15 +208,6 @@ header.active .header__sublinks {
   .header__sublinks{
     a{
       font-size: 14px;
-    }
-  }
-}
-
-@media (min-width: 768px) and (max-width: 1024px){
-  .logo{
-    margin-left: 20px;
-    a{
-      font-size: 25px;
     }
   }
 }

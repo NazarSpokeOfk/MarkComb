@@ -328,5 +328,8 @@
     "Unfortunately, we cannot direct you to payment. Please try again later":"К сожалению, не можем вас направить на оплату. Пожалуйста, попробуйте позднее",
     "con":"про",
     "tinue":"должить",
-    "Bussiness subscription expires in":"Бизнес подписка истекает"
+    "Bussiness subscription expires in":"Бизнес подписка истекает",
+    "Usually this error occurs due to an":"Обычно эта ошибка возникает из за",
+    "expired session":"истекшей сессии",
+    "Log in again":"Войти в аккаунт"
 }

@@ -9,6 +9,10 @@ import domains from "disposable-email-domains/index.json" assert { type: "json" 
 
 import MailVerification from "../mailVerification.js";
 
+import returnCookie from "../dto/returnCookie.js";
+import returnCsrftoken from "../dto/returnCsrfToken.js";
+import returnUserInformation from "../dto/returnUserInformation.js";
+
 const mailVerification = new MailVerification();
 
 class UserController {
@@ -45,9 +49,10 @@ class UserController {
   }
 
   async getUserByPassword(req, res) {
-    const startTime = process.hrtime();
 
     const { email, password } = req.body;
+
+    console.log("Емаил, пассворд",email,password)
     try {
       const userResult = await pool.query(
         `SELECT user_id,email,password,username,uses,isvoteenabled,subscription_expiration FROM users WHERE email = $1`,
@@ -62,7 +67,13 @@ class UserController {
 
       let user = userResult.rows[0];
 
-      const lang = await this.getUserIp(); 
+      if (user.subscription_expiration !== null) {
+        user.isSubscriber = true;
+      } else {
+        user.isSubscriber = false;
+      }
+
+      const lang = await this.getUserIp();
 
       user.lang = lang;
 
@@ -75,8 +86,6 @@ class UserController {
         return res.status(400).json({ message: "Неверный пароль!" });
       }
 
-      console.log("Юзер :", user);
-
       const token = generateJWT(user);
 
       const userId = await user.user_id;
@@ -85,51 +94,20 @@ class UserController {
         `SELECT channel_name,email,created_at,thumbnail FROM purchases_channels WHERE user_id = $1`,
         [userId]
       );
-      try {
-        res.cookie("sessionToken", token, {
-          httpOnly: false,
-          secure: true,
-          maxAge: 3600000,
-          sameSite: "strict",
-        });
-      } catch (error) {
-        logger.error(
-          "Ошибка при загрузке куки на сайт. GetUserByPassword",
-          error
-        );
-      }
+
+      returnCookie(token,res);
 
       const csrfToken = crypto.randomBytes(16).toString("hex");
       req.session.csrfToken = csrfToken;
 
-      try {
-        res.cookie("csrfToken", csrfToken, {
-          httpOnly: false,
-          secure: true,
-          maxAge: 3600000,
-          sameSite: "strict",
-        });
-      } catch (error) {
-        console.log("Ошибка при загрузке csrfТокена на сайт", error);
-      }
+      returnCsrftoken(csrfToken,res);
+
+      const userInformation = returnUserInformation(user, token, csrfToken);
 
       res.json({
-        message: "Успешный вход",
-        token,
-        csrfToken,
-        user: {
-          user_id: user.user_id,
-          email: user.email,
-          username: user.username,
-          uses: user.uses,
-          password: user.password,
-          lang: user.lang,
-          isVoteEnabled: user.isvoteenabled,
-        },
+        userInformation,
         channels: userChannels.rows,
       });
-
-      const endTime = process.hrtime(startTime);
     } catch (error) {
       logger.error("Возникла ошибка в getUserByPassword:", error);
       res
@@ -140,7 +118,7 @@ class UserController {
 
   async getUserByUserId(req, res) {
     const user_id = req.params.id;
-
+    
     try {
       const userResult = await pool.query(
         `SELECT user_id,email,username,uses,subscription_expiration,isvoteenabled FROM users WHERE user_id = $1`,
@@ -165,20 +143,9 @@ class UserController {
         `SELECT channel_name,email,created_at,thumbnail FROM purchases_channels WHERE user_id = $1`,
         [user_id]
       );
-
-      console.log(">Юзер :", user);
-
+      const userInformation = returnUserInformation(user);
       res.json({
-        message: "Успешный вход",
-        user: {
-          user_id: user.user_id,
-          email: user.email,
-          username: user.username,
-          uses: user.uses,
-          subscription_expiration: user.subscription_expiration || "",
-          isSubscriber: user.isSubscriber,
-          isVoteEnabled: user.isvoteenabled,
-        },
+        userInformation,
         channels: userChannels.rows,
       });
     } catch (error) {
@@ -250,15 +217,12 @@ class UserController {
 
       const user = addUser.rows[0];
 
+      const token = generateJWT(user);
+
+      const userInformation = returnUserInformation(user, token, csrfToken);
+
       res.json({
-        csrfToken,
-        user: {
-          user_id: user.user_id,
-          email: user.email,
-          username: user.username,
-          uses: user.uses,
-          password: user.password,
-        },
+        userInformation,
       });
     } catch (error) {
       if (error.code === "23505") {
@@ -339,9 +303,11 @@ class UserController {
         return res.status(400).json({ message: "Ошибка обновления данных" });
       }
 
+      const userInformation = returnUserInformation(updateUser.rows[0])
+
       res.json({
         message: "Данные пользователя успешно обновлены",
-        user: updateUser.rows[0],
+        userInformation,
       });
     } catch (error) {
       logger.error(" (updateUser) Возникла ошибка в updateUser:", error);

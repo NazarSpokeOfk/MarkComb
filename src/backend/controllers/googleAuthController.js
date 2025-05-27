@@ -2,10 +2,13 @@ import pool from "../db/index.js";
 
 import bcrypt from "bcrypt";
 
-import logger from "../winston/winston.js";
 import crypto from "crypto";
 
 import generateJWT from "../generateJWT.js";
+
+import returnUserInformation from "../dto/returnUserInformation.js";
+import returnCookie from "../dto/returnCookie.js"
+import returnCsrftoken from "../dto/returnCsrfToken.js"
 
 import { OAuth2Client } from "google-auth-library";
 
@@ -47,28 +50,17 @@ const googleAuthController = async (req, res) => {
         if (user) {
           const token = generateJWT(user);
 
-          console.log("Отправка куки :", token);
+          const csrfToken = crypto.randomBytes(16).toString("hex");
+          req.session.csrfToken = csrfToken;
 
-          try {
-            res.cookie("sessionToken", token, {
-              httpOnly: false,
-              secure: true,
-              maxAge: 3600000,
-              sameSite: "lax",
-            });
-            console.log("Ответ отправлен. Заголовки:", res.getHeaders());
-          } catch (error) {
-            console.log("Ошибка при отправке куки.", error);
-          }
+          returnCookie(token);
+
+          returnCsrftoken(csrfToken);
+
+          const userInformation = returnUserInformation(user, token, csrfToken);
+
           return res.status(200).json({
-            message: "Аккаунт создан через Google",
-            status: true,
-            user: {
-              user_id: user.user_id,
-              email: user.email,
-              uses: user.uses,
-              username: user.username,
-            },
+            userInformation,
           });
         } else {
           return res
@@ -89,42 +81,17 @@ const googleAuthController = async (req, res) => {
       [userId]
     );
 
-    try {
-      res.cookie("sessionToken", token, {
-        httpOnly: false,
-        secure: true,
-        maxAge: 3600000,
-        sameSite: "strict",
-      });
-    } catch (error) {
-      logger.error(
-        "Ошибка при загрузке куки на сайт. GetUserByPassword",
-        error
-      );
-    }
+    returnCookie(token);
 
     const csrfToken = crypto.randomBytes(16).toString("hex");
     req.session.csrfToken = csrfToken;
 
-    try {
-      res.cookie("csrfToken", csrfToken, {
-        httpOnly: false,
-        secure: true,
-        maxAge: 3600000,
-        sameSite: "strict",
-      });
-    } catch (error) {
-      console.log("Ошибка при загрузке csrfТокена на сайт", error);
-    }
+    returnCsrftoken(csrfToken);
+
+    const userInformation = returnUserInformation(user, token, csrfToken);
 
     res.json({
-      message: "Успешный вход",
-      user: {
-        user_id: userId,
-        email: user.email,
-        uses: user.uses,
-        username: user.username,
-      },
+      userInformation,
       channels: userChannels.rows,
     });
   } catch (error) {

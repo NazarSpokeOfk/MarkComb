@@ -22,6 +22,7 @@ import FilterBtnImg from "../../icons/filters.png";
 import SearchBtn from "../../icons/magnifing_glass.png";
 import ResetIcon from "../../icons/reseticon.png";
 import CloseFilter from "../../icons/closefilter.png";
+import DataToDB from "../../dataToDB/dataToDB";
 
 const HeaderFilter = ({
   setChannelData,
@@ -38,18 +39,21 @@ const HeaderFilter = ({
   csrfToken,
   setUserCountry,
   setUserLang,
-  isFilterCTAActive
+  isFilterCTAActive,
+  isModalOpened,
+  setIsModalOpened,
+  entryMethod,
+  setEntryMethod
 }) => {
+
+  const dataToDB = new DataToDB();
 
   const apiBaseUrl = import.meta.env.VITE_API_URL;
 
   const { t } = useTranslation();
-
-  const [isModalOpened, setIsModalOpened] = useState(false);
   const [isDataFilledIn, setIsDataFilledIn] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [isFiltersFetching, setIsFiltersFetching] = useState(false);
-  const [entryMethod, setEntryMethod] = useState("");
   const [isMultiFiltersEnabled, setIsMultiFiltersEnabled] = useState(false);
   const [activeAnimations, setActiveAnimations] = useState([]);
   const [removingIndex, setRemovingIndex] = useState(null);
@@ -108,7 +112,7 @@ const HeaderFilter = ({
         credentials: "include",
         headers: {
           "Content-type": "application/json",
-          "X-CSRF-Token": csrfToken,
+          "x-csrf-token": csrfToken,
           "x-api-key": import.meta.env.VITE_API_KEY,
         },
         body: JSON.stringify({ mainInputValue }),
@@ -129,10 +133,10 @@ const HeaderFilter = ({
   };
 
   useEffect(() => {
-    if(isFilterCTAActive){
-      openFilters()
+    if (isFilterCTAActive) {
+      openFilters();
     }
-  },[isFilterCTAActive])
+  }, [isFilterCTAActive]);
 
   useEffect(() => {
     const newAnimations = selectedFilterLabels.map((_, index) => false);
@@ -226,20 +230,27 @@ const HeaderFilter = ({
       <HelmetProvider>
         <Helmet>
           <title>{t("Filters and search")}</title>
-          <meta name="description" content="Use filters and search to get accurate results." />
+          <meta
+            name="description"
+            content="Use filters and search to get accurate results."
+          />
         </Helmet>
 
-        <Header hideLinks={false} isVoteEnabled={userData?.isVoteEnabled} />
+        <Header
+          hideLinks={false}
+          isVoteEnabled={userData?.userInformation?.user?.isVoteEnabled}
+        />
 
         <section className="login">
           {isLoggedIn ? (
             <Link className="profile__name" to={"/profile"}>
-              {userData?.user?.username}
+              {userData?.userInformation?.username}
             </Link>
           ) : null}{" "}
           {isLoggedIn ? (
             <Link
               onClick={() => {
+                dataToDB.logOut();
                 setUserData("");
                 setIsLoggedIn(false);
               }}

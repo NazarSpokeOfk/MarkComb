@@ -1,3 +1,4 @@
+import { handleHttpError } from "../errorHandler/errorHandler";
 const apiBaseUrl = import.meta.env.VITE_API_URL;
 
 class DataToDB {
@@ -22,13 +23,18 @@ class DataToDB {
     };
     if (csrfToken) headers["x-csrf-token"] = csrfToken;
 
-    const options = { method, headers };
+    const options = { method, headers, credentials: "include" };
     if (body) options.body = JSON.stringify(body);
-    if (method !== "GET") options.credentials = "include";
-
+    
     try {
       const response = await fetch(endpoint, options);
-      return response.ok ? await response.json() : Promise.reject(response);
+  
+      if (!response.ok) {
+        handleHttpError(response);
+        return Promise.reject(response);
+      }
+  
+      return await response.json();
     } catch (error) {
       console.error(`Ошибка запроса (${method} ${endpoint}):`, error);
       return Promise.reject(error);
@@ -84,7 +90,7 @@ class DataToDB {
         channels: [...prevData.channels, result.purchase],
         user: {
           ...prevData.user,
-          uses: prevData.user.uses - 1,
+          uses: prevData.userInformation.uses - 1,
         },
       }));
     } catch (error) {
@@ -211,6 +217,10 @@ class DataToDB {
     })
       .then(() => ({ message: true }))
       .catch(() => ({ message: false }));
+  }
+
+  async logOut () {
+    return this.fetchData(`${apiBaseUrl}/logout`,"GET")
   }
 }
 

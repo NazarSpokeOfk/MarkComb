@@ -51,6 +51,7 @@ const VerifPassword = ({
           }));
         }}
         onClickAction={() => {
+          console.log(changedData)
           dataToDB.updateData(changedData).then((response) => {
             console.log("response.message:", response.message);
             if (response?.message === true) {

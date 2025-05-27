@@ -56,7 +56,7 @@ const YouTuberBlock = ({
     
     if (btnsState[buttonId]?.isProcessing) return;
 
-    if (userData.user.uses > 0) {
+    if (userData.userInformation.uses > 0) {
       try {
 
         const response = await dataToDB.getEmail(csrfToken,data.channelId)
@@ -81,7 +81,7 @@ const YouTuberBlock = ({
               channelName: response?.name || "",
               uses: 1,
             },
-            userData?.user?.user_id,
+            userData?.userInformation?.user_id,
             csrfToken
           );
           setChannelData((prevState) => ({
@@ -107,7 +107,7 @@ const YouTuberBlock = ({
               channelName: channelData?.updatedData?.title || "",
               uses: 1,
             },
-            userData?.user?.user_id,
+            userData?.userInformation?.user_id,
             csrfToken
           );
           setBtnsState((prev) => ({
