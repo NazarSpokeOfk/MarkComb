@@ -13,6 +13,12 @@ const clearCookie = (req,res) => {
     httpOnly: false, 
   });
 
+  res.clearCookie("connect.sid", {
+    path: "/",
+    secure: false,
+    httpOnly: false, 
+  });
+
   res.status(200).send({message : "Выход выполнен"})
 
   console.log("Отправлен заголовок очистки куки:");

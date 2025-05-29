@@ -26,6 +26,14 @@
   transform: scale(0.95);
 }
 
+.youtubers__block-flex{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  margin-top: 100px;
+  gap: 12em;
+}
+
 @media (min-width: 1920px) and (min-height: 1050px){
   .feedback{
     margin-left: 72%;

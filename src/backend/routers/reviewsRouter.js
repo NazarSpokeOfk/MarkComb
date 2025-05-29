@@ -21,6 +21,6 @@ const router = new Router();
 
 const reviewsController = new ReviewsController();
 
-router.post('/review' , reviewLimiter , (req,res) => reviewsController.addReview(req,res))
+router.post('/review'  , (req,res) => reviewsController.addReview(req,res))
 
 export default router;

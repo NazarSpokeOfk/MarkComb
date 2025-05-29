@@ -27,15 +27,15 @@ const VotingPage = ({ userData }) => {
   const updatesVariants = {
     one: {
       name: "Dead channels Filtration",
-      description: "desc",
+      description: "We will improve the filter system so that you don't accidentally get “dead” channels.",
     },
     two: {
       name: "Recommendation System",
-      description: "desc",
+      description: "We will put in place a system to analyze your interests, and suggest the right channels for you.",
     },
     three: {
       name: "Purchased data export",
-      description: "desc",
+      description: "After purchasing contact data, you will be able to export the purchased data in any format you like: json/text file/word etc.",
     },
   };
 
@@ -61,7 +61,7 @@ const VotingPage = ({ userData }) => {
       <Header />
 
       <div className="container">
-        {userData?.isVoteEnabled ? (
+        {userData?.userInformation?.isVoteEnabled ? (
           <>
             <h1 className="vote__title">
               {t("Voting for new features in")} <br />
@@ -74,7 +74,7 @@ const VotingPage = ({ userData }) => {
                   <div key={key} className="voting__block">
                     <h3 className="voting__block-title">{t(variant.name)}</h3>
                     <p className="voting__block-description">
-                      {variant.description}
+                      {t(variant.description)}
                     </p>
                     <button
                       onClick={() => {

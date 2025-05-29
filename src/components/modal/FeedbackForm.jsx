@@ -4,6 +4,8 @@ import { useState } from "react";
 
 import { useTranslation } from "react-i18next";
 
+import DataToDB from "../../dataToDB/dataToDB";
+
 import arrow from "../../icons/arrow.svg";
 
 import "./css/FeedbackForm.css";
@@ -12,8 +14,7 @@ const FeedbackForm = ({
   setIsFeedbackWillBeWrited,
   isFeedbackWillBeWrited,
 }) => {
-
-  const apiBaseUrl = import.meta.env.VITE_API_URL;
+  const dataToDB = new DataToDB();
 
   const { t } = useTranslation();
 
@@ -26,30 +27,16 @@ const FeedbackForm = ({
       return;
     }
 
-    const request = await fetch(`${apiBaseUrl}/review`, {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-        "x-api-key": import.meta.env.VITE_API_KEY,
-      },
-      body: JSON.stringify({ reviewText, websiteMark }),
-    });
+    const result = await dataToDB.addReview(reviewText, websiteMark);
 
-    const result = await request.json();
-    if (result.status === false) {
+    if (result.message === false) {
       toast.warn(t("Unfortunately,we can't get your review. Please,try later"));
       setTimeout(() => {
         toast.dismiss();
         setIsFeedbackWillBeWrited(false);
       }, 2000);
-    } else if (result.status === true) {
+    } else if (result.message === true) {
       toast.success(t("Thanks for your review, you help us improve MarkComb!"));
-      setTimeout(() => {
-        toast.dismiss();
-        setIsFeedbackWillBeWrited(false);
-      }, 2000);
-    } else {
-      toast.error(t("Too many requests!"));
       setTimeout(() => {
         toast.dismiss();
         setIsFeedbackWillBeWrited(false);

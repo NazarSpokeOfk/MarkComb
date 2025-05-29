@@ -13,13 +13,79 @@
 }
 
 header {
-  padding-top: 10px;
   transition: all 0.6s ease;
   background-color: #000000;
-  max-height: 52px;
 }
+.header__flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  background-color: black;
+  height: 60px;
+  position: relative;
+}
+
+.header__left {
+  flex: 1;
+}
+
+.header__center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.header__right {
+  flex: 1;
+  display: flex;
+  justify-content: space-around;
+}
+
+.logo {
+  font-size: 30px;
+  font-weight: 900;
+  text-decoration: none;
+  color: white;
+}
+
+.logo span {
+  color: var(--main-red-col)
+}
+
+.nav__links {
+  display: flex;
+  gap: 7vw;
+  align-items: center;
+}
+
+.mini__logo{
+  width: 30px;
+  height: 30px;
+  margin-top: 2%;
+}
+
+.header__link {
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.down__arrow {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  transition: transform 0.6s ease;
+}
+
+.down__arrow.active {
+  transform: rotate(-90deg);
+}
+
+
 header.active {
-  max-height: 100px;
+  max-height: 150px;
   padding-bottom: 10px;
 }
 header.active .header__sublinks {
@@ -27,34 +93,6 @@ header.active .header__sublinks {
   transform: scaleY(1);
   margin-top: 2%;
   margin-bottom: 2%;
-}
-.logo {
-  margin-left: 60px;
-  font-size: 30px;
-  font-weight: 800;
-  max-width: 150px;
-  transition: all 0.6s ease;
-  color: #fff;
-}
-.logo span {
-  transition: all 0.6s ease;
-  color: black;
-}
-
-
-.logo span {
-  color: #ff0000;
-}
-
-.header__links {
-  align-items: center;
-  display: flex;
-  margin-left: 155px;
-  margin-top: -30px;
-  justify-content: center;
-  a {
-    text-decoration: none;
-  }
 }
 
 .header__top{
@@ -65,7 +103,6 @@ header.active .header__sublinks {
 .header__link {
   text-transform: uppercase;
   text-decoration: none;
-  margin-right: 96px;
   font-weight: 700;
   font-size: 15px;
   text-align: center;
@@ -81,12 +118,6 @@ header.active .header__sublinks {
   span {
     color: var(--main-red-col);
   }
-}
-
-.down__arrow {
-  transition: all 0.3s ease;
-  width: 30px;
-  height: 30px;
 }
 
 .down__arrow:hover {
@@ -109,105 +140,53 @@ header.active .header__sublinks {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: 5%;
+  margin-left: 3%;
   transform: scaleY(0);
   transform-origin: top;
   transition: all 0.3s ease;
   margin-top: 0%;
   margin-bottom: 0%;
+  max-height: 0px;
+  gap: 5%;
   a {
     font-size: 12px;
   }
 }
-
-
-@media (min-width: 1920px) and (min-height: 1080px) {
-  .header__link {
-    font-size: 20px;
+@media (min-width: 768px) and (max-width: 1024px){
+  .header__right{
+    flex : 0;
   }
-}
-
-@media (min-width: 768px) and (max-width: 1024px) {
-  .logo{
-    margin-left: 20px;
-    a{
-      font-size: 25px;
-    }
-  }
-  .header__link {
-    margin-right: 50px;
-  }
-
-  .header__links {
-    margin-left: 10%;
-  }
-}
-
-@media (max-width: 430px) {
-  header {
-    width: auto;
-  }
-  .header__link {
-    margin-right: 0px;
-    font-size: 13px;
-    margin-right: 15px;
-  }
-  .header__links {
-    margin-left: 10%;
-  }
-  .logo{
-    margin-left: 10px;
-  }
-  .header__sublinks{
-    margin-left: 0%;
-  }
-}
-
-@media (max-width: 375px) {
   .logo {
-    margin-top: -5px;
-  }
-  .header__link {
-    margin-right: 5px;
-  }
-  .header__links {
-    margin-left: 10%;
-  }
-}
-
-@media (min-width: 2560px) and (max-height: 1480px) {
-  header.active .header__sublinks {
-    overflow: visible;
-    transform: scaleY(1);
-    margin-top: 0.5%;
-    margin-bottom: 2%;
-  }
-
-  .header__sublinks{
-    margin-left: 1.5%;
-    a{
-      font-size: 15px;
-    }
-  }
-  header.active {
-    max-height: 120px;
-    padding-bottom: 10px;
-  }
-  .header__link {
+    width: 100px;
     font-size: 20px;
   }
+  .header__link{
+    font-size: 13px;
+  }
 }
 
-
-@media (min-width: 1920px) and (min-height: 1050px){
-  header.active .header__sublinks{
-    margin-top: 1%;
-    margin-left: 2.5%;
+@media (max-width: 450px){
+  .header__link{
+    font-size: 10px;
   }
-
+  .header__right{
+    flex: 0;
+  }
+  .down__arrow{
+    width: 15px;
+    height: 15px;
+  }
   .header__sublinks{
-    a{
-      font-size: 14px;
+    .header__link{
+      font-size: 7px;
+      width: 70px;
     }
+  }
+  header.active .header__sublinks{
+    margin: 0 auto;
+    margin-top: 5%;
+  }
+  header.active{
+    padding-bottom: 20px;
   }
 }

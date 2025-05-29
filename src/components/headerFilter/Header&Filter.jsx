@@ -43,9 +43,8 @@ const HeaderFilter = ({
   isModalOpened,
   setIsModalOpened,
   entryMethod,
-  setEntryMethod
+  setEntryMethod,
 }) => {
-
   const dataToDB = new DataToDB();
 
   const apiBaseUrl = import.meta.env.VITE_API_URL;
@@ -304,32 +303,38 @@ const HeaderFilter = ({
                 }
               }}
             >
-              <input
-                className="search__main"
-                type="text"
-                placeholder={t("Search for any YouTuber")}
-              />
-              <div className="buttons">
-                <button
-                  onClick={openFilters}
-                  type="button"
-                  className="search__filters"
-                >
-                  <img src={FilterBtnImg} loading="lazy" alt="search_filters" />
-                </button>
-                <button
-                  onClick={() => {
-                    setIsSearching(true);
-                  }}
-                  type="submit"
-                  className="search__glass"
-                >
-                  <img
-                    src={isSearching ? Loading : SearchBtn}
-                    alt="search_button"
-                    loading="lazy"
-                  />
-                </button>
+              <div className="Header__input-flex">
+                <input
+                  className="search__main"
+                  type="text"
+                  placeholder={t("Search for any YouTuber")}
+                />
+                <div className="buttons">
+                  <button
+                    onClick={openFilters}
+                    type="button"
+                    className="search__filters"
+                  >
+                    <img
+                      src={FilterBtnImg}
+                      loading="lazy"
+                      alt="search_filters"
+                    />
+                  </button>
+                  <button
+                    onClick={() => {
+                      setIsSearching(true);
+                    }}
+                    type="submit"
+                    className="search__glass"
+                  >
+                    <img
+                      src={isSearching ? Loading : SearchBtn}
+                      alt="search_button"
+                      loading="lazy"
+                    />
+                  </button>
+                </div>
               </div>
             </form>
           </div>

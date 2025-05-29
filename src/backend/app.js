@@ -27,11 +27,20 @@ import logger from "./winston/winston.js";
 
 const app = express();
 
+app.set("trust proxy",1);
+
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
+
+app.use(cookieParser());
+
 app.use(helmet());
 
 app.use(express.json());
-
-app.set("trust proxy",1);
 
 app.use(
   session({
@@ -45,20 +54,6 @@ app.use(
     },
   })
 );
-
-app.use((err, req, res, next) => {
-  logger.error(`Ошибка: ${err.message}`);
-  res.status(500).json({ message: "Внутренняя ошибка сервера" });
-});
-
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-    credentials: true,
-  })
-);
-
-app.use(cookieParser());
 
 app.use((req, res, next) => {
   res.setHeader(
@@ -90,6 +85,11 @@ app.use("/api", storageRouter);
 app.use("/api", reviewsRouter);
 app.use("/api", voteRouter);
 app.use("/api", yoomoneyRouter);
+
+app.use((err, req, res, next) => {
+  logger.error(`Ошибка: ${err.message}`);
+  res.status(500).json({ message: "Внутренняя ошибка сервера" });
+});
 
 async function initializeApp() {
   try {

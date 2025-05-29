@@ -331,5 +331,10 @@
     "Bussiness subscription expires in":"Бизнес подписка истекает",
     "Usually this error occurs due to an":"Обычно эта ошибка возникает из за",
     "expired session":"истекшей сессии",
-    "Log in again":"Войти в аккаунт"
+    "Log in again":"Войти в аккаунт",
+    "We will improve the filter system so that you don't accidentally get “dead” channels.":"Мы улучшим систему фильтров, чтобы вам случайно не попались «мертвые» каналы.",
+    "We will put in place a system to analyze your interests, and suggest the right channels for you.":"Мы создадим систему, которая будет анализировать ваши интересы и предлагать подходящие вам каналы.",
+    "After purchasing contact data, you will be able to export the purchased data in any format you like: json/text file/word etc.":"После покупки контактных данных вы сможете экспортировать их в любой формат: json/текстовый файл/word и т.д.",
+    "Well, well, too many requests":"Так,так, слишком много запросов",
+    "To main page":"На главную"
 }

@@ -11,7 +11,7 @@ class ReviewsController {
       );
     } catch (error) {
       logger.error("Возникла ошибка при добавлении отзыва : ", error);
-      res.status(500).json({status : false})
+      res.status(429).json({status : false})
     }
     res.status(200).json({status : true})
   }

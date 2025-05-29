@@ -1,0 +1,50 @@
+.requests__container{
+    display: block;
+    margin: 0 auto;
+    margin-top: 5%;
+}
+.requests__title{
+    text-align: center;
+    font-weight: 700;
+}
+.requests__button{
+    transition: all 0.6s ease;
+    display: block;
+    margin : 0 auto;
+    margin-top: 5%;
+    width: 13vw;
+    height: 3vw;
+    font-size: 17px;
+    font-weight: 700;
+    border-radius: 10px;
+    border : 1px solid var(--main-red-col);
+    background-color: #fff;
+    span {
+        background: linear-gradient(to right, #ff0000, #990000);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-decoration: none;
+    }
+}
+.requests__button:hover{
+    scale : 0.95
+}
+.requests__img{
+    width: 20%;
+    height: 20%;
+    display: block;
+    margin: 0 auto;
+}
+
+@media (max-width: 430px){
+    .requests__img{
+        width: 40%;
+        height: 40%;
+        display: block;
+        margin: 0 auto;
+    }
+    .requests__button{
+        width: 45vw;
+        height: 10vw;
+    }
+}

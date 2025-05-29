@@ -206,9 +206,7 @@ const YouTuberBlock = ({
             loading="lazy"
           />
         </div>
-      </div>
-
-      <button
+        <button
         className={`youtuber__button ${btnsState[buttonId]?.class || ""}`}
         onClick={() => {
           if (
@@ -235,6 +233,7 @@ const YouTuberBlock = ({
           ? t("Unfortunantly,we can't get contact data.")
           : `${t("Get")} ${t("data")}`}
       </button>
+      </div>
     </>
   );
 };

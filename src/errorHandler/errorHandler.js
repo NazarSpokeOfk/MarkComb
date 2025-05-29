@@ -9,5 +9,7 @@ export function handleHttpError(response) {
       globalNavigate?.("/forbidden");
     } else if (response.status === 401) {
       globalNavigate?.("/unauthorized");
+    } else if (response.status === 429) {
+      globalNavigate?.("/toomanyrequests")
     }
 }

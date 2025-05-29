@@ -28,6 +28,7 @@ import VotingPage from "./components/votingPage/votingPage";
 import MainPage from "./components/mainPage/MainPage";
 import ScrollToTop from "./components/scrollToTop/scrollToTop";
 import ForbiddenThumbnail from "./components/forbiddenThumbnail/ForbiddenThumbnail";
+import TooManyRequestsThumbnail from "./components/tooManyRequestsThumbnail/tooManyRequestThumbnail";
 
 import checkCookies from "./checkCookies/checkCookies";
 import { setGlobalNavigate } from "./errorHandler/errorHandler";
@@ -244,6 +245,14 @@ function App() {
               />
             </ErrorBoundary>
           }
+        />
+        <Route
+        path="/toomanyrequests"
+        element={
+          <ErrorBoundary>
+            <TooManyRequestsThumbnail/>
+          </ErrorBoundary>
+        }
         />
       </Routes>
     </>

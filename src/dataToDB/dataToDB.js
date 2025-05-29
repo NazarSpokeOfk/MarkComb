@@ -25,15 +25,16 @@ class DataToDB {
 
     const options = { method, headers, credentials: "include" };
     if (body) options.body = JSON.stringify(body);
-    
+
     try {
       const response = await fetch(endpoint, options);
-  
+
       if (!response.ok) {
+        console.log(response);
         handleHttpError(response);
         return Promise.reject(response);
       }
-  
+
       return await response.json();
     } catch (error) {
       console.error(`Ошибка запроса (${method} ${endpoint}):`, error);
@@ -50,8 +51,8 @@ class DataToDB {
     );
   }
 
-  async getEmail (csrfToken,channelId) {
-    console.log("Поступившие данные : " ,channelId,csrfToken)
+  async getEmail(csrfToken, channelId) {
+    console.log("Поступившие данные : ", channelId, csrfToken);
     try {
       const result = await fetch(`${apiBaseUrl}/getemail`, {
         method: "POST",
@@ -65,10 +66,9 @@ class DataToDB {
       });
       const response = await result.json();
 
-      return response
-
+      return response;
     } catch (error) {
-      return { message : error,status: false };
+      return { message: error, status: false };
     }
   }
 
@@ -103,7 +103,7 @@ class DataToDB {
       const result = await this.fetchData(`${apiBaseUrl}/user`, "POST", {
         data,
       });
-      console.log(result)
+      console.log(result);
       this.setIsLoggedIn(true);
       this.setUserData(result);
       setCsrfToken(result.csrfToken);
@@ -116,11 +116,7 @@ class DataToDB {
 
   async validateLogIn(data) {
     try {
-      const result = await this.fetchData(
-        `${apiBaseUrl}/login`,
-        "POST",
-        data
-      );
+      const result = await this.fetchData(`${apiBaseUrl}/login`, "POST", data);
       this.setIsLoggedIn(true);
       this.setUserData(result);
       this.setCsrfToken(result.csrfToken);
@@ -198,16 +194,16 @@ class DataToDB {
     });
   }
 
-  async payment (user_id,packageId,userEmail) {
-    console.log(packageId,user_id,userEmail)
-    return this.fetchData(`${apiBaseUrl}/payment`, "POST" , {
+  async payment(user_id, packageId, userEmail) {
+    console.log(packageId, user_id, userEmail);
+    return this.fetchData(`${apiBaseUrl}/payment`, "POST", {
       user_id,
       packageId,
-      userEmail
+      userEmail,
     }).then((response) => {
-      console.log("респонс в payment методе :",response)
+      console.log("респонс в payment методе :", response);
       return response;
-    })
+    });
   }
 
   async makeVote(featureName, user_id) {
@@ -219,8 +215,17 @@ class DataToDB {
       .catch(() => ({ message: false }));
   }
 
-  async logOut () {
-    return this.fetchData(`${apiBaseUrl}/logout`,"GET")
+  async logOut() {
+    return this.fetchData(`${apiBaseUrl}/logout`, "GET");
+  }
+
+  async addReview(reviewText, websiteMark) {
+    return this.fetchData(`${apiBaseUrl}/review`, "POST", {
+      reviewText,
+      websiteMark,
+    })
+      .then(() => ({ message: true }))
+      .catch(() => ({ message: false }));
   }
 }
 

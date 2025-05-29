@@ -1,10 +1,7 @@
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 import { useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-
-import { useMediaQuery } from "react-responsive";
 
 import "./Purchases.css";
 
@@ -12,10 +9,10 @@ import Header from "../header/Header";
 import Footer from "../footer/Footer";
 
 import binBtn from "../../icons/bin.svg";
-import noDataFound from "../../images/No results found.png";
-import glass from "../../images/magnifying glass.png";
 
 import DataToDB from "../../dataToDB/dataToDB";
+
+import noPurchasesThumbnail from "../../videos/noPurchasesThumbnail.mp4";
 
 const Purchases = ({ userData, setUserData, csrfToken }) => {
   const dataToDb = new DataToDB(true);
@@ -58,8 +55,8 @@ const Purchases = ({ userData, setUserData, csrfToken }) => {
   }, []);
 
   useEffect(() => {
-    console.log("Данные каналов в purchases:",userData.channels) 
-  },[userData])
+    console.log("Данные каналов в purchases:", userData.channels);
+  }, [userData]);
 
   return (
     <>
@@ -71,8 +68,8 @@ const Purchases = ({ userData, setUserData, csrfToken }) => {
             content="You can watch your purchases here."
           />
         </Helmet>
-        
-        <Header/>
+
+        <Header />
 
         <section className="recent">
           <div className="container">
@@ -81,7 +78,8 @@ const Purchases = ({ userData, setUserData, csrfToken }) => {
               className="title none"
             >
               {t("rec")}
-              <span>{t("ent")}{" "}</span>{t("purchases")}
+              <span>{t("ent")} </span>
+              {t("purchases")}
             </h2>
             {userData?.channels?.length > 0 ? (
               userData?.channels.map((channel, index) => (
@@ -124,22 +122,19 @@ const Purchases = ({ userData, setUserData, csrfToken }) => {
             ) : (
               <>
                 <p className="no_available">{t("You have no purchases.")}</p>
-                <img
-                  loading="lazy"
-                  className="no_available_img"
-                  src={noDataFound}
-                  alt="no data found"
-                />
-                <img
-                  loading="lazy"
-                  className="magnifying_glass"
-                  src={glass}
-                  alt="no data found"
-                />
+                <video
+                  className="no__purchases-thumbnail"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                >
+                  <source src={noPurchasesThumbnail} type="video/webm" />
+                </video>
               </>
             )}
           </div>
-          <Footer/>
+          <Footer />
         </section>
       </HelmetProvider>
     </>

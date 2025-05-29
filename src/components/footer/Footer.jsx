@@ -12,13 +12,10 @@ const Footer = () => {
   return (
     <section className="footer">
       <div className="footer__container">
-        <div className="footer-first__group">
+        <div className="footer-second__group">
           <div id="logo_footer" className="logo">
             Mark<span>Comb</span>
           </div>
-        </div>
-
-        <div className="footer-second__group">
           <Link id="Terms" to="/terms" className="footer__terms none">
             {t("Terms of service")}
           </Link>

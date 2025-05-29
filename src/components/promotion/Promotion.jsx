@@ -154,8 +154,8 @@ const Promotion = ({ isLoggedIn, userData }) => {
             content="Here you can see how the content maker's video has progressed"
           />
         </Helmet>
-        
-        <Header/>
+
+        <Header />
 
         <section className="list">
           <div className="container">
@@ -188,23 +188,6 @@ const Promotion = ({ isLoggedIn, userData }) => {
               )}
               <br />
             </div>
-            {userData ? (
-              <button
-                ref={triggerBtnRef}
-                onClick={handleToggle}
-                className="list-container__button"
-              >
-                <img
-                  className="more_youtubers"
-                  loading="lazy"
-                  src={buttonIcon}
-                  alt="moreyoutubers"
-                />
-              </button>
-            ) : (
-              ""
-            )}
-
             <div
               ref={secondYouTubersContainerRef}
               className="list__container__more"
@@ -231,41 +214,60 @@ const Promotion = ({ isLoggedIn, userData }) => {
         </section>
 
         <section className="search">
-          <input
-            type="text"
-            className="search__input"
-            ref={inputRef}
-            placeholder={
-              isMobile
-                ? t("Search video of selected YouTuber")
-                : t("Search for any video of selected YouTuber")
-            }
-          />
-          <button
-            onClick={() => {
-              const inputValue = inputRef.current.value;
-              if (channelName) {
-                toast.promise(
-                  promotionFetch("video", channelName, inputValue, false),
-                  {
-                    pending: "Searching video...",
-                    success: "We found the video!",
-                    error: "There is no such video in this channel",
-                  }
-                );
-              } else {
-                toast.error("Log in firstly!");
+          <div className="promotion__search-flex">
+            <input
+              type="text"
+              className="search__input"
+              ref={inputRef}
+              placeholder={
+                isMobile
+                  ? t("Search video of selected YouTuber")
+                  : t("Search for any video of selected YouTuber")
               }
-            }}
-            className="search-input__button"
-          >
-            <img loading="lazy" src={glass} alt="find" />
-          </button>
-
+            />
+            <div className="promotion__buttons-flex">
+            {userData ? (
+                <button
+                  ref={triggerBtnRef}
+                  onClick={handleToggle}
+                  className="list-container__button"
+                >
+                  <img
+                    className="more_youtubers"
+                    loading="lazy"
+                    src={buttonIcon}
+                    alt="moreyoutubers"
+                  />
+                </button>
+              ) : (
+                ""
+              )}
+              <button
+                onClick={() => {
+                  const inputValue = inputRef.current.value;
+                  if (channelName) {
+                    toast.promise(
+                      promotionFetch("video", channelName, inputValue, false),
+                      {
+                        pending: "Searching video...",
+                        success: "We found the video!",
+                        error: "There is no such video in this channel",
+                      }
+                    );
+                  } else {
+                    toast.error("Log in firstly!");
+                  }
+                }}
+                className="search-input__button"
+              >
+                <img loading="lazy" src={glass} alt="find" />
+              </button>
+            </div>
+          </div>
           {videoData?.title ? resultBlock(videoData) : ""}
         </section>
 
-        <Footer/>
+        <Footer />
       </HelmetProvider>
     </>
   );

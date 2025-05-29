@@ -30,6 +30,7 @@ const YoutuberBlock = ({
     <>
       <section className="youtubers">
         <div className="container">
+          <div className="youtubers__block-flex">
           <YouTuberBlock
             isLoggedIn={isLoggedIn}
             userData={userData}
@@ -52,6 +53,7 @@ const YoutuberBlock = ({
             YoutuberImg={YoutuberImgTwo}
             buttonId={1}
           />
+          </div>
         </div>
       </section>
 

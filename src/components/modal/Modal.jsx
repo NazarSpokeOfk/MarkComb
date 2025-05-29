@@ -7,7 +7,6 @@ import GoogleLoginButton from "../googleLogInButton/GoogleLogInButton";
 import DataToDB from "../../dataToDB/dataToDB";
 import ReCAPTCHA from "react-google-recaptcha";
 
-
 import { toast } from "react-toastify";
 
 import "./css/Modal.css";
@@ -65,17 +64,17 @@ const Modal = ({
         modalButtonRef.current.classList.remove("shake-animation");
       }, 4000);
     } else {
-      const loadToast = toast.loading("Recalling your profile...")
+      const loadToast = toast.loading("Recalling your profile...");
       dataToDB.validateLogIn(logInData).then((response) => {
         if (response.message === true) {
-          toast.dismiss(loadToast)
+          toast.dismiss(loadToast);
           modalRef.current.classList.remove("open");
           setTimeout(() => {
             setIsModalOpened(false);
           }, 500);
           document.body.style.overflow = "";
         } else {
-          toast.dismiss(loadToast)
+          toast.dismiss(loadToast);
           setTimeout(() => {
             setIsUserMakeAMistake((prevState) => prevState + 1);
             toast.error("Wrong password, or account doesn't exist");
@@ -150,74 +149,81 @@ const Modal = ({
           <h2 className="modal__title">
             {entryMethod == "logIn" ? t("Welcome back") : t("Welcome")}
           </h2>
-          <input
-            required
-            name="email"
-            type="email"
-            maxLength={255}
-            placeholder={t("email")}
-            className="modal__input"
-            value={entryMethod === "logIn" ? logInData.email : signInData.email}
-            onChange={(e) => {
-              const { value } = e.target;
-              if (entryMethod === "logIn") {
-                setLogInData((prevData) => ({ ...prevData, email: value }));
-              } else {
-                setSignInData((prevData) => ({ ...prevData, email: value }));
-              }
-            }}
-          />
-          {entryMethod == "logIn" ? null : (
+
+          <div className="modal__flex-block">
             <input
               required
-              name="username"
-              type="text"
-              maxLength={50}
-              placeholder={t("username,3 characters min.")}
+              name="email"
+              type="email"
+              maxLength={255}
+              placeholder={t("email")}
               className="modal__input"
-              value={signInData.username}
-              onChange={(e) =>
-                setSignInData({ ...signInData, username: e.target.value })
+              value={
+                entryMethod === "logIn" ? logInData.email : signInData.email
               }
+              onChange={(e) => {
+                const { value } = e.target;
+                if (entryMethod === "logIn") {
+                  setLogInData((prevData) => ({ ...prevData, email: value }));
+                } else {
+                  setSignInData((prevData) => ({ ...prevData, email: value }));
+                }
+              }}
             />
-          )}
+            {entryMethod == "logIn" ? null : (
+              <input
+                required
+                name="username"
+                type="text"
+                maxLength={50}
+                placeholder={t("username,3 characters min.")}
+                className="modal__input"
+                value={signInData.username}
+                onChange={(e) =>
+                  setSignInData({ ...signInData, username: e.target.value })
+                }
+              />
+            )}
 
-          <input
-            required
-            name="password"
-            type="text"
-            maxLength={255}
-            placeholder={t("password,5 characters min.")}
-            className="modal__input"
-            value={
-              entryMethod == "logIn" ? logInData.password : signInData.password
-            }
-            onChange={(e) => {
-              const { value } = e.target;
-              if (entryMethod === "logIn") {
-                setLogInData((prevData) => ({
-                  ...prevData,
-                  password: value,
-                }));
-              } else {
-                setSignInData((prevData) => ({
-                  ...prevData,
-                  password: value,
-                }));
+            <input
+              required
+              name="password"
+              type="text"
+              maxLength={255}
+              placeholder={t("password,5 characters min.")}
+              className="modal__input"
+              value={
+                entryMethod == "logIn"
+                  ? logInData.password
+                  : signInData.password
               }
-            }}
-          />
-
-          <button
-            onClick={(e) => {
-              entryMethod == "logIn" ? handleLogIn(e) : validateFormData(e);
-            }}
-            type="submit"
-            className="modal__button"
-            ref={modalButtonRef}
-          >
-            {t("con")}<span>{t("tinue")}</span>
-          </button>
+              onChange={(e) => {
+                const { value } = e.target;
+                if (entryMethod === "logIn") {
+                  setLogInData((prevData) => ({
+                    ...prevData,
+                    password: value,
+                  }));
+                } else {
+                  setSignInData((prevData) => ({
+                    ...prevData,
+                    password: value,
+                  }));
+                }
+              }}
+            />
+            <button
+              onClick={(e) => {
+                entryMethod == "logIn" ? handleLogIn(e) : validateFormData(e);
+              }}
+              type="submit"
+              className="modal__button"
+              ref={modalButtonRef}
+            >
+              {t("con")}
+              <span>{t("tinue")}</span>
+            </button>
+          </div>
 
           {entryMethod === "logIn" ? (
             <>
@@ -227,7 +233,7 @@ const Modal = ({
                     setIsModalOpened(false);
                     setIsPasswordWillBeReset(true);
                   } else {
-                    return 
+                    return;
                   }
                 }}
                 className={`modal__forgot-password hide ${
@@ -239,17 +245,6 @@ const Modal = ({
             </>
           ) : null}
 
-          {entryMethod === "logIn" ? (
-            ""
-          ) : (
-            <input
-              className="modal__checkbox"
-              type="checkbox"
-              required
-              checked={isChecked}
-              onChange={(e) => setIsChecked(e.target.checked)}
-            />
-          )}
           {entryMethod === "SignIn" ? (
             <ReCAPTCHA
               className="captcha"
@@ -258,13 +253,30 @@ const Modal = ({
               data-size="compact"
             />
           ) : null}
-          {entryMethod === "SignIn" ? (
-            <h3 className="modal-checkbox__text">
-              {t("I have read the")}{" "}
-              <Link to="/terms">{t("user agreement,")}</Link>{" "}{t("and ")}<Link to="/dataprocessing">{t("Personal Data Processing Agreement")}</Link>
-               {t(" and accept all its terms and conditions")}
-            </h3>
-          ) : null}
+
+          <div className="other__buttons-flex">
+            {entryMethod === "logIn" ? (
+              ""
+            ) : (
+              <input
+                className="modal__checkbox"
+                type="checkbox"
+                required
+                checked={isChecked}
+                onChange={(e) => setIsChecked(e.target.checked)}
+              />
+            )}
+            {entryMethod === "SignIn" ? (
+              <h3 className="modal-checkbox__text">
+                {t("I have read the")}{" "}
+                <Link to="/terms">{t("user agreement,")}</Link> {t("and ")}
+                <Link to="/dataprocessing">
+                  {t("Personal Data Processing Agreement")}
+                </Link>
+                {t(" and accept all its terms and conditions")}
+              </h3>
+            ) : null}
+          </div>
 
           {entryMethod === "logIn" ? (
             <div className="modal-continue__buttons">
