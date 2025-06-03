@@ -70,6 +70,12 @@ function App() {
     setGlobalNavigate(navigate);
   }, [navigate]);
 
+  const lng = navigator.language.split('-')[0];
+  
+  useEffect(() => {
+    console.log("Язык браузера пользователя :",lng)
+  },[lng])
+
   return (
     <>
       <ScrollToTop />

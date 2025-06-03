@@ -47,14 +47,21 @@ class PromotionAPIController {
         }
     };
 
+    requests = 0
 
     getAnalitics = async (req,res) => {
+
+      this.requests + 1;
+
+      console.log("Запросов на API : " , this.requests)
+
       const {videoId} = req.body.bodyData
         const urlForAnalitics = `https://www.googleapis.com/youtube/v3/videos?part=statistics,snippet&id=${videoId}&key=${this.apiKey}`;
         try{
           const rawData = await fetch(urlForAnalitics);
     
           const data = await rawData.json();
+
           const analitics = {
             views : data?.items?.[0]?.statistics?.viewCount,
             likes : data?.items?.[0]?.statistics?.likeCount

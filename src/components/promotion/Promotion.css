@@ -81,7 +81,7 @@
 
 .search__input {
   position: relative;
-  border: 1px solid #000;
+  border: 0.5px solid #000;
   border-radius: 15px;
   width: 735px;
   height: 40px;
@@ -102,7 +102,7 @@
 .search-input__button {
   transition: all 0.6s ease;
   padding: 0;
-  border : 1px solid black;
+  border : 0.5px solid black;
   border-radius: 10px;
   width: 40px;
   height: 40px;
@@ -122,46 +122,40 @@
 }
 
 .search-suggested__block {
+  align-items : center;
   margin-top: 5%;
-  border: 1px solid #000;
-  border-radius: 37px;
-  width: 920px;
-  height: 150px;
+  border: 0.5px solid #000;
+  border-radius: 27px;
+  width: 850px;
+  height: 250px;
   margin-left: 18%;
   transition: 0.6s all;
   position: relative;
   cursor: pointer;
 }
 
-.search-suggested__block:hover {
-  transform: scale(1.02);
+.suggested__block-subflex{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
 }
-.active {
-  height: auto;
+.suggested__block-flex{
+  display: flex;
+  align-items : center;
+  justify-content: space-between;
+  height: inherit;
 }
 
 .suggested-block__img {
-  margin-left: 71%;
-  margin-top: -10.5%;
   height: inherit;
-  border-radius: 37px;
-  border: 1px solid black;
+  border-radius: 27px;
+  /* border: 1px solid black; */
   transition: 0.6s all;
 }
-
-.imgActive {
-  height: 167px;
-  width: 350px;
-  position: absolute;
-  top: 57%;
-  left: -9%;
-  transition: all 0.6s ease;
-}
 .suggested-block__name {
-  margin-top: 6%;
-  margin-left: 7%;
-  width: 700px;
   font-size: 20px;
+  margin: 0;
 }
 
 #promotion {
@@ -170,52 +164,56 @@
   }
 }
 
+.suggested__block-stats_flex{
+  display: flex;
+}
 
+.suggested-block__title{
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+
+.suggested__block-stats_grid {
+  display: grid;
+  grid-template-columns: repeat(2, auto); /* две колонки */
+  grid-template-rows: auto auto; /* две строки */
+  gap: 20px 30px; /* вертикальный и горизонтальный отступы */
+  align-items: baseline;
+  justify-content: start; /* можно заменить на center или space-between */
+  justify-items: center;
+}
+
+.like,
+.views {
+  width: 35px;
+  height: 35px;
+}
 
 .suggested-block__views {
   display: block;
   width: 30%;
-  margin-top: -2%;
-  margin-left: 5.5%;
 }
 
 .suggested-block__likes {
   display: block;
   width: 30%;
-  margin-left: 7%;
-  margin-bottom: 13px;
-  margin-top: 0;
 }
 
 #promotion {
   margin-top: 30.5%;
 }
 
-.like {
-  width: 10%;
-  height: 10%;
-  margin-bottom: -5px;
+.suggested-block__stats{
+  display: flex;
+  align-items: center;
 }
 
-.likes__text {
-  margin-left: 15%;
-  margin-top: -8.5%;
-  margin-bottom: 5%;
-  font-size: 15px;
+.analitics__text {
+  font-size: 17px;
+  text-align: center;
+  font-weight: 600;
 }
-
-.views {
-  margin-bottom: -25px;
-  width: 20%;
-  height: 20%;
-}
-
-.views__text {
-  margin-left: 20%;
-  margin-top: -6.5%;
-  font-size: 15px;
-}
-
 .suggested-block__getDetailedAnalitics {
   margin-left: 7%;
   margin-top: 2%;
@@ -294,17 +292,8 @@
   .suggested-block__name {
     font-size: 30px;
   }
-  .suggested-block__img {
-    margin-left: 62.5%;
-    margin-top: -14.5%;
-  }
   .promotion__search-flex{
     width: 35%;
-  }
-  .imgActive{
-    left: -1.5%;
-    margin-top: -12%;
-    height: 190px;
   }
 }
 @media (min-width: 768px) and (max-width: 1024px)
@@ -322,15 +311,6 @@
   }
   .search-suggested__block {
     width: 73%;
-  }
-  .suggested-block__img {
-    margin-left: 52%;
-    margin-top: -13%;
-  }
-  .imgActive{
-    height: 156px;
-    width: 320px;
-    top: 46%;
   }
   .search__input{
     padding-left: 20px;
@@ -361,26 +341,12 @@
     margin-top: 10%;
     margin-bottom: 30%;
   }
-  .suggested-block__img {
-    margin-left: 0%;
-    margin-top: 5%;
-    width: 314px;
-    border-radius: 25px;
-  }
   .suggested-block__name {
     width: auto;
     margin-bottom: 0;
   }
   .suggested-block__likes {
     margin-top: -10%;
-  }
-  .imgActive {
-    height: 180px;
-    width: 314px;
-    position: absolute;
-    top: 50%;
-    left: 0%;
-    transition: all 0.6s ease;
   }
   .search-suggested__block {
     height: 250px;

@@ -79,10 +79,10 @@ const Header = ({ hideLinks = false, isVoteEnabled }) => {
           <span>{t("ting")}</span>
         </Link>
 
-        <Link to="/purchase" className="header__link">
+        <a href="https://planeta.ru/campaigns/mk1337" className="header__link">
           {t("support")} {isLittleMobile ? <br /> : null}{" "}
           <span>{t("project")}</span>
-        </Link>
+        </a>
       </div>
     </header>
   );

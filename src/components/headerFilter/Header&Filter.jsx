@@ -331,7 +331,6 @@ const HeaderFilter = ({
                     <img
                       src={isSearching ? Loading : SearchBtn}
                       alt="search_button"
-                      loading="lazy"
                     />
                   </button>
                 </div>

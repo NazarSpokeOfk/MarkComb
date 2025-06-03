@@ -96,7 +96,7 @@ const VotingPage = ({ userData }) => {
             </h2>
             <button className="become__sponsor-button">
               {t("Become sponsor")}
-              <a href="" className="become__sponsor-link"></a>
+              <a href="https://planeta.ru/campaigns/mk1337" className="become__sponsor-link"></a>
             </button>
           </>
         )}

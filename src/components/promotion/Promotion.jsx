@@ -1,43 +1,42 @@
 import { useTranslation } from "react-i18next";
-import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { useRef, useState } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import { toast } from "react-toastify";
 
 import { useMediaQuery } from "react-responsive";
 
 import "./Promotion.css";
-import SmoothEffect from "../smoothText";
 
 import Header from "../header/Header";
 import Footer from "../footer/Footer";
 
+import DataToDB from "../../dataToDB/dataToDB";
+
+import { VideoData } from "../../interfaces/interfaces";
+
 import buttonIcon from "../../icons/morefilters.png";
 import glass from "../../icons/magnifing_glass.png";
-import like from "../../icons/like.png";
-import views from "../../icons/views.png";
+import like from "../../icons/like.svg";
+import views from "../../icons/eye.svg";
 
 const Promotion = ({ isLoggedIn, userData }) => {
-  const apiBaseUrl = import.meta.env.VITE_API_URL;
+  const dataToDb = new DataToDB({
+    setVideoData,
+  });
 
   const [channelName, setChannelName] = useState("");
+  const [inputValue, setInputValue] = useState("");
   const [videoData, setVideoData] = useState({});
   const [activeIndex, setActiveIndex] = useState(null);
   const [isExpanded, setIsExpanded] = useState(false);
 
   const isMobile = useMediaQuery({ maxWidth: 480 });
 
-  useEffect(() => {
-    console.log("userdata : ", userData);
-  }, [videoData]);
-
   const secondYouTubersContainerRef = useRef(),
     triggerBtnRef = useRef(),
     titleRef = useRef(),
-    inputRef = useRef(""),
     membersRef = useRef([]);
 
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const handleToggle = () => {
     secondYouTubersContainerRef.current.classList.toggle("active");
@@ -51,6 +50,7 @@ const Promotion = ({ isLoggedIn, userData }) => {
   }, 50);
 
   let channelsFirstPart, channelsSecondPart;
+
   if (userData && userData?.channels?.length > 5) {
     channelsFirstPart = userData?.channels?.slice(0, 5);
     channelsSecondPart = userData?.channels?.slice(5);
@@ -63,79 +63,55 @@ const Promotion = ({ isLoggedIn, userData }) => {
     setActiveIndex(normalizedIndex);
   };
 
-  const promotionFetch = async (type, channelName, inputValue, videoId) => {
-    const bodyData = {};
-    if (channelName && inputValue) {
-      bodyData.channelName = channelName;
-      bodyData.inputValue = inputValue;
-    } else if (videoId) {
-      bodyData.videoId = videoId;
-    } else {
-      toast.error("Empty request");
-      return Promise.reject();
-    }
-    console.log("Body data : ", bodyData);
-    const result = await fetch(`${apiBaseUrl}/${type}`, {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-        "x-api-key": import.meta.env.VITE_API_KEY,
-      },
-      body: JSON.stringify({ bodyData }),
-    });
-
-    const response = await result.json();
-    const finalVideoData = response?.finalVideoData;
-    console.log("response :", response);
-    if (finalVideoData) {
-      setVideoData(finalVideoData);
-    } else {
-      const analitics = response?.analitics;
-      setVideoData((prevData) => ({ ...prevData, analitics }));
-    }
-  };
-
   const resultBlock = (videoData) => {
+    dataToDb.checkStatisticsOfVideo(
+      "analitics",
+      channelName,
+      inputValue,
+      videoData.videoId,
+      setVideoData
+    );
     return (
       <>
         {videoData ? (
           <div
             onClick={() => {
-              promotionFetch("analitics", false, false, videoData.videoId);
               setIsExpanded(true);
             }}
-            className={`search-suggested__block ${isExpanded ? "active" : ""}`}
+            className="search-suggested__block"
           >
-            <h2 className="suggested-block__name">{videoData?.title}</h2>
-            <img
-              loading="lazy"
-              src={videoData?.thumbnail}
-              alt="a video thumbnail"
-              className={`suggested-block__img ${
-                isExpanded ? "imgActive" : ""
-              }`}
-            />
-            <h2 className="suggested-block__views">
-              {" "}
-              {videoData?.analitics && (
-                <>
-                  <img loading="lazy" src={views} alt="eye" className="views" />{" "}
-                  <div className="views__text">
-                    {videoData?.analitics?.views}
-                  </div>
-                </>
-              )}
-            </h2>
-            <h2 className="suggested-block__likes">
-              {videoData?.analitics && (
-                <>
-                  <img loading="lazy" src={like} alt="eye" className="like" />{" "}
-                  <div className="likes__text">
+            <div className="suggested__block-flex">
+              <div className="suggested__block-subflex">
+                <h2 className="suggested-block__name">{videoData?.title}</h2>
+
+                <h3 className="suggested-block__title">{t("Statistic")}</h3>
+
+                <div className="suggested__block-stats_grid">
+                  <img loading="lazy" src={like} alt="like" className="like" />
+                  <img
+                    loading="lazy"
+                    src={views}
+                    alt="views"
+                    className="views"
+                  />
+
+                  <div className="analitics__text">
                     {videoData?.analitics?.likes}
                   </div>
-                </>
-              )}
-            </h2>
+                  <div className="analitics__text">
+                    {videoData?.analitics?.views}
+                  </div>
+                </div>
+              </div>
+              <img
+                loading="lazy"
+                src={videoData?.thumbnail}
+                alt="a video thumbnail"
+                className={`suggested-block__img ${
+                  isExpanded ? "imgActive" : ""
+                }`}
+              />
+            </div>
           </div>
         ) : (
           <h2>Look for something!</h2>
@@ -218,7 +194,11 @@ const Promotion = ({ isLoggedIn, userData }) => {
             <input
               type="text"
               className="search__input"
-              ref={inputRef}
+              value={inputValue}
+              onChange={(e) => {
+                const value = e.target.value;
+                setInputValue(value);
+              }}
               placeholder={
                 isMobile
                   ? t("Search video of selected YouTuber")
@@ -226,7 +206,7 @@ const Promotion = ({ isLoggedIn, userData }) => {
               }
             />
             <div className="promotion__buttons-flex">
-            {userData ? (
+              {userData ? (
                 <button
                   ref={triggerBtnRef}
                   onClick={handleToggle}
@@ -242,24 +222,7 @@ const Promotion = ({ isLoggedIn, userData }) => {
               ) : (
                 ""
               )}
-              <button
-                onClick={() => {
-                  const inputValue = inputRef.current.value;
-                  if (channelName) {
-                    toast.promise(
-                      promotionFetch("video", channelName, inputValue, false),
-                      {
-                        pending: "Searching video...",
-                        success: "We found the video!",
-                        error: "There is no such video in this channel",
-                      }
-                    );
-                  } else {
-                    toast.error("Log in firstly!");
-                  }
-                }}
-                className="search-input__button"
-              >
+              <button className="search-input__button">
                 <img loading="lazy" src={glass} alt="find" />
               </button>
             </div>

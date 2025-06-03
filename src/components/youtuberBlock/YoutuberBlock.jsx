@@ -15,9 +15,8 @@ const YouTuberBlock = ({
   setChannelData,
   isFilter,
   YoutuberImg,
-  buttonId
+  buttonId,
 }) => {
-
   const isProcessingRef = useRef({});
 
   const [btnsState, setBtnsState] = useState({});
@@ -53,13 +52,11 @@ const YouTuberBlock = ({
       [buttonId]: { isProcessing: true },
     }));
 
-    
     if (btnsState[buttonId]?.isProcessing) return;
 
     if (userData.userInformation.uses > 0) {
       try {
-
-        const response = await dataToDB.getEmail(csrfToken,data.channelId)
+        const response = await dataToDB.getEmail(csrfToken, data.channelId);
 
         if (!response || response.length === 0) {
           setBtnsState((prev) => ({
@@ -78,8 +75,7 @@ const YouTuberBlock = ({
             {
               thumbnail: channelData?.updatedData?.thumbnail || "",
               email: response?.email || "",
-              channelName: response?.name || "",
-              uses: 1,
+              channelName: response?.name || ""
             },
             userData?.userInformation?.user_id,
             csrfToken
@@ -91,7 +87,9 @@ const YouTuberBlock = ({
               title: response?.name,
             },
           }));
-          console.log(`Текущий buttonId : ${buttonId}, response.email = ${response?.email}`)
+          console.log(
+            `Текущий buttonId : ${buttonId}, response.email = ${response?.email}`
+          );
           setBtnsState((prev) => ({
             ...prev,
             [buttonId]: {
@@ -104,8 +102,7 @@ const YouTuberBlock = ({
             {
               thumbnail: channelData?.updatedData?.thumbnail || "",
               email: response?.email || "",
-              channelName: channelData?.updatedData?.title || "",
-              uses: 1,
+              channelName: channelData?.updatedData?.title || ""
             },
             userData?.userInformation?.user_id,
             csrfToken
@@ -207,32 +204,32 @@ const YouTuberBlock = ({
           />
         </div>
         <button
-        className={`youtuber__button ${btnsState[buttonId]?.class || ""}`}
-        onClick={() => {
-          if (
-            userData.channels &&
-            userData.channels.some(
-              (channel) =>
-                channel.channel_name === channelData?.updatedData?.title
-            )
-          ) {
-            alreadyHave();
-            return;
-          } else {
-            if (isLoggedIn) {
-              handleButtonClick(channelData?.updatedData, buttonId);
+          className={`youtuber__button none ${btnsState[buttonId]?.class || ""}`}
+          onClick={() => {
+            if (
+              userData.channels &&
+              userData.channels.some(
+                (channel) =>
+                  channel.channel_name === channelData?.updatedData?.title
+              )
+            ) {
+              alreadyHave();
+              return;
             } else {
-              toast.error(t("Log in firstly"));
+              if (isLoggedIn) {
+                handleButtonClick(channelData?.updatedData, buttonId);
+              } else {
+                toast.error(t("Log in firstly"));
+              }
             }
-          }
-        }}
-      >
-        {btnsState[buttonId]?.class === "success"
-          ? t("Check contact data in purchases.")
-          : btnsState[buttonId]?.class === "fail"
-          ? t("Unfortunantly,we can't get contact data.")
-          : `${t("Get")} ${t("data")}`}
-      </button>
+          }}
+        >
+          {btnsState[buttonId]?.class === "success"
+            ? t("Check contact data in purchases.")
+            : btnsState[buttonId]?.class === "fail"
+            ? t("Unfortunantly,we can't get contact data.")
+            : `${t("Get")} ${t("data")}`}
+        </button>
       </div>
     </>
   );

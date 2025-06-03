@@ -4,7 +4,7 @@ const apiKey = process.env.GOOGLE_API_KEY;
 class EmailAndNameController {
   async returnEmailAndName(req, res) {
     const { channelId } = req.body;
-
+    
     let emailRequest
     try {
         emailRequest = await storagePool.query(

@@ -10,7 +10,7 @@ i18n
       ru: { translation: translationRU },
       en: { translation: translationEN },
     },
-    lng: 'ru', // язык по умолчанию
+    lng:  navigator.language.split('-')[0], // язык по умолчанию
     fallbackLng: 'en',
     supportedLngs: ['en', 'ru'],
     interpolation: {

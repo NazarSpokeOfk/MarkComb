@@ -1,12 +1,20 @@
+/// <reference types="vite/client" />
+
 import { handleHttpError } from "../errorHandler/errorHandler";
 const apiBaseUrl = import.meta.env.VITE_API_URL;
 
+import { VideoData,DataToDBParams,PurchaseData } from "../interfaces/interfaces";
+
 class DataToDB {
-  constructor(setIsLoggedIn, setUserData, setIsModalOpened, setCsrfToken) {
-    this.setIsLoggedIn = setIsLoggedIn;
-    this.setUserData = setUserData;
-    this.setIsModalOpened = setIsModalOpened;
-    this.setCsrfToken = setCsrfToken;
+
+  setIsLoggedIn?: (value: boolean) => void;
+  setUserData?: (userData: any) => void;
+  setIsModalOpened?: (isOpen: boolean) => void;
+  setCsrfToken?: (token: string) => void;
+  setVideoData?: (videoData: VideoData) => void;
+
+  constructor(params: DataToDBParams = {}) {
+    Object.assign(this, params);
   }
 
   makePurchaseForm = {
@@ -16,14 +24,19 @@ class DataToDB {
     channelName: "",
   };
 
-  async fetchData(endpoint, method, body = null, csrfToken = "") {
+  async fetchData(
+    endpoint: string,
+    method: string,
+    body: any = null,
+    csrfToken: string = ""
+  ) {
     const headers = {
       "Content-Type": "application/json",
       "x-api-key": import.meta.env.VITE_API_KEY,
     };
     if (csrfToken) headers["x-csrf-token"] = csrfToken;
 
-    const options = { method, headers, credentials: "include" };
+    const options: RequestInit = { method, headers, credentials: "include" };
     if (body) options.body = JSON.stringify(body);
 
     try {
@@ -42,7 +55,7 @@ class DataToDB {
     }
   }
 
-  deletePurchaseData(channelName, userId, csrfToken) {
+  deletePurchaseData(channelName: string, userId: number, csrfToken: string) {
     return this.fetchData(
       `${apiBaseUrl}/rmpurchase/${userId}`,
       "DELETE",
@@ -51,7 +64,7 @@ class DataToDB {
     );
   }
 
-  async getEmail(csrfToken, channelId) {
+  async getEmail(csrfToken: string, channelId: string) {
     console.log("Поступившие данные : ", channelId, csrfToken);
     try {
       const result = await fetch(`${apiBaseUrl}/getemail`, {
@@ -72,7 +85,11 @@ class DataToDB {
     }
   }
 
-  async validatePurchaseData(data, userId, csrfToken, uses) {
+  async validatePurchaseData(
+    data: PurchaseData,
+    userId: number,
+    csrfToken: string,
+  ) {
     console.log("Дата в validatePurchaseData : ", data);
     if (!data.email) {
       return;
@@ -83,9 +100,8 @@ class DataToDB {
         "POST",
         data,
         csrfToken,
-        uses
       );
-      this.setUserData((prevData) => ({
+      this.setUserData?.((prevData) => ({
         ...prevData,
         channels: [...prevData.channels, result.purchase],
         user: {
@@ -104,12 +120,12 @@ class DataToDB {
         data,
       });
       console.log(result);
-      this.setIsLoggedIn(true);
-      this.setUserData(result);
+      this.setIsLoggedIn?.(true);
+      this.setUserData?.(result);
       setCsrfToken(result.csrfToken);
       return { status: true };
     } catch {
-      this.setIsLoggedIn(false);
+      this.setIsLoggedIn?.(false);
       return { status: "already" };
     }
   }
@@ -117,12 +133,12 @@ class DataToDB {
   async validateLogIn(data) {
     try {
       const result = await this.fetchData(`${apiBaseUrl}/login`, "POST", data);
-      this.setIsLoggedIn(true);
-      this.setUserData(result);
-      this.setCsrfToken(result.csrfToken);
+      this.setIsLoggedIn?.(true);
+      this.setUserData?.(result);
+      this.setCsrfToken?.(result.csrfToken);
       return { message: true };
     } catch {
-      this.setIsLoggedIn(false);
+      this.setIsLoggedIn?.(false);
       return { message: false };
     }
   }
@@ -134,7 +150,7 @@ class DataToDB {
         "PUT",
         data
       );
-      this.setUserData(result);
+      this.setUserData?.(result);
       return { message: true };
     } catch {
       console.log("Не удалось изменить данные аккаунта.");
@@ -142,7 +158,7 @@ class DataToDB {
     }
   }
 
-  async deleteProfile(userId, csrfToken) {
+  async deleteProfile(userId : number, csrfToken : string) {
     console.log("Токен в dataToDB:", csrfToken);
     console.log("ID пользователя в deleteProfile:", userId);
 
@@ -153,8 +169,8 @@ class DataToDB {
       csrfToken
     )
       .then(() => {
-        this.setIsLoggedIn(false);
-        this.setUserData({});
+        this.setIsLoggedIn?.(false);
+        this.setUserData?.({});
         return { message: true };
       })
       .catch(async (error) => {
@@ -167,7 +183,7 @@ class DataToDB {
       });
   }
 
-  isVerificationCodeCorrect(email, verificationCode) {
+  isVerificationCodeCorrect(email : string, verificationCode : string) {
     return this.fetchData(`${apiBaseUrl}/checkCode`, "POST", {
       email,
       verification_code: verificationCode,
@@ -176,7 +192,7 @@ class DataToDB {
       .catch(() => ({ message: false }));
   }
 
-  changePassword(newPassword, email) {
+  changePassword(newPassword : string, email : string) {
     return this.fetchData(`${apiBaseUrl}/changePassword`, "PUT", {
       newPassword,
       email,
@@ -185,7 +201,7 @@ class DataToDB {
       .catch(() => ({ message: false }));
   }
 
-  activatePromocode(promocode, email) {
+  activatePromocode(promocode : string, email : string) {
     return this.fetchData(`${apiBaseUrl}/promocode`, "PUT", {
       promocode,
       email,
@@ -194,7 +210,7 @@ class DataToDB {
     });
   }
 
-  async payment(user_id, packageId, userEmail) {
+  async payment(user_id : number, packageId : number, userEmail : string) {
     console.log(packageId, user_id, userEmail);
     return this.fetchData(`${apiBaseUrl}/payment`, "POST", {
       user_id,
@@ -206,7 +222,7 @@ class DataToDB {
     });
   }
 
-  async makeVote(featureName, user_id) {
+  async makeVote(featureName : string, user_id : number) {
     return this.fetchData(`${apiBaseUrl}/vote`, "POST", {
       featureName,
       user_id,
@@ -219,7 +235,7 @@ class DataToDB {
     return this.fetchData(`${apiBaseUrl}/logout`, "GET");
   }
 
-  async addReview(reviewText, websiteMark) {
+  async addReview(reviewText : string, websiteMark : number) {
     return this.fetchData(`${apiBaseUrl}/review`, "POST", {
       reviewText,
       websiteMark,
@@ -227,6 +243,45 @@ class DataToDB {
       .then(() => ({ message: true }))
       .catch(() => ({ message: false }));
   }
+
+  // async checkStatisticsOfVideo(
+  //   type : string,
+  //   channelName : string,
+  //   inputValue : string,
+  //   videoId : string  
+  //   ) {
+
+  //   const bodyData = {
+  //     channelName : channelName,
+  //     inputValue : inputValue,
+  //     videoId : videoId
+  //   } 
+
+  //   try {
+  //     const response = await this.fetchData(
+  //       `${apiBaseUrl}/${type}`,
+  //       "POST",
+  //       bodyData
+  //     );
+
+  //     const finalVideoData = response?.finalVideoData;
+
+  //     if (finalVideoData) {
+  //       this.setVideoData?.(finalVideoData);
+  //     } else {
+  //       const analitics = response?.analitics;
+  //       this.setVideoData?.((prevData) => ({
+  //         ...prevData!,
+  //         analitics,
+  //       }));
+        
+  //     }
+  //   } catch (error) {
+  //     console.log("Возникла ошибка при поиске аналитики : ", error);
+  //   }
+
+  //   console.log("Ошибка в запросе для статистики видеоролика : ", error);
+  // }
 }
 
 export default DataToDB;

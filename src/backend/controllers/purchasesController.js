@@ -23,9 +23,9 @@ class PurchasesController {
 
   async addPurchase(req, res) {
     const { id } = req.params; // Получаем id пользователя из параметров
-    const { uses, thumbnail, email, channelName } = req.body; // Получаем данные из тела запроса
+    const { thumbnail, email, channelName } = req.body; // Получаем данные из тела запроса
 
-    console.log(`${uses} использований, ${thumbnail} заглушка ${email} почта, ${channelName} имя`)
+    console.log(`${thumbnail} заглушка ${email} почта, ${channelName} имя`)
 
     const tokenFromClient = req.cookies.csrfToken;
     const tokenFromSession = req.session.csrfToken;
@@ -68,8 +68,8 @@ class PurchasesController {
 
       // Обновляем баланс использований
       const updateUses = await pool.query(
-        `UPDATE users SET uses = uses - $1 WHERE user_id = $2 RETURNING *`,
-        [uses, id]
+        `UPDATE users SET uses = uses - 1 WHERE user_id = $1 RETURNING *`,
+        [id]
       );
 
       // Добавляем покупку в таблицу purchases_channels
