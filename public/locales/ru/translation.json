@@ -336,5 +336,15 @@
     "We will put in place a system to analyze your interests, and suggest the right channels for you.":"Мы создадим систему, которая будет анализировать ваши интересы и предлагать подходящие вам каналы.",
     "After purchasing contact data, you will be able to export the purchased data in any format you like: json/text file/word etc.":"После покупки контактных данных вы сможете экспортировать их в любой формат: json/текстовый файл/word и т.д.",
     "Well, well, too many requests":"Так,так, слишком много запросов",
-    "To main page":"На главную"
+    "To main page":"На главную",
+    "Wrong authentication code, or code expired.":"Неправильный,или просроченый код подтверждения",
+    "There was an error during sending verification code":"Возникла ошибка при отправке кода верификации",
+    "Enter your new password":"Введите ваш новый пароль",
+    "Password changed":"Пароль сменён",
+    "Account does not exist":"Аккаунта не существует",
+    "Unfortunately, we can't get your vote":"К сожалению, мы не можем получить ваш отзыв",
+    "Thank you for your vote":"Спасибо за ваш голос",
+    "Voting page":"Страница голосования",
+    "and":" и",
+    "YouTube's terms of service":"условиями обслуживания YouTube"
 }

@@ -2,8 +2,6 @@ import jwt from "jsonwebtoken"
 
 const generateJWT = (user) =>{
 
-    console.log("Данные поступившие в генерацию :" , user)
-
     const payload = {
         user_id : user.user_id,
         email : user.email,

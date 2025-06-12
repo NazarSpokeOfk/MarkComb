@@ -60,7 +60,7 @@ class PurchasesController {
       const user = userCheck.rows[0];
 
       // Проверяем, достаточно ли использований на балансе
-      if (user.uses < uses) {
+      if (user.uses < 1) {
         return res
           .status(402)
           .json({ message: "Недостаточно использований на балансе!" });
@@ -99,7 +99,7 @@ class PurchasesController {
     const tokenFromClient = req.cookies.csrfToken;
     const tokenFromSession = req.session.csrfToken;
 
-    console.log(req.session)
+    console.log(`Бэк : id : ${id}, channelName : ${channelName}`)
     if (tokenFromClient !== tokenFromSession) {
       return res.status(403).send('CSRF token mismatch');
     }

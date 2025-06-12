@@ -12,6 +12,7 @@ import MailVerification from "../mailVerification.js";
 import returnCookie from "../dto/returnCookie.js";
 import returnCsrftoken from "../dto/returnCsrfToken.js";
 import returnUserInformation from "../dto/returnUserInformation.js";
+import clearCookie from "./logOutController.js";
 
 const mailVerification = new MailVerification();
 
@@ -48,11 +49,9 @@ class UserController {
     }
   }
 
-  async getUserByPassword(req, res) {
-
+  async logIn(req, res) {
     const { email, password } = req.body;
 
-    console.log("Емаил, пассворд",email,password)
     try {
       const userResult = await pool.query(
         `SELECT user_id,email,password,username,uses,isvoteenabled,subscription_expiration FROM users WHERE email = $1`,
@@ -95,12 +94,12 @@ class UserController {
         [userId]
       );
 
-      returnCookie(token,res);
+      returnCookie(token, res);
 
       const csrfToken = crypto.randomBytes(16).toString("hex");
       req.session.csrfToken = csrfToken;
 
-      returnCsrftoken(csrfToken,res);
+      returnCsrftoken(csrfToken, res);
 
       const userInformation = returnUserInformation(user, token, csrfToken);
 
@@ -109,7 +108,7 @@ class UserController {
         channels: userChannels.rows,
       });
     } catch (error) {
-      logger.error("Возникла ошибка в getUserByPassword:", error);
+      logger.error("Возникла ошибка в logIn:", error);
       res
         .status(500)
         .json({ message: "Возникла ошибка при входе", error: error.message });
@@ -118,7 +117,7 @@ class UserController {
 
   async getUserByUserId(req, res) {
     const user_id = req.params.id;
-    
+
     try {
       const userResult = await pool.query(
         `SELECT user_id,email,username,uses,subscription_expiration,isvoteenabled FROM users WHERE user_id = $1`,
@@ -156,7 +155,7 @@ class UserController {
     }
   }
 
-  async addUser(req, res) {
+  async SignIn(req, res) {
     try {
       const { email, password, username, verification_code, recaptchaValue } =
         req.body.data;
@@ -175,7 +174,7 @@ class UserController {
         // Если капча еще не была проверена
         const isCaptchaValid = await verifyCaptcha(recaptchaValue);
         if (!isCaptchaValid) {
-          return res.status(400).json({ message: "Ошибка проверки CAPTCHA" });
+          return res.status(400).json({ status: "invalid" });
         }
 
         // Если капча прошла, сохраняем в сессии
@@ -187,15 +186,15 @@ class UserController {
           }
         });
       }
-
+    
       // Теперь продолжаем обработку кода и регистрации пользователя
       const result = await mailVerification.verifyCode(
         email,
         verification_code
       );
 
-      if (!result.success) {
-        return res.status(400).json({ message: result.message });
+      if (result.message === "Wrong code" && result.success === false) {
+        return res.status(400).json({ status: "Wrong code" });
       }
 
       await mailVerification.clearUpVerifCodes(email);
@@ -207,7 +206,7 @@ class UserController {
       const hashedPassword = await this.hashPassword(password);
 
       // Добавление пользователя в базу данных
-      const addUser = await pool.query(
+      const SignIn = await pool.query(
         `INSERT INTO users(email, password, username) VALUES ($1, $2, $3) RETURNING *`,
         [email, hashedPassword, username]
       );
@@ -215,23 +214,21 @@ class UserController {
       const csrfToken = crypto.randomBytes(16).toString("hex");
       req.session.csrfToken = csrfToken;
 
-      const user = addUser.rows[0];
+      const user = SignIn.rows[0];
 
       const token = generateJWT(user);
 
       const userInformation = returnUserInformation(user, token, csrfToken);
 
-      res.json({
-        userInformation,
+      returnCookie(token,res)
+      returnCsrftoken(csrfToken,res)
+
+      res.status(200).json({
+        userInformation, status : "ok"
       });
     } catch (error) {
-      if (error.code === "23505") {
-        // Ошибка "duplicate key value"
-        return res.status(400).json({ error: "Email is already in use" });
-      }
-
       // Обработка других ошибок
-      logger.error(err);
+      logger.error(error);
       res.status(500).json({ error: "Internal server error" });
     }
   }
@@ -303,7 +300,7 @@ class UserController {
         return res.status(400).json({ message: "Ошибка обновления данных" });
       }
 
-      const userInformation = returnUserInformation(updateUser.rows[0])
+      const userInformation = returnUserInformation(updateUser.rows[0]);
 
       res.json({
         message: "Данные пользователя успешно обновлены",
@@ -351,11 +348,7 @@ class UserController {
         [id]
       );
 
-      res.clearCookie("sessionToken", {
-        path: "/",
-        secure: false,
-        sameSite: "lax",
-      });
+      clearCookie(req,res)
 
       res.json({ message: "Пользователь удален", user: user.rows[0] });
     } catch (error) {

@@ -5,13 +5,13 @@ class SearchApiController{
   //Форматировка данных
   transformRes = (result) => {
     return {
-      title: result.snippet.title,
+      channel_name: result.snippet.title,
       thumbnail: result.snippet.thumbnails.high.url,
       channelId: result.snippet.channelId,
     };
   };
 
-  //Получение количества подписчиков
+  //Получение количества подписчиков 1квота
   getSubsCount = async (channelId) => {
     const url = `https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${channelId}&key=${this.apiKey}`;
     try {
@@ -45,7 +45,7 @@ class SearchApiController{
 
   //Получить Id -> Затем по Id найти видос -> получить жанр в компонент.
 
-  //Получение жанра
+  //Получение жанра 1квота
   getGenre = async (videoId) => {
     const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${this.apiKey}`;
     try {
@@ -168,12 +168,12 @@ class SearchApiController{
         return null;
       }
 
-      //Получаем id видео, а затем и жанр
+      //Получаем id видео, а затем и жанр 100квот
       const idUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(
         query
       )}&type=video&maxResults=1&key=${this.apiKey}`;
 
-      //Получаем название, картинку канала.
+      //Получаем название, картинку канала. 100квот
       const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(
         query
       )}&type=channels&maxResults=1&key=${this.apiKey}`;
@@ -264,7 +264,7 @@ class SearchApiController{
         triplet = ""
       }
       const finalVideoData = {
-        title: videoData?.items?.[0]?.snippet?.title.slice(0,35) + triplet,
+        channel_name: videoData?.items?.[0]?.snippet?.title.slice(0,35) + triplet,
         thumbnail: videoData?.items?.[0]?.snippet?.thumbnails?.medium?.url,
         videoId : videoData?.items?.[0]?.id?.videoId
       };

@@ -20,21 +20,6 @@ const searchLimiter = rateLimit({
     }
 })
 
-const filterLimiter = rateLimit({
-    windowMs: 10 * 60 * 1000,
-    max : 10,
-    handler : (req,res) => {
-        res.status(429).json({
-            status : 429,
-            message : "You have exceeded the request limit. Try again later"
-        })
-    },
-    skip : (req,res) => {
-        const allowedIPs = ["181.177.126.105"," 5.101.13.116"]
-        return allowedIPs.includes(req.ip)
-    }
-})
-
 const promotionAPIController = new PromotionAPIController()
 const searchAPIController = new SearchApiController()
 

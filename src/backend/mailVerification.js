@@ -33,7 +33,24 @@ class MailVerification {
     });
   }
 
-  async sendVerificationCode(email) {
+  async sendVerificationCode(email, operationCode) {
+
+    console.log(email)
+
+    if (operationCode === 3 ) {
+      const checkForUser = await pool.query(
+        "SELECT 1 FROM users WHERE email = $1 LIMIT 1",
+        [email]
+      );
+
+      console.log("Вот такой вот ахуенный пользователь блять:  " , checkForUser.rows[0])
+
+      if (checkForUser.rowCount > 0) {
+        console.log("Есть уже");
+        return Promise.reject("exists");
+      }
+    }
+
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return Promise.reject("Неверный формат email");
     }
@@ -62,7 +79,7 @@ class MailVerification {
       await this.transporter.sendMail(mailOptions);
       return Promise.resolve(true);
     } catch (error) {
-      logger.error(
+      console.log(
         " (sendVerificationCode) Error sending verification email:",
         error
       );
@@ -78,9 +95,10 @@ class MailVerification {
       );
 
       if (verif.rowCount === 0) {
-        return { success: false, message: "Неправильный код" };
+        console.log("Код не сходится");
+        return { success: false, message: "Wrong code" };
       }
-
+      console.log("азуенчик");
       return { success: true };
     } catch (error) {
       logger.error(" (verifyCode) Ошибка при проверке кода:", error);

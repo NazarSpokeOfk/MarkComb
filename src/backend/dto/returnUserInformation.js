@@ -1,7 +1,5 @@
 const returnUserInformation = (user, token = null, csrfToken = null) => {
   return {
-    message: "Успешный вход",
-    token,
     csrfToken,
       user_id: user.user_id,
       email: user.email,

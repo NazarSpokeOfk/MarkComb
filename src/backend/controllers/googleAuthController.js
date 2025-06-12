@@ -53,9 +53,9 @@ const googleAuthController = async (req, res) => {
           const csrfToken = crypto.randomBytes(16).toString("hex");
           req.session.csrfToken = csrfToken;
 
-          returnCookie(token);
+          returnCookie(token,res);
 
-          returnCsrftoken(csrfToken);
+          returnCsrftoken(csrfToken,res);
 
           const userInformation = returnUserInformation(user, token, csrfToken);
 
@@ -81,12 +81,12 @@ const googleAuthController = async (req, res) => {
       [userId]
     );
 
-    returnCookie(token);
+    returnCookie(token,res);
 
     const csrfToken = crypto.randomBytes(16).toString("hex");
     req.session.csrfToken = csrfToken;
 
-    returnCsrftoken(csrfToken);
+    returnCsrftoken(csrfToken,res);
 
     const userInformation = returnUserInformation(user, token, csrfToken);
 

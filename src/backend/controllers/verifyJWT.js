@@ -30,11 +30,13 @@ const verifyJWT = async (req,res) => {
         })
         const result = await response.json()
 
+        result.userInformation.csrfToken = csrfToken
+
         result.lang = userData.lang
         
-        console.log(result)
+        console.log("Данные которые пойдут из куки: ",result)
         if(response.ok){
-            return res.json({result,csrfToken})
+            return res.json({result})
         } else {
             console.log("Ошибка проверки jwt")
         }
