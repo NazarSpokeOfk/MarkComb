@@ -24,27 +24,6 @@ const Terms = () => {
             <h2 className="terms-company__name">MarkComb</h2>
 
             <h3 className="terms__subtitle none">
-              {t("Using the YouTube API")}
-            </h3>
-            <p className="terms__defenition none">
-            <Trans i18nKey="Google">
-              The MarkComb service uses the YouTube API to provide some of the
-              functionality related to searching and displaying information
-              about YouTube channels. Use of this API is governed by the{" "}
-              <a href="https://developers.google.com/youtube/terms/api-services-terms-of-service">
-                YouTube API Terms of Service
-              </a>
-              , which the User agrees to read and agree to. MarkComb's use of
-              the YouTube API is also subject to{" "}
-              <a href="https://policies.google.com/privacy">
-                Google's Privacy Policy
-              </a>
-              governing the processing of information collected through the API.
-              By using MarkComb, you agree to be bound by the above documents.
-            </Trans>
-            </p>
-  
-            <h3 className="terms__subtitle none">
               1.{t("General Provisions")}
             </h3>
             <p className="terms__defenition none">

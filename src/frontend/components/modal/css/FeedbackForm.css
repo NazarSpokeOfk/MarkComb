@@ -181,7 +181,7 @@
     }
 }
 
-@media (min-width: 1920px) and (min-height: 1080px) {
+@media (min-width: 1900px) and (min-height: 1050px) {
     .feedback__block-title{
         font-size: 25px;
     }

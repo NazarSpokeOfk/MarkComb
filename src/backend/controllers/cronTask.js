@@ -8,10 +8,11 @@ cron.schedule("0 0 * * *", async () => {
     const today = now.toISOString().split("T")[0];
 
     const result = await pool.query(
-      "UPDATE users SET uses = uses + 5 WHERE subscription_expiration >= $1",
-      [today]
+      `UPDATE users 
+       SET uses = uses + 5 
+       WHERE subscription_expiration >= CURRENT_DATE`
     );
-
+    
     console.log(`Начислено 5 uses ${result.rowCount} пользователям в ${today}`);
   } catch (error) {
     logger.error("Ошибка при начислении использований за подписку", error);

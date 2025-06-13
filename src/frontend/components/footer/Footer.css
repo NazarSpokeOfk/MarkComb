@@ -140,3 +140,10 @@
     margin-top: 6vw;
   }
 }
+
+
+@media (min-width: 1900px) and (min-height: 1050px){
+  .footer__container{
+    margin-top: 7vw;
+  }
+}

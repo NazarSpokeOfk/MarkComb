@@ -116,7 +116,7 @@
   }
 }
 
-@media (min-width: 1920px) and (min-height: 1080px){
+@media (min-width: 1900px) and (min-height: 1050px){
   .vote__button{
     margin-left: 83.6%;
   }

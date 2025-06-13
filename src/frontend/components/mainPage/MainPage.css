@@ -446,7 +446,7 @@
 }
 
 
-@media (min-width: 1920px) and (max-height: 1079px) {
+@media (min-width: 1900px) and (min-height: 1050px) {
   .second__block {
     .youtuber__block {
       width: 80%;
@@ -530,7 +530,7 @@
     }
     .packages__block {
       margin-left: 3vw;
-      width: 80%;
+      width: 83%;
       .package__newprice {
         margin-top: 5vw;
       }

@@ -34,7 +34,7 @@
   gap: 12em;
 }
 
-@media (min-width: 1920px) and (min-height: 1050px){
+@media (min-width: 1900px) and (min-height: 1050px){
   .feedback{
     margin-left: 72%;
     margin-top: 5vw;

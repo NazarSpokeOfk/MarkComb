@@ -10,3 +10,6 @@
 12.06.2025, 14:34:58 + "
 " [ERROR] + "
 " (printf.js:11): Возникла ошибка в deleteUser: res.clearCookie is not a function
+12.06.2025, 18:46:56 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в createStorageTables :  the database system is shutting down

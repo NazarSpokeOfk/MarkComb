@@ -121,7 +121,7 @@ export type VerifCodeProps = {
   setIsVerificationCodeCorrect: React.Dispatch<
     React.SetStateAction<boolean | null>
   >;
-} & PartialSelectProps<TypesOfSets,"setIsLoggedIn" | "setUserData">;
+} & PartialSelectProps<TypesOfSets, "setIsLoggedIn" | "setUserData">;
 
 export type PurchaseModalProps = {
   isModalOpened: boolean;
@@ -174,10 +174,9 @@ export type PurchasesProps = SelectProps<CommonTypes, "userData"> &
     csrfToken: string;
   };
 
-export type CheckCookiesProps = SelectProps<
-  TypesOfSets,
-  "setIsLoggedIn" | "setUserData"
->;
+export type CheckCookiesProps = {
+  setIsCookieClosed: React.Dispatch<React.SetStateAction<boolean>>;
+} & SelectProps<TypesOfSets, "setIsLoggedIn" | "setUserData">;
 
 export type FilterFetchesProps = SelectProps<
   TypesOfSets,
@@ -204,6 +203,11 @@ export type VotingPageProps = SelectProps<CommonTypes, "userData">;
 
 export type ModalUtilitiesProps = {
   ref: React.RefObject<HTMLDivElement | null>;
+};
+
+export type CookiesWindowProps = {
+  setIsCookieClosed: React.Dispatch<React.SetStateAction<boolean>>;
+  isCookieClosed: boolean;
 };
 
 export const defaultUserData: UserData = {

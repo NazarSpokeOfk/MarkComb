@@ -2,7 +2,7 @@ const apiBaseUrl = import.meta.env.VITE_API_URL;
 
 import { CheckCookiesProps } from "../types/types";
 
-const checkCookies = async ({setIsLoggedIn, setUserData} : CheckCookiesProps) => {
+const checkCookies = async ({setIsLoggedIn, setUserData, setIsCookieClosed} : CheckCookiesProps) => {
     try {
         const response = await fetch(`${apiBaseUrl}/cookie`, {
           method: "GET",
@@ -23,6 +23,7 @@ const checkCookies = async ({setIsLoggedIn, setUserData} : CheckCookiesProps) =>
 
         setIsLoggedIn(true);
         setUserData(result.result); 
+        setIsCookieClosed(true)
       } catch (error) {
         setIsLoggedIn(false); 
       }

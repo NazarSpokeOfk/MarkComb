@@ -1,4 +1,3 @@
-
 import {
   BrowserRouter as Router,
   Route,
@@ -11,7 +10,12 @@ import "./i18";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { UserData, SignInData, LogInData, ChannelData } from "./interfaces/interfaces";
+import {
+  UserData,
+  SignInData,
+  LogInData,
+  ChannelData,
+} from "./interfaces/interfaces";
 
 import NotFound from "./components/notFound/NotFound";
 import Profile from "./components/profile/Profile";
@@ -32,6 +36,7 @@ import MainPage from "./components/mainPage/MainPage";
 import ScrollToTop from "./components/scrollToTop/scrollToTop";
 import ForbiddenThumbnail from "./components/forbiddenThumbnail/ForbiddenThumbnail";
 import TooManyRequestsThumbnail from "./components/tooManyRequestsThumbnail/tooManyRequestThumbnail";
+import CookiesWindow from "./components/cookiesWindow/CookiesWindow";
 
 import checkCookies from "./checkCookies/checkCookies";
 import { setGlobalNavigate } from "./errorHandler/errorHandler";
@@ -40,8 +45,12 @@ import Footer from "./components/footer/Footer";
 
 function App() {
   const [channelData, setChannelData] = useState<ChannelData | null>(null);
-  const [SimilarChannelData, setSimilarChannelData] = useState<ChannelData | null>(null);
+  const [SimilarChannelData, setSimilarChannelData] =
+    useState<ChannelData | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [isCookieClosed, setIsCookieClosed] = useState<boolean>(() => {
+    return localStorage.getItem('cookieConfirmed') === 'true';
+  });
   const [userData, setUserData] = useState<UserData>({
     channels: [],
     lang: "",
@@ -62,21 +71,21 @@ function App() {
   const [entryMethod, setEntryMethod] = useState("");
 
   const [signInData, setSignInData] = useState<SignInData>({
-    email : "",
-    password : "",
-    username : "",
-    recaptchaValue : "",
-    verification_code : ""
+    email: "",
+    password: "",
+    username: "",
+    recaptchaValue: "",
+    verification_code: "",
   });
   const [logInData, setLogInData] = useState<LogInData>({
-    email : "",
-    password : ""
+    email: "",
+    password: "",
   });
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    checkCookies({setIsLoggedIn, setUserData});
+    checkCookies({ setIsLoggedIn, setUserData, setIsCookieClosed });
   }, []);
 
   useEffect(() => {
@@ -84,13 +93,18 @@ function App() {
   }, [navigate]);
 
   useEffect(() => {
-    console.log('userData : ' , userData)
-  },[userData])
+    if(isCookieClosed){
+      localStorage.setItem('cookieConfirmed','true')
+    }
+  },[isCookieClosed])
 
   return (
     <>
       <ScrollToTop />
-      <Header isVoteEnabled={userData.userInformation.isVoteEnabled} hideLinks={false}/>
+      <Header
+        isVoteEnabled={userData.userInformation.isVoteEnabled}
+        hideLinks={false}
+      />
       <Routes>
         <Route
           path="/"
@@ -238,7 +252,7 @@ function App() {
           path="/sponsors"
           element={
             <ErrorBoundary>
-              <SponsorsPage/>
+              <SponsorsPage />
             </ErrorBoundary>
           }
         />
@@ -258,7 +272,7 @@ function App() {
               <ForbiddenThumbnail
                 setIsModalOpened={setIsModalOpened}
                 setEntryMethod={setEntryMethod}
-                setUserData = {setUserData}
+                setUserData={setUserData}
               />
             </ErrorBoundary>
           }
@@ -272,7 +286,11 @@ function App() {
           }
         />
       </Routes>
-      <Footer/>
+      <CookiesWindow
+        isCookieClosed={isCookieClosed}
+        setIsCookieClosed={setIsCookieClosed}
+      />
+      <Footer />
     </>
   );
 }

@@ -13,7 +13,7 @@ const UserDataProcessing = () => {
     <>
       <HelmetProvider>
         <Helmet>
-          <title>{t("User data processing agreement")}</title>
+          <title>{t("Privacy Policy / Personal Data Processing Agreement")}</title>
           <meta
             name="description"
             content="Study the agreement with the processing of personal data"
@@ -21,9 +21,26 @@ const UserDataProcessing = () => {
         </Helmet>
         <section className="terms">
           <h1 className="terms__title">
-            {t("Personal Data Processing Agreement")}
+            {t("Privacy Policy / Personal Data Processing Agreement")}
           </h1>
           <div className="terms__container">
+
+          <h3 className="terms__subtitle none">
+              {t("Using the YouTube API")}
+            </h3>
+            <p className="terms__defenition none">
+              {t("The MarkComb service uses the YouTube API to provide some of the functionality related to searching and displaying information about YouTube channels. Use of this API is governed by the")}{" "}
+              <a href="https://developers.google.com/youtube/terms/api-services-terms-of-service">
+                {t("YouTube API Terms of Service")}
+              </a>
+              , {t("which the User agrees to read and agree to. MarkComb's use of the YouTube API is also subject to")}{" "}
+              <a href="https://policies.google.com/privacy">
+                {t("Google's Privacy Policy")}
+              </a>
+              {" "}
+              {t("governing the processing of information collected through the API. By using MarkComb, you agree to be bound by the above documents")}.
+            </p>
+
             <h3 className="terms__subtitle none">
               1.{t("General Provisions")}
             </h3>
@@ -40,11 +57,7 @@ const UserDataProcessing = () => {
             <p className="terms__defenition none">
               <span>1.2.</span> -{" "}
               <Trans i18nKey="1.02">
-                The Service ensures the confidentiality and security of personal
-                data in accordance with applicable data protection laws,
-                including, but not limited to, GDPR , 152-ФЗ (General Data
-                Protection Regulation, Федеральный закон "О персональных данных"
-                ) and relevant national regulations.
+              This Privacy Policy is compiled in accordance with the requirements of the legislation of the Russian Federation (ФЗ-152), as well as international regulations (including GDPR). It complies with the requirements for the use of the YouTube API and contains a link to the Google Privacy Policy.
               </Trans>
             </p>
 

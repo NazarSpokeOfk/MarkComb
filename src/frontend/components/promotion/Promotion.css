@@ -229,7 +229,7 @@
   cursor: pointer;
 }
 
-@media (min-width: 1920px) and (min-height: 1050px)
+@media (min-width: 1900px) and (min-height: 1050px)
  {
   .list {
     margin-left: 10%;
