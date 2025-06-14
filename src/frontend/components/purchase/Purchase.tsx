@@ -3,6 +3,9 @@ import { useEffect, useRef, useState } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { toast, ToastContainer } from "react-toastify";
 
+import { useMediaQuery } from "react-responsive";
+
+
 import "./Purchase.css";
 
 import { CommonTypes } from "../../types/types";
@@ -13,6 +16,8 @@ import Footer from "../footer/Footer";
 import PurchaseModal from "../modal/purchaseModal";
 
 const Purchase = ({ isLoggedIn, userData }: CommonTypes) => {
+  const isLittleMobile = useMediaQuery({ maxWidth: 420 });
+
   const [isModalOpened, setIsModalOpened] = useState(false);
 
   useEffect(() => {
@@ -153,6 +158,7 @@ const Purchase = ({ isLoggedIn, userData }: CommonTypes) => {
                 <span>4500</span>₽ / <span id="month none">{t("Month")}</span>
               </h4>
               <button
+              id="business__button"
                 onClick={() => {
                   if (isLoggedIn) {
                     setSelectedPackage({
@@ -167,7 +173,7 @@ const Purchase = ({ isLoggedIn, userData }: CommonTypes) => {
                     return;
                   }
                 }}
-                className="package__button-bussines none"
+                className="package__button none"
               >
                 {t("purch")}
                 <span>{t("ase")}</span>

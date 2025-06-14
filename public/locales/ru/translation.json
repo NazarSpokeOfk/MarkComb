@@ -346,7 +346,7 @@
     "Thank you for your vote":"Спасибо за ваш голос",
     "Voting page":"Страница голосования",
     "and":" и",
-    "YouTube's terms of service":"условиями обслуживания YouTube",
+    "YouTube's terms of service":"условия обслуживания YouTube",
     "We use cookies to improve website performance and convenience. By continuing to use the site, you agree to our use of cookies. For more details, please refer to the":"Вы используем куки для улучшения работы сервиса. Продолжая пользование веб-сайтом, вы соглашаетесь с использованием куки. Узнать детали вы можете в",
     "personal data processing agreement":"соглашении на обработку персональных данных",
     "Using the YouTube API":"Использование API YouTube",
@@ -354,5 +354,6 @@
     "YouTube API Terms of Service":"Условия обслуживания API YouTube",
     "which the User agrees to read and agree to. MarkComb's use of the YouTube API is also subject to":"с которым Пользователь обязуется ознакомиться и согласиться. Использование компанией MarkComb API YouTube также регулируется",
     "Google's Privacy Policy":"Политика конфиденциальности Google",
-    "governing the processing of information collected through the API. By using MarkComb, you agree to be bound by the above documents":"регулирующие обработку информации, собранной через API. Используя MarkComb, вы соглашаетесь с вышеуказанными документами"
+    "governing the processing of information collected through the API. By using MarkComb, you agree to be bound by the above documents":"регулирующие обработку информации, собранной через API. Используя MarkComb, вы соглашаетесь с вышеуказанными документами",
+    "Personal Data Processing Agreement":"соглашение на обработку персональных данных"
 }

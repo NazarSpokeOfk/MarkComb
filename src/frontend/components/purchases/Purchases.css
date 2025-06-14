@@ -128,7 +128,7 @@
   }
 }
 
-@media (min-width: 2560px) and (max-height: 1480px)
+@media (min-width: 2500px) and (max-height: 1480px)
  {
     .title{
       margin-left: 31%;
@@ -205,6 +205,9 @@
     margin-left: 25%;
     margin-bottom: 50%;
   }
+  .no_available {
+    font-size: 15px;
+  }
   .magnifying_glass{
     left: 180px;
     top: 250px;
@@ -218,6 +221,6 @@
     width: 100%;
     display: block;
     margin: 0 auto;
-    margin-bottom: 10%;
+    margin-bottom: 40%;
   }
 }

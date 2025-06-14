@@ -77,7 +77,7 @@
 
 .packages-light__package {
   position: relative;
-  border: 2px solid rgba(0, 0, 0, 0.48);
+  border: 1px solid rgba(0, 0, 0, 1);
   border-radius: 52px;
   width: 290px;
   height: 490px;
@@ -150,7 +150,7 @@
   top: 410px;
   left: -2px;
   background-color: #fff;
-  border: 3px solid rgba(0, 0, 0, 0.43);
+  border: 1px solid rgba(0, 0, 0, 1);
   border-radius: 35px;
   width: 295px;
   height: 89px;
@@ -231,14 +231,17 @@
   }
 }
 
+
+
 #month {
   text-transform: capitalize;
   font-size: 25px;
   font-weight: 500;
 }
 
-.package__button-bussines {
-  border: 3px solid rgba(0, 0, 0, 0.43);
+#business__button {
+  position: static;
+  border: 1px solid rgba(0, 0, 0, 1);
   border-radius: 28px;
   width: 450px;
   height: 90px;
@@ -250,10 +253,9 @@
   background-color: #fff;
   transition: all 0.6s;
   cursor: pointer;
-  span {
-    transition: all 0.6s;
-    color: var(--main-red-col);
-  }
+  background: linear-gradient(to right, #ff0000, #b80909);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .package__button-bussines:hover {
@@ -296,7 +298,7 @@
     margin-left: 5%;
   }
 }
-@media (min-width: 2560px) and (max-height: 1480px)
+@media (min-width: 2500px) and (max-height: 1480px)
  {  
   .balance__block{
     width: 55%;
@@ -345,6 +347,10 @@
     font-size: 30px;
   }
 
+  #business__button{
+    margin-top: 0;
+  }
+
   .package__price-business {
     font-size: 35px;
   }
@@ -355,6 +361,7 @@
   }
 
   .package__newprice-business {
+    margin-bottom: 2%;
     font-size: 40px;
     span {
       font-size: 40px;
@@ -377,9 +384,30 @@
 
 @media (min-width: 768px) and (max-width: 1024px)
  {
-  /* .packages__wrapper{
-    margin-left: 8.5%;
-  } */
+  .balance__block{
+    width: 60%;
+  }
+  .packages__wrapper{
+    width: 62%;
+  }
+  #business__button{
+    margin-left: 11%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+  }
+  .package__title-business{
+    margin-left: 10%;
+    margin-top: 7%;
+  }
+  .package__usages-business{
+    margin-left: 10%;
+  }
+  .package__price-business{
+    margin-left: 10%;
+  }
+  .package__newprice-business{
+    margin-left: 10%;
+  }
   #business{
     width: 90%;
     height: 90%;
@@ -388,10 +416,6 @@
     margin-left: 15%;
     margin-bottom: 5%;
   }
-  /* .balance__block{
-    margin-left: 8%;
-    width: 85%;
-  } */
   .balance-block__money{
     margin-top: 10%;
   }
@@ -410,15 +434,16 @@
     margin-left: 0;
   }
   .balance__block{
-    width: auto;
-    height: 150px;
+    width: 290px;
+    height: 120px;
     border-radius: 40px;
   }
   .balance-block__money{
-    font-size: 30px;
+    margin-top: 9%;
+    font-size: 23px;
   }
   .balance-block__uses{
-    font-size: 30px;
+    font-size: 21px;
     margin-left: 10%;
     margin-top: -3%;
   }
@@ -426,17 +451,81 @@
     max-width: 294px;
   }
   .package__title-business{
-    margin-top: 43px;
+    margin-top: 15%;
+    font-size: 25px;
+    margin-left: 10%;
   }
   .package__button-bussines {
     width: 295px;
     height: 90px;
     margin-left: 0;
-    margin-top: 32%;
+    position: static;
+  }
+  .package__price-business{
+    margin-left: 10%;
+    font-size: 20px;
+    span{
+      font-size: 20px;
+    }
+  }
+  .package__price-business::after{
+    width: 75px;
+    top: 10px;
+  }
+  .package__newprice-business{
+    margin-left: 10%;
+    span {
+      font-size: 25px;
+    }
+  }
+  .package__usages-business{
+    font-size: 15px;
+    margin-left: 10%;
+  }
+  .packages__wrapper{
+    gap: 50px;
+  }
+  .package__title{
+    font-size: 25px;
+  }
+  .package__usages{
+    font-size: 17px;
+  }
+  .package__price{
+    margin-top: 15%;
+    span {
+      font-size: 20px;
+    }
+  }
+  .package__price::after{
+    top: 10px;
+    width: 70px;
+  }
+  .packages-light__package{
+    height: 350px;
+  }
+  .package__button{
+    position: static;
+    display: block;
+    margin: 0 auto;
+    height: 20%;
+    width: 90%;
+    border-radius: 35px;
+    font-size: 15px;
+  }
+  .package__newprice{
+    margin-bottom: 10%;
+    span {
+      font-size: 25px;
+    }
+  }
+  #business__button{
+    position: static;
+    display: block;
+    margin: 0 auto;
+    height: 20%;
+    width: 90%;
+    border-radius: 35px;
+    font-size: 15px;
   }
 }
-/* @media (max-width: 375px){
-.packages__wrapper{
-  margin-left: 11%;
-}
-} */

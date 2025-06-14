@@ -5,6 +5,7 @@
   padding: 0 20px; /* добавь отступы по бокам, чтобы контейнер не прилегал к краям */
   box-sizing: border-box;
 }
+
 :root {
   --main-red-col: #ff0000;
   --main-padding-left: 15%;
@@ -571,7 +572,7 @@
   }
 }
 
-@media (min-width: 2560px) and (max-height: 1480px) {
+@media (min-width: 2500px) and (max-height: 1480px) {
   .block-button {
     border-radius: 15px;
     height: 2vw;
@@ -809,6 +810,12 @@
   .second__block {
     margin-top: 20vw;
     width: 100%;
+    .search__main{
+      width: 60%;
+    }
+    .Header__input-flex{
+      margin-left: 10%;
+    }
     .block-title {
       font-size: 20px;
       margin-left: 10vw;
@@ -831,6 +838,10 @@
       .youtuber__information {
         margin-left: 10%;
       }
+      .youtuber__image{
+        
+        border: 1px solid black;
+      }
     }
     #second__block-text {
       margin-top: 30vw;
@@ -846,7 +857,7 @@
     #third__block-title {
       line-height: 7vw;
       margin-left: 2vw;
-      width: 400px;
+      width: 390px;
       font-size: 25px;
       margin-left: 7vw;
     }
@@ -910,10 +921,17 @@
     width: 100%;
     margin-top: 20vw;
     .search-suggested__block {
-      margin-left: 13vw;
+      height: auto;
+      .suggested__block-flex{
+        flex-direction: column;
+
+        .suggested__block-subflex{
+          margin-top: 10%;
+          margin-bottom: 10%;
+        }
+      }
       .suggested-block__img {
         margin-left: 0vw;
-        margin-top: 13.2vw;
         width: 100%;
       }
     }
@@ -927,6 +945,7 @@
       text-align: center;
       width: 300px;
       line-height: 5vw;
+      margin-top: 15%;
     }
   }
 

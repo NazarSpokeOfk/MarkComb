@@ -191,7 +191,7 @@ header.active .header__sublinks {
   }
 }
 
-@media (min-width: 2560px) and (max-height: 1480px){
+@media (min-width: 2500px) and (max-height: 1480px){
   header.active .header__sublinks{
     margin-top: 1.5%;
   }

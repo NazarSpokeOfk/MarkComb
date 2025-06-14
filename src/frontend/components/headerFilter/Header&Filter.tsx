@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import { useMediaQuery } from "react-responsive";
 
 import { toast } from "react-toastify";
 
@@ -49,6 +50,8 @@ const HeaderFilter = ({
   const dataToDB = new DataToDB();
 
   const apiBaseUrl = import.meta.env.VITE_API_URL;
+
+  const isLittleMobile = useMediaQuery({ maxWidth: 409 });
 
   const { t } = useTranslation();
   const [isDataFilledIn, setIsDataFilledIn] = useState<boolean>(false);
@@ -125,7 +128,7 @@ const HeaderFilter = ({
         body: JSON.stringify({ mainInputValue }),
       });
       const result = await response.json();
-      console.log(result)
+      console.log(result);
       setChannelData(result);
       setIsSearching(false);
     } catch (error) {
@@ -328,18 +331,20 @@ const HeaderFilter = ({
                       alt="search_filters"
                     />
                   </button>
-                  <button
-                    onClick={() => {
-                      setIsSearching(true);
-                    }}
-                    type="submit"
-                    className="search__glass"
-                  >
-                    <img
-                      src={isSearching ? Loading : SearchBtn}
-                      alt="search_button"
-                    />
-                  </button>
+                  {isLittleMobile ? (
+                    <button
+                      onClick={() => {
+                        setIsSearching(true);
+                      }}
+                      type="submit"
+                      className="search__glass"
+                    >
+                      <img
+                        src={isSearching ? Loading : SearchBtn}
+                        alt="search_button"
+                      />
+                    </button>
+                  ) : null}
                 </div>
               </div>
             </form>
@@ -555,16 +560,14 @@ const HeaderFilter = ({
                       }
                       setSelectedFilter(newFilter);
                       if (isLoggedIn) {
-                        manageFiltersFetch(
-                          {
-                          content_type:label,
+                        manageFiltersFetch({
+                          content_type: label,
                           setSimilarChannelData,
-                          age_group:null,
-                          minsubs:null,
-                          maxsubs:null,
-                          setIsFiltersFetching
-                        }
-                        );
+                          age_group: null,
+                          minsubs: null,
+                          maxsubs: null,
+                          setIsFiltersFetching,
+                        });
                       } else {
                         logInFirstly();
                       }

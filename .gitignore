@@ -12,6 +12,7 @@
 /build
 
 /dist
+/environment
 
 # misc
 .env
