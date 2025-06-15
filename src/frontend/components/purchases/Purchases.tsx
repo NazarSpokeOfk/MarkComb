@@ -34,9 +34,9 @@ const Purchases = ({ userData, setUserData, csrfToken }: PurchasesProps) => {
       await toast.promise(
         dataToDb.deletePurchaseData(channelName, user_id, csrfToken),
         {
-          pending: "Removing channel...",
-          success: "Channel has successfully removed!",
-          error: "There was an error during removing channel!",
+          pending: (t("Removing purchase...")),
+          success: (t("Purchase has successfully removed!")),
+          error: (t("There was an error during removing purchase!")),
         }
       );
 

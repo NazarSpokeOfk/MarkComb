@@ -17,12 +17,21 @@ const checkCookies = async ({setIsLoggedIn, setUserData, setIsCookieClosed} : Ch
           return; 
         }
       
-        const result = await response.json(); 
+        const rawResult = await response.json(); 
 
-        console.log("Результат проверки кук : " , result)
+        console.log("Результат проверки кук : " , rawResult)
+
+        const proccessedResult = {
+          ...rawResult.result, userInformation : {
+            ...rawResult.result.userInformation,
+            uses : Number(rawResult.result.userInformation.uses)
+          }
+        }
+
+        console.log("proccessedResult : ", proccessedResult )
 
         setIsLoggedIn(true);
-        setUserData(result.result); 
+        setUserData(proccessedResult); 
         setIsCookieClosed(true)
       } catch (error) {
         setIsLoggedIn(false); 

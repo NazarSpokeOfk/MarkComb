@@ -204,7 +204,7 @@
     "Log in firstly":"Войдите в аккаунт, чтобы продолжить.",
     "There was an error during channel search. Please, try again later":"Возникла ошибка при поиске канала, пожалуйста, попробуйте снова позже",
     "Firstly, find the youtuber whose contact details you want to get":"Для начала, найдите ютубера, контактные данные которого вы хотите получить",
-    "You already bought this data.":"Вы уже приобрели контактные данные этого ютубера",
+    "You already bought this data":"Вы уже приобрели контактные данные этого ютубера",
     "You have no uses!":"У вас нет использований",
     "Welcome back":"С возращением!",
     "and ":"и ",
@@ -355,5 +355,12 @@
     "which the User agrees to read and agree to. MarkComb's use of the YouTube API is also subject to":"с которым Пользователь обязуется ознакомиться и согласиться. Использование компанией MarkComb API YouTube также регулируется",
     "Google's Privacy Policy":"Политика конфиденциальности Google",
     "governing the processing of information collected through the API. By using MarkComb, you agree to be bound by the above documents":"регулирующие обработку информации, собранной через API. Используя MarkComb, вы соглашаетесь с вышеуказанными документами",
-    "Personal Data Processing Agreement":"соглашение на обработку персональных данных"
+    "Personal Data Processing Agreement":"соглашение на обработку персональных данных",
+    "Promocode activated!":"Промокод активирован!",
+    "Failed to activate promocode. Please try again.":"Не удалось активировать промокод. Пожалуйста попробуйте снова.",
+    "An error occurred while activating the promocode.":"Ошибка при активации промокода.",
+    "Looking for your profile...":"Ищем ваш профиль...",
+    "Removing purchase...":"Удаляем покупку...",
+    "Purchase has successfully removed!":"Покупка успешно удалена!",
+    "There was an error during removing purchase!":"Произошла ошибка при удалении покупки!"
 }

@@ -51,7 +51,7 @@ const HeaderFilter = ({
 
   const apiBaseUrl = import.meta.env.VITE_API_URL;
 
-  const isLittleMobile = useMediaQuery({ maxWidth: 409 });
+  const isLittleMobile = useMediaQuery({ minWidth: 410 });
 
   const { t } = useTranslation();
   const [isDataFilledIn, setIsDataFilledIn] = useState<boolean>(false);

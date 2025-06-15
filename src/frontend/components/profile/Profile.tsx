@@ -49,7 +49,7 @@ const Profile = ({
   const [isPromocodeActive, setIsPromocodeActive] = useState(false);
   const [promocodeValue, setPromocodeValue] = useState("");
 
-  const dataToDb = new DataToDB({setUserData,setIsLoggedIn});
+  const dataToDb = new DataToDB({ setUserData, setIsLoggedIn });
 
   const navigate = useNavigate();
 
@@ -61,10 +61,13 @@ const Profile = ({
 
   useEffect(() => {
     if (isVerificationCodeCorrect && isAccountWillBeDeleted) {
-      dataToDb.deleteProfile(userData!.userInformation.user_id, userData!.userInformation.csrfToken);
+      dataToDb.deleteProfile(
+        userData!.userInformation.user_id,
+        userData!.userInformation.csrfToken
+      );
       document.body.style.overflow = "";
-      navigate("/search")
-      toast.success("Account deleted")
+      navigate("/search");
+      toast.success("Account deleted");
     }
   }, [isVerificationCodeCorrect, isAccountWillBeDeleted]);
 
@@ -156,22 +159,6 @@ const Profile = ({
               {t("Activate")} <span>{t("promocode")}</span>
             </button>
 
-            {userData.userInformation.isSubscriber && finalDate ? (
-              <div className="subscription__block">
-                <div className="bussiness__subscriber-flex">
-                  <img
-                    src={SponsorsImg}
-                    alt=""
-                    className="bussiness__subscriber-img"
-                  />
-                  <h2 className="bussiness__subscriber-text">
-                    {t("Bussiness subscription expires in")} : <br />
-                  </h2>
-                  <h2 className="bussiness__subscriber-info">{finalDate}</h2>
-                </div>
-              </div>
-            ) : null}
-
             <div className="promocode__container">
               {isPromocodeActive ? (
                 <>
@@ -197,20 +184,26 @@ const Profile = ({
                         .then((response) => {
                           if (response?.status === true) {
                             setIsPromocodeActive(false);
-                            toast.success(
-                              `Promocode activated! Your current uses: ${response?.newUses}`
-                            );
+                            toast.success(t(
+                              "Promocode activated!"
+                            ));
+                            setUserData((prevState) => ({
+                              ...prevState,
+                              userInformation: {
+                                ...prevState.userInformation,
+                                uses: prevState.userInformation.uses + 10,
+                              },
+                            }));
                           } else {
-                            toast.error(
+                            toast.error(t(
                               "Failed to activate promocode. Please try again."
-                            );
+                            ));
                           }
                         })
                         .catch((error) => {
-                          toast.error(
+                          toast.error(t(
                             "An error occurred while activating the promocode."
-                          );
-                          console.error("Error activating promocode: ", error);
+                          ));
                         });
                     }}
                     className="promocode__submit-btn"
@@ -220,6 +213,22 @@ const Profile = ({
                 </>
               ) : null}
             </div>
+
+            {userData.userInformation.isSubscriber && finalDate ? (
+              <div className="subscription__block">
+                <div className="bussiness__subscriber-flex">
+                  <img
+                    src={SponsorsImg}
+                    alt=""
+                    className="bussiness__subscriber-img"
+                  />
+                  <h2 className="bussiness__subscriber-text">
+                    {t("Bussiness subscription expires in")} : <br />
+                  </h2>
+                  <h2 className="bussiness__subscriber-info">{finalDate}</h2>
+                </div>
+              </div>
+            ) : null}
 
             <div className="info_block">
               <h3 className="info_block-title none">
@@ -314,8 +323,8 @@ const Profile = ({
             setIsPasswordChanged={setIsPasswordChanged}
           />
         ) : null}
-
       </HelmetProvider>
+      <ToastContainer />
     </>
   );
 };

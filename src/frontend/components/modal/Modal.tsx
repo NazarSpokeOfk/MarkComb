@@ -66,7 +66,7 @@ const Modal = ({
       return;
     }
   
-    const loadToast = toast.loading("Recalling your profile...");
+    const loadToast = toast.loading(t("Looking for your profile..."));
     console.log("LogInData в Modal:", logInData);
   
     try {
