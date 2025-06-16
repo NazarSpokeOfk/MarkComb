@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
 
 import DownArrow from "../../icons/downarrow.png";
-import MiniLogo from "../../../../public/MK.svg"
+import MiniLogo from "../../../../public/favicon/favicon.svg"
 
 import { HeaderProps } from "../../types/types";
 
@@ -13,6 +13,7 @@ import "./Header.css";
 const Header = ({ hideLinks = false, isVoteEnabled} : HeaderProps) => {
   const { t } = useTranslation();
   const isLittleMobile = useMediaQuery({ maxWidth: 430 });
+
 
   const [isHeaderExpanded, setIsHeaderExpanded] = useState(false);
 

@@ -122,7 +122,7 @@
 
 @media (max-width: 430px) {
   .footer__container {
-    margin-top: 27%;
+    margin-top: 50%;
     &:nth-child(1) {
       padding-left: 10%;
     }

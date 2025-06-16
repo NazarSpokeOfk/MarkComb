@@ -654,7 +654,7 @@ input:checked + .slider:before {
 }
 @media (max-width: 430px) {
   .Header__input-flex{
-    width: 98%;
+    width: 95%;
     margin-left: 10%;
   }
   .search__main{

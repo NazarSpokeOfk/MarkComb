@@ -1,5 +1,3 @@
-import Header from "../../header/Header";
-
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
@@ -17,7 +15,6 @@ const FailThumbnail = () => {
           <meta name="description" content="Purchase was ended with error" />
         </Helmet>
 
-        <Header hideLinks />
 
         <div className="container">
           <h1 className="payment__title">{t("There was a purchase error")}</h1>

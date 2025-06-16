@@ -51,7 +51,11 @@ const HeaderFilter = ({
 
   const apiBaseUrl = import.meta.env.VITE_API_URL;
 
-  const isLittleMobile = useMediaQuery({ minWidth: 410 });
+  const isLittleMobile = useMediaQuery({ maxWidth: 430 });
+
+  console.log(window.innerWidth);
+  console.log("isMobile", isLittleMobile);
+  console.log("isLittleMobile", isLittleMobile);
 
   const { t } = useTranslation();
   const [isDataFilledIn, setIsDataFilledIn] = useState<boolean>(false);
@@ -331,7 +335,7 @@ const HeaderFilter = ({
                       alt="search_filters"
                     />
                   </button>
-                  {isLittleMobile ? (
+                  {!isLittleMobile ? (
                     <button
                       onClick={() => {
                         setIsSearching(true);

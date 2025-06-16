@@ -1,5 +1,3 @@
-import Header from "../../header/Header";
-
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
@@ -16,8 +14,6 @@ const SuccessThumbnail = () => {
           <title>{t("Success")}</title>
           <meta name="description" content="Successfull purchase" />
         </Helmet>
-
-        <Header hideLinks />
 
         <div className="container">
           <h1 className="payment__title">{t("Thank you for your purchase!")}</h1>

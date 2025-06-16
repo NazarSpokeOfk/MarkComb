@@ -32,7 +32,7 @@
   border-radius: 20px;
   margin-top: 5%;
   overflow: hidden;
-  max-height: 100px;
+  height: 100px;
   transition: max-height 0.6s ease, padding 0.3s ease;
   padding: 20px;
 }
@@ -136,8 +136,36 @@
     font-size: 15px;
   }
   .vote__button{
-    margin-left: 71%;
-    width: 25%;
+    display: block;
+    width: 75%;
+    margin-left: 0;
+    position: static;
+    border-radius: 7px;
+    height: 50px;
+    font-size: 15px;
+    span{
+      font-size: 15px;
+    }
+  }
+  .voting__block:hover{
+    padding-bottom: 20px;
+  }
+  .vote__title{
+    font-size: 30px;
+  }
+  .voting__blocks{
+    margin-top: 22%;
+  }
+  .voting__block{
+    display: flex;
+    height: auto;
+    align-items : center;
+    flex-direction: column;
+  }
+  .voting__block-description{
+    text-align: center;
+    text-align-last:center;
+    margin-left: 0;
   }
 }
 

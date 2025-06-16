@@ -78,7 +78,7 @@ const handleWebHook = async (req, res) => {
           );
 
           const redeemingSubscription = await pool.query(
-            "UPDATE users SET subscription_expiration = $1 WHERE user_id = $2 RETURNING *",
+            "UPDATE users SET subscription_expiration = $1,isvoteenabled = true WHERE user_id = $2 RETURNING *",
             [endingDate, user_id]
           );
 
