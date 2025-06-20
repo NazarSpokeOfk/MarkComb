@@ -1,12 +1,16 @@
 /// <reference types="vite/client" />
 
-import { handleHttpError } from "../errorHandler/errorHandler";
+import { handleHttpError } from "../utilities/errorHandler";
 
 const apiBaseUrl = import.meta.env.VITE_API_URL;
 
 import { LogInData , ChangedData } from "../interfaces/interfaces";
 
 import { defaultUserData } from "../types/types";
+
+import {toast} from "react-toastify"
+
+import i18n from "i18next";
 
 import {
   VideoData,
@@ -200,6 +204,27 @@ class DataToDB {
         }
     });
   }
+
+  async makeFetchForCode (email : string) {
+    try {
+      const result = await fetch(`${apiBaseUrl}/verification`, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+          "x-api-key": import.meta.env.VITE_API_KEY,
+        },
+        body: JSON.stringify({ email }),
+      });
+      if (result.ok) {
+        return Promise.resolve();
+      } else {
+        console.log(result);
+      }
+    } catch (error) {
+      toast.error(i18n.t("There was an error during sending verification code"))
+    }
+  };
+
 
   isVerificationCodeCorrect(email: string, verificationCode: string) {
     return this.fetchData(`${apiBaseUrl}/checkCode`, "POST", {

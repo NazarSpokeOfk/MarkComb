@@ -38,8 +38,8 @@ import ForbiddenThumbnail from "./components/forbiddenThumbnail/ForbiddenThumbna
 import TooManyRequestsThumbnail from "./components/tooManyRequestsThumbnail/tooManyRequestThumbnail";
 import CookiesWindow from "./components/cookiesWindow/CookiesWindow";
 
-import checkCookies from "./checkCookies/checkCookies";
-import { setGlobalNavigate } from "./errorHandler/errorHandler";
+import checkCookies from "./Client-ServerMethods/checkCookies";
+import { setGlobalNavigate } from "./utilities/errorHandler";
 import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
 

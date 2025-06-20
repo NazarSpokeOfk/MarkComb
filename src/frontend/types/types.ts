@@ -1,4 +1,5 @@
 import React, { RefObject } from "react";
+import { CredentialResponse } from "@react-oauth/google";
 
 import {
   UserData,
@@ -6,6 +7,7 @@ import {
   SignInData,
   LogInData,
   ChangedData,
+  SelectedFilterLabels
 } from "../interfaces/interfaces";
 
 export type CommonTypes = {
@@ -209,6 +211,128 @@ export type CookiesWindowProps = {
   setIsCookieClosed: React.Dispatch<React.SetStateAction<boolean>>;
   isCookieClosed: boolean;
 };
+
+export type GoogleLogInButtonProps = {
+  response: CredentialResponse;
+} & SelectProps<
+  TypesOfSets,
+  "setIsLoggedIn" | "setUserData" | "setIsModalOpened"
+>;
+
+export type GoogleLogInButtonPropsWithoutResponse = SelectProps<
+  TypesOfSets,
+  "setIsLoggedIn" | "setUserData" | "setIsModalOpened"
+>;
+
+export type SearchFetchProps = {
+  e: React.FormEvent;
+  mainInputValue: string;
+  setIsSearching: React.Dispatch<React.SetStateAction<boolean>>;
+  csrfToken: string;
+} & SelectProps<TypesOfSets, "setChannelData">;
+
+export type RemoveSelectedFilterProps = {
+  index: number;
+  setRemovingIndex: React.Dispatch<React.SetStateAction<number | null>>;
+  setSelectedFilterLabels: React.Dispatch<React.SetStateAction<SelectedFilterLabels[]>>;
+};
+
+export type AddSelectedFilterProps = {
+  label: string;
+  type: string;
+  min: number | null;
+  max: number | null;
+  setSelectedFilterLabels: React.Dispatch<React.SetStateAction<SelectedFilterLabels[]>>;
+};
+
+export type SearchWithMultiplyFiltersProps = {
+  setIsFiltersFetching: React.Dispatch<React.SetStateAction<boolean>>,
+  selectedFilterLabels : SelectedFilterLabels[],
+} & SelectProps<TypesOfSets,"setSimilarChannelData">
+
+export type ResetSelectedFiltersProps = {
+  setSelectedFilterLabels : React.Dispatch<React.SetStateAction<SelectedFilterLabels[]>>
+}
+
+export type ValidateAndSendReviewProps = {
+  reviewText : string,
+  websiteMark : number,
+  setIsFeedbackWillBeWrited : React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export type HandleRecaptchaChangeProps = {
+  value : string,
+} & SelectProps<TypesOfSets,"setSignInData">
+
+export type HandleLogInProps = {
+  e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>
+  logInData : LogInData,
+  modalRef: RefObject<HTMLDivElement | null>,
+  modalButtonRef: RefObject<HTMLButtonElement | null>,
+  failTimeout : ReturnType<typeof setTimeout> | undefined,
+  setIsUserMakeAMistake : React.Dispatch<React.SetStateAction<number>>
+} & SelectProps<TypesOfSets,"setIsLoggedIn">
+
+export type HandleValidationErrorProps = {
+  modalButtonRef : RefObject<HTMLButtonElement | null>,
+  failTimeout : ReturnType<typeof setTimeout> | undefined
+}  & SelectProps<TypesOfSets,"setIsLoggedIn">
+
+export type AnimateModalButtonShakeProps = {
+  modalButtonRef : RefObject<HTMLButtonElement | null>,
+  failTimeout : ReturnType<typeof setTimeout> | undefined,
+}
+
+export type HandleLogInErrorProps = {
+  setIsUserMakeAMistake : React.Dispatch<React.SetStateAction<number>>
+}
+
+export type ValidateFormData = {
+  e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>
+  signInData : SignInData,
+  isChecked : boolean,
+  emailRegex : RegExp,
+  modalRef: RefObject<HTMLDivElement | null>,
+  modalButtonRef : RefObject<HTMLButtonElement | null>,
+  failTimeout : ReturnType<typeof setTimeout> | undefined,
+} & SelectProps<TypesOfSets,"setIsLoggedIn" | "setIsModalOpened" | "setIsDataFilledIn">
+
+export type MakeFetchForCodeProps = {
+  signInData : SignInData
+}
+
+export type FetchDataProps = {
+  isDataFilledIn : boolean,
+  modalRef: RefObject<HTMLDivElement | null>,
+  signInData : SignInData
+}
+
+export type HandleNameChangeProps = {
+  e: React.ChangeEvent<HTMLInputElement>,
+  setLocalName : React.Dispatch<React.SetStateAction<string>>
+  setChangedData : React.Dispatch<React.SetStateAction<ChangedData>>
+}
+
+export type CheckWhatChangeProps = {
+  changedData : ChangedData,
+  setChangedData : React.Dispatch<React.SetStateAction<ChangedData>>
+}
+
+export type HandleToggleProps = {
+  secondYouTubersContainerRef : RefObject<HTMLDivElement | null>,
+  triggerBtnRef : RefObject<HTMLButtonElement | null>
+}
+
+export type ToggleMemberListStyleProps = {
+  index : number,
+  currentGroup : number,
+  setActiveIndex : React.Dispatch<React.SetStateAction<number | null>>
+}
+
+export type ValidateVideoFindingProps = {
+  channelName : string,
+  inputValue : string
+}
 
 export const defaultUserData: UserData = {
   channels: [],

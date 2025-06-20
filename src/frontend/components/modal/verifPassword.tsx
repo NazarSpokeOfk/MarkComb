@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 
 import "react-toastify/dist/ReactToastify.css";
 
-import DataToDB from "../../dataToDB/dataToDB";
+import DataToDB from "../../Client-ServerMethods/dataToDB";
 
 import { VerifPasswordProps } from "../../types/types";
 

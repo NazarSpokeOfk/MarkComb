@@ -5,12 +5,9 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import "./Purchases.css";
 
-import Header from "../header/Header";
-import Footer from "../footer/Footer";
-
 import binBtn from "../../icons/bin.svg";
 
-import DataToDB from "../../dataToDB/dataToDB";
+import DataToDB from "../../Client-ServerMethods/dataToDB";
 
 import { PurchasesProps } from "../../types/types";
 

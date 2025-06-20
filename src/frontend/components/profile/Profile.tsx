@@ -6,10 +6,11 @@ import SponsorsImg from "../../icons/sponsorsimg.jpg";
 
 import VerifPassword from "../modal/verifPassword.js";
 
-import DataToDB from "../../dataToDB/dataToDB.js";
+import DataToDB from "../../Client-ServerMethods/dataToDB.js";
+import ProfileFunctions from "./functions/ProfileFunctions";
 
 import { ToastContainer, toast } from "react-toastify";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useState, useEffect } from "react";
@@ -26,6 +27,8 @@ const Profile = ({
   csrfToken,
   isLoggedIn,
 }: ProfileProps) => {
+  const profileFunctions = new ProfileFunctions();
+
   const { t } = useTranslation();
 
   const [isNameChanged, setIsNameChanged] = useState(false);
@@ -71,29 +74,6 @@ const Profile = ({
     }
   }, [isVerificationCodeCorrect, isAccountWillBeDeleted]);
 
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setLocalName(value);
-    setChangedData((prevData) => ({
-      ...prevData,
-      username: value,
-    }));
-  };
-
-  const checkWhatChange = () => {
-    if (changedData.username != "" && changedData.newPassword === "") {
-      console.log("username");
-      setChangedData((prevData) => ({ ...prevData, changeMethod: "username" }));
-    } else if (changedData.username != "" && changedData.newPassword != "") {
-      setChangedData((prevData) => ({
-        ...prevData,
-        changeMethod: "username&password",
-      }));
-    } else if (changedData.newPassword != "" && changedData.username === "") {
-      setChangedData((prevData) => ({ ...prevData, changeMethod: "password" }));
-    }
-  };
-
   const expirationRaw = userData?.userInformation?.subscription_expiration;
   const expirationDate = expirationRaw ? new Date(expirationRaw) : null;
 
@@ -120,7 +100,13 @@ const Profile = ({
                 <input
                   className="name__input"
                   value={localName}
-                  onChange={handleNameChange}
+                  onChange={(e) =>
+                    profileFunctions.handleNameChange({
+                      e,
+                      setLocalName,
+                      setChangedData,
+                    })
+                  }
                   type="text"
                   placeholder="Enter your new username"
                 />
@@ -184,9 +170,7 @@ const Profile = ({
                         .then((response) => {
                           if (response?.status === true) {
                             setIsPromocodeActive(false);
-                            toast.success(t(
-                              "Promocode activated!"
-                            ));
+                            toast.success(t("Promocode activated!"));
                             setUserData((prevState) => ({
                               ...prevState,
                               userInformation: {
@@ -195,15 +179,19 @@ const Profile = ({
                               },
                             }));
                           } else {
-                            toast.error(t(
-                              "Failed to activate promocode. Please try again."
-                            ));
+                            toast.error(
+                              t(
+                                "Failed to activate promocode. Please try again."
+                              )
+                            );
                           }
                         })
                         .catch((error) => {
-                          toast.error(t(
-                            "An error occurred while activating the promocode."
-                          ));
+                          toast.error(
+                            t(
+                              "An error occurred while activating the promocode."
+                            )
+                          );
                         });
                     }}
                     className="promocode__submit-btn"
@@ -262,7 +250,7 @@ const Profile = ({
 
             <button
               onClick={() => {
-                checkWhatChange();
+                profileFunctions.checkWhatChange({changedData,setChangedData});
               }}
               className="edit__button"
             >

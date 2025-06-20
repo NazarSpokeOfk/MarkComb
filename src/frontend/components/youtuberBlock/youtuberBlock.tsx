@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 
 
 
-import DataToDB from "../../dataToDB/dataToDB";
+import DataToDB from "../../Client-ServerMethods/dataToDB";
 
 import { YouTuberBlockProps } from "../../types/types";
 

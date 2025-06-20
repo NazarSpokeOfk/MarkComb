@@ -1,10 +1,8 @@
-import { toast } from "react-toastify";
-
 import { useState } from "react";
 
 import { useTranslation } from "react-i18next";
 
-import DataToDB from "../../dataToDB/dataToDB";
+import FeedbackFormFunctions from "./functions/FeedbackFormFunctions"
 
 import { FeedbackFormProps } from "../../types/types";
 
@@ -16,35 +14,14 @@ const FeedbackForm = ({
   setIsFeedbackWillBeWrited,
   isFeedbackWillBeWrited,
 } : FeedbackFormProps) => {
-  const dataToDB = new DataToDB();
+
+  const feedbackFunctions = new FeedbackFormFunctions();
 
   const { t } = useTranslation();
 
   const [reviewText, setReviewText] = useState<string>("");
 
   const [websiteMark, setWebsiteMark] = useState<number>(0);
-
-  const validateAndSendReview = async () => {
-    if (!reviewText && !websiteMark) {
-      return;
-    }
-
-    const result = await dataToDB.addReview(reviewText, websiteMark);
-
-    if (result.message === false) {
-      toast.warn(t("Unfortunately,we can't get your review. Please,try later"));
-      setTimeout(() => {
-        toast.dismiss();
-        setIsFeedbackWillBeWrited(false);
-      }, 2000);
-    } else if (result.message === true) {
-      toast.success(t("Thanks for your review, you help us improve MarkComb!"));
-      setTimeout(() => {
-        toast.dismiss();
-        setIsFeedbackWillBeWrited(false);
-      }, 2000);
-    }
-  };
 
   return (
     <>
@@ -130,7 +107,7 @@ const FeedbackForm = ({
           ></textarea>
           <button
             onClick={() => {
-              validateAndSendReview();
+              feedbackFunctions.validateAndSendReview({reviewText,websiteMark,setIsFeedbackWillBeWrited});
             }}
             id="submit"
             className="feedback-mark"

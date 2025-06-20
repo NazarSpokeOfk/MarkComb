@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 
 import { useTranslation } from "react-i18next";
 
-import DataToDB from "../../dataToDB/dataToDB";
+import DataToDB from "../../Client-ServerMethods/dataToDB";
 
 import { PurchaseModalProps } from "../../types/types";
 

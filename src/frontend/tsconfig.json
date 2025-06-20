@@ -14,6 +14,6 @@
     "isolatedModules": true,
     "jsx": "react-jsx"
   },
-  "include": ["./*", "./types"],
+  "include": ["./*", "./types", "Client-ServerMethods/dataToDB", "utilities/smoothText.ts"],
   "exclude": ["node_modules","reportWebVitals.js","setupTests.js"]
 }

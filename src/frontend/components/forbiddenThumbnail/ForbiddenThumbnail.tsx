@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
-import DataToDB from "../../dataToDB/dataToDB";
+import DataToDB from "../../Client-ServerMethods/dataToDB";
 
 import ForbiddenImage from "../../icons/ForbiddenImage.png";
 

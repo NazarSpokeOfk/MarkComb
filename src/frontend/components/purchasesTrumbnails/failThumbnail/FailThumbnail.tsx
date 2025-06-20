@@ -15,7 +15,6 @@ const FailThumbnail = () => {
           <meta name="description" content="Purchase was ended with error" />
         </Helmet>
 
-
         <div className="container">
           <h1 className="payment__title">{t("There was a purchase error")}</h1>
           <img

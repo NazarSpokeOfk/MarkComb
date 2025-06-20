@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 
 
 import VerifLayout from "./verifLayout";
-import DataToDB from "../../dataToDB/dataToDB";
+import DataToDB from "../../Client-ServerMethods/dataToDB";
 
 import closeModal from "../../utilities/closeModal";
 import openModal from "../../utilities/openModal";
@@ -23,14 +23,14 @@ const VerifCode = ({
 
   const { t } = useTranslation();
 
-  const apiBaseUrl = import.meta.env.VITE_API_URL;
-
   const [verification_code, setVerificationCode] = useState("");
 
   const modalRef = useRef<HTMLDivElement>(null);
 
+  const dataToDB = new DataToDB({setIsLoggedIn,setUserData});
+
   useEffect(() => {
-    makeFetchForCode();
+    dataToDB.makeFetchForCode(email);
     if (isTriggered) {
       setTimeout(() => {
         openModal({ref : modalRef})
@@ -42,28 +42,6 @@ const VerifCode = ({
       }, 600);
     }
   }, [isTriggered]);
-
-  const dataToDB = new DataToDB({setIsLoggedIn,setUserData});
-
-  const makeFetchForCode = async () => {
-    try {
-      const result = await fetch(`${apiBaseUrl}/verification`, {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-          "x-api-key": import.meta.env.VITE_API_KEY,
-        },
-        body: JSON.stringify({ email }),
-      });
-      if (result.ok) {
-        return Promise.resolve();
-      } else {
-        console.log(result);
-      }
-    } catch (error) {
-      toast.error(t("There was an error during sending verification code"))
-    }
-  };
 
   return (
     <VerifLayout

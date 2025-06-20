@@ -5,7 +5,8 @@ import { useMediaQuery } from "react-responsive";
 
 import "./Promotion.css";
 
-import DataToDB from "../../dataToDB/dataToDB";
+import DataToDB from "../../Client-ServerMethods/dataToDB";
+import PromotionFunctions from "./functions/PromotionFunctions"
 
 import { CommonTypes } from "../../types/types";
 
@@ -17,6 +18,7 @@ import like from "../../icons/like.svg";
 import views from "../../icons/eye.svg";
 
 const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
+  const promotionFunctions = new PromotionFunctions();
   const [channelName, setChannelName] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [videoData, setVideoData] = useState<VideoData | null>(null);
@@ -36,11 +38,6 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
 
   const { t } = useTranslation();
 
-  const handleToggle = () => {
-    secondYouTubersContainerRef?.current?.classList.toggle("active");
-    triggerBtnRef?.current?.classList.toggle("rotate");
-  };
-
   setInterval(() => {
     if (titleRef.current) {
       titleRef.current.classList.add("titleActive");
@@ -56,11 +53,6 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
     channelsFirstPart = userData?.channels;
   }
 
-  const toggleMemberListStyle = (index: number, currentGroup: number) => {
-    const normalizedIndex = index + (currentGroup === 2 ? 5 : 0);
-    setActiveIndex(normalizedIndex);
-  };
-
   useEffect(() => {
     console.log("videoData :", videoData);
   }, [videoData]);
@@ -75,14 +67,6 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
       );
     }
   }, [videoData?.videoId]);
-
-  const validateVideoFinding = () => {
-    if (channelName && inputValue) {
-      dataToDb.checkStatisticsOfVideo("video", channelName, inputValue, null);
-    } else {
-      return;
-    }
-  };
 
   const resultBlock = (videoData: VideoData) => {
     return (
@@ -155,7 +139,7 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
                       membersRef.current[index] = el;
                     }}
                     onClick={() => {
-                      toggleMemberListStyle(index, 1);
+                      promotionFunctions.toggleMemberListStyle({index, currentGroup : 1, setActiveIndex});
                       setChannelName(channel?.channel_name);
                     }}
                     className={`list-container__member ${
@@ -180,7 +164,7 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
                 ? channelsSecondPart.map((channel, index) => (
                     <h2
                       onClick={() => {
-                        toggleMemberListStyle(index, 2);
+                        promotionFunctions.toggleMemberListStyle({index, currentGroup : 2, setActiveIndex});
                         setChannelName(channel?.channel_name);
                       }}
                       key={index}
@@ -217,7 +201,7 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
               {userData ? (
                 <button
                   ref={triggerBtnRef}
-                  onClick={handleToggle}
+                  onClick={() => promotionFunctions.handleToggle({secondYouTubersContainerRef,triggerBtnRef})}
                   className="list-container__button"
                 >
                   <img
@@ -232,7 +216,7 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
               )}
               <button
                 onClick={() => {
-                  validateVideoFinding();
+                  promotionFunctions.validateVideoFinding({channelName,inputValue});
                 }}
                 className="search-input__button"
               >

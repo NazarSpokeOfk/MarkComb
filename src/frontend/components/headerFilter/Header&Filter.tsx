@@ -4,20 +4,18 @@ import { useState, useEffect, useRef } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useMediaQuery } from "react-responsive";
 
-import { toast } from "react-toastify";
-
 import Modal from "../modal/Modal";
 import VerifModal from "../modal/VerifModal";
 import VerifCode from "../modal/verifCode";
 import NewPassword from "../modal/newPassword";
 
-import manageFiltersFetch from "../../filtersRequests/filterFetches";
+import manageFiltersFetch from "../../Client-ServerMethods/filterFetches";
 
 import { HeaderFilterProps } from "../../types/types";
 
 import { defaultUserData } from "../../types/types";
 
-import { SelectedFilterLabels, FilterData } from "../../interfaces/interfaces";
+import { SelectedFilterLabels} from "../../interfaces/interfaces";
 
 import "./Header&Filter.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -27,7 +25,8 @@ import FilterBtnImg from "../../icons/filters.png";
 import SearchBtn from "../../icons/magnifing_glass.png";
 import ResetIcon from "../../icons/reseticon.png";
 import CloseFilter from "../../icons/closefilter.png";
-import DataToDB from "../../dataToDB/dataToDB";
+import DataToDB from "../../Client-ServerMethods/dataToDB";
+import HeaderFilterFunctions from "./functions/HeaderFilterFunctions";
 
 const HeaderFilter = ({
   setChannelData,
@@ -47,15 +46,11 @@ const HeaderFilter = ({
   entryMethod,
   setEntryMethod,
 }: HeaderFilterProps) => {
+  const headerFilterFunctions = new HeaderFilterFunctions();
+
   const dataToDB = new DataToDB();
 
-  const apiBaseUrl = import.meta.env.VITE_API_URL;
-
   const isLittleMobile = useMediaQuery({ maxWidth: 430 });
-
-  console.log(window.innerWidth);
-  console.log("isMobile", isLittleMobile);
-  console.log("isLittleMobile", isLittleMobile);
 
   const { t } = useTranslation();
   const [isDataFilledIn, setIsDataFilledIn] = useState<boolean>(false);
@@ -110,48 +105,9 @@ const HeaderFilter = ({
     "10-20M": [10000000, 20000000],
   };
 
-  const logInFirstly = () => {
-    toast.warn(t("Log in firstly"));
-  };
-
-  const searchFetch = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!mainInputValue) {
-      setIsSearching(false);
-      return;
-    }
-    try {
-      const response = await fetch(`${apiBaseUrl}/search`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-type": "application/json",
-          "x-csrf-token": csrfToken,
-          "x-api-key": import.meta.env.VITE_API_KEY,
-        },
-        body: JSON.stringify({ mainInputValue }),
-      });
-      const result = await response.json();
-      console.log(result);
-      setChannelData(result);
-      setIsSearching(false);
-    } catch (error) {
-      toast.error(
-        t("There was an error during channel search. Please, try again later")
-      );
-      console.log("Ошибка в searchFetch:", error);
-    }
-  };
-
-  const openFilters = () => {
-    if (filterRef.current) {
-      filterRef.current.classList.toggle("active");
-    }
-  };
-
   useEffect(() => {
     if (isFilterCTAActive) {
-      openFilters();
+      headerFilterFunctions.openFilters({ ref: filterRef });
     }
   }, [isFilterCTAActive]);
 
@@ -169,80 +125,6 @@ const HeaderFilter = ({
       }, 50);
     });
   }, [selectedFilterLabels]);
-
-  const resetSelectedFilters = () => {
-    setSelectedFilterLabels([]);
-  };
-
-  const removeSelectedFilter = (index: number) => {
-    setRemovingIndex(index);
-    setTimeout(() => {
-      setSelectedFilterLabels((prev) => prev.filter((_, i) => i !== index));
-      setRemovingIndex(null);
-    }, 300);
-  };
-
-  const addSelectedFilter = (
-    label: string,
-    type: string,
-    min: number | null,
-    max: number | null
-  ) => {
-    setSelectedFilterLabels((prevState) => {
-      const withoutSameType = prevState.filter((item) => item.type !== type);
-      return [
-        ...withoutSameType,
-        { type: type, value: label, min: min, max: max },
-      ];
-    });
-  };
-
-  const searchWithMultiplyFilters = async () => {
-    setIsFiltersFetching(true);
-
-    try {
-      const filterData: FilterData = {
-        content_type: null,
-        age_group: null,
-        minsubs: null,
-        maxsubs: null,
-      };
-
-      selectedFilterLabels.forEach(({ type, value, min, max }) => {
-        switch (type) {
-          case "contentType":
-            filterData.content_type = value;
-            break;
-
-          case "audience":
-            filterData.age_group = value;
-            break;
-
-          case "subscribers":
-            filterData.minsubs = min;
-            filterData.maxsubs = max;
-            break;
-
-          default:
-            break;
-        }
-      });
-
-      const response = await manageFiltersFetch({
-        ...filterData,
-        setSimilarChannelData,
-        setIsFiltersFetching,
-      });
-      console.log("response :", response);
-      if (response === false) {
-        toast.error(t("Unfortunately, the filters don't match"), {
-          autoClose: 3000,
-        });
-      }
-    } catch (error) {
-      console.log("Возникла ошибка в searchWithMultiplyFilters :", error);
-    }
-  };
 
   return (
     <>
@@ -306,9 +188,15 @@ const HeaderFilter = ({
               onSubmit={(e) => {
                 e.preventDefault();
                 if (isLoggedIn) {
-                  searchFetch(e);
+                  headerFilterFunctions.searchFetch({
+                    e,
+                    mainInputValue,
+                    setIsSearching,
+                    csrfToken,
+                    setChannelData,
+                  });
                 } else {
-                  logInFirstly();
+                  headerFilterFunctions.logInFirstly();
                   setIsSearching(false);
                 }
               }}
@@ -325,7 +213,9 @@ const HeaderFilter = ({
                 />
                 <div className="buttons">
                   <button
-                    onClick={openFilters}
+                    onClick={() => {
+                      headerFilterFunctions.openFilters({ ref: filterRef });
+                    }}
                     type="button"
                     className="search__filters"
                   >
@@ -395,7 +285,13 @@ const HeaderFilter = ({
                       >
                         <span>{filter.value}</span>
                         <button
-                          onClick={() => removeSelectedFilter(index)}
+                          onClick={() =>
+                            headerFilterFunctions.removeSelectedFilter({
+                              index,
+                              setRemovingIndex,
+                              setSelectedFilterLabels,
+                            })
+                          }
                           className="close__filter"
                           aria-label="Закрыть фильтр"
                         >
@@ -406,7 +302,9 @@ const HeaderFilter = ({
 
                     <button
                       onClick={() => {
-                        resetSelectedFilters();
+                        headerFilterFunctions.resetSelectedFilters({
+                          setSelectedFilterLabels,
+                        });
                       }}
                       className="reset__button"
                     >
@@ -416,7 +314,11 @@ const HeaderFilter = ({
                     {Object.keys(selectedFilterLabels).length > 0 ? (
                       <button
                         onClick={() => {
-                          searchWithMultiplyFilters();
+                          headerFilterFunctions.searchWithMultiplyFilters({
+                            setIsFiltersFetching,
+                            selectedFilterLabels,
+                            setSimilarChannelData,
+                          });
                         }}
                         className="search__multifilters-btn"
                       >
@@ -453,7 +355,13 @@ const HeaderFilter = ({
                         max: null,
                       };
                       if (isMultiFiltersEnabled && isLoggedIn) {
-                        addSelectedFilter(label, "audience", null, null);
+                        headerFilterFunctions.addSelectedFilter({
+                          label,
+                          type: "audience",
+                          min: null,
+                          max: null,
+                          setSelectedFilterLabels,
+                        });
                         setSelectedFilter(newFilter);
                         return;
                       }
@@ -468,7 +376,7 @@ const HeaderFilter = ({
                           setIsFiltersFetching,
                         });
                       } else {
-                        logInFirstly();
+                        headerFilterFunctions.logInFirstly();
                       }
                     }}
                   >
@@ -504,12 +412,13 @@ const HeaderFilter = ({
                       };
 
                       if (isMultiFiltersEnabled && isLoggedIn) {
-                        addSelectedFilter(
-                          label[0],
-                          "subscribers",
-                          label?.[1]?.[0],
-                          label?.[1]?.[1]
-                        );
+                        headerFilterFunctions.addSelectedFilter({
+                          label: label[0],
+                          type: "subscribers",
+                          min: label?.[1]?.[0],
+                          max: label?.[1]?.[1],
+                          setSelectedFilterLabels,
+                        });
                         setSelectedFilter(newFilter);
                         return;
                       }
@@ -525,7 +434,7 @@ const HeaderFilter = ({
                           setIsFiltersFetching,
                         });
                       } else {
-                        logInFirstly();
+                        headerFilterFunctions.logInFirstly();
                       }
                     }}
                   >
@@ -558,7 +467,13 @@ const HeaderFilter = ({
                         max: null,
                       };
                       if (isMultiFiltersEnabled && isLoggedIn) {
-                        addSelectedFilter(label, "contentType", null, null);
+                        headerFilterFunctions.addSelectedFilter({
+                          label,
+                          type: "contentType",
+                          min: null,
+                          max: null,
+                          setSelectedFilterLabels,
+                        });
                         setSelectedFilter(newFilter);
                         return;
                       }
@@ -573,7 +488,7 @@ const HeaderFilter = ({
                           setIsFiltersFetching,
                         });
                       } else {
-                        logInFirstly();
+                        headerFilterFunctions.logInFirstly();
                       }
                     }}
                   >

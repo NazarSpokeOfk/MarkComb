@@ -1,10 +1,8 @@
-import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
-import { toast } from "react-toastify";
-
 const apiBaseUrl = import.meta.env.VITE_API_URL;
+import {toast} from "react-toastify"
+import { GoogleLogInButtonProps } from "../../../types/types";
 
-const GoogleLoginButton = ({setIsLoggedIn,setUserData,setIsModalOpened}) => {
-  const handleSuccess = async (response) => {
+const handleSuccess = async ({setIsLoggedIn,setUserData,setIsModalOpened,response} : GoogleLogInButtonProps) => {
     const credential = response.credential
     console.log("Вход с помощью google.", response);
     await fetch(`${apiBaseUrl}/auth/google`, {
@@ -18,7 +16,7 @@ const GoogleLoginButton = ({setIsLoggedIn,setUserData,setIsModalOpened}) => {
     })
       .then((res) => {
         if(!res.ok){
-            throw new Error("Ошибка в запросе:",res.status)
+            throw new Error(`Ошибка в запросе:,${res.status}`)
         }
         return res.json()
       })
@@ -35,21 +33,4 @@ const GoogleLoginButton = ({setIsLoggedIn,setUserData,setIsModalOpened}) => {
       });
   };
 
-  const handleError = (error) => {
-    console.log("Ошибка в аутентификации гугл:",error)
-    toast.error("There is no such account,registrated previosly.")
-  }
-
-  return(
-    <GoogleOAuthProvider clientId="867104217256-63f1fg6mlqf501r974ud4nkvaks3ik1b.apps.googleusercontent.com">
-        <GoogleLogin
-        onSuccess={handleSuccess}
-        onError={handleError}
-        style={{
-          backgroundColor : "#FFF",
-        }}
-        />
-    </GoogleOAuthProvider>
-  )
-};
-export default GoogleLoginButton
+export default handleSuccess

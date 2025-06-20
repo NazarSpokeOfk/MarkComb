@@ -2,7 +2,7 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import DataToDB from "../../dataToDB/dataToDB";
+import DataToDB from "../../Client-ServerMethods/dataToDB";
 
 import { useNavigate } from "react-router-dom";
 

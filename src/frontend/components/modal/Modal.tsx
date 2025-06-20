@@ -2,17 +2,18 @@ import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
+import { CredentialResponse } from "@react-oauth/google";
+
 import GoogleLoginButton from "../googleLogInButton/GoogleLogInButton";
 
-import DataToDB from "../../dataToDB/dataToDB";
+import ModalFunctions from "./functions/ModalFunctions";
+
 import ReCAPTCHA from "react-google-recaptcha";
 
 import { ModalProps } from "../../types/types";
 
 import closeModal from "../../utilities/closeModal";
-import openModal from "../../utilities/openModal"
-
-import { toast } from "react-toastify";
+import openModal from "../../utilities/openModal";
 
 import "./css/Modal.css";
 
@@ -31,10 +32,14 @@ const Modal = ({
   setSignInData,
   setIsPasswordWillBeReset,
 }: ModalProps) => {
+  const modalFunctions = new ModalFunctions();
+
   const { t } = useTranslation();
 
   const [isChecked, setIsChecked] = useState(false);
   const [isUserMakeAMistake, setIsUserMakeAMistake] = useState(0);
+  const [googleResponse, setGoogleResponse] =
+    useState<CredentialResponse | null>(null);
 
   useEffect(() => {
     console.log(`Пользователь совершил ошибку ${isUserMakeAMistake} раз.`);
@@ -44,101 +49,17 @@ const Modal = ({
 
   const modalButtonRef = useRef<HTMLButtonElement | null>(null);
 
-  const dataToDB = new DataToDB({
-    setIsLoggedIn,
-    setUserData,
-    setIsModalOpened,
-  });
-
-  const handleRecaptchaChange = (value: string | null) => {
-    setSignInData((prevData) => ({ ...prevData, recaptchaValue: value }));
-  };
-
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   let failTimeout;
 
-  const handleLogIn = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-  
-    if (!logInData.email || !logInData.password) {
-      handleValidationError();
-      return;
-    }
-  
-    const loadToast = toast.loading(t("Looking for your profile..."));
-    console.log("LogInData в Modal:", logInData);
-  
-    try {
-      const response = await dataToDB.validateLogIn(logInData);
-  
-      toast.dismiss(loadToast);
-  
-      if (response.message === true) {
-        closeModal({ref : modalRef});
-      } else {
-        handleLogInError();
-      }
-    } catch (error) {
-      toast.dismiss(loadToast);
-      console.error("Ошибка при логине:", error);
-      toast.error("Something went wrong. Please try again.");
-    }
-  };
-  
-  
-  const handleValidationError = () => {
-    setIsLoggedIn(false);
-    animateModalButtonShake();
-  };
-  
-  const animateModalButtonShake = () => {
-    if (modalButtonRef.current) {
-      modalButtonRef.current.classList.add("shake-animation");
-  
-      failTimeout = setTimeout(() => {
-        modalButtonRef?.current?.classList.remove("shake-animation");
-      }, 4000);
-    }
-  };
-    
-  const handleLogInError = () => {
-    setTimeout(() => {
-      setIsUserMakeAMistake((prev) => prev + 1);
-      toast.error("Wrong password, or account doesn't exist");
-    }, 100);
-  };
-  
-
-  const validateFormData = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (
-      signInData.email === "" ||
-      !isChecked ||
-      !emailRegex.test(signInData.email) ||
-      !signInData.password ||
-      !signInData.username || 
-      !signInData.recaptchaValue
-    ) {
-      setIsLoggedIn(false);
-      e.preventDefault();
-      animateModalButtonShake()
-    } else {
-      closeModal({ref : modalRef})
-      setTimeout(() => {
-        setIsModalOpened(false);
-        setIsDataFilledIn(true);
-        document.body.style.overflow = "";
-      }, 600);
-    }
-  };
-
   useEffect(() => {
     if (isModalOpened) {
       setTimeout(() => {
-        openModal({ref : modalRef})
+        openModal({ ref: modalRef });
       }, 10);
     } else {
-      closeModal({ ref : modalRef})
+      closeModal({ ref: modalRef });
     }
   }, [isModalOpened]);
 
@@ -147,7 +68,7 @@ const Modal = ({
       <div
         ref={modalRef}
         onClick={() => {
-          closeModal({ref : modalRef});
+          closeModal({ ref: modalRef });
           setTimeout(() => {
             document.body.style.overflow = "";
             setIsModalOpened(false);
@@ -158,7 +79,7 @@ const Modal = ({
         <div onClick={(e) => e.stopPropagation()} className="modal__block">
           <button
             onClick={() => {
-              closeModal({ref : modalRef});
+              closeModal({ ref: modalRef });
               setTimeout(() => {
                 setIsModalOpened(false);
               }, 600);
@@ -174,8 +95,29 @@ const Modal = ({
 
           <div className="modal__flex-block">
             <form
-              onSubmit={() => {
-                entryMethod == "logIn" ? handleLogIn : validateFormData;
+              onSubmit={(e) => {
+                entryMethod == "logIn"
+                  ? modalFunctions.handleLogIn({
+                      e,
+                      logInData,
+                      modalRef,
+                      setIsLoggedIn,
+                      modalButtonRef,
+                      failTimeout,
+                      setIsUserMakeAMistake,
+                    })
+                  : modalFunctions.validateFormData({
+                      e,
+                      signInData,
+                      isChecked,
+                      emailRegex,
+                      setIsLoggedIn,
+                      modalRef,
+                      setIsModalOpened,
+                      setIsDataFilledIn,
+                      modalButtonRef,
+                      failTimeout
+                    });
               }}
               action="submit"
             >
@@ -245,9 +187,28 @@ const Modal = ({
               />
             </form>
             <button
-            onClick={(e) => {
-              entryMethod == "logIn" ? handleLogIn(e) : validateFormData(e);
-            }}
+              onClick={(e) => {
+                entryMethod == "logIn" ? modalFunctions.handleLogIn({
+                  e,
+                  logInData,
+                  modalRef,
+                  setIsLoggedIn,
+                  modalButtonRef,
+                  failTimeout,
+                  setIsUserMakeAMistake,
+                }) : modalFunctions.validateFormData({
+                  e,
+                  signInData,
+                  isChecked,
+                  emailRegex,
+                  setIsLoggedIn,
+                  modalRef,
+                  setIsModalOpened,
+                  setIsDataFilledIn,
+                  modalButtonRef,
+                  failTimeout
+                });
+              }}
               type="submit"
               className="modal__button"
               ref={modalButtonRef}
@@ -281,7 +242,7 @@ const Modal = ({
             <ReCAPTCHA
               className="captcha"
               sitekey="6LcxnbQqAAAAALV-GfKKoJPxRVIshbTjTa5izOVr"
-              onChange={handleRecaptchaChange}
+              onChange={() => modalFunctions.handleRecaptchaChange}
               data-size="compact"
             />
           ) : null}
@@ -304,8 +265,11 @@ const Modal = ({
                 <Link to="/terms">{t("user agreement,")}</Link> {t("and ")}
                 <Link to="/dataprocessing">
                   {t("Personal Data Processing Agreement")}
-                </Link>
-                {" "}{t("and")} <a href="https://www.youtube.com/t/terms">{t("YouTube's terms of service")}</a>
+                </Link>{" "}
+                {t("and")}{" "}
+                <a href="https://www.youtube.com/t/terms">
+                  {t("YouTube's terms of service")}
+                </a>
                 {t(" and accept all its terms and conditions")}
               </h3>
             ) : null}

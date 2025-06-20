@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 
 import { Link } from "react-router-dom";
 
-import SmoothEffect from "../smoothText";
+import SmoothEffect from "../../utilities/smoothText";
 
 import "./Footer.css";
 
