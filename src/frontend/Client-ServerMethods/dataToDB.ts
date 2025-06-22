@@ -19,6 +19,8 @@ import {
   UserData,
 } from "../interfaces/interfaces";
 
+import {ValidateLogInProps} from "../types/types"
+
 class DataToDB {
   setIsLoggedIn?: React.Dispatch<React.SetStateAction<boolean>>
   setUserData?: React.Dispatch<React.SetStateAction<UserData>>
@@ -153,11 +155,27 @@ class DataToDB {
     }
   }
 
-  async validateLogIn(data: LogInData) {
+  async validateLogIn({data, setUserData,setIsLoggedIn} : ValidateLogInProps ) {
     try {
-      const result = await this.fetchData(`${apiBaseUrl}/login`, "POST", data);
-      this.setIsLoggedIn?.(true);
-      this.setUserData?.(result);
+      const request = await this.fetchData(`${apiBaseUrl}/login`, "POST", data);
+
+      console.log("request : ",request)
+
+      const uses = await request?.userInformation?.uses;
+
+      console.log(uses)
+
+      const numberUses = Number(uses);
+
+      const result = {
+        ...request,
+        userInformation : {
+          ...request?.userInformation,
+          uses : numberUses
+        }
+      }
+      setIsLoggedIn(true);
+      setUserData?.(result);
       return { message: true };
     } catch {
       this.setIsLoggedIn?.(false);

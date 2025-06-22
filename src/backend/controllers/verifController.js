@@ -1,4 +1,4 @@
-import MailVerification from "../mailVerification.js";
+import MailVerification from "../Email/mailVerification.js";
 
 const verifController = async (req, res) => {
   

@@ -16,7 +16,6 @@ const verifyJWT = async (req,res) => {
         const userData = {
             email : decoded.email,
             user_id : decoded.user_id,
-            lang : decoded.lang,
         }
 
         console.log(process.env.API_URL)
@@ -31,8 +30,6 @@ const verifyJWT = async (req,res) => {
         const result = await response.json()
 
         result.userInformation.csrfToken = csrfToken
-
-        result.lang = userData.lang
         
         console.log("Данные которые пойдут из куки: ",result)
         if(response.ok){

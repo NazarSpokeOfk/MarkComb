@@ -42,7 +42,7 @@ class ModalFunctions {
     setSignInData((prevData) => ({ ...prevData, recaptchaValue: value }));
   };
 
-  async handleLogIn({ e, logInData, modalRef,setIsLoggedIn,modalButtonRef,failTimeout,setIsUserMakeAMistake} : HandleLogInProps) {
+  async handleLogIn({ e, logInData, modalRef,setIsLoggedIn,modalButtonRef,failTimeout,setIsUserMakeAMistake,setUserData} : HandleLogInProps) {
     e.preventDefault();
 
     if (!logInData.email || !logInData.password) {
@@ -54,7 +54,7 @@ class ModalFunctions {
     console.log("LogInData в Modal:", logInData);
 
     try {
-      const response = await dataToDB.validateLogIn(logInData);
+      const response = await dataToDB.validateLogIn({data : logInData, setUserData,setIsLoggedIn});
 
       toast.dismiss(loadToast);
 

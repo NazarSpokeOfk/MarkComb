@@ -15,6 +15,9 @@ import helmet from "helmet";
 
 import ParserController from "./controllers/parsersController.js";
 
+import "./cronTasks/addingUsesCronTask.js"
+import "./cronTasks/clearingExpiredSubscriptionsCronTask.js"
+
 import userRouter from "./routers/userRouter.js";
 import purchasesRouter from "./routers/purchasesRouter.js";
 import googleAPIRouter from "./routers/googleAPIRouter.js";

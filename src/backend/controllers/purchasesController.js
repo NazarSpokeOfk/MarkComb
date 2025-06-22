@@ -7,7 +7,7 @@ class PurchasesController {
     const id = req.params.id;
     try {
       const purchases = await pool.query(
-        `SELECT * FROM purchases_channels WHERE user_id = $1`,
+        `SELECT thumbnail,email,channelName FROM purchases_channels WHERE user_id = $1`,
         [id]
       );
       if (purchases.rows.length === 0) {

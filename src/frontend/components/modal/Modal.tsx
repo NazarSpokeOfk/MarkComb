@@ -38,8 +38,6 @@ const Modal = ({
 
   const [isChecked, setIsChecked] = useState(false);
   const [isUserMakeAMistake, setIsUserMakeAMistake] = useState(0);
-  const [googleResponse, setGoogleResponse] =
-    useState<CredentialResponse | null>(null);
 
   useEffect(() => {
     console.log(`Пользователь совершил ошибку ${isUserMakeAMistake} раз.`);
@@ -105,6 +103,7 @@ const Modal = ({
                       modalButtonRef,
                       failTimeout,
                       setIsUserMakeAMistake,
+                      setUserData
                     })
                   : modalFunctions.validateFormData({
                       e,
@@ -196,6 +195,7 @@ const Modal = ({
                   modalButtonRef,
                   failTimeout,
                   setIsUserMakeAMistake,
+                  setUserData
                 }) : modalFunctions.validateFormData({
                   e,
                   signInData,

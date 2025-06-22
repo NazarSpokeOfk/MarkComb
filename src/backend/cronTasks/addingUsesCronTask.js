@@ -1,6 +1,6 @@
 import cron from "node-cron";
-import pool from "../db";
-import logger from "../winston/winston";
+import pool from "../db/index.js";
+import logger from "../winston/winston.js";
 
 cron.schedule("0 0 * * *", async () => {
   try {

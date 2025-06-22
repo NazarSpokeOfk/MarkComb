@@ -7,7 +7,7 @@ import "./Purchases.css";
 
 import binBtn from "../../icons/bin.svg";
 
-import DataToDB from "../../Client-ServerMethods/dataToDB";
+import PurchasesFunctions from "./functions/PurchasesFunctions"
 
 import { PurchasesProps } from "../../types/types";
 
@@ -15,36 +15,16 @@ import noPurchasesThumbnail from "../../videos/noPurchasesThumbnail.mp4";
 
 const Purchases = ({ userData, setUserData, csrfToken }: PurchasesProps) => {
 
+  const purchasesFunctions = new PurchasesFunctions();
+
   useEffect(() => {
     console.log("Каналы пользователя :" , userData.channels)
   },[userData])
 
-  const dataToDb = new DataToDB();
-  const blocksRef = useRef<HTMLDivElement[]>([]),
-    titlesRef = useRef<HTMLElement[]>([]);
+  const blocksRef = useRef<HTMLDivElement[]>([])
+  const titlesRef = useRef<HTMLElement[]>([]);
 
-  const { t, i18n } = useTranslation();
-
-  const removePurchase = async (index : number, user_id : number, channelName : string) => {
-    console.log(`Index : ${index}, user_id : ${user_id}, channelName : ${channelName}`)
-    try {
-      await toast.promise(
-        dataToDb.deletePurchaseData(channelName, user_id, csrfToken),
-        {
-          pending: (t("Removing purchase...")),
-          success: (t("Purchase has successfully removed!")),
-          error: (t("There was an error during removing purchase!")),
-        }
-      );
-
-      setUserData((prevData) => ({
-        ...prevData,
-        channels: prevData.channels.filter((_, i) => i !== index),
-      }));
-    } catch (error) {
-      console.error("Error removing channel:", error);
-    }
-  };
+  const { t } = useTranslation();
 
   useEffect(() => {
     let timers: number[] = [];
@@ -103,10 +83,13 @@ const Purchases = ({ userData, setUserData, csrfToken }: PurchasesProps) => {
                   </h3>
                   <button
                     onClick={() =>
-                      removePurchase(
-                        index,
-                        userData.userInformation.user_id,
-                        channel?.channel_name
+                      purchasesFunctions.removePurchase(
+                        {index,
+                        user_id : userData.userInformation.user_id,
+                        channelName : channel?.channel_name,
+                        csrfToken,
+                        setUserData
+                        }
                       )
                     }
                     className="recent-block__bin"

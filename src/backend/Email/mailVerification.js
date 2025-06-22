@@ -1,6 +1,6 @@
-import logger from "./winston/winston.js";
+import logger from "../winston/winston.js";
 import nodemailer from "nodemailer";
-import pool from "./db/index.js";
+import pool from "../db/index.js";
 import { google } from "googleapis";
 import dotenv from "dotenv";
 dotenv.config();

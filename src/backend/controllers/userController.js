@@ -4,10 +4,10 @@ import crypto from "crypto";
 import logger from "../winston/winston.js";
 import pool from "../db/index.js";
 import verifyCaptcha from "./authController.js";
-import generateJWT from "../generateJWT.js";
+import generateJWT from "../cookies/generateJWT.js";
 import domains from "disposable-email-domains/index.json" assert { type: "json" };
 
-import MailVerification from "../mailVerification.js";
+import MailVerification from "../Email/mailVerification.js";
 
 import returnCookie from "../dto/returnCookie.js";
 import returnCsrftoken from "../dto/returnCsrfToken.js";
@@ -90,7 +90,7 @@ class UserController {
       const userId = await user.user_id;
 
       const userChannels = await pool.query(
-        `SELECT channel_name,email,created_at,thumbnail FROM purchases_channels WHERE user_id = $1`,
+        `SELECT channel_name,email,thumbnail FROM purchases_channels WHERE user_id = $1`,
         [userId]
       );
 
@@ -139,7 +139,7 @@ class UserController {
       }
 
       const userChannels = await pool.query(
-        `SELECT channel_name,email,created_at,thumbnail FROM purchases_channels WHERE user_id = $1`,
+        `SELECT channel_name,email,thumbnail FROM purchases_channels WHERE user_id = $1`,
         [user_id]
       );
       const userInformation = returnUserInformation(user);

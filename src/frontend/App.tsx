@@ -53,7 +53,6 @@ function App() {
   });
   const [userData, setUserData] = useState<UserData>({
     channels: [],
-    lang: "",
     userInformation: {
       csrfToken: "",
       email: "",
@@ -97,6 +96,10 @@ function App() {
       localStorage.setItem('cookieConfirmed','true')
     }
   },[isCookieClosed])
+
+  useEffect(() => {
+    console.log("UserData : ", userData)
+  },[userData])
 
   return (
     <>

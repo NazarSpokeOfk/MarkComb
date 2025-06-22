@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 
 import crypto from "crypto";
 
-import generateJWT from "../generateJWT.js";
+import generateJWT from "../cookies/generateJWT.js";
 
 import returnUserInformation from "../dto/returnUserInformation.js";
 import returnCookie from "../dto/returnCookie.js"
@@ -77,7 +77,7 @@ const googleAuthController = async (req, res) => {
     const userId = await findUser.rows[0].user_id;
 
     const userChannels = await pool.query(
-      `SELECT channel_name,email,created_at,thumbnail FROM purchases_channels WHERE user_id = $1`,
+      `SELECT channel_name,email,thumbnail FROM purchases_channels WHERE user_id = $1`,
       [userId]
     );
 

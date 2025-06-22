@@ -11,13 +11,9 @@ import "./Purchase.css";
 import { CommonTypes } from "../../types/types";
 
 import { SelectedPackage } from "../../interfaces/interfaces";
-
-import Footer from "../footer/Footer";
 import PurchaseModal from "../modal/purchaseModal";
 
 const Purchase = ({ isLoggedIn, userData }: CommonTypes) => {
-  const isLittleMobile = useMediaQuery({ maxWidth: 420 });
-
   const [isModalOpened, setIsModalOpened] = useState(false);
 
   useEffect(() => {
@@ -49,14 +45,7 @@ const Purchase = ({ isLoggedIn, userData }: CommonTypes) => {
     },
   };
 
-  const [selectedPackage, setSelectedPackage] =
-    useState<SelectedPackage | null>(null);
-
-  const warnToast = () => {
-    toast.warn(
-      t("Sorry, payment is unavailable at the moment. Come back later")
-    );
-  };
+  const [selectedPackage, setSelectedPackage] = useState<SelectedPackage | null>(null);
 
   useEffect(() => {
     const timer = setInterval(() => {
