@@ -1,18 +1,18 @@
 import bcrypt from "bcrypt";
 import Joi from "joi";
 import crypto from "crypto";
-import logger from "../winston/winston.js";
-import pool from "../db/index.js";
-import verifyCaptcha from "./authController.js";
-import generateJWT from "../cookies/generateJWT.js";
+import logger from "../../winston/winston.js";
+import pool from "../../db/main/index.js";
+import verifyCaptcha from "../captcha/authController.js";
+import generateJWT from "../../cookies/generateJWT.js";
 import domains from "disposable-email-domains/index.json" assert { type: "json" };
 
-import MailVerification from "../Email/mailVerification.js";
+import MailVerification from "../../Email/mailVerification.js";
 
-import returnCookie from "../dto/returnCookie.js";
-import returnCsrftoken from "../dto/returnCsrfToken.js";
-import returnUserInformation from "../dto/returnUserInformation.js";
-import clearCookie from "./logOutController.js";
+import returnCookie from "../../dto/cookies/returnCookie.js";
+import returnCsrftoken from "../../dto/cookies/returnCsrfToken.js";
+import returnUserInformation from "../../dto/user/returnUserInformation.js";
+import clearCookie from "../cookies/logOutController.js";
 
 const mailVerification = new MailVerification();
 

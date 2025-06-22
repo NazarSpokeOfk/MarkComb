@@ -1,5 +1,5 @@
 import cron from "node-cron";
-import pool from "../db/index.js";
+import pool from "../db/main/index.js";
 import logger from "../winston/winston.js";
 
 cron.schedule(

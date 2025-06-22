@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 
 import logger from "../winston/winston.js";
 
-import storagePool from "../db/storageIndex.js";
+import storagePool from "../db/storage/storageIndex.js";
 
 dotenv.config({ path: path.resolve(process.cwd(), "../environment/.env") });
 

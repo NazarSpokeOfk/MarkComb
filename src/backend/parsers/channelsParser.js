@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
-import storagePool from "../db/storageIndex.js";
+import storagePool from "../db/storage/storageIndex.js";
 
 import logger from "../winston/winston.js";
 

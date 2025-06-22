@@ -1,4 +1,4 @@
-import logger from "../winston/winston.js";
+import logger from "../../winston/winston.js";
 async function createStorageTables(pool) {
   try {
     const createChannelsTable = `CREATE TABLE IF NOT EXISTS channels(

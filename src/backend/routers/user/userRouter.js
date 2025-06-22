@@ -1,5 +1,5 @@
 import { Router } from "express";
-import rateLimit from "../node_modules/express-rate-limit/dist/index.cjs"
+import rateLimit from "../../node_modules/express-rate-limit/dist/index.cjs"
 const router = new Router
 
 const logInLimiter = rateLimit({
@@ -46,11 +46,11 @@ const registerLimiter = rateLimit({
         return allowedIPs.includes(req.ip)
     }
   });
-import verifController from "../controllers/verifController.js";
-import UserController from "../controllers/userController.js";
-import googleAuthController from "../controllers/googleAuthController.js";
-import verifyJWT from "../controllers/verifyJWT.js";
-import clearCookie from "../controllers/logOutController.js"
+import verifController from "../../controllers/email/verifController.js";
+import UserController from "../../controllers/user/userController.js"
+import googleAuthController from "../../controllers/google/googleAuthController.js";
+import verifyJWT from "../../controllers/cookies/verifyJWT.js";
+import clearCookie from "../../controllers/cookies/logOutController.js"
 
 const userController = new UserController
 

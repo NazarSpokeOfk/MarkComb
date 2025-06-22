@@ -2,8 +2,6 @@ import { useTranslation } from "react-i18next";
 
 import { Link } from "react-router-dom";
 
-import Header from "../header/Header";
-
 import TooManyRequests from "../../images/TooManyRequests.png";
 
 import "./tooManyRequestsThumbnail.css";
@@ -13,7 +11,6 @@ const TooManyRequestsThumbnail = ({}) => {
 
   return (
     <>
-      <Header />
 
       <div className="requests__container">
         <img src={TooManyRequests} alt="" className="requests__img" />

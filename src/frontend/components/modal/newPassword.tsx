@@ -55,7 +55,7 @@ const NewPassword = ({
         if(newPassword.length < 0) {
           return;
         };
-        dataToDB.changePassword(newPassword, email).then((response) => {
+        dataToDB.changePassword({newPassword, email}).then((response) => {
           console.log(response);
           if (response.message !== true) {
             toast.error(t("Account does not exist"));

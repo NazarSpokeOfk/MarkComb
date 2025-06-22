@@ -30,7 +30,7 @@ const VerifCode = ({
   const dataToDB = new DataToDB({setIsLoggedIn,setUserData});
 
   useEffect(() => {
-    dataToDB.makeFetchForCode(email);
+    dataToDB.makeFetchForCode({email});
     if (isTriggered) {
       setTimeout(() => {
         openModal({ref : modalRef})
@@ -55,7 +55,7 @@ const VerifCode = ({
       onClickAction={() => {
         console.log("Код, отправленный с фронта:", verification_code);
         dataToDB
-          .isVerificationCodeCorrect(email, verification_code)
+          .isVerificationCodeCorrect({email, verificationCode : verification_code})
           .then((response) => {
             console.log(response);
             if (response.message != true) {

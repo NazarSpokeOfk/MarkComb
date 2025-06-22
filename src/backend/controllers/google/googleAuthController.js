@@ -1,14 +1,14 @@
-import pool from "../db/index.js";
+import pool from "../../db/main/index.js";
 
 import bcrypt from "bcrypt";
 
 import crypto from "crypto";
 
-import generateJWT from "../cookies/generateJWT.js";
+import generateJWT from "../../cookies/generateJWT.js";
 
-import returnUserInformation from "../dto/returnUserInformation.js";
-import returnCookie from "../dto/returnCookie.js"
-import returnCsrftoken from "../dto/returnCsrfToken.js"
+import returnUserInformation from "../../dto/user/returnUserInformation.js";
+import returnCookie from "../../dto/cookies/returnCookie.js"
+import returnCsrftoken from "../../dto/cookies/returnCsrfToken.js"
 
 import { OAuth2Client } from "google-auth-library";
 

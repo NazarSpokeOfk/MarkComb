@@ -70,7 +70,8 @@ const VotingPage = ({ userData }: VotingPageProps) => {
                             selectedFeature: variant.name,
                             isVoted,
                             setIsVoted,
-                            navigate
+                            navigate,
+                            userData
                           });
                         }}
                         className="vote__button"

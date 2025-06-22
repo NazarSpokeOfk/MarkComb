@@ -1,6 +1,6 @@
 
-import pool from "../db/index.js";
-import logger from "../winston/winston.js"
+import pool from "../../db/main/index.js";
+import logger from "../../winston/winston.js"
 
 class PurchasesController {
   async getPurchases(req, res) {

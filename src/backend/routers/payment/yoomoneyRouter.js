@@ -1,7 +1,7 @@
 import {Router} from "express"
 
-import createPayment from "../payment/yoomoney.js";
-import handleWebHook from "../payment/webhook.js";
+import createPayment from "../../payment/yoomoney.js";
+import handleWebHook from "../../payment/webhook.js";
 
 const router = new Router();
 

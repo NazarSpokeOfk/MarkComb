@@ -4,27 +4,41 @@ import { handleHttpError } from "../utilities/errorHandler";
 
 const apiBaseUrl = import.meta.env.VITE_API_URL;
 
-import { LogInData , ChangedData } from "../interfaces/interfaces";
+import {
+  defaultUserData,
+  FetchDataToDBProps,
+  DeletePurchaseData,
+  GetEmailProps,
+  ValidatePurchaseDataProps,
+  ValidateSignInProps,
+  UpdateDataProps,
+  DeleteProfileProps,
+  MakeFetchForCodeDBProps,
+  IsVerificationCodeCorrectProps,
+  ChangePasswordProps,
+  ActivatePromocodeProps,
+  PaymentProps,
+  MakeVoteProps,
+  AddReviewProps,
+  CheckStatisticsOfVideoProps,
+} from "../types/types";
 
-import { defaultUserData } from "../types/types";
-
-import {toast} from "react-toastify"
+import { toast } from "react-toastify";
 
 import i18n from "i18next";
 
 import {
   VideoData,
   DataToDBParams,
-  PurchaseData,
   UserData,
 } from "../interfaces/interfaces";
 
-import {ValidateLogInProps} from "../types/types"
+import { ValidateLogInProps } from "../types/types";
 
 class DataToDB {
-  setIsLoggedIn?: React.Dispatch<React.SetStateAction<boolean>>
-  setUserData?: React.Dispatch<React.SetStateAction<UserData>>
-  setIsModalOpened?: React.Dispatch<React.SetStateAction<boolean>>
+  setIsLoggedIn?: React.Dispatch<React.SetStateAction<boolean>>;
+  setUserData?: React.Dispatch<React.SetStateAction<UserData>>;
+  setIsModalOpened?: React.Dispatch<React.SetStateAction<boolean>>;
   setVideoData?: React.Dispatch<React.SetStateAction<VideoData>>;
 
   constructor(params: DataToDBParams = {}) {
@@ -39,47 +53,53 @@ class DataToDB {
   };
 
   async fetchData(
-    endpoint: string,
-    method: string,
-    body: any = null,
-    csrfToken: string = ""
+    { endpoint, method, body, csrfToken, withToast }: FetchDataToDBProps
   ) {
     const headers = {
       "Content-Type": "application/json",
       "x-api-key": import.meta.env.VITE_API_KEY,
-      "x-csrf-token" : ""
+      "x-csrf-token": csrfToken || "",
     };
-    if (csrfToken) headers["x-csrf-token"] = csrfToken;
-
-    const options: RequestInit = { method, headers, credentials: "include" };
-    if (body) options.body = JSON.stringify(body);
-
-    try {
-      const response = await fetch(endpoint, options);
-
+  
+    const fetchPromise = (async () => {
+      const response = await fetch(endpoint, {
+        method,
+        headers,
+        credentials: "include",
+        body: body ? JSON.stringify(body) : undefined,
+      });
+  
       if (!response.ok) {
-        console.log(response);
         handleHttpError(response);
-        return Promise.reject(response);
+        throw response;
       }
-
+  
       return await response.json();
-    } catch (error) {
-      console.error(`Ошибка запроса (${method} ${endpoint}):`, error);
-      return Promise.reject(error);
+    })();
+  
+    if (withToast) {
+      return toast.promise(fetchPromise, {
+        pending:  (i18n.t("Загрузка...")),
+        success:  (i18n.t("Успешно!")),
+        error:  (i18n.t("Ошибка запроса")),
+      });
+    } else {
+      return fetchPromise;
     }
   }
 
-  deletePurchaseData(channelName: string, userId: number, csrfToken: string) {
-    return this.fetchData(
-      `${apiBaseUrl}/rmpurchase/${userId}`,
-      "DELETE",
-      { channelName },
-      csrfToken
-    );
+  deletePurchaseData({ channelName, userId, csrfToken }: DeletePurchaseData,) {
+    return this.fetchData({
+      endpoint: `${apiBaseUrl}/rmpurchase/${userId}`,
+      method: "DELETE",
+      body: { channelName },
+      csrfToken,
+      withToast : true
+    },
+  );
   }
 
-  async getEmail(csrfToken: string, channelId: string) {
+  async getEmail({ csrfToken, channelId }: GetEmailProps) {
     console.log("Поступившие данные : ", channelId, csrfToken);
     try {
       const result = await fetch(`${apiBaseUrl}/getemail`, {
@@ -91,6 +111,7 @@ class DataToDB {
           "x-api-key": import.meta.env.VITE_API_KEY,
         },
         body: JSON.stringify({ channelId }),
+
       });
       const response = await result.json();
 
@@ -100,22 +121,22 @@ class DataToDB {
     }
   }
 
-  async validatePurchaseData(
-    data: PurchaseData,
-    userId: number,
-    csrfToken: string
-  ) {
-    console.log("Дата в validatePurchaseData : ", data,csrfToken);
+  async validatePurchaseData({
+    data,
+    userId,
+    csrfToken,
+  }: ValidatePurchaseDataProps) {
+    console.log("Дата в validatePurchaseData : ", data, csrfToken);
     if (!data.email) {
       return;
     }
     try {
-      const result = await this.fetchData(
-        `${apiBaseUrl}/purchase/${userId}`,
-        "POST",
-        data,
-        csrfToken
-      );
+      const result = await this.fetchData({
+        endpoint: `${apiBaseUrl}/purchase/${userId}`,
+        method: "POST",
+        body: data,
+        csrfToken,
+      });
       this.setUserData?.((prevData: UserData) => ({
         ...prevData,
         channels: [...prevData.channels, result.purchase],
@@ -129,25 +150,31 @@ class DataToDB {
     }
   }
 
-  async validateSignIn(
-    data: object,
-  ): Promise<{ status: "ok" | "invalid" | "exists" | "wrong"  }> {
+  async validateSignIn({
+    data,
+  }: ValidateSignInProps): Promise<{
+    status: "ok" | "invalid" | "exists" | "wrong";
+  }> {
     try {
-      const result = await this.fetchData(`${apiBaseUrl}/user`, "POST", {
-        data,
+      const result = await this.fetchData({
+        endpoint: `${apiBaseUrl}/user`,
+        method: "POST",
+        body: {
+          data,
+        },
       });
-      console.log("ГОВНО")
+      console.log("ГОВНО");
       if (result.status === "ok") {
         this.setIsLoggedIn?.(true);
         this.setUserData?.(result);
         return { status: "ok" };
       } else if (result.status === "exists") {
         return { status: "exists" };
-      } else if(result.status === "Wrong code") {
-        console.log(result.status)
-        return { status : "wrong"}
+      } else if (result.status === "Wrong code") {
+        console.log(result.status);
+        return { status: "wrong" };
       } else {
-        return { status : "exists"}
+        return { status: "exists" };
       }
     } catch {
       this.setIsLoggedIn?.(false);
@@ -155,25 +182,33 @@ class DataToDB {
     }
   }
 
-  async validateLogIn({data, setUserData,setIsLoggedIn} : ValidateLogInProps ) {
+  async validateLogIn({
+    data,
+    setUserData,
+    setIsLoggedIn,
+  }: ValidateLogInProps) {
     try {
-      const request = await this.fetchData(`${apiBaseUrl}/login`, "POST", data);
+      const request = await this.fetchData({
+        endpoint: `${apiBaseUrl}/login`,
+        method: "POST",
+        body: data,
+      });
 
-      console.log("request : ",request)
+      console.log("request : ", request);
 
       const uses = await request?.userInformation?.uses;
 
-      console.log(uses)
+      console.log(uses);
 
       const numberUses = Number(uses);
 
       const result = {
         ...request,
-        userInformation : {
+        userInformation: {
           ...request?.userInformation,
-          uses : numberUses
-        }
-      }
+          uses: numberUses,
+        },
+      };
       setIsLoggedIn(true);
       setUserData?.(result);
       return { message: true };
@@ -183,13 +218,14 @@ class DataToDB {
     }
   }
 
-  async updateData(data : ChangedData) {
+  async updateData({ data }: UpdateDataProps) {
     try {
-      const result = await this.fetchData(
-        `${apiBaseUrl}/update/${data.user_id}`,
-        "PUT",
-        data
-      );
+      const result = await this.fetchData({
+        endpoint: `${apiBaseUrl}/update/${data.user_id}`,
+        method: "PUT",
+        body: data,
+        withToast : true
+      });
       this.setUserData?.(result);
       return { message: true };
     } catch {
@@ -198,16 +234,17 @@ class DataToDB {
     }
   }
 
-  async deleteProfile(userId: number, csrfToken: string) {
+  async deleteProfile({ userId, csrfToken }: DeleteProfileProps) {
     console.log("Токен в dataToDB:", csrfToken);
     console.log("ID пользователя в deleteProfile:", userId);
 
-    return this.fetchData(
-      `${apiBaseUrl}/user/${userId}`,
-      "DELETE",
-       {operationCode : 1},
-       csrfToken
-    )
+    return this.fetchData({
+      endpoint: `${apiBaseUrl}/user/${userId}`,
+      method: "DELETE",
+      body: { operationCode: 1 },
+      csrfToken,
+      withToast : true
+    })
       .then(() => {
         this.setIsLoggedIn?.(false);
         this.setUserData?.(defaultUserData);
@@ -220,10 +257,10 @@ class DataToDB {
         } catch (e) {
           return { message: "Unknown error" };
         }
-    });
+      });
   }
 
-  async makeFetchForCode (email : string) {
+  async makeFetchForCode({ email }: MakeFetchForCodeDBProps) {
     try {
       const result = await fetch(`${apiBaseUrl}/verification`, {
         method: "POST",
@@ -239,96 +276,134 @@ class DataToDB {
         console.log(result);
       }
     } catch (error) {
-      toast.error(i18n.t("There was an error during sending verification code"))
+      toast.error(
+        i18n.t("There was an error during sending verification code")
+      );
     }
-  };
+  }
 
-
-  isVerificationCodeCorrect(email: string, verificationCode: string) {
-    return this.fetchData(`${apiBaseUrl}/checkCode`, "POST", {
-      email,
-      verification_code: verificationCode,
+  isVerificationCodeCorrect({
+    email,
+    verificationCode,
+  }: IsVerificationCodeCorrectProps) {
+    return this.fetchData({
+      endpoint: `${apiBaseUrl}/checkCode`,
+      method: "POST",
+      body: {
+        email,
+        verification_code: verificationCode,
+      },
+      withToast : true
     })
       .then(() => ({ message: true }))
       .catch(() => ({ message: false }));
   }
 
-  changePassword(newPassword: string, email: string) {
-    if(newPassword.length < 0){
-      Promise.reject("Password cannot be empty")
+  changePassword({ newPassword, email }: ChangePasswordProps) {
+    if (newPassword.length < 0) {
+      Promise.reject("Password cannot be empty");
     }
-    return this.fetchData(`${apiBaseUrl}/changePassword`, "PUT", {
-      newPassword,
-      email,
+    return this.fetchData({
+      endpoint: `${apiBaseUrl}/changePassword`,
+      method: "PUT",
+      body: {
+        newPassword,
+        email,
+      },
+      withToast : true
     })
       .then(() => ({ message: true }))
       .catch(() => ({ message: false }));
   }
 
-  activatePromocode(promocode: string, email: string) {
-    return this.fetchData(`${apiBaseUrl}/promocode`, "PUT", {
-      promocode,
-      email,
+  activatePromocode({ promocode, email }: ActivatePromocodeProps) {
+    return this.fetchData({
+      endpoint: `${apiBaseUrl}/promocode`,
+      method: "PUT",
+      body: {
+        promocode,
+        email,
+      },
+      withToast : true
     }).then((response) => {
       return response;
     });
   }
 
-  async payment(user_id: number, packageId: number, userEmail: string) {
+  async payment({ user_id, packageId, userEmail }: PaymentProps) {
     console.log(packageId, user_id, userEmail);
-    return this.fetchData(`${apiBaseUrl}/payment`, "POST", {
-      user_id,
-      packageId,
-      userEmail,
+    return this.fetchData({
+      endpoint: `${apiBaseUrl}/payment`,
+      method: "POST",
+      body: {
+        user_id,
+        packageId,
+        userEmail,
+      },
     }).then((response) => {
       console.log("респонс в payment методе :", response);
       return response;
     });
   }
 
-  async makeVote(featureName: string, user_id: number) {
-    return this.fetchData(`${apiBaseUrl}/vote`, "POST", {
-      featureName,
-      user_id,
+  async makeVote({ featureName, user_id }: MakeVoteProps) {
+    return this.fetchData({
+      endpoint: `${apiBaseUrl}/vote`,
+      method: "POST",
+      body: {
+        featureName,
+        user_id,
+      },
+      withToast : true
     })
       .then(() => ({ message: true }))
       .catch(() => ({ message: false }));
   }
 
   async logOut() {
-    await this.fetchData(`${apiBaseUrl}/logout`, "GET", null);
+    await this.fetchData({
+      endpoint: `${apiBaseUrl}/logout`,
+      method: "GET",
+      body: null,
+    });
   }
 
-  async addReview(reviewText: string, websiteMark: number) {
-    return this.fetchData(`${apiBaseUrl}/review`, "POST", {
-      reviewText,
-      websiteMark,
+  async addReview({ reviewText, websiteMark }: AddReviewProps) {
+    return this.fetchData({
+      endpoint: `${apiBaseUrl}/review`,
+      method: "POST",
+      body: {
+        reviewText,
+        websiteMark,
+      },
     })
       .then(() => ({ message: true }))
       .catch(() => ({ message: false }));
   }
 
-  async checkStatisticsOfVideo(
-    type : string,
-    channelName : string,
-    inputValue : string,
-    videoId : string | null
-    ) {
-
+  async checkStatisticsOfVideo({
+    type,
+    channelName,
+    inputValue,
+    videoId,
+  }: CheckStatisticsOfVideoProps) {
     const bodyData = {
-      channelName : channelName,
-      inputValue : inputValue,
-      videoId : videoId
-    }
+      channelName: channelName,
+      inputValue: inputValue,
+      videoId: videoId,
+    };
 
     try {
-      const response = await this.fetchData(
-        `${apiBaseUrl}/${type}`,
-        "POST",
-        bodyData
-      );
+      const response = await this.fetchData({
+        endpoint: `${apiBaseUrl}/${type}`,
+        method: "POST",
+        body: bodyData,
+        withToast : true
+      });
 
       const finalVideoData = response?.finalVideoData;
+
+      console.log("setVideoData : ", this.setVideoData);
 
       if (finalVideoData) {
         this.setVideoData?.(finalVideoData);

@@ -1,4 +1,4 @@
-import logger from "../winston/winston.js"
+import logger from "../../winston/winston.js"
 class SearchApiController{
     apiKey = process.env.GOOGLE_API_KEY;
 

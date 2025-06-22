@@ -65,8 +65,8 @@ const Profile = ({
   useEffect(() => {
     if (isVerificationCodeCorrect && isAccountWillBeDeleted) {
       dataToDb.deleteProfile(
-        userData!.userInformation.user_id,
-        userData!.userInformation.csrfToken
+        {userId : userData!.userInformation.user_id,
+        csrfToken : userData!.userInformation.csrfToken}
       );
       document.body.style.overflow = "";
       navigate("/search");
@@ -164,8 +164,8 @@ const Profile = ({
                     onClick={() => {
                       dataToDb
                         .activatePromocode(
-                          promocodeValue,
-                          userData.userInformation.email
+                         { promocode : promocodeValue,
+                          email : userData.userInformation.email}
                         )
                         .then((response) => {
                           if (response?.status === true) {

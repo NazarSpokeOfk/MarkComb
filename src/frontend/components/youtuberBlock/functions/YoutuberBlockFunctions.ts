@@ -22,8 +22,8 @@ class YoutuberBlockFunctions {
     userData,
     csrfToken,
     channelData,
-    setChannelData
-  } : HandleButtonClickProps) {
+    setChannelData,
+  }: HandleButtonClickProps) {
     const dataToDB = new DataToDB({ setUserData });
 
     let timeout1, timeout2, timeout3;
@@ -46,10 +46,10 @@ class YoutuberBlockFunctions {
 
     if (userData.userInformation.uses > 0) {
       try {
-        const response = await dataToDB.getEmail(
+        const response = await dataToDB.getEmail({
           csrfToken,
-          updatedData?.updatedData.channelId
-        );
+          channelId: updatedData?.updatedData.channelId,
+        });
 
         if (!response || response.length === 0) {
           setBtnsState((prev) => ({
@@ -64,15 +64,15 @@ class YoutuberBlockFunctions {
         }
 
         if (buttonId === 1) {
-          dataToDB.validatePurchaseData(
-            {
+          dataToDB.validatePurchaseData({
+            data: {
               thumbnail: channelData?.updatedData?.thumbnail || "",
               email: response?.email || "",
               channelName: response?.name || "",
             },
-            userData?.userInformation?.user_id,
-            csrfToken
-          );
+            userId: userData?.userInformation?.user_id,
+            csrfToken,
+          });
           if (channelData != null) {
             setChannelData((prevState) => {
               if (prevState == null) return null;
@@ -96,15 +96,15 @@ class YoutuberBlockFunctions {
             },
           }));
         } else {
-          dataToDB.validatePurchaseData(
-            {
+          dataToDB.validatePurchaseData({
+            data: {
               thumbnail: channelData?.updatedData?.thumbnail || "",
               email: response?.email || "",
               channelName: channelData?.updatedData?.channel_name || "",
             },
-            userData?.userInformation?.user_id,
-            csrfToken
-          );
+            userId: userData?.userInformation?.user_id,
+            csrfToken,
+          });
           setBtnsState((prev) => ({
             ...prev,
             [buttonId]: {

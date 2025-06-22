@@ -8,6 +8,8 @@ import {
   LogInData,
   ChangedData,
   SelectedFilterLabels,
+  VideoData,
+  PurchaseData,
 } from "../interfaces/interfaces";
 import { NavigateFunction } from "react-router-dom";
 
@@ -278,7 +280,7 @@ export type HandleLogInProps = {
   modalButtonRef: RefObject<HTMLButtonElement | null>;
   failTimeout: ReturnType<typeof setTimeout> | undefined;
   setIsUserMakeAMistake: React.Dispatch<React.SetStateAction<number>>;
-} & SelectProps<TypesOfSets, "setIsLoggedIn"| "setUserData">;
+} & SelectProps<TypesOfSets, "setIsLoggedIn" | "setUserData">;
 
 export type HandleValidationErrorProps = {
   modalButtonRef: RefObject<HTMLButtonElement | null>;
@@ -342,6 +344,7 @@ export type ToggleMemberListStyleProps = {
 export type ValidateVideoFindingProps = {
   channelName: string;
   inputValue: string;
+  setVideoData: React.Dispatch<React.SetStateAction<VideoData | null>>;
 };
 
 export type RemovePurchaseProps = {
@@ -352,16 +355,17 @@ export type RemovePurchaseProps = {
 } & SelectProps<TypesOfSets, "setUserData">;
 
 export type SelectFeatureProps = {
-  selectedFeature: string,
-  isVoted: boolean,
-  setIsVoted: React.Dispatch<React.SetStateAction<boolean>>,
-  navigate : NavigateFunction
+  selectedFeature: string;
+  isVoted: boolean;
+  setIsVoted: React.Dispatch<React.SetStateAction<boolean>>;
+  navigate: NavigateFunction;
+  userData : UserData
 };
 
 export type HandleButtonClickProps = {
   updatedData: ChannelData;
   buttonId: number;
-  btnsState: BtnsState
+  btnsState: BtnsState;
   setBtnsState: React.Dispatch<SetStateAction<BtnsState>>;
   isProcessingRef: RefObject<Record<number, boolean>>;
   userData: UserData;
@@ -370,10 +374,93 @@ export type HandleButtonClickProps = {
 } & SelectProps<TypesOfSets, "setUserData" | "setChannelData">;
 
 export type ValidateLogInProps = {
-  data : LogInData
-} & SelectProps<TypesOfSets,"setUserData" | "setIsLoggedIn">
+  data: LogInData;
+} & SelectProps<TypesOfSets, "setUserData" | "setIsLoggedIn">;
 
-export type BtnsState = Record<number, { isProcessing: boolean; class: string | null }>;
+export type FetchDataToDBProps = {
+  endpoint: string;
+  method: string;
+  body?: any | null;
+  csrfToken?: string | "";
+  withToast? : boolean
+};
+
+export type DeletePurchaseData = {
+  channelName: string;
+  userId: number;
+  csrfToken: string;
+};
+
+export type GetEmailProps = {
+  csrfToken: string;
+  channelId: string;
+};
+
+export type ValidatePurchaseDataProps = {
+  data: PurchaseData;
+  userId: number;
+  csrfToken: string;
+};
+
+export type ValidateSignInProps = {
+  data: SignInData;
+};
+
+export type UpdateDataProps = {
+  data: ChangedData;
+};
+
+export type DeleteProfileProps = {
+  userId: number;
+  csrfToken: string;
+};
+
+export type MakeFetchForCodeDBProps = {
+  email: string;
+};
+
+export type IsVerificationCodeCorrectProps = {
+  email: string;
+  verificationCode: string;
+};
+
+export type ChangePasswordProps = {
+  newPassword: string;
+  email: string;
+};
+
+export type ActivatePromocodeProps = {
+  promocode: string;
+  email: string;
+};
+
+export type PaymentProps = {
+  user_id: number;
+  packageId: number;
+  userEmail: string;
+};
+
+export type MakeVoteProps = {
+  featureName: string;
+  user_id: number;
+};
+
+export type AddReviewProps = {
+  reviewText: string;
+  websiteMark: number;
+};
+
+export type CheckStatisticsOfVideoProps = {
+  type: string;
+  channelName: string;
+  inputValue: string;
+  videoId: string | null;
+};
+
+export type BtnsState = Record<
+  number,
+  { isProcessing: boolean; class: string | null }
+>;
 
 export const defaultUserData: UserData = {
   channels: [],

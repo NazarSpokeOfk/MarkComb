@@ -1,7 +1,7 @@
 import {Router} from "express"
 
-import ChannelsController from "../controllers/channelsController.js";
-import EmailAndNameController from "../controllers/emailAndNameContoller.js";
+import ChannelsController from "../../controllers/channels/channelsController.js";
+import EmailAndNameController from "../../controllers/channels/emailAndNameContoller.js";
 
 const router = new Router();
 

@@ -1,6 +1,6 @@
 import {Router} from "express"
-import ReviewsController from "../controllers/reviewsController.js"
-import rateLimit from "../node_modules/express-rate-limit/dist/index.cjs"
+import ReviewsController from "../../controllers/user/reviewsController.js"
+import rateLimit from "../../node_modules/express-rate-limit/dist/index.cjs"
 
 const reviewLimiter = rateLimit({
     windowMs : 30 * 60 * 1000,

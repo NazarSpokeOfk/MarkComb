@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import Yookassa from "yookassa";
 
-import pool from "../db/index.js";
+import pool from "../db/main/index.js";
 
 import logger from "../winston/winston.js";
 

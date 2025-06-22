@@ -140,9 +140,9 @@ const PurchaseModal = ({
                   setIsPaymentPending(true);
                   try {
                     const response = await dataToDB.payment(
-                      user_id,
+                      {user_id,
                       packageId,
-                      userEmail
+                      userEmail}
                     );
                     const { confirmationURL } = response;
 

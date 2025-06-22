@@ -12,14 +12,8 @@ class PurchasesFunctions {
     async removePurchase({index, user_id, channelName,csrfToken, setUserData} : RemovePurchaseProps){
         console.log(`Index : ${index}, user_id : ${user_id}, channelName : ${channelName}`)
         try {
-          await toast.promise(
-            dataToDb.deletePurchaseData(channelName, user_id, csrfToken),
-            {
-              pending: (i18n.t("Removing purchase...")),
-              success: (i18n.t("Purchase has successfully removed!")),
-              error: (i18n.t("There was an error during removing purchase!")),
-            }
-          );
+
+            dataToDb.deletePurchaseData({channelName, userId : user_id, csrfToken})
     
           setUserData((prevData) => ({
             ...prevData,

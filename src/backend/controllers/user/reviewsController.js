@@ -1,5 +1,5 @@
-import pool from "../db/index.js";
-import logger from "../winston/winston.js"
+import pool from "../../db/main/index.js";
+import logger from "../../winston/winston.js"
 class ReviewsController {
   async addReview(req, res) {
     const { reviewText, websiteMark } = req.body;

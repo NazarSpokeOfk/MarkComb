@@ -1,4 +1,4 @@
-import pool from "../db/index.js";
+import pool from "../../db/main/index.js";
 
 class VoteController {
   async makeVote(req, res) {

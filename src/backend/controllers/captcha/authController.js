@@ -1,4 +1,4 @@
-import logger from "../winston/winston.js"
+import logger from "../../winston/winston.js"
 const verifyCaptcha = async (recaptchaValue) => {
     const _secretKey = "6LcxnbQqAAAAAB55Psrs2jKIilT-5sIJ3VVVtqdr";
     const _verificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${_secretKey}&response=${recaptchaValue}`;

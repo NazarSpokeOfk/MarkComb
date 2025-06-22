@@ -1,4 +1,4 @@
-import logger from "../winston/winston.js";
+import logger from "../../winston/winston.js";
 async function createTables(pool) {
   try {
     const createUsersTable = `CREATE TABLE IF NOT EXISTS users (

@@ -1,9 +1,9 @@
 import { Router } from "express";
-import rateLimit from "../node_modules/express-rate-limit/dist/index.cjs"
+import rateLimit from "../../node_modules/express-rate-limit/dist/index.cjs"
 
-import PromotionAPIController from "../API/promotionAPIController.js"
-import SearchApiController from "../API/searchAPIController.js";
-import GetData from "../API/getData.js";
+import PromotionAPIController from "../../API/controllers/promotionAPIController.js"
+import SearchApiController from "../../API/controllers/searchAPIController.js";
+import GetData from "../../API/getEmail.js";
 
 const searchLimiter = rateLimit({
     windowMs: 10 * 60 * 1000,

@@ -1,4 +1,4 @@
-import storagePool from "../db/storageIndex.js";
+import storagePool from "../../db/storage/storageIndex.js";
 const apiKey = process.env.GOOGLE_API_KEY;
 
 class EmailAndNameController {

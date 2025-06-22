@@ -3,28 +3,28 @@ import cors from "./node_modules/cors/lib/index.js";
 
 import express from "./node_modules/express/index.js";
 
-import createTables from "./db/setup.js";
-import createStorageTables from "./db/setupStorage.js";
+import createTables from "./db/main/setup.js";
+import createStorageTables from "./db/storage/setupStorage.js";
 
 import session from "express-session";
 
-import pool from "./db/index.js";
-import storagePool from "./db/storageIndex.js";
+import pool from "./db/main/index.js";
+import storagePool from "./db/storage/storageIndex.js";
 
 import helmet from "helmet";
 
-import ParserController from "./controllers/parsersController.js";
+import ParserController from "./controllers/parser/parsersController.js";
 
 import "./cronTasks/addingUsesCronTask.js"
 import "./cronTasks/clearingExpiredSubscriptionsCronTask.js"
 
-import userRouter from "./routers/userRouter.js";
-import purchasesRouter from "./routers/purchasesRouter.js";
-import googleAPIRouter from "./routers/googleAPIRouter.js";
-import storageRouter from "./routers/storageRouter.js";
-import reviewsRouter from "./routers/reviewsRouter.js";
-import voteRouter from "./routers/voteRouter.js";
-import yoomoneyRouter from "./routers/yoomoneyRouter.js";
+import userRouter from "./routers/user/userRouter.js";
+import purchasesRouter from "./routers/user/purchasesRouter.js";
+import googleAPIRouter from "./routers/google/googleAPIRouter.js";
+import storageRouter from "./routers/storage/storageRouter.js";
+import reviewsRouter from "./routers/user/reviewsRouter.js";
+import voteRouter from "./routers/user/voteRouter.js";
+import yoomoneyRouter from "./routers/payment/yoomoneyRouter.js";
 
 import logger from "./winston/winston.js";
 

@@ -1,14 +1,10 @@
-import { toast } from "react-toastify";
 import DataToDB from "../../../Client-ServerMethods/dataToDB";
-import i18n from "i18next";
 
 import {
   HandleToggleProps,
   ToggleMemberListStyleProps,
   ValidateVideoFindingProps,
 } from "../../../types/types";
-
-const dataToDb = new DataToDB();
 
 class PromotionsFunctions {
   handleToggle({ secondYouTubersContainerRef, triggerBtnRef } : HandleToggleProps) {
@@ -21,15 +17,12 @@ class PromotionsFunctions {
     setActiveIndex(normalizedIndex);
   }
 
-  async validateVideoFinding({ channelName, inputValue } : ValidateVideoFindingProps) {
+  async validateVideoFinding({ channelName, inputValue, setVideoData } : ValidateVideoFindingProps) {
+
+    const dataToDb = new DataToDB({setVideoData});
+
     if (channelName && inputValue) {
-      await toast.promise(
-        dataToDb.checkStatisticsOfVideo("video", channelName, inputValue, null),
-        {
-          pending: i18n.t("Looking for video..."),
-          error: i18n.t("We couldn't find video"),
-        }
-      );
+        dataToDb.checkStatisticsOfVideo({type : "video", channelName, inputValue,videoId : null})
     } else {
       return;
     }

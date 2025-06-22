@@ -4,7 +4,7 @@ import path from "path";
 import { randomUUID } from "crypto";
 import { spawn } from "child_process";
 
-import logger from "../winston/winston.js";
+import logger from "../../winston/winston.js";
 
 dotenv.config({ path: path.resolve(process.cwd(), "./environment/.env") });
 

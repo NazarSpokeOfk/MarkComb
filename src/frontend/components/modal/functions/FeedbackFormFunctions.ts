@@ -13,7 +13,7 @@ class FeedbackFormFunctions {
           return;
         }
     
-        const result = await dataToDB.addReview(reviewText, websiteMark);
+        const result = await dataToDB.addReview({reviewText, websiteMark});
     
         if (result.message === false) {
           toast.warn(i18n.t("Unfortunately,we can't get your review. Please,try later"));

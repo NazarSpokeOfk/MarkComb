@@ -60,10 +60,10 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
   useEffect(() => {
     if (!videoData?.analitics && videoData?.videoId) {
       dataToDb.checkStatisticsOfVideo(
-        "analitics",
+        {type : "analitics",
         channelName,
         inputValue,
-        videoData?.videoId
+        videoId : videoData?.videoId}
       );
     }
   }, [videoData?.videoId]);
@@ -216,7 +216,7 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
               )}
               <button
                 onClick={() => {
-                  promotionFunctions.validateVideoFinding({channelName,inputValue});
+                  promotionFunctions.validateVideoFinding({channelName,inputValue,setVideoData});
                 }}
                 className="search-input__button"
               >

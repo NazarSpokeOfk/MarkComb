@@ -1,6 +1,6 @@
 import Router from "express";
 
-import VoteController from "../controllers/voteController.js";
+import VoteController from "../../controllers/user/voteController.js";
 
 const router = new Router();
 

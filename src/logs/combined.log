@@ -13,3 +13,12 @@
 12.06.2025, 18:46:56 + "
 " [ERROR] + "
 " (printf.js:11): Возникла ошибка в createStorageTables :  the database system is shutting down
+22.06.2025, 18:46:39 + "
+" [ERROR] + "
+" (printf.js:11): Ошибка в deletePurchase :  invalid input syntax for type integer: "undefined"
+22.06.2025, 18:47:58 + "
+" [ERROR] + "
+" (printf.js:11): Ошибка в deletePurchase :  invalid input syntax for type integer: "undefined"
+22.06.2025, 18:48:35 + "
+" [ERROR] + "
+" (printf.js:11): Ошибка в deletePurchase :  invalid input syntax for type integer: "undefined"
