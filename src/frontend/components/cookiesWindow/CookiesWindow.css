@@ -60,9 +60,15 @@
     left: 0%;
   }
   .cookie__agreement-block_closebtn {
-    width: 13%;
-    height: 30%;
+    width: 75%;
+    height: 75%;
     left: 84%;
+  }
+  .cookie__subflex{
+    gap: 40px;
+  }
+  .cookie__agreement-text{
+    font-size: 15px;
   }
 }
 @media (min-width: 768px) and (max-width: 768px) and (min-height: 1024px) and (max-height: 1024px) {

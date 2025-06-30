@@ -270,7 +270,7 @@ export type ValidateAndSendReviewProps = {
 };
 
 export type HandleRecaptchaChangeProps = {
-  value: string;
+  value: string | null;
 } & SelectProps<TypesOfSets, "setSignInData">;
 
 export type HandleLogInProps = {
@@ -278,18 +278,15 @@ export type HandleLogInProps = {
   logInData: LogInData;
   modalRef: RefObject<HTMLDivElement | null>;
   modalButtonRef: RefObject<HTMLButtonElement | null>;
-  failTimeout: ReturnType<typeof setTimeout> | undefined;
   setIsUserMakeAMistake: React.Dispatch<React.SetStateAction<number>>;
 } & SelectProps<TypesOfSets, "setIsLoggedIn" | "setUserData">;
 
 export type HandleValidationErrorProps = {
   modalButtonRef: RefObject<HTMLButtonElement | null>;
-  failTimeout: ReturnType<typeof setTimeout> | undefined;
 } & SelectProps<TypesOfSets, "setIsLoggedIn">;
 
 export type AnimateModalButtonShakeProps = {
   modalButtonRef: RefObject<HTMLButtonElement | null>;
-  failTimeout: ReturnType<typeof setTimeout> | undefined;
 };
 
 export type HandleLogInErrorProps = {
@@ -303,7 +300,6 @@ export type ValidateFormData = {
   emailRegex: RegExp;
   modalRef: RefObject<HTMLDivElement | null>;
   modalButtonRef: RefObject<HTMLButtonElement | null>;
-  failTimeout: ReturnType<typeof setTimeout> | undefined;
 } & SelectProps<
   TypesOfSets,
   "setIsLoggedIn" | "setIsModalOpened" | "setIsDataFilledIn"

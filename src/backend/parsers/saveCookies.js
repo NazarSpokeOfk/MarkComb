@@ -7,7 +7,7 @@ import fs from "fs";
     args: [
       "--no-sandbox",
       "--disable-setuid-sandbox",
-      "--disable-blink-features=AutomationControlled", // Скрываем Puppeteer
+      "--disable-blink-features=AutomationControlled", 
       "--disable-dev-shm-usage",
       "--disable-gpu",
     ],

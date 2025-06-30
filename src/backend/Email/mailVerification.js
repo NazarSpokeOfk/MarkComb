@@ -61,7 +61,7 @@ class MailVerification {
       );
     };
 
-    const verificationCode = generateNumericCode(); // например, "483920"
+    const verificationCode = generateNumericCode(); 
     const expiryTime = new Date(Date.now() + 10 * 60 * 1000); // 10 минут
 
     const mailOptions = {
@@ -88,6 +88,7 @@ class MailVerification {
   }
 
   async verifyCode(email, code) {
+    console.log("кодик :",code)
     try {
       const verif = await pool.query(
         `SELECT * FROM user_verifications WHERE email = $1 AND verification_code = $2 AND verification_expiry > NOW()`,

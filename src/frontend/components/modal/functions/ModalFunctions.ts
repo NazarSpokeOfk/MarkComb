@@ -12,41 +12,60 @@ import {
   HandleValidationErrorProps,
   AnimateModalButtonShakeProps,
   HandleLogInErrorProps,
-  ValidateFormData
+  ValidateFormData,
 } from "../../../types/types";
 
 class ModalFunctions {
-  animateModalButtonShake = ({ modalButtonRef, failTimeout } : AnimateModalButtonShakeProps) => {
+  animateModalButtonShake = ({
+    modalButtonRef
+  }: AnimateModalButtonShakeProps) => {
     if (modalButtonRef.current) {
       modalButtonRef.current.classList.add("shake-animation");
 
-      failTimeout = setTimeout(() => {
+      setTimeout(() => {
         modalButtonRef?.current?.classList.remove("shake-animation");
       }, 4000);
     }
   };
 
-  handleValidationError = ({ setIsLoggedIn,modalButtonRef,failTimeout } : HandleValidationErrorProps) => {
+  handleValidationError = ({
+    setIsLoggedIn,
+    modalButtonRef,
+  }: HandleValidationErrorProps) => {
     setIsLoggedIn(false);
-    this.animateModalButtonShake({modalButtonRef,failTimeout});
+    this.animateModalButtonShake({ modalButtonRef });
   };
 
-  handleLogInError = ({ setIsUserMakeAMistake } : HandleLogInErrorProps) => {
+  handleLogInError = ({ setIsUserMakeAMistake }: HandleLogInErrorProps) => {
     setTimeout(() => {
       setIsUserMakeAMistake((prev) => prev + 1);
       toast.error("Wrong password, or account doesn't exist");
     }, 100);
   };
 
-  handleRecaptchaChange = ({ value, setSignInData } : HandleRecaptchaChangeProps) => {
+  handleRecaptchaChange = ({
+    value,
+    setSignInData,
+  }: HandleRecaptchaChangeProps) => {
     setSignInData((prevData) => ({ ...prevData, recaptchaValue: value }));
   };
 
-  async handleLogIn({ e, logInData, modalRef,setIsLoggedIn,modalButtonRef,failTimeout,setIsUserMakeAMistake,setUserData} : HandleLogInProps) {
+  async handleLogIn({
+    e,
+    logInData,
+    modalRef,
+    setIsLoggedIn,
+    modalButtonRef,
+    setIsUserMakeAMistake,
+    setUserData,
+  }: HandleLogInProps) {
     e.preventDefault();
 
     if (!logInData.email || !logInData.password) {
-      this.handleValidationError({setIsLoggedIn,modalButtonRef,failTimeout});
+      this.handleValidationError({
+        setIsLoggedIn,
+        modalButtonRef,
+      });
       return;
     }
 
@@ -54,14 +73,18 @@ class ModalFunctions {
     console.log("LogInData в Modal:", logInData);
 
     try {
-      const response = await dataToDB.validateLogIn({data : logInData, setUserData,setIsLoggedIn});
+      const response = await dataToDB.validateLogIn({
+        data: logInData,
+        setUserData,
+        setIsLoggedIn,
+      });
 
       toast.dismiss(loadToast);
 
       if (response.message === true) {
         closeModal({ ref: modalRef });
       } else {
-        this.handleLogInError({setIsUserMakeAMistake});
+        this.handleLogInError({ setIsUserMakeAMistake });
       }
     } catch (error) {
       toast.dismiss(loadToast);
@@ -80,8 +103,7 @@ class ModalFunctions {
     setIsModalOpened,
     setIsDataFilledIn,
     modalButtonRef,
-    failTimeout
-  } : ValidateFormData) {
+  }: ValidateFormData) {
     if (
       signInData.email === "" ||
       !isChecked ||
@@ -90,9 +112,12 @@ class ModalFunctions {
       !signInData.username ||
       !signInData.recaptchaValue
     ) {
+      console.log(
+        `Данные в validateFormData : signInData : ${signInData}`
+      );
       setIsLoggedIn(false);
       e.preventDefault();
-      this.animateModalButtonShake({modalButtonRef, failTimeout});
+      this.animateModalButtonShake({ modalButtonRef });
     } else {
       closeModal({ ref: modalRef });
       setTimeout(() => {

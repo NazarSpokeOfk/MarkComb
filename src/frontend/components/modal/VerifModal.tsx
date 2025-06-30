@@ -56,7 +56,7 @@ const VerifModal = ({
               "Код, отправленный с фронта:",
               signInData.verification_code
             );
-            dataToDB.validateSignIn(signInData).then((result) => {
+            dataToDB.validateSignIn({data : signInData}).then((result) => {
               console.log(result);
               if (result.status === "ok") {
                 closeModal({ ref: modalRef });

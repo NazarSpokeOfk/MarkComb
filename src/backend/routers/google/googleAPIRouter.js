@@ -3,7 +3,7 @@ import rateLimit from "../../node_modules/express-rate-limit/dist/index.cjs"
 
 import PromotionAPIController from "../../API/controllers/promotionAPIController.js"
 import SearchApiController from "../../API/controllers/searchAPIController.js";
-import GetData from "../../API/getEmail.js";
+import getDataController from "../../API/email/getDataController.js";
 
 const searchLimiter = rateLimit({
     windowMs: 10 * 60 * 1000,
@@ -26,7 +26,7 @@ const searchAPIController = new SearchApiController()
 const router = new Router();
 
 router.post("/search" , searchLimiter, (req,res) => searchAPIController.handleSearch(req,res))
-router.post("/getdata" , (req,res) => GetData(req,res))
+router.post("/getdata" , (req,res) => getDataController(req,res))
 router.post("/video" , searchLimiter , (req,res) => promotionAPIController.channelAndVideoSearch(req,res))
 router.post("/analitics" , (req,res) => promotionAPIController.getAnalitics(req,res))
 

@@ -22,3 +22,107 @@
 22.06.2025, 18:48:35 + "
 " [ERROR] + "
 " (printf.js:11): Ошибка в deletePurchase :  invalid input syntax for type integer: "undefined"
+23.06.2025, 11:06:03 + "
+" [ERROR] + "
+" (printf.js:11): Cannot destructure property 'email' of 'req.body.data' as it is undefined.
+23.06.2025, 11:07:19 + "
+" [ERROR] + "
+" (printf.js:11): Cannot destructure property 'email' of 'req.body.data' as it is undefined.
+23.06.2025, 11:07:24 + "
+" [ERROR] + "
+" (printf.js:11): Cannot destructure property 'email' of 'req.body.data' as it is undefined.
+23.06.2025, 11:08:12 + "
+" [ERROR] + "
+" (printf.js:11): Cannot destructure property 'email' of 'req.body.data' as it is undefined.
+23.06.2025, 11:08:31 + "
+" [ERROR] + "
+" (printf.js:11): Cannot destructure property 'email' of 'req.body.data' as it is undefined.
+23.06.2025, 11:08:35 + "
+" [ERROR] + "
+" (printf.js:11): Cannot destructure property 'email' of 'req.body.data' as it is undefined.
+23.06.2025, 11:08:35 + "
+" [ERROR] + "
+" (printf.js:11): Cannot destructure property 'email' of 'req.body.data' as it is undefined.
+23.06.2025, 11:10:40 + "
+" [ERROR] + "
+" (printf.js:11): Cannot destructure property 'email' of 'req.body.data' as it is undefined.
+23.06.2025, 11:11:10 + "
+" [ERROR] + "
+" (printf.js:11): Cannot destructure property 'email' of 'req.body.data' as it is undefined.
+23.06.2025, 11:11:52 + "
+" [ERROR] + "
+" (printf.js:11): Cannot destructure property 'email' of 'req.body.data' as it is undefined.
+23.06.2025, 17:00:05 + "
+" [ERROR] + "
+" (printf.js:11): Ошибка в парсере тэгов: node:fs:448
+    return binding.readFileUtf8(path, stringToFlags(options.flag));
+                   ^
+
+Error: ENOENT: no such file or directory, open '/Users/nazarkuratnikov/Desktop/Project X /markcomb/src/backend/parsers/cookies.json'
+    at Object.readFileSync (node:fs:448:20)
+    at loadCookies (file:///Users/nazarkuratnikov/Desktop/MarkComb/MarkComb/src/backend/parsers/tagsParser.js:17:8)
+    at getYouTubeKeywords (file:///Users/nazarkuratnikov/Desktop/MarkComb/MarkComb/src/backend/parsers/tagsParser.js:81:9)
+    at async tagsReceiptAutomation (file:///Users/nazarkuratnikov/Desktop/MarkComb/MarkComb/src/backend/parsers/tagsParser.js:140:18)
+    at async file:///Users/nazarkuratnikov/Desktop/MarkComb/MarkComb/src/backend/parsers/tagsParser.js:157:3 {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/nazarkuratnikov/Desktop/Project X /markcomb/src/backend/parsers/cookies.json'
+}
+
+Node.js v20.17.0
+
+23.06.2025, 17:01:12 + "
+" [ERROR] + "
+" (printf.js:11):  (run-channelsparser) Ошибка при парсинге данных:  Expected property name or '}' in JSON at position 4
+23.06.2025, 17:02:22 + "
+" [ERROR] + "
+" (printf.js:11):  (run-channelsparser) Ошибка при парсинге данных:  Expected property name or '}' in JSON at position 4
+23.06.2025, 17:02:38 + "
+" [ERROR] + "
+" (printf.js:11):  (run-channelsparser) Ошибка при парсинге данных:  Expected property name or '}' in JSON at position 4
+23.06.2025, 17:02:45 + "
+" [ERROR] + "
+" (printf.js:11):  (run-channelsparser) Ошибка при парсинге данных:  Expected property name or '}' in JSON at position 4
+23.06.2025, 17:02:49 + "
+" [ERROR] + "
+" (printf.js:11):  (run-channelsparser) Ошибка при парсинге данных:  Expected property name or '}' in JSON at position 4
+23.06.2025, 17:03:07 + "
+" [ERROR] + "
+" (printf.js:11):  (run-channelsparser) Ошибка при парсинге данных:  Expected property name or '}' in JSON at position 4
+23.06.2025, 17:03:10 + "
+" [ERROR] + "
+" (printf.js:11):  (run-channelsparser) Ошибка при парсинге данных:  Expected property name or '}' in JSON at position 4
+23.06.2025, 17:03:21 + "
+" [ERROR] + "
+" (printf.js:11):  (run-channelsparser) Ошибка при парсинге данных:  Expected property name or '}' in JSON at position 4
+23.06.2025, 17:03:43 + "
+" [ERROR] + "
+" (printf.js:11):  (run-channelsparser) Ошибка при парсинге данных:  Expected property name or '}' in JSON at position 4
+23.06.2025, 17:03:46 + "
+" [ERROR] + "
+" (printf.js:11):  (run-channelsparser) Ошибка при парсинге данных:  Expected property name or '}' in JSON at position 4
+23.06.2025, 17:07:46 + "
+" [ERROR] + "
+" (printf.js:11):  (run-channelsparser) Ошибка при парсинге данных:  Expected property name or '}' in JSON at position 4
+23.06.2025, 17:07:54 + "
+" [ERROR] + "
+" (printf.js:11):  (run-channelsparser) Ошибка при парсинге данных:  Expected property name or '}' in JSON at position 4
+23.06.2025, 17:07:55 + "
+" [ERROR] + "
+" (printf.js:11):  (run-channelsparser) Ошибка при парсинге данных:  Expected property name or '}' in JSON at position 4
+23.06.2025, 17:08:27 + "
+" [ERROR] + "
+" (printf.js:11):  (run-channelsparser) Ошибка при парсинге данных:  Expected property name or '}' in JSON at position 4
+23.06.2025, 17:08:52 + "
+" [ERROR] + "
+" (printf.js:11):  (run-channelsparser) Ошибка при парсинге данных:  Expected property name or '}' in JSON at position 4
+23.06.2025, 17:09:27 + "
+" [ERROR] + "
+" (printf.js:11):  (run-channelsparser) Ошибка при парсинге данных:  Unexpected token 'Ч', "ЧЛЕЕЕн {
+ "... is not valid JSON
+23.06.2025, 17:10:11 + "
+" [ERROR] + "
+" (printf.js:11):  (run-channelsparser) Ошибка при парсинге данных:  Unexpected token ''', "[
+  'mc',
+  'g"... is not valid JSON

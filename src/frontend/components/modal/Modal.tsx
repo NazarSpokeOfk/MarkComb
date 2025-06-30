@@ -1,9 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-
-import { CredentialResponse } from "@react-oauth/google";
-
+import { ChangeEvent } from "react";
 import GoogleLoginButton from "../googleLogInButton/GoogleLogInButton";
 
 import ModalFunctions from "./functions/ModalFunctions";
@@ -101,7 +99,6 @@ const Modal = ({
                       modalRef,
                       setIsLoggedIn,
                       modalButtonRef,
-                      failTimeout,
                       setIsUserMakeAMistake,
                       setUserData
                     })
@@ -114,8 +111,7 @@ const Modal = ({
                       modalRef,
                       setIsModalOpened,
                       setIsDataFilledIn,
-                      modalButtonRef,
-                      failTimeout
+                      modalButtonRef
                     });
               }}
               action="submit"
@@ -193,7 +189,6 @@ const Modal = ({
                   modalRef,
                   setIsLoggedIn,
                   modalButtonRef,
-                  failTimeout,
                   setIsUserMakeAMistake,
                   setUserData
                 }) : modalFunctions.validateFormData({
@@ -205,8 +200,7 @@ const Modal = ({
                   modalRef,
                   setIsModalOpened,
                   setIsDataFilledIn,
-                  modalButtonRef,
-                  failTimeout
+                  modalButtonRef
                 });
               }}
               type="submit"
@@ -242,7 +236,10 @@ const Modal = ({
             <ReCAPTCHA
               className="captcha"
               sitekey="6LcxnbQqAAAAALV-GfKKoJPxRVIshbTjTa5izOVr"
-              onChange={() => modalFunctions.handleRecaptchaChange}
+              onChange={(token : string | null) => {
+                console.log("Капча токен : ",token);
+                modalFunctions.handleRecaptchaChange({ value : token, setSignInData });
+              }}
               data-size="compact"
             />
           ) : null}

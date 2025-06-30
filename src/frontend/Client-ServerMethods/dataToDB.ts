@@ -52,6 +52,8 @@ class DataToDB {
     channelName: "",
   };
 
+  
+
   async fetchData(
     { endpoint, method, body, csrfToken, withToast }: FetchDataToDBProps
   ) {
@@ -155,6 +157,8 @@ class DataToDB {
   }: ValidateSignInProps): Promise<{
     status: "ok" | "invalid" | "exists" | "wrong";
   }> {
+
+    console.log("Дата в validateSignIn : " , data)
     try {
       const result = await this.fetchData({
         endpoint: `${apiBaseUrl}/user`,
@@ -193,9 +197,7 @@ class DataToDB {
         method: "POST",
         body: data,
       });
-
-      console.log("request : ", request);
-
+      
       const uses = await request?.userInformation?.uses;
 
       console.log(uses);

@@ -15,7 +15,7 @@ const apiKey = process.env.GOOGLE_API_KEY;
 async function loadCookies(page) {
   const cookies = JSON.parse(
     fs.readFileSync(
-      "/Users/nazarkuratnikov/Desktop/Project X /markcomb/src/backend/parsers/cookies.json",
+      "/Users/nazarkuratnikov/Desktop/MarkComb/Markcomb/src/backend/parsers/cookies.json",
       "utf8"
     )
   );
@@ -31,10 +31,7 @@ async function getChannelId(videoTheme) {
     );
     const result = await response.json();
 
-    
-
     if (!result.items || result.items.length === 0) {
-      
       return [];
     }
 
@@ -61,7 +58,7 @@ async function getVideoIds(channelIds) {
         videoIDs.push(...ids);
       }
     }
-    
+
     return videoIDs;
   } catch (error) {
     logger.error("Возникла ошибка в getVideoIds : ", error);
@@ -92,7 +89,6 @@ async function getYouTubeKeywords(videoId) {
 }
 
 async function saveKeywords(category, tags, age_group) {
-  
   const forbiddenTags = [
     "бесплатно",
     "телефон с камерой",
@@ -104,16 +100,20 @@ async function saveKeywords(category, tags, age_group) {
   ];
   try {
     for (const tag of tags) {
+
+      console.log("Полученные тэги : ", tag)
+
       if (forbiddenTags.includes(tag)) continue;
 
       await storagePool.query(
-        `INSERT INTO tags (tag,content_type,age_group) VALUES ($1,$2,$3)`,
+        `INSERT INTO tags (tag,content_type,age_group) VALUES ($1,$2,$3) RETURNING *`,
         [tag, category, age_group]
       );
-      
     }
-  } catch (error) {
+    return {status : "success" , message : "Tags was written to db"}
+  } catch (error) { 
     logger.error("Возникла ошибка в saveKeywords : ", error);
+    return {status : "failure" , cause : error}
   }
 }
 
@@ -121,16 +121,12 @@ async function tagsReceiptAutomation(videoTheme, category, age_group) {
   const channelId = await getChannelId(videoTheme);
 
   if (!channelId) {
-    
-    return;
+    return {status : "failure" , cause : "fail in getChannelId"}
   }
-
-  
 
   const videoIds = await getVideoIds(channelId);
   if (!videoIds) {
-    
-    return;
+    return {status : "failure" , cause : "fail in getVideoIds"}
   }
 
   for (const videoId of videoIds) {
@@ -139,22 +135,17 @@ async function tagsReceiptAutomation(videoTheme, category, age_group) {
     );
     const tags = await getYouTubeKeywords(videoId);
 
-    saveKeywords(category, tags.keywords, age_group);
-    
+    const saveKeywordsResult = await saveKeywords(category, tags.keywords, age_group);
+    return saveKeywordsResult;
   }
 }
 
-(async () => {
-  const videoTheme = process.argv[2];
-  const category = process.argv[3];
-  const age_group = process.argv[4];
-  
-
+const runTagsParser = async (tagsTheme,categoryToWrite,age_group) => {
   console.log(
-    `Тема видео : ${videoTheme} , категория : ${category} , возрастная категория : ${age_group}`
+    `Тема видео : ${tagsTheme} , категория : ${categoryToWrite} , возрастная категория : ${age_group}`
   );
 
-  await tagsReceiptAutomation(videoTheme, category, age_group).then(() => {
-    process.exit(0);
-  });
-})();
+  return await tagsReceiptAutomation(tagsTheme, categoryToWrite, age_group);
+};
+
+export default runTagsParser;

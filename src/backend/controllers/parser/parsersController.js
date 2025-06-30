@@ -2,7 +2,8 @@ import dotenv from "dotenv";
 import express from "express";
 import path from "path";
 import { randomUUID } from "crypto";
-import { spawn } from "child_process";
+import runParser from "../../parsers/channelsParser.js";
+import runTagsParser from "../../parsers/tagsParser.js";
 
 import logger from "../../winston/winston.js";
 
@@ -17,62 +18,38 @@ const tempTagsStorage = {};
 
 router.post("/run-channelsparser", async (req, res) => {
   
-
   const { action, age_group, content_type, selectedTags, token } = req.body;
 
   if (token !== SECRET_TOKEN) {
     return res.status(403).json({ message: "Access denied" });
   }
 
-  const parserProcess = spawn("node", [
-    path.join(parserPath, "channelsParser.js"),
-    action,
-    age_group,
-    content_type,
-    selectedTags,
-  ]);
-
-  let tags = "";
-
-  parserProcess.stdout.on("data", (data) => {
-    tags += data.toString();
-  });
-
-  parserProcess.on("error", (error) => {
-    logger.error(
-      `Произошла ошибка при запуске channelsParser : ${error.message}`
-    );
-    return res
-      .status(500)
-      .json({ error: "Произошла ошибка при запуске парсера!" });
-  });
-
-  parserProcess.on("close", (code) => {
-    if (code === 0 && action === "tags") {
+  let runParserResult;
+  try {
+    runParserResult = await runParser(action,age_group,content_type,selectedTags)
+    console.log("результат работы runParser : ", runParserResult);
+  } catch (error) {
+    console.log("Возникла ошибка при runParser :" , error)
+    return res.status(500).json({message : "Возникла ошибка при runParser" , error : error})
+  }
+    if (action === "tags") {
       try {
-        const parsedTags = JSON.parse(tags);
-
-        
-
         const requestId = randomUUID();
-        tempTagsStorage[requestId] = parsedTags.tags;
+        tempTagsStorage[requestId] = runParserResult;
 
         setTimeout(() => delete tempTagsStorage[requestId], 10 * 60 * 1000);
 
         res.json({
           requestId,
-          tags: tempTagsStorage[requestId],
+          runParserResult: tempTagsStorage[requestId],
         });
       } catch (error) {
         logger.error(" (run-channelsparser) Ошибка при парсинге данных: ", error);
         res.status(500).json({ error: "Ошибка при парсинге данных" });
       }
-    } else if (code === 1) {
-      res.status(500).json({ message: "Ошибка парсера,проверьте данные." });
     } else {
       res.status(200).json({ message: "Данные записаны в бд" });
     }
-  });
 });
 
 router.post("/run-tagsparser", async (req, res) => {
@@ -83,25 +60,15 @@ router.post("/run-tagsparser", async (req, res) => {
     return res.status(403).json({ message: "Access denied" });
   }
 
-  
+  let tagsParserResult;
 
-  const parserProcess = spawn("node", [
-    path.join(parserPath, `tagsParser.js`),
-    tagsTheme,
-    categoryToWrite,
-    age_group || "",
-  ]);
+  try {
+    tagsParserResult = await runTagsParser(tagsTheme,categoryToWrite,age_group)
 
-  parserProcess.stdout.on("data", (data) => {
-    console.log(`Парсер тэгов выводит: ${data.toString()}`)
+    return res.status(200).json({result : tagsParserResult})
+  } catch (error) {
+    console.log("Возникла ошибка при вызове runTagsParser :" , error)
+    return res.status(500).json({message : "Возникла ошибка при запуске tagsParser",error})
   }
-)
-  parserProcess.stderr.on("data", (data) =>
-    logger.error(`Ошибка в парсере тэгов: ${data.toString()}`)
-  );
-  parserProcess.on("close", (code) =>
-    console.log(`Парсер завершил работу с кодом ${code}`)
-  );
-  res.json({ message: "Парсер запущен" });
 });
 export default router;

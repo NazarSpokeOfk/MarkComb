@@ -1,5 +1,4 @@
-const GetData = async (req, res) => {
-  const { channelId } = req.body;
+const GetData = async (channelId) => {
   const apiKey = process.env.GOOGLE_API_KEY;
 
   const transformDescr = (result) => {
@@ -19,10 +18,10 @@ const GetData = async (req, res) => {
  
   const description = processRes.length > 0 ? processRes[0].description : "";
 
-  res.json({
+  return {
     description : extractEmail(description),
     title : processRes?.[0].title
-  }); 
+  }
 };
 
 function extractEmail(text) {
