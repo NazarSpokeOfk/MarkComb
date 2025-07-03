@@ -49,7 +49,7 @@ function App() {
     useState<ChannelData | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [isCookieClosed, setIsCookieClosed] = useState<boolean>(() => {
-    return localStorage.getItem('cookieConfirmed') === 'true';
+    return localStorage.getItem("cookieConfirmed") === "true";
   });
   const [userData, setUserData] = useState<UserData>({
     channels: [],
@@ -65,6 +65,7 @@ function App() {
     },
   });
 
+  const [isFilter, setIsFilter] = useState(false);
   const [isFilterCTAActive, setIsFilterCTAActive] = useState(false);
   const [isModalOpened, setIsModalOpened] = useState(false);
   const [entryMethod, setEntryMethod] = useState("");
@@ -92,14 +93,14 @@ function App() {
   }, [navigate]);
 
   useEffect(() => {
-    if(isCookieClosed){
-      localStorage.setItem('cookieConfirmed','true')
+    if (isCookieClosed) {
+      localStorage.setItem("cookieConfirmed", "true");
     }
-  },[isCookieClosed])
+  }, [isCookieClosed]);
 
   useEffect(() => {
-    console.log("UserData : ", userData)
-  },[userData])
+    console.log("UserData : ", userData);
+  }, [userData]);
 
   return (
     <>
@@ -155,18 +156,24 @@ function App() {
                   setIsModalOpened={setIsModalOpened}
                   entryMethod={entryMethod}
                   setEntryMethod={setEntryMethod}
+                  setIsFilter={setIsFilter}
                 />
               </ErrorBoundary>
               <ErrorBoundary>
-                <YoutubersBlock
-                  channelData={channelData}
-                  SimilarChannelData={SimilarChannelData}
-                  userData={userData}
-                  setUserData={setUserData}
-                  isLoggedIn={isLoggedIn}
-                  csrfToken={userData.userInformation.csrfToken}
-                  setSimilarChannelData={setSimilarChannelData}
-                />
+                {channelData ? (
+                  <>
+                    <YoutubersBlock
+                      channelData={channelData}
+                      SimilarChannelData={SimilarChannelData}
+                      userData={userData}
+                      setUserData={setUserData}
+                      isLoggedIn={isLoggedIn}
+                      csrfToken={userData.userInformation.csrfToken}
+                      setChannelData={setChannelData}
+                      isFilter={isFilter}
+                    />
+                  </>
+                ) : null}
               </ErrorBoundary>
               <ToastContainer />
             </>

@@ -1,20 +1,24 @@
 import { useMediaQuery } from "react-responsive";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-import DownArrow from "../../icons/downarrow.png";
-import MiniLogo from "../../../../public/favicon/favicon.svg"
+import MiniLogo from "../../../../public/favicon/favicon.svg";
 
 import { HeaderProps } from "../../types/types";
 
+import "../../fonts/font.css";
 import "./Header.css";
 
-const Header = ({ hideLinks = false, isVoteEnabled} : HeaderProps) => {
+import HeaderLogo from "../../icons/MarkComb.png";
+
+import HeaderToRightArrow from "../../icons/HeaderToRightArrow.svg";
+
+const Header = ({ hideLinks = false, isVoteEnabled }: HeaderProps) => {
   const { t } = useTranslation();
   const isLittleMobile = useMediaQuery({ maxWidth: 430 });
 
-
+  const [showMore, setShowMore] = useState<boolean>(false);
   const [isHeaderExpanded, setIsHeaderExpanded] = useState(false);
 
   return (
@@ -24,64 +28,55 @@ const Header = ({ hideLinks = false, isVoteEnabled} : HeaderProps) => {
           <Link to="/search" className="logo">
             {isLittleMobile ? (
               <>
-              <img src={MiniLogo} alt="" className="mini__logo" />
+                <img src={MiniLogo} alt="" className="mini__logo" />
               </>
             ) : (
               <>
-                Mark<span>Comb</span>
+                <img src={HeaderLogo} />
               </>
             )}
           </Link>
         </div>
 
         <div className="header__center">
-          {!hideLinks && (
-            <nav className="nav__links">
-              <Link to="/purchases" className="header__link">
-                {t("purc")}
-                <span className="highlight">{t("hases")}</span>
-              </Link>
-              <Link to="/promotion" className="header__link">
-                {t("prom")}
-                <span>{t("otion")}</span>
-              </Link>
-              <Link to="/purchase" className="header__link">
-                {t("purch")}
-                <span>{t("ase")}</span>
-              </Link>
-            </nav>
-          )}
+          <nav className="nav__links">
+            <Link to="/purchases" className="header__link">
+              PURCHASES
+            </Link>
+            <Link to="/promotion" className="header__link">
+              PROMOTION
+            </Link>
+            <Link to="/purchase" className="header__link">
+              PURCHASE
+            </Link>
+
+            <div
+              className={`nav__extra-container ${showMore ? "visible" : ""}`}
+            >
+              <div className="nav__extra-wrapper">
+                <Link to="/faq" className="header__link">
+                  SPONSORS
+                </Link>
+                <Link to="/contact" className="header__link">
+                  VOTING
+                </Link>
+                <Link to="/contact" className="header__link">
+                  SUPPORT PROJECT
+                </Link>
+              </div>
+            </div>
+            <img
+              onClick={() => setShowMore(!showMore)}
+              src={HeaderToRightArrow}
+              alt="Toggle menu"
+              className={`arrow-icon ${showMore ? "rotated" : ""}`}
+            />
+          </nav>
         </div>
 
         <div className="header__right">
-          {!hideLinks && (
-            <img
-              onClick={() => setIsHeaderExpanded(!isHeaderExpanded)}
-              src={DownArrow}
-              alt=""
-              className={`down__arrow ${isHeaderExpanded ? "active" : ""}`}
-            />
-          )}
+          <button className="authorize__button">Authorize</button>
         </div>
-      </div>
-
-      {isHeaderExpanded && <div className="header__divider" />}
-
-      <div className="header__sublinks">
-        <Link to="/sponsors" className="header__link">
-          {t("spons")}
-          <span className="highlight">{t("ors")}</span>
-        </Link>
-
-        <Link to="/vote" className="header__link">
-          {t("vo")}
-          <span>{t("ting")}</span>
-        </Link>
-
-        <a href="https://planeta.ru/campaigns/mk1337" className="header__link">
-          {t("support")} {isLittleMobile ? <br /> : null}{" "}
-          <span>{t("project")}</span>
-        </a>
       </div>
     </header>
   );

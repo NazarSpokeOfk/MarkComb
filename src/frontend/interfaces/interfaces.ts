@@ -97,3 +97,7 @@ export interface SelectedPackage  {
     isBusiness: boolean
     packageId: number
 }
+
+export interface dataGettingState {
+  state : "default" | "success" | "fail"
+}

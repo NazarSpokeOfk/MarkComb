@@ -4,7 +4,6 @@ import manageFiltersFetch from "../../../Client-ServerMethods/filterFetches";
 
 const apiBaseUrl = import.meta.env.VITE_API_URL;
 
-
 import { toast } from "react-toastify";
 
 import i18n from "i18next";
@@ -15,9 +14,8 @@ import {
   AddSelectedFilterProps,
   RemoveSelectedFilterProps,
   ModalUtilitiesProps,
-  ResetSelectedFiltersProps
+  ResetSelectedFiltersProps,
 } from "../../../types/types";
-
 
 import { FilterData } from "../../../interfaces/interfaces";
 
@@ -55,7 +53,9 @@ class HeaderFilterFunctions {
       setIsSearching(false);
     } catch (error) {
       toast.error(
-        i18n.t("There was an error during channel search. Please, try again later")
+        i18n.t(
+          "There was an error during channel search. Please, try again later"
+        )
       );
       console.log("Ошибка в searchFetch:", error);
     }
@@ -67,9 +67,9 @@ class HeaderFilterFunctions {
     }
   };
 
-  resetSelectedFilters = (
-    {setSelectedFilterLabels} : ResetSelectedFiltersProps
-  ) => {
+  resetSelectedFilters = ({
+    setSelectedFilterLabels,
+  }: ResetSelectedFiltersProps) => {
     setSelectedFilterLabels([]);
   };
 
@@ -104,7 +104,7 @@ class HeaderFilterFunctions {
   async searchWithMultiplyFilters({
     setIsFiltersFetching,
     selectedFilterLabels,
-    setSimilarChannelData,
+    setChannelData,
   }: SearchWithMultiplyFiltersProps) {
     setIsFiltersFetching(true);
 
@@ -116,30 +116,30 @@ class HeaderFilterFunctions {
         maxsubs: null,
       };
 
-      if(Array.isArray(selectedFilterLabels))
-      selectedFilterLabels.forEach(({ type, value, min, max }) => {
-        switch (type) {
-          case "contentType":
-            filterData.content_type = value;
-            break;
+      if (Array.isArray(selectedFilterLabels))
+        selectedFilterLabels.forEach(({ type, value, min, max }) => {
+          switch (type) {
+            case "contentType":
+              filterData.content_type = value;
+              break;
 
-          case "audience":
-            filterData.age_group = value;
-            break;
+            case "audience":
+              filterData.age_group = value;
+              break;
 
-          case "subscribers":
-            filterData.minsubs = min;
-            filterData.maxsubs = max;
-            break;
+            case "subscribers":
+              filterData.minsubs = min;
+              filterData.maxsubs = max;
+              break;
 
-          default:
-            break;
-        }
-      });
+            default:
+              break;
+          }
+        });
 
       const response = await manageFiltersFetch({
         ...filterData,
-        setSimilarChannelData,
+        setChannelData,
         setIsFiltersFetching,
       });
       console.log("response :", response);

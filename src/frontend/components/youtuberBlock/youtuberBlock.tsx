@@ -1,12 +1,12 @@
 import { useTranslation } from "react-i18next";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { toast } from "react-toastify";
 
 import YoutuberBlockFunctions from "./functions/YoutuberBlockFunctions";
 
-import { YouTuberBlockProps } from "../../types/types";
+import { dataGettingState } from "../../interfaces/interfaces";
 
-import { BtnsState } from "../../types/types";
+import { YouTuberBlockProps } from "../../types/types";
 
 import "./youtuberBlock.css";
 
@@ -25,14 +25,16 @@ const YouTuberBlock = ({
 
   const isProcessingRef = useRef<Record<number, boolean>>({});
 
-  const [btnsState, setBtnsState] = useState<BtnsState>({});
+  const [dataGettingState, setDataGettingState] = useState<dataGettingState>({
+    state: "default",
+  });
 
   const { t } = useTranslation();
 
   const alreadyHave = () => {
     toast.warning(t("You already bought this data"));
   };
-
+  
   return (
     <>
       <div
@@ -96,7 +98,11 @@ const YouTuberBlock = ({
         </div>
         <button
           className={`youtuber__button none ${
-            btnsState[buttonId]?.class || ""
+            {
+              default: "",
+              success: "success",
+              fail: "fail",
+            }[dataGettingState.state]
           }`}
           onClick={() => {
             console.log(channelData?.updatedData);
@@ -117,8 +123,8 @@ const YouTuberBlock = ({
                   buttonId,
                   setUserData,
                   isProcessingRef,
-                  setBtnsState,
-                  btnsState,
+                  setDataGettingState,
+                  dataGettingState,
                   userData,
                   csrfToken,
                   channelData,
@@ -130,11 +136,13 @@ const YouTuberBlock = ({
             }
           }}
         >
-          {btnsState[buttonId]?.class === "success"
-            ? t("Check contact data in purchases.")
-            : btnsState[buttonId]?.class === "fail"
-            ? t("Unfortunantly,we can't get contact data.")
-            : `${t("Get")} ${t("data")}`}
+          {
+            {
+              default: "Get data",
+              success: "Check contact data in purchases",
+              fail: "The YouTuber did not provide his email",
+            }[dataGettingState.state]
+          }
         </button>
       </div>
     </>

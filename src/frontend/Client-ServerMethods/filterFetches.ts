@@ -4,7 +4,7 @@ import { FilterFetchesProps } from "../types/types";
 
 const manageFiltersFetch = async ({
   content_type,
-  setSimilarChannelData,
+  setChannelData,
   age_group,
   minsubs,
   maxsubs,
@@ -35,7 +35,7 @@ const manageFiltersFetch = async ({
 
     const result = await response.json();
     if (result?.status) {
-      setSimilarChannelData(result);
+      setChannelData(result);
       setIsFiltersFetching(false);
     } else {
       console.error("Возникла ошибка в contentTypeFilter", result);

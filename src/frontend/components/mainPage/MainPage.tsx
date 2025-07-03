@@ -22,7 +22,6 @@ import StopGame from "../../images/stopgame.jpg";
 import VideoPreview from "../../images/videopreview.jpg";
 
 const MainPage = ({ setIsFilterCTAActive, userData }: MainPageProps) => {
-  const [isClicked, setIsClicked] = useState(false);
 
   const isMobile = useMediaQuery({ maxWidth: 480 });
 

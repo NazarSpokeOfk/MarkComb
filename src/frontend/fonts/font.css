@@ -1,0 +1,52 @@
+@font-face {
+    font-family: 'Roboto';
+    src: url("./Roboto/Roboto-Medium.ttf") format('ttf'), url("./Roboto-Medium.ttf") format('woff');
+    font-weight: 400;
+  }
+
+  @font-face {
+    font-family: 'Roboto';
+    src: url("./Roboto/Roboto-ExtraBold.ttf") format('ttf'), url("./Roboto-ExtraBold.ttf") format('woff');
+    font-weight: 900;
+  }
+
+  @font-face {
+    font-family: 'Roboto';
+    src: url("./Roboto/Roboto-SemiBold.ttf") format('ttf'), url("./Roboto-SemiBold.ttf") format('woff');
+    font-weight: 600;
+  }
+  
+  
+  @font-face {
+    font-family: 'Roboto';
+    src: url("./Roboto/Roboto-Bold.ttf") format('ttf'), url("./Roboto-Bold.ttf") format('woff');
+    font-weight: 700;
+  }
+
+
+  @font-face {
+    font-family: 'Inter';
+    src: url("./Roboto/Roboto-Medium.ttf") format('ttf'), url("./Roboto-Medium.ttf") format('woff');
+    font-weight: 400;
+  }
+
+  @font-face {
+    font-family: 'Inter';
+    src: url("./Inter/Inter_18pt-ExtraBold.ttf") format('ttf'), url("./Inter/Inter_18pt-ExtraBold.ttf") format('woff');
+    font-weight: 900;
+  }
+
+  @font-face {
+    font-family: 'Inter';
+    src: url("./Inter/Inter_18pt-SemiBold.ttf") format('ttf'), url("./Inter/Inter_18pt-SemiBold.ttf") format('woff');
+    font-weight: 600;
+  }
+  
+  
+  @font-face {
+    font-family: 'Inter';
+    src: url("./Inter/Inter_18pt-Bold.ttf") format('ttf'), url("./Inter/Inter_18pt-Bold.ttf") format('woff');
+    font-weight: 700;
+  }
+
+  

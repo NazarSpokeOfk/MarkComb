@@ -10,6 +10,7 @@ import {
   SelectedFilterLabels,
   VideoData,
   PurchaseData,
+  dataGettingState
 } from "../interfaces/interfaces";
 import { NavigateFunction } from "react-router-dom";
 
@@ -59,6 +60,7 @@ export type HeaderFilterProps = SelectProps<
     isFilterCTAActive: boolean;
     isModalOpened: boolean;
     entryMethod: string;
+    setIsFilter : React.Dispatch<React.SetStateAction<boolean>>
   };
 
 export type ModalProps = SelectProps<
@@ -168,10 +170,11 @@ export type YouTuberBlockProps = CommonTypes &
   };
 
 export type YouTubersBlockProps = CommonTypes &
-  SelectProps<TypesOfSets, "setSimilarChannelData" | "setUserData"> & {
+  SelectProps<TypesOfSets, "setChannelData" | "setUserData"> & {
     channelData: ChannelData | null;
     SimilarChannelData: ChannelData | null;
     csrfToken: string;
+    isFilter : boolean
   };
 
 export type PurchasesProps = SelectProps<CommonTypes, "userData"> &
@@ -185,7 +188,7 @@ export type CheckCookiesProps = {
 
 export type FilterFetchesProps = SelectProps<
   TypesOfSets,
-  "setSimilarChannelData"
+  "setChannelData"
 > & {
   content_type: string | null | number[];
   age_group: string | null | number[];
@@ -255,7 +258,7 @@ export type AddSelectedFilterProps = {
 export type SearchWithMultiplyFiltersProps = {
   setIsFiltersFetching: React.Dispatch<React.SetStateAction<boolean>>;
   selectedFilterLabels: SelectedFilterLabels[];
-} & SelectProps<TypesOfSets, "setSimilarChannelData">;
+} & SelectProps<TypesOfSets, "setChannelData">;
 
 export type ResetSelectedFiltersProps = {
   setSelectedFilterLabels: React.Dispatch<
@@ -361,8 +364,8 @@ export type SelectFeatureProps = {
 export type HandleButtonClickProps = {
   updatedData: ChannelData;
   buttonId: number;
-  btnsState: BtnsState;
-  setBtnsState: React.Dispatch<SetStateAction<BtnsState>>;
+  dataGettingState : dataGettingState;
+  setDataGettingState : React.Dispatch<React.SetStateAction<dataGettingState>>;
   isProcessingRef: RefObject<Record<number, boolean>>;
   userData: UserData;
   csrfToken: string;
@@ -390,6 +393,7 @@ export type DeletePurchaseData = {
 export type GetEmailProps = {
   csrfToken: string;
   channelId: string;
+  setDataGettingState : React.Dispatch<React.SetStateAction<dataGettingState>>
 };
 
 export type ValidatePurchaseDataProps = {
@@ -453,10 +457,10 @@ export type CheckStatisticsOfVideoProps = {
   videoId: string | null;
 };
 
-export type BtnsState = Record<
-  number,
-  { isProcessing: boolean; class: string | null }
->;
+// export type BtnsState = Record<
+//   number,
+//   { isProcessing: boolean; class: string | null }
+// >;
 
 export const defaultUserData: UserData = {
   channels: [],

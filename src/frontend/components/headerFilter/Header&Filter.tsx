@@ -27,10 +27,10 @@ import ResetIcon from "../../icons/reseticon.png";
 import CloseFilter from "../../icons/closefilter.png";
 import DataToDB from "../../Client-ServerMethods/dataToDB";
 import HeaderFilterFunctions from "./functions/HeaderFilterFunctions";
+import YtLogo from "../../icons/YTLogo.png"
 
 const HeaderFilter = ({
   setChannelData,
-  setSimilarChannelData,
   setIsLoggedIn,
   isLoggedIn,
   setUserData,
@@ -45,6 +45,7 @@ const HeaderFilter = ({
   setIsModalOpened,
   entryMethod,
   setEntryMethod,
+  setIsFilter
 }: HeaderFilterProps) => {
   const headerFilterFunctions = new HeaderFilterFunctions();
 
@@ -141,7 +142,19 @@ const HeaderFilter = ({
           />
         </Helmet>
 
-        <section className="login">
+        <section className="CTA">
+          <h1 className="title__CTA">
+            Find a <span>Familiar</span>
+          </h1>
+
+          <img className="CTA__ytlogo" src={YtLogo} alt="" />
+
+          <h1 className="title__CTA">
+            Channel
+          </h1>
+        </section>
+
+        {/* <section className="login">
           {isLoggedIn ? (
             <Link className="profile__name" to={"/profile"}>
               {userData?.userInformation?.username}
@@ -183,7 +196,7 @@ const HeaderFilter = ({
               </Link>
             </>
           )}
-        </section>
+        </section> */}
 
         <section className="search">
           <div className="container">
@@ -213,7 +226,6 @@ const HeaderFilter = ({
                   }}
                   className="search__main"
                   type="text"
-                  placeholder={t("Search for any YouTuber")}
                 />
                 <div className="buttons">
                   <button
@@ -321,7 +333,7 @@ const HeaderFilter = ({
                           headerFilterFunctions.searchWithMultiplyFilters({
                             setIsFiltersFetching,
                             selectedFilterLabels,
-                            setSimilarChannelData,
+                            setChannelData,
                           });
                         }}
                         className="search__multifilters-btn"
@@ -352,6 +364,7 @@ const HeaderFilter = ({
                         : ""
                     }`}
                     onClick={() => {
+                      setIsFilter(true)
                       const newFilter = {
                         type: "audience",
                         value: label,
@@ -373,7 +386,7 @@ const HeaderFilter = ({
                       if (isLoggedIn) {
                         manageFiltersFetch({
                           content_type: null,
-                          setSimilarChannelData,
+                          setChannelData,
                           age_group: label,
                           minsubs: null,
                           maxsubs: null,
@@ -408,6 +421,7 @@ const HeaderFilter = ({
                         : ""
                     }`}
                     onClick={() => {
+                      setIsFilter(true)
                       const newFilter = {
                         type: "subscribers",
                         value: label[1],
@@ -431,7 +445,7 @@ const HeaderFilter = ({
                       if (isLoggedIn) {
                         manageFiltersFetch({
                           content_type: null,
-                          setSimilarChannelData,
+                          setChannelData,
                           age_group: null,
                           minsubs: label?.[1]?.[0],
                           maxsubs: label?.[1]?.[1],
@@ -464,6 +478,7 @@ const HeaderFilter = ({
                         : ""
                     }`}
                     onClick={() => {
+                      setIsFilter(true)
                       const newFilter = {
                         type: "contentType",
                         value: label,
@@ -485,7 +500,7 @@ const HeaderFilter = ({
                       if (isLoggedIn) {
                         manageFiltersFetch({
                           content_type: label,
-                          setSimilarChannelData,
+                          setChannelData,
                           age_group: null,
                           minsubs: null,
                           maxsubs: null,

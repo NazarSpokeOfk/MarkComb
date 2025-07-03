@@ -17,8 +17,7 @@ class YoutuberBlockFunctions {
     buttonId,
     setUserData,
     isProcessingRef,
-    setBtnsState,
-    btnsState,
+    setDataGettingState,
     userData,
     csrfToken,
     channelData,
@@ -33,103 +32,44 @@ class YoutuberBlockFunctions {
       return;
     }
 
-    if (isProcessingRef.current[buttonId]) return;
+    if (userData.userInformation.uses < 0) {
+      return alert("No uses");
+    }
 
-    isProcessingRef.current[buttonId] = true;
+    try {
+      const response = await dataToDB.getEmail({
+        csrfToken,
+        channelId: updatedData?.updatedData.channelId,
+        setDataGettingState
+      });
 
-    setBtnsState((prev) => ({
-      ...prev,
-      [buttonId]: { isProcessing: true, class: null },
-    }));
-
-    if (btnsState[buttonId]?.isProcessing) return;
-
-    if (userData.userInformation.uses > 0) {
-      try {
-        const response = await dataToDB.getEmail({
-          csrfToken,
-          channelId: updatedData?.updatedData.channelId,
+      dataToDB.validatePurchaseData({
+        data: {
+          thumbnail: channelData?.updatedData?.thumbnail || "",
+          email: response?.email || "",
+          channelName: response?.name || "",
+        },
+        userId: userData?.userInformation?.user_id,
+        csrfToken,
+      });
+      if (channelData != null) {
+        setChannelData((prevState) => {
+          if (prevState == null) return null;
+          return {
+            ...prevState,
+            updatedData: {
+              ...prevState.updatedData,
+              channel_name: response?.name,
+            },
+          };
         });
-
-        if (!response || response.length === 0) {
-          setBtnsState((prev) => ({
-            ...prev,
-            [buttonId]: {
-              isProcessing: false,
-              class: "fail",
-            },
-          }));
-          isProcessingRef.current[buttonId] = false;
-          return;
-        }
-
-        if (buttonId === 1) {
-          dataToDB.validatePurchaseData({
-            data: {
-              thumbnail: channelData?.updatedData?.thumbnail || "",
-              email: response?.email || "",
-              channelName: response?.name || "",
-            },
-            userId: userData?.userInformation?.user_id,
-            csrfToken,
-          });
-          if (channelData != null) {
-            setChannelData((prevState) => {
-              if (prevState == null) return null;
-              return {
-                ...prevState,
-                updatedData: {
-                  ...prevState.updatedData,
-                  title: response?.name,
-                },
-              };
-            });
-          }
-          console.log(
-            `Текущий buttonId : ${buttonId}, response.email = ${response?.email}`
-          );
-          setBtnsState((prev) => ({
-            ...prev,
-            [buttonId]: {
-              isProcessing: false,
-              class: !response?.email ? "fail" : "success",
-            },
-          }));
-        } else {
-          dataToDB.validatePurchaseData({
-            data: {
-              thumbnail: channelData?.updatedData?.thumbnail || "",
-              email: response?.email || "",
-              channelName: channelData?.updatedData?.channel_name || "",
-            },
-            userId: userData?.userInformation?.user_id,
-            csrfToken,
-          });
-          setBtnsState((prev) => ({
-            ...prev,
-            [buttonId]: {
-              isProcessing: false,
-              class: !response?.email ? "fail" : "success",
-            },
-          }));
-        }
-      } catch (error) {
-        console.log("Ошибка в передаче данных:", error);
-      } finally {
-        timeout2 = setTimeout(() => {
-          isProcessingRef.current[buttonId] = false;
-          setBtnsState((prev) => ({
-            ...prev,
-            [buttonId]: {
-              class: "default",
-              isProcessing: false,
-            },
-          }));
-        }, 2000);
       }
-    } else {
-      toast.error(i18n.t("You have no uses!"));
-      return;
+    } catch (error) {
+      console.log("Ошибка в передаче данных:", error);
+    } finally {
+      timeout2 = setTimeout(() => {
+        setDataGettingState({state : "default"})
+      }, 2000);
     }
 
     return () => {

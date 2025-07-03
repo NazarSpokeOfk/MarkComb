@@ -1,9 +1,8 @@
 
 .feedback{
-  margin-top: 20vw;
   margin-left: 75%;
+  margin-top: 10%;
 }
-
 
 .feedback__button {
   transition: all 0.6s ease;
@@ -30,7 +29,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  margin-top: 100px;
+  margin-top: 50px;
   gap: 12em;
 }
 @media (max-width: 430px){

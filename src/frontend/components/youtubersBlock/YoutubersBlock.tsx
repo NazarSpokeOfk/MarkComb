@@ -18,12 +18,12 @@ import Envelope from "../../icons/email.svg";
 
 const YoutuberBlock = ({
   channelData,
-  SimilarChannelData,
-  setSimilarChannelData,
+  setChannelData,
   userData,
   isLoggedIn,
   setUserData,
   csrfToken,
+  isFilter
 } : YouTubersBlockProps) => {
 
   const [isFeedbackWillBeWrited, setIsFeedbackWillBeWrited] = useState(false);
@@ -39,22 +39,10 @@ const YoutuberBlock = ({
             channelData={channelData}
             csrfToken={csrfToken}
             setUserData={setUserData}
-            isFilter={false}
+            isFilter={isFilter}
             YoutuberImg={YoutuberImgOne}
             buttonId={0}
-            setChannelData={setSimilarChannelData}
-          />
-
-          <YouTuberBlock
-            isLoggedIn={isLoggedIn}
-            userData={userData}
-            channelData={SimilarChannelData}
-            csrfToken={csrfToken}
-            setUserData={setUserData}
-            setChannelData={setSimilarChannelData}
-            isFilter={true}
-            YoutuberImg={YoutuberImgTwo}
-            buttonId={1}
+            setChannelData={setChannelData}
           />
           </div>
         </div>

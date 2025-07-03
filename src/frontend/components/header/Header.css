@@ -1,7 +1,7 @@
 .container {
   width: 100%;
   height: 100%;
-  margin: 0 auto; 
+  margin: 0 auto;
   padding: 0 20px;
   box-sizing: border-box;
 }
@@ -20,46 +20,90 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 2rem;
+  padding-left: 3rem;
+  padding-right: 2rem;
   background-color: black;
-  height: 60px;
+  height: 90px;
   position: relative;
 }
 
 .header__left {
-  flex: 1;
+  flex: 0.5;
 }
 
 .header__center {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.header__right {
-  flex: 1;
+  flex: 2;
   display: flex;
-  justify-content: space-around;
-}
-
-.logo {
-  font-size: 30px;
-  font-weight: 900;
-  text-decoration: none;
-  color: white;
-}
-
-.logo span {
-  color: var(--main-red-col)
+  align-items: center;
+  justify-content: space-between;
 }
 
 .nav__links {
   display: flex;
-  gap: 7vw;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.header__link {
+  margin-right: 59px;
+}
+
+.header__link:last-child {
+  margin-right: 0;
+}
+
+.nav__extra-container {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  max-width: 0;
+  opacity: 0;
+  transition: max-width 0.5s ease, opacity 0.3s ease;
+  white-space: nowrap;
+}
+
+
+.nav__extra-container.visible {
+  max-width: 600px; /* настроить под ширину ссылок + стрелка */
+  opacity: 1;
+}
+
+/* Сами ссылки */
+.nav__extra-wrapper {
+  display: flex;
   align-items: center;
 }
 
-.mini__logo{
+/* Стрелка */
+.arrow-icon {
+  width: 7px;
+  height: 16px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.arrow-icon.rotated {
+  transform: rotate(180deg);
+}
+
+.header__right {
+  display: flex;
+}
+
+.logo {
+  img {
+    width: 150px;
+    height: 25px;
+  }
+  color: white;
+}
+
+.logo span {
+  color: var(--main-red-col);
+}
+
+.mini__logo {
   width: 30px;
   height: 30px;
   margin-top: 2%;
@@ -67,7 +111,7 @@ header {
 
 .header__link {
   color: white;
-  font-weight: bold;
+  font-weight: 600;
   text-decoration: none;
   font-size: 16px;
 }
@@ -83,7 +127,6 @@ header {
   transform: rotate(-90deg);
 }
 
-
 header.active {
   max-height: 150px;
   padding-bottom: 10px;
@@ -95,7 +138,7 @@ header.active .header__sublinks {
   margin-bottom: 2%;
 }
 
-.header__top{
+.header__top {
   display: flex;
   align-items: center;
 }
@@ -103,7 +146,7 @@ header.active .header__sublinks {
 .header__link {
   text-transform: uppercase;
   text-decoration: none;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 15px;
   text-align: center;
   color: #ffffff;
@@ -111,7 +154,7 @@ header.active .header__sublinks {
     transition: all 0.6s;
   }
   &:last-child {
-    margin-right: 0px;
+    margin-right: 59px;
   }
 }
 .header__link:hover {
@@ -152,50 +195,61 @@ header.active .header__sublinks {
     font-size: 12px;
   }
 }
-@media (min-width: 768px) and (max-width: 1024px){
-  .header__right{
-    flex : 0;
+
+.authorize__button {
+  color: #fff;
+  background-color: black;
+  border: 1px solid white;
+  width: 130px;
+  height: 35px;
+  font-size: 15px;
+  border-radius: 7px;
+  font-weight: 700;
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+  .header__right {
+    flex: 0;
   }
   .logo {
     width: 100px;
     font-size: 20px;
   }
-  .header__link{
+  .header__link {
     font-size: 13px;
   }
 }
 
-@media (max-width: 450px){
-  .header__link{
+@media (max-width: 450px) {
+  .header__link {
     font-size: 10px;
   }
-  .header__right{
+  .header__right {
     flex: 0;
   }
-  .down__arrow{
+  .down__arrow {
     width: 15px;
     height: 15px;
   }
-  .header__sublinks{
-    .header__link{
+  .header__sublinks {
+    .header__link {
       font-size: 7px;
       width: 70px;
     }
   }
-  header.active .header__sublinks{
+  header.active .header__sublinks {
     margin: 0 auto;
     margin-top: 5%;
   }
-  header.active{
+  header.active {
     padding-bottom: 20px;
   }
 }
 
-@media (min-width: 2500px) and (max-height: 1480px){
-  header.active .header__sublinks{
+@media (min-width: 2500px) and (max-height: 1480px) {
+  header.active .header__sublinks {
     margin-top: 1.5%;
   }
-  .header__sublinks{
+  .header__sublinks {
     margin-left: 1.7%;
   }
 }
