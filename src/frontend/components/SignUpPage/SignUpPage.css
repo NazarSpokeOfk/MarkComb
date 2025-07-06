@@ -1,0 +1,70 @@
+.sign__up-flex{
+    display: flex;
+    gap: 40px;
+}
+.sign__up-title{
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 39px;
+}
+.continue__btn{
+    background-color: black;
+    color: white;
+    border-radius: 15px;
+    width: 160px;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.sign__up-main_flex{
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 40%;
+    margin-bottom: 500px;
+    gap: 40px;
+}
+
+.sign__up-block{
+    .decoration{
+        margin-top: 70px;
+        margin-left: 25%;
+    }
+}
+
+.captcha__active{
+    align-items: center;
+    gap: 70px;
+    margin-top: 120px;
+}
+
+.captcha__flex-box{
+    display: flex;
+    flex-direction: column;
+    align-items : center;
+    gap : 36px;
+}
+
+.checkbox__block{
+    gap: 12px;
+    display: flex;
+    align-items : flex-start;
+    width: 70%;
+}
+
+.agreement__text{
+    margin-top: 8px;
+    font-size: 14px;
+    color: #AAAAAA;
+}
+
+.checkbox{
+    width: 40px;
+    height: 40px;
+}
+
+.agreement__link{
+    text-decoration: none;
+    color: rgba(0, 47, 255, 0.56);
+}

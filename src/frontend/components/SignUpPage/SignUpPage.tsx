@@ -1,0 +1,205 @@
+import backIcon from "../../icons/backbutton.png";
+import { useState, useEffect } from "react";
+
+import { useTranslation } from "react-i18next";
+import { useNavigate, Link } from "react-router-dom";
+
+import "./SignUpPage.css";
+import "../../fonts/font.css";
+
+import ReCAPTCHA from "react-google-recaptcha";
+import TypeWriterComponent from "../headerFilter/functions/TypeWriterComponent";
+import CodeInput from "../codeInput/CodeInput"
+
+import { SignUpPageProps } from "../../types/types";
+import { SignInData } from "../../interfaces/interfaces";
+
+import SignUpFunctions from "./functions/SignUpFunctions";
+
+import decoration from "../../icons/decoration.png";
+const SignUpPage = ({ signInData, setSignInData }: SignUpPageProps) => {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  const [step, setStep] = useState<number>(0);
+  const [FirstStepsCompleted, setFirstStepsCompleted] =
+    useState<boolean>(false);
+  const stepKeys: (keyof SignInData)[] = [
+    "username",
+    "email",
+    "password",
+    "recaptchaValue",
+    "verification_code",
+  ];
+  const titles = [
+    "Hello there, what's your name?",
+    "What's your email?",
+    "What password will you set?",
+    "Oh, I almost forgot 🧐",
+    "Enter verification code",
+  ];
+
+  const [triggerErase, setTriggerErase] = useState<
+    "forward" | "backward" | null
+  >(null);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [inputValue, setInputValue] = useState<string>("");
+  const [error, setError] = useState<string | null>(null);
+  const isCheckboxesComplete = Boolean(signInData.isAgreed && signInData.recaptchaValue);
+
+  const signUpFunctions = new SignUpFunctions();
+
+  useEffect(() => {
+    console.log("step : ", step);
+  }, [step]);
+
+  useEffect(() => {
+    if (step === 3) {
+      setFirstStepsCompleted(true);
+    } else {
+      setFirstStepsCompleted(false);
+    }
+  }, [step]);
+
+  useEffect(() => {
+    const isCaptchaPassed = !!signInData.recaptchaValue;
+    const isAgreementChecked = signInData.isAgreed;
+  
+    if (isCaptchaPassed && isAgreementChecked) {
+      signUpFunctions.handleContinue({
+        stepKeys,
+        step,
+        inputValue,
+        setError,
+        setTriggerErase,
+        setSignInData,
+        signInData
+      });
+    }
+  }, [signInData.recaptchaValue, signInData.isAgreed]);
+
+  return (
+    <>
+      <img
+        onClick={() => {
+          if (step === 0) {
+            navigate("/authorization");
+          } else {
+            setTriggerErase("backward");
+            setInputValue("");
+          }
+        }}
+        src={backIcon}
+        alt=""
+        className="back__button"
+      />
+
+      <div className="sign__up-block">
+        {!FirstStepsCompleted ? (
+          <img src={decoration} alt="" className="decoration" />
+        ) : null}
+        <div
+          className={`sign__up-main_flex ${
+            FirstStepsCompleted ? "captcha__active" : ""
+          }`}
+        >
+          <h1 className="sign__up-title">
+            <TypeWriterComponent
+              words={[titles[currentIndex]]}
+              triggerErase={triggerErase}
+              onEraseComplete={(direction) => {
+                setTriggerErase(null);
+                if (direction === "forward") {
+                  setCurrentIndex((prev) => prev + 1);
+                  setStep((prev) => prev + 1);
+                } else {
+                  setCurrentIndex((prev) => prev - 1);
+                  setStep((prev) => prev - 1);
+                }
+                setInputValue("");
+              }}
+            />
+          </h1>
+
+          {!FirstStepsCompleted && !isCheckboxesComplete ? (
+            <div className="sign__up-flex">
+              <input
+                value={inputValue}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setInputValue(value);
+                }}
+                type="text"
+                className="input"
+              />
+              <button
+                onClick={() => {
+                  signUpFunctions.handleContinue({
+                    stepKeys,
+                    step,
+                    inputValue,
+                    setError,
+                    setTriggerErase,
+                    setSignInData,
+                    signInData,
+                  });
+                }}
+                className="continue__btn"
+              >
+                {t("Continue")}
+              </button>
+            </div>
+          ) : (
+            <div className="captcha__flex-box">
+              <ReCAPTCHA
+                sitekey="6LcxnbQqAAAAALV-GfKKoJPxRVIshbTjTa5izOVr"
+                onChange={(token: string | null) => {
+                  console.log("Капча токен : ", token);
+                  setSignInData((prev) => ({ ...prev, recaptchaValue: token }));
+                }}
+                data-size="compact"
+              />
+
+              <div className="checkbox__block">
+                <input
+                  onClick={() => {
+                    setSignInData((prev) => ({
+                      ...prev,
+                      isAgreed: !prev.isAgreed,
+                    }));
+                  }}
+                  required
+                  type="checkbox"
+                  className="checkbox"
+                />
+                <p className="agreement__text">
+                  Я согласен со всеми положениями <br />
+                  <Link className="agreement__link" to="/terms">
+                    лицензионного соглашения
+                  </Link>{" "}
+                  и <br />
+                  <Link className="agreement__link" to="/dataprocessing">
+                    обработкой персональных данных.
+                  </Link>
+                  <br />
+                  <br />
+                  Также я принимаю{" "}
+                  <a
+                    className="agreement__link"
+                    href="https://www.youtube.com/t/terms"
+                  >
+                    {t("YouTube's terms of service")}
+                  </a>
+                </p>
+              </div>
+            </div>
+          )}
+
+          {isCheckboxesComplete && <CodeInput onComplete={(code) => console.log("Код введён:", code)} />}
+
+          {error && <p className="error-text">{error}</p>}
+        </div>
+      </div>
+    </>
+  );
+};
+export default SignUpPage;

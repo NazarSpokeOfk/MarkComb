@@ -20,35 +20,35 @@ const Footer = () => {
         <div className="first__flex">
           <img src={HeaderLogo} alt="" className="first__flex-logo" />
           <p className="first__flex-text">
-            A tool for promotion through YouTube. Fast. <br />
-            Smart. Effective.
+            {t("A tool for promotion through YouTube. Fast")}. <br />
+            {t("Smart. Effective")}.
           </p>
         </div>
 
         <div className="information__flex">
           <div className="second__flex">
-            <h2 className="flex__title">Documents</h2>
+            <h2 className="flex__title">{t("Documents")}</h2>
             <div className="links__flex">
               <Link to="" className="flex__link">
-                Data processing agreement
+                {t("Data processing agreement")}
               </Link>
               <Link to="" className="flex__link">
-                Terms of service
+                {t("Terms of service")}
               </Link>
               <Link to="" className="flex__link">
-                Privacy policy
+                {t("Privacy policy")}
               </Link>
               <Link to="" className="flex__link">
-                Offer
+                {t("Offer")}
               </Link>{" "}
               <Link to="" className="flex__link">
-                Our purpose
+                {t("Our purpose")}
               </Link>
             </div>
           </div>
 
           <div className="third__flex">
-            <h2 className="flex__title">Contact us</h2>
+            <h2 className="flex__title">{t("Contact us")}</h2>
             <a className="mail" href="mailto:markcombsup@gmail.com">
               markcombsup@gmail.com
             </a>
@@ -65,7 +65,7 @@ const Footer = () => {
       </div>
       <div className="footer__divider" />
 
-      <p className="footer__last-text">© 2025 MarkComb. All rights reserved</p>
+      <p className="footer__last-text">{t("© 2025 MarkComb. All rights reserved")}</p>
     </section>
   );
 };

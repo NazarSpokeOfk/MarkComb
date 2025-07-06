@@ -42,7 +42,8 @@ export interface SignInData {
   password : string,
   username : string,
   recaptchaValue : string | null,
-  verification_code : string
+  verification_code : string,
+  isAgreed : boolean
 }
 
 export interface LogInData {

@@ -1,6 +1,5 @@
 import React, { RefObject, SetStateAction } from "react";
 import { CredentialResponse } from "@react-oauth/google";
-
 import {
   UserData,
   ChannelData,
@@ -10,7 +9,7 @@ import {
   SelectedFilterLabels,
   VideoData,
   PurchaseData,
-  dataGettingState
+  dataGettingState,
 } from "../interfaces/interfaces";
 import { NavigateFunction } from "react-router-dom";
 
@@ -60,7 +59,7 @@ export type HeaderFilterProps = SelectProps<
     isFilterCTAActive: boolean;
     isModalOpened: boolean;
     entryMethod: string;
-    setIsFilter : React.Dispatch<React.SetStateAction<boolean>>
+    setIsFilter: React.Dispatch<React.SetStateAction<boolean>>;
   };
 
 export type ModalProps = SelectProps<
@@ -174,7 +173,7 @@ export type YouTubersBlockProps = CommonTypes &
     channelData: ChannelData | null;
     SimilarChannelData: ChannelData | null;
     csrfToken: string;
-    isFilter : boolean
+    isFilter: boolean;
   };
 
 export type PurchasesProps = SelectProps<CommonTypes, "userData"> &
@@ -186,10 +185,7 @@ export type CheckCookiesProps = {
   setIsCookieClosed: React.Dispatch<React.SetStateAction<boolean>>;
 } & SelectProps<TypesOfSets, "setIsLoggedIn" | "setUserData">;
 
-export type FilterFetchesProps = SelectProps<
-  TypesOfSets,
-  "setChannelData"
-> & {
+export type FilterFetchesProps = SelectProps<TypesOfSets, "setChannelData"> & {
   content_type: string | null | number[];
   age_group: string | null | number[];
   minsubs: number | null;
@@ -358,14 +354,14 @@ export type SelectFeatureProps = {
   isVoted: boolean;
   setIsVoted: React.Dispatch<React.SetStateAction<boolean>>;
   navigate: NavigateFunction;
-  userData : UserData
+  userData: UserData;
 };
 
 export type HandleButtonClickProps = {
   updatedData: ChannelData;
   buttonId: number;
-  dataGettingState : dataGettingState;
-  setDataGettingState : React.Dispatch<React.SetStateAction<dataGettingState>>;
+  dataGettingState: dataGettingState;
+  setDataGettingState: React.Dispatch<React.SetStateAction<dataGettingState>>;
   isProcessingRef: RefObject<Record<number, boolean>>;
   userData: UserData;
   csrfToken: string;
@@ -381,7 +377,7 @@ export type FetchDataToDBProps = {
   method: string;
   body?: any | null;
   csrfToken?: string | "";
-  withToast? : boolean
+  withToast?: boolean;
 };
 
 export type DeletePurchaseData = {
@@ -393,7 +389,7 @@ export type DeletePurchaseData = {
 export type GetEmailProps = {
   csrfToken: string;
   channelId: string;
-  setDataGettingState : React.Dispatch<React.SetStateAction<dataGettingState>>
+  setDataGettingState: React.Dispatch<React.SetStateAction<dataGettingState>>;
 };
 
 export type ValidatePurchaseDataProps = {
@@ -457,10 +453,76 @@ export type CheckStatisticsOfVideoProps = {
   videoId: string | null;
 };
 
-// export type BtnsState = Record<
-//   number,
-//   { isProcessing: boolean; class: string | null }
-// >;
+export type SignUpPageProps = {
+  signInData: SignInData;
+} & SelectProps<TypesOfSets, "setSignInData">;
+
+export type ValidateStepProps = {
+  step : number;
+  stepKeys : (keyof SignInData)[];
+  inputValue : string;
+  setError : React.Dispatch<React.SetStateAction<string | null>>
+  signInData : SignInData
+} & SelectProps<TypesOfSets,"setSignInData">
+
+export type HandleContinueProps = {
+  step : number;
+  stepKeys : (keyof SignInData)[];
+  inputValue : string;
+  setError : React.Dispatch<React.SetStateAction<string | null>>
+  setTriggerErase : React.Dispatch<React.SetStateAction<"forward" | "backward" | null>>,
+  signInData : SignInData
+} & SelectProps<TypesOfSets,"setSignInData">
+
+export type Direction = "forward" | "backward" | null;
+
+export type TypeWriterComponentProps = {
+  words: string[];
+  triggerErase?: Direction; // Управляемый режим
+  onEraseComplete?: (direction: "forward" | "backward") => void;
+  autoLoop?: boolean; // Автономный режим
+  delayBetweenWords?: number;
+}
+
+export type SignInValidatorsProps = {
+  string : string;
+} & SelectProps<TypesOfSets,"setSignInData">
+
+export type ValidateCaptchaAndAgreementProps = {
+  signInData : SignInData
+}
+
+export type CheckIfReadyToContinueProps = {
+  stepKeys : (keyof SignInData)[];
+  step : number
+  inputValue : string
+  setError : React.Dispatch<React.SetStateAction<string | null>>
+  setTriggerErase : React.Dispatch<React.SetStateAction<"forward" | "backward" | null>>,
+} & SelectProps<TypesOfSets,"setSignInData">
+
+export type HandleChangeCodeInputProps = {
+  index : number;
+  code  : string;
+  values : string[]
+  setValues : React.Dispatch<React.SetStateAction<string[]>>
+  onComplete: (code: string) => void
+  inputsRef : RefObject<(HTMLInputElement | null)[]>
+}
+
+export type HandleKeyDownProps = {
+  index : number;
+  e: React.KeyboardEvent;
+  values : string[];
+  inputsRef : RefObject<(HTMLInputElement | null)[]>
+}
+
+export type HandlePasteProps = {
+  e: React.ClipboardEvent;
+  values : string[]
+  setValues : React.Dispatch<React.SetStateAction<string[]>>
+  onComplete: (code: string) => void
+  inputsRef : RefObject<(HTMLInputElement | null)[]>
+}
 
 export const defaultUserData: UserData = {
   channels: [],

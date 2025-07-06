@@ -37,6 +37,9 @@ import ScrollToTop from "./components/scrollToTop/scrollToTop";
 import ForbiddenThumbnail from "./components/forbiddenThumbnail/ForbiddenThumbnail";
 import TooManyRequestsThumbnail from "./components/tooManyRequestsThumbnail/tooManyRequestThumbnail";
 import CookiesWindow from "./components/cookiesWindow/CookiesWindow";
+import AuthorizationPage from "./components/authorizationPage/authorizationPage";
+import LogInPage from "./components/logInPage/LogInPage";
+import SignUpPage from "./components/SignUpPage/SignUpPage";
 
 import checkCookies from "./Client-ServerMethods/checkCookies";
 import { setGlobalNavigate } from "./utilities/errorHandler";
@@ -76,6 +79,7 @@ function App() {
     username: "",
     recaptchaValue: "",
     verification_code: "",
+    isAgreed : false
   });
   const [logInData, setLogInData] = useState<LogInData>({
     email: "",
@@ -99,8 +103,8 @@ function App() {
   }, [isCookieClosed]);
 
   useEffect(() => {
-    console.log("UserData : ", userData);
-  }, [userData]);
+    console.log("signInData : ", signInData);
+  }, [signInData]);
 
   return (
     <>
@@ -292,6 +296,40 @@ function App() {
           element={
             <ErrorBoundary>
               <TooManyRequestsThumbnail />
+            </ErrorBoundary>
+          }
+        />
+        <Route
+          path="/authorization"
+          element={
+            <ErrorBoundary>
+              <AuthorizationPage />
+            </ErrorBoundary>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <ErrorBoundary>
+              <LogInPage
+              // setIsLoggedIn={setIsLoggedIn}
+              // setUserData={setUserData}
+              // isModalOpened={isModalOpened}
+              // logInData={logInData}
+              // setLogInData={setLogInData}
+              // signInData={signInData}
+              />
+            </ErrorBoundary>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <ErrorBoundary>
+              <SignUpPage
+                signInData={signInData}
+                setSignInData={setSignInData}
+              />
             </ErrorBoundary>
           }
         />

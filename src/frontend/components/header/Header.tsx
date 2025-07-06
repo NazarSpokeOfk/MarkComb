@@ -41,13 +41,13 @@ const Header = ({ hideLinks = false, isVoteEnabled }: HeaderProps) => {
         <div className="header__center">
           <nav className="nav__links">
             <Link to="/purchases" className="header__link">
-              PURCHASES
+              {t("PURCHASES")}
             </Link>
             <Link to="/promotion" className="header__link">
-              PROMOTION
+              {t("PROMOTION")}
             </Link>
             <Link to="/purchase" className="header__link">
-              PURCHASE
+              {t("PURCHASE")}
             </Link>
 
             <div
@@ -55,13 +55,13 @@ const Header = ({ hideLinks = false, isVoteEnabled }: HeaderProps) => {
             >
               <div className="nav__extra-wrapper">
                 <Link to="/faq" className="header__link">
-                  SPONSORS
+                  {t("SPONSORS")}
                 </Link>
                 <Link to="/contact" className="header__link">
-                  VOTING
+                  {t("VOTING")}
                 </Link>
                 <Link to="/contact" className="header__link">
-                  SUPPORT PROJECT
+                  {t("SUPPORT PROJECT")}
                 </Link>
               </div>
             </div>
@@ -75,7 +75,9 @@ const Header = ({ hideLinks = false, isVoteEnabled }: HeaderProps) => {
         </div>
 
         <div className="header__right">
-          <button className="authorize__button">Authorize</button>
+          <Link to={"/authorization"}>
+          <button className="authorize__button">{t("Authorize")}</button>
+          </Link>
         </div>
       </div>
     </header>

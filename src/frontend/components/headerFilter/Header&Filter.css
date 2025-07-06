@@ -19,6 +19,30 @@ main {
   font-family: "Inter", sans-serif;
 }
 
+.typewriter {
+  white-space: nowrap;
+  overflow: hidden;
+  span {
+    color: black;
+  }
+}
+
+.cursor {
+  display: inline-block;
+  animation: blink 0.8s infinite;
+  margin-left: 2px;
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+
 .CTA {
   display: flex;
   margin: 0 auto;
@@ -38,6 +62,10 @@ main {
   }
 }
 
+#cursor {
+  color: black;
+}
+
 .CTA__ytlogo {
   width: 150px;
   display: block;
@@ -54,10 +82,11 @@ main {
 .search__main {
   margin-left: 3%;
   font-size: 20px;
-  width: 800px;
+  width: 770px;
   height: 52px;
   border-radius: 17px;
   border: 1.5px solid black;
+  padding-left: 2%;
 }
 
 .login {
@@ -81,11 +110,25 @@ main {
   color: #000;
 }
 
+.animated-word {
+  transition: opacity 0.3s ease;
+}
+
+.fade-in {
+  opacity: 1;
+}
+
+.fade-out {
+  opacity: 0;
+}
+
+
 .Header__input-flex {
   display: flex;
   margin: 0 auto;
   width: 73%;
-  gap: 3%;
+  gap: 4%;
+  margin-bottom: 10%;
 }
 
 .buttons {
@@ -94,11 +137,7 @@ main {
   align-items: center;
   border-radius: 20px;
   width: 12%;
-  /* width: 65px;
-  height: 40px; */
-  /* margin-left: 1100px; */
-  /* margin-top: -120px; */
-  gap: 10%;
+  gap: 12%;
   justify-content: center;
 }
 
@@ -121,10 +160,8 @@ main {
   border: none;
   background: white;
   cursor: pointer;
-  /* margin-top: 45px;
-  margin-left: 20px; */
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   img {
     width: inherit;
     height: inherit;

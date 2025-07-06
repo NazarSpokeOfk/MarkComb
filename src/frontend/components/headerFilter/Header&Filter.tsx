@@ -13,21 +13,23 @@ import manageFiltersFetch from "../../Client-ServerMethods/filterFetches";
 
 import { HeaderFilterProps } from "../../types/types";
 
-import { defaultUserData } from "../../types/types";
+// import { defaultUserData } from "../../types/types";
 
-import { SelectedFilterLabels} from "../../interfaces/interfaces";
+import { SelectedFilterLabels } from "../../interfaces/interfaces";
 
 import "./Header&Filter.css";
 import "react-toastify/dist/ReactToastify.css";
 
+import TypeWriterComponent from "./functions/TypeWriterComponent";
+
 import Loading from "../../images/loading-gif.gif";
-import FilterBtnImg from "../../icons/filters.png";
-import SearchBtn from "../../icons/magnifing_glass.png";
+import FilterBtnImg from "../../icons/filterIcon.png";
+import SearchBtn from "../../icons/searchIcon.png";
 import ResetIcon from "../../icons/reseticon.png";
 import CloseFilter from "../../icons/closefilter.png";
 import DataToDB from "../../Client-ServerMethods/dataToDB";
 import HeaderFilterFunctions from "./functions/HeaderFilterFunctions";
-import YtLogo from "../../icons/YTLogo.png"
+import YtLogo from "../../icons/YTLogo.png";
 
 const HeaderFilter = ({
   setChannelData,
@@ -45,11 +47,13 @@ const HeaderFilter = ({
   setIsModalOpened,
   entryMethod,
   setEntryMethod,
-  setIsFilter
+  setIsFilter,
 }: HeaderFilterProps) => {
   const headerFilterFunctions = new HeaderFilterFunctions();
 
   const dataToDB = new DataToDB();
+
+  const [fade, setFade] = useState<boolean>(true);
 
   const isLittleMobile = useMediaQuery({ maxWidth: 430 });
 
@@ -128,8 +132,8 @@ const HeaderFilter = ({
   }, [selectedFilterLabels]);
 
   useEffect(() => {
-    console.log("userData in HeaderFilter : ", userData)
-  },[userData])
+    console.log("userData in HeaderFilter : ", userData);
+  }, [userData]);
 
   return (
     <>
@@ -144,59 +148,24 @@ const HeaderFilter = ({
 
         <section className="CTA">
           <h1 className="title__CTA">
-            Find a <span>Familiar</span>
+            {t("Find a")}{" "}
+            <TypeWriterComponent
+              words={[
+                "Familiar",
+                "Niche",
+                "Right",
+                "Targeted",
+                "Trusted",
+                "Authentic",
+              ]}
+              autoLoop={true}
+            />
           </h1>
 
           <img className="CTA__ytlogo" src={YtLogo} alt="" />
 
-          <h1 className="title__CTA">
-            Channel
-          </h1>
+          <h1 className="title__CTA">{t("Channel")}</h1>
         </section>
-
-        {/* <section className="login">
-          {isLoggedIn ? (
-            <Link className="profile__name" to={"/profile"}>
-              {userData?.userInformation?.username}
-            </Link>
-          ) : null}{" "}
-          {isLoggedIn ? (
-            <Link
-              onClick={() => {
-                dataToDB.logOut();
-                setUserData(defaultUserData);
-                setIsLoggedIn(false);
-              }}
-              to="#"
-              className="log__in"
-            >
-              {t("Log out")}
-            </Link>
-          ) : (
-            <>
-              <Link
-                onClick={() => {
-                  setEntryMethod("logIn");
-                  setIsModalOpened(true);
-                }}
-                to="#"
-                className="log__in"
-              >
-                {t("Log in")} /
-              </Link>
-              <Link
-                onClick={() => {
-                  setEntryMethod("SignIn");
-                  setIsModalOpened(true);
-                }}
-                to="#"
-                className="sign__in"
-              >
-                {t("Sign in")}
-              </Link>
-            </>
-          )}
-        </section> */}
 
         <section className="search">
           <div className="container">
@@ -364,7 +333,7 @@ const HeaderFilter = ({
                         : ""
                     }`}
                     onClick={() => {
-                      setIsFilter(true)
+                      setIsFilter(true);
                       const newFilter = {
                         type: "audience",
                         value: label,
@@ -421,7 +390,7 @@ const HeaderFilter = ({
                         : ""
                     }`}
                     onClick={() => {
-                      setIsFilter(true)
+                      setIsFilter(true);
                       const newFilter = {
                         type: "subscribers",
                         value: label[1],
@@ -478,7 +447,7 @@ const HeaderFilter = ({
                         : ""
                     }`}
                     onClick={() => {
-                      setIsFilter(true)
+                      setIsFilter(true);
                       const newFilter = {
                         type: "contentType",
                         value: label,
