@@ -10,6 +10,7 @@ import {
   VideoData,
   PurchaseData,
   dataGettingState,
+  registrationStatus,
 } from "../interfaces/interfaces";
 import { NavigateFunction } from "react-router-dom";
 
@@ -507,7 +508,7 @@ export type HandleChangeCodeInputProps = {
   setValues : React.Dispatch<React.SetStateAction<string[]>>
   onComplete: (code: string) => void
   inputsRef : RefObject<(HTMLInputElement | null)[]>
-}
+} & SelectProps<TypesOfSets,"setSignInData">
 
 export type HandleKeyDownProps = {
   index : number;
@@ -524,6 +525,16 @@ export type HandlePasteProps = {
   inputsRef : RefObject<(HTMLInputElement | null)[]>
 }
 
+export type CodeInputProps = {
+  onComplete: (code: string) => void
+} & SelectProps<TypesOfSets,"setSignInData">
+
+export type HandleRegisterProps = {
+  updatedData : SignInData
+  setRegistrationStatus : React.Dispatch<React.SetStateAction<registrationStatus>>
+  setHide : React.Dispatch<React.SetStateAction<boolean>>
+}
+
 export const defaultUserData: UserData = {
   channels: [],
   userInformation: {
@@ -537,3 +548,4 @@ export const defaultUserData: UserData = {
     uses: 0,
   },
 };
+

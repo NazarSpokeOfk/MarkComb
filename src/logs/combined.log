@@ -126,3 +126,12 @@ Node.js v20.17.0
 " (printf.js:11):  (run-channelsparser) Ошибка при парсинге данных:  Unexpected token ''', "[
   'mc',
   'g"... is not valid JSON
+09.07.2025, 21:13:43 + "
+" [ERROR] + "
+" (printf.js:11): duplicate key value violates unique constraint "users_email_key"
+09.07.2025, 21:23:45 + "
+" [ERROR] + "
+" (printf.js:11): duplicate key value violates unique constraint "users_email_key"
+09.07.2025, 21:27:36 + "
+" [ERROR] + "
+" (printf.js:11): duplicate key value violates unique constraint "users_email_key"

@@ -1,3 +1,4 @@
+
 export interface VideoData {
   title: string;
   thumbnail: string;
@@ -102,3 +103,25 @@ export interface SelectedPackage  {
 export interface dataGettingState {
   state : "default" | "success" | "fail"
 }
+
+export const statusMessages = {
+  ok: {
+    title: "Alright, you all set!",
+    emoji: "✅"
+  },
+  invalid: {
+    title: "Sorry, an error occurred. Please check your email and come back later.",
+    emoji: "❌"
+  },
+  exists: {
+    title: "The email you want to use already has an account linked to it.",
+    emoji: "🤔"
+  },
+  wrong: {
+    title: "Something went wrong. Try again.",
+    emoji: "🚫"
+  }
+} as const;
+
+export type RegistrationStatusKey = keyof typeof statusMessages;
+

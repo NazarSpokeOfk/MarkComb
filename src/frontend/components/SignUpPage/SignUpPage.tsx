@@ -9,20 +9,23 @@ import "../../fonts/font.css";
 
 import ReCAPTCHA from "react-google-recaptcha";
 import TypeWriterComponent from "../headerFilter/functions/TypeWriterComponent";
-import CodeInput from "../codeInput/CodeInput"
+import CodeInput from "../codeInput/CodeInput";
 
 import { SignUpPageProps } from "../../types/types";
-import { SignInData } from "../../interfaces/interfaces";
+import { SignInData, RegistrationStatusKey, statusMessages } from "../../interfaces/interfaces";
 
 import SignUpFunctions from "./functions/SignUpFunctions";
 
+import DataToDB from "../../Client-ServerMethods/dataToDB";
+
 import decoration from "../../icons/decoration.png";
 const SignUpPage = ({ signInData, setSignInData }: SignUpPageProps) => {
+  const dataToDb = new DataToDB();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [step, setStep] = useState<number>(0);
-  const [FirstStepsCompleted, setFirstStepsCompleted] =
-    useState<boolean>(false);
+  const [hide, setHide] = useState<boolean>(false);
+  const [registrationStatus, setRegistrationStatus] = useState<RegistrationStatusKey | null>(null);
   const stepKeys: (keyof SignInData)[] = [
     "username",
     "email",
@@ -44,7 +47,9 @@ const SignUpPage = ({ signInData, setSignInData }: SignUpPageProps) => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [inputValue, setInputValue] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
-  const isCheckboxesComplete = Boolean(signInData.isAgreed && signInData.recaptchaValue);
+  const isCheckboxesComplete = Boolean(
+    signInData.isAgreed && signInData.recaptchaValue
+  );
 
   const signUpFunctions = new SignUpFunctions();
 
@@ -53,17 +58,17 @@ const SignUpPage = ({ signInData, setSignInData }: SignUpPageProps) => {
   }, [step]);
 
   useEffect(() => {
-    if (step === 3) {
-      setFirstStepsCompleted(true);
+    if (step >= 3) {
+      setHide(true);
     } else {
-      setFirstStepsCompleted(false);
+      setHide(false);
     }
   }, [step]);
 
   useEffect(() => {
     const isCaptchaPassed = !!signInData.recaptchaValue;
     const isAgreementChecked = signInData.isAgreed;
-  
+
     if (isCaptchaPassed && isAgreementChecked) {
       signUpFunctions.handleContinue({
         stepKeys,
@@ -72,88 +77,58 @@ const SignUpPage = ({ signInData, setSignInData }: SignUpPageProps) => {
         setError,
         setTriggerErase,
         setSignInData,
-        signInData
+        signInData,
       });
+      dataToDb.makeFetchForCode({ email: signInData.email });
     }
   }, [signInData.recaptchaValue, signInData.isAgreed]);
 
   return (
     <>
-      <img
-        onClick={() => {
-          if (step === 0) {
-            navigate("/authorization");
-          } else {
-            setTriggerErase("backward");
-            setInputValue("");
-          }
-        }}
-        src={backIcon}
-        alt=""
-        className="back__button"
-      />
+      {step >= 4 ? null : (
+        <img
+          onClick={() => {
+            if (step === 0) {
+              navigate("/authorization");
+            } else {
+              setTriggerErase("backward");
+              setInputValue("");
+            }
+          }}
+          src={backIcon}
+          alt=""
+          className="back__button"
+        />
+      )}
 
       <div className="sign__up-block">
-        {!FirstStepsCompleted ? (
-          <img src={decoration} alt="" className="decoration" />
-        ) : null}
-        <div
-          className={`sign__up-main_flex ${
-            FirstStepsCompleted ? "captcha__active" : ""
-          }`}
-        >
-          <h1 className="sign__up-title">
-            <TypeWriterComponent
-              words={[titles[currentIndex]]}
-              triggerErase={triggerErase}
-              onEraseComplete={(direction) => {
-                setTriggerErase(null);
-                if (direction === "forward") {
-                  setCurrentIndex((prev) => prev + 1);
-                  setStep((prev) => prev + 1);
-                } else {
-                  setCurrentIndex((prev) => prev - 1);
-                  setStep((prev) => prev - 1);
-                }
-                setInputValue("");
-              }}
-            />
-          </h1>
-
-          {!FirstStepsCompleted && !isCheckboxesComplete ? (
-            <div className="sign__up-flex">
-              <input
-                value={inputValue}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  setInputValue(value);
+        {!hide ? <img src={decoration} alt="" className="decoration" /> : null}
+        <div className={`sign__up-main_flex ${hide ? "captcha__active" : ""}`}>
+          {/* {registrationStatus === "" ? ( */}
+            <h1 className="sign__up-title">
+              <TypeWriterComponent
+                words={[titles[currentIndex]]}
+                triggerErase={triggerErase}
+                onEraseComplete={(direction) => {
+                  setTriggerErase(null);
+                  if (direction === "forward") {
+                    setCurrentIndex((prev) => prev + 1);
+                    setStep((prev) => prev + 1);
+                  } else {
+                    setCurrentIndex((prev) => prev - 1);
+                    setStep((prev) => prev - 1);
+                  }
+                  setInputValue("");
                 }}
-                type="text"
-                className="input"
               />
-              <button
-                onClick={() => {
-                  signUpFunctions.handleContinue({
-                    stepKeys,
-                    step,
-                    inputValue,
-                    setError,
-                    setTriggerErase,
-                    setSignInData,
-                    signInData,
-                  });
-                }}
-                className="continue__btn"
-              >
-                {t("Continue")}
-              </button>
-            </div>
-          ) : (
+            </h1>
+          {/* ) : null} */}
+
+          {step === 3 ? (
             <div className="captcha__flex-box">
               <ReCAPTCHA
                 sitekey="6LcxnbQqAAAAALV-GfKKoJPxRVIshbTjTa5izOVr"
                 onChange={(token: string | null) => {
-                  console.log("Капча токен : ", token);
                   setSignInData((prev) => ({ ...prev, recaptchaValue: token }));
                 }}
                 data-size="compact"
@@ -192,9 +167,67 @@ const SignUpPage = ({ signInData, setSignInData }: SignUpPageProps) => {
                 </p>
               </div>
             </div>
+          ) : null}
+
+          {hide ? null : (
+            <div className="sign__up-flex">
+              <input
+                value={inputValue}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setInputValue(value);
+                }}
+                type="text"
+                className="input"
+              />
+              <button
+                onClick={() => {
+                  signUpFunctions.handleContinue({
+                    stepKeys,
+                    step,
+                    inputValue,
+                    setError,
+                    setTriggerErase,
+                    setSignInData,
+                    signInData,
+                  });
+                }}
+                className="continue__btn"
+              >
+                {t("Continue")}
+              </button>
+            </div>
           )}
 
-          {isCheckboxesComplete && <CodeInput onComplete={(code) => console.log("Код введён:", code)} />}
+          {registrationStatus ? (
+            <div className="result__block">
+              <div className="result__block-emoji">{statusMessages[registrationStatus].emoji}</div>
+              <h2 className="result__block-title">{statusMessages[registrationStatus].title}</h2>
+              <p className="result__block-subtitle">
+                We'll redirect you to main page in
+              </p>
+              <h2 className="result__block-number">5</h2>
+            </div>
+          ) : null}
+
+          {isCheckboxesComplete && step === 4 && (
+            <CodeInput
+              onComplete={(code) => {
+                const updatedData = { ...signInData, verification_code: code };
+                setSignInData(updatedData);
+
+                setTimeout(async () => {
+                  await signUpFunctions.handleRegister({
+                    updatedData,
+                    setRegistrationStatus,
+                    setHide,
+                  });
+                  setStep(6);
+                }, 1000);
+              }}
+              setSignInData={setSignInData}
+            />
+          )}
 
           {error && <p className="error-text">{error}</p>}
         </div>

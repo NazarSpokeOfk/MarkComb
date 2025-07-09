@@ -1,15 +1,22 @@
-import React from "react";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
+
+import { CodeInputProps } from "../../types/types";
 
 import CodeInputFunctions from "./functions/CodeInputFunctions";
-const CodeInput = ({ onComplete }: { onComplete: (code: string) => void }) => {
+
+import "./CodeInput.css"
+const CodeInput = ({ onComplete, setSignInData } : CodeInputProps) => {
+  // setHide(true)
   const codeInputFunctions = new CodeInputFunctions();
 
   const [values, setValues] = useState<string[]>(Array(6).fill(""));
   const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
 
+  useEffect(() => {
+    console.log("values : ",values)
+  })
   return (
-    <div className="flex gap-2 justify-center">
+    <div className="code__flex">
       {values.map((val, i) => (
         <input
           key={i}
@@ -28,6 +35,7 @@ const CodeInput = ({ onComplete }: { onComplete: (code: string) => void }) => {
               setValues,
               onComplete,
               inputsRef,
+              setSignInData
             })
           }
           onKeyDown={(e) =>
@@ -42,7 +50,7 @@ const CodeInput = ({ onComplete }: { onComplete: (code: string) => void }) => {
               inputsRef,
             });
           }}
-          className="w-12 h-12 text-center border border-gray-300 rounded-md text-lg focus:outline-blue-500"
+          className="input__cell"
         />
       ))}
     </div>

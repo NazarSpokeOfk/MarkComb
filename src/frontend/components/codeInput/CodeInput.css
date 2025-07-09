@@ -1,0 +1,13 @@
+.code__flex{
+    display: flex;
+    gap: 43px;
+}
+.input__cell{
+    width: 86px;
+    height: 114px;
+    border-radius: 30px;
+    border : 1px solid black;
+    font-size: 25px;
+    font-weight: 700;
+    text-align: center;
+}

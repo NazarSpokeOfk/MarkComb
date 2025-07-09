@@ -1,6 +1,6 @@
 import {HandleChangeCodeInputProps,HandleKeyDownProps,HandlePasteProps} from "../../../types/types"
 class CodeInputFunctions {
-    handleChange = ({index, code , values , setValues , onComplete , inputsRef} : HandleChangeCodeInputProps) => {
+    handleChange = ({index, code , values , setValues , onComplete , inputsRef , setSignInData} : HandleChangeCodeInputProps) => {
         if (!/^[0-9]?$/.test(code)) return;
     
         const newValues = [...values];
@@ -14,6 +14,7 @@ class CodeInputFunctions {
     
         if (newValues.every((val) => val !== "")) {
           onComplete(newValues.join(""));
+          setSignInData((prev) => ({...prev, verification_code : newValues.join("")}))
         }
       };
     

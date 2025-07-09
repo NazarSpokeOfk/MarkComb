@@ -55,7 +55,7 @@ import clearCookie from "../../controllers/cookies/logOutController.js"
 const userController = new UserController
 
 router.post('/Uses/:id',(req,res) => userController.addUses(req,res))
-router.post('/user' , registerLimiter , (req,res) =>userController.SignIn(req,res))
+router.post('/user'  , (req,res) =>userController.SignIn(req,res))
 router.post('/auth/google' , (req,res) => googleAuthController(req,res))
 router.post('/login' , logInLimiter, (req,res) => userController.logIn(req,res))
 router.post('/verification' , (req,res) => verifController(req,res)) 

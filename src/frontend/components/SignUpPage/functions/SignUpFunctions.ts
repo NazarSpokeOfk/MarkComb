@@ -1,11 +1,15 @@
-import { SignInData } from "../../../interfaces/interfaces";
 import {
   ValidateStepProps,
   HandleContinueProps,
   SignInValidatorsProps,
   ValidateCaptchaAndAgreementProps,
-  CheckIfReadyToContinueProps,
+  HandleRegisterProps
 } from "../../../types/types";
+
+import DataToDB from "../../../Client-ServerMethods/dataToDB";
+import { SignInData } from "../../../interfaces/interfaces";
+
+const dataToDb = new DataToDB();
 
 class SignUpFunctions {
   validateUserName({ string, setSignInData }: SignInValidatorsProps) {
@@ -143,33 +147,15 @@ class SignUpFunctions {
     return null;
   };
 
-  checkIfReadyToContinue(
-    signInData: SignInData,
-    updatedData: Partial<typeof signInData>,
-    {
-      stepKeys,
-      step,
-      inputValue,
-      setError,
-      setTriggerErase,
-      setSignInData,
-    }: CheckIfReadyToContinueProps
-  ) {
-    const newData = { ...signInData, ...updatedData };
-    const isCaptchaPassed = !!newData.recaptchaValue;
-    const isAgreementChecked = newData.isAgreed;
+  async handleRegister ({updatedData,setRegistrationStatus,setHide} : HandleRegisterProps) {
+    const registration = await dataToDb.validateSignIn({ data: updatedData });
 
-    if (isCaptchaPassed && isAgreementChecked) {
-      this.handleContinue({
-        stepKeys,
-        step,
-        inputValue,
-        setError,
-        setTriggerErase,
-        setSignInData,
-        signInData: newData,
-      });
-    }
+    const status = registration.status;
+
+    setRegistrationStatus(status);
+
+    console.log("результат регистрации : ",status)
+    return setHide(true)
   }
 }
 export default SignUpFunctions;
