@@ -12,7 +12,11 @@ import TypeWriterComponent from "../headerFilter/functions/TypeWriterComponent";
 import CodeInput from "../codeInput/CodeInput";
 
 import { SignUpPageProps } from "../../types/types";
-import { SignInData, RegistrationStatusKey, statusMessages } from "../../interfaces/interfaces";
+import {
+  SignInData,
+  RegistrationStatusKey,
+  statusMessages,
+} from "../../interfaces/interfaces";
 
 import SignUpFunctions from "./functions/SignUpFunctions";
 
@@ -24,8 +28,10 @@ const SignUpPage = ({ signInData, setSignInData }: SignUpPageProps) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [step, setStep] = useState<number>(0);
+  const [countdown, setCountDown] = useState<number>(5);
   const [hide, setHide] = useState<boolean>(false);
-  const [registrationStatus, setRegistrationStatus] = useState<RegistrationStatusKey | null>(null);
+  const [registrationStatus, setRegistrationStatus] =
+    useState<RegistrationStatusKey | null>(null);
   const stepKeys: (keyof SignInData)[] = [
     "username",
     "email",
@@ -54,10 +60,6 @@ const SignUpPage = ({ signInData, setSignInData }: SignUpPageProps) => {
   const signUpFunctions = new SignUpFunctions();
 
   useEffect(() => {
-    console.log("step : ", step);
-  }, [step]);
-
-  useEffect(() => {
     if (step >= 3) {
       setHide(true);
     } else {
@@ -66,10 +68,22 @@ const SignUpPage = ({ signInData, setSignInData }: SignUpPageProps) => {
   }, [step]);
 
   useEffect(() => {
+    if (registrationStatus) {
+      const countDownTimer = setTimeout(() => {
+        setCountDown(countdown - 1);
+        if (countdown === 0) {
+          clearInterval(countDownTimer);
+          navigate("/search");
+        }
+      }, 1000);
+    }
+  });
+
+  useEffect(() => {
     const isCaptchaPassed = !!signInData.recaptchaValue;
     const isAgreementChecked = signInData.isAgreed;
 
-    if (isCaptchaPassed && isAgreementChecked) {
+    if (isCaptchaPassed && isAgreementChecked && step !== 0) {
       signUpFunctions.handleContinue({
         stepKeys,
         step,
@@ -79,12 +93,18 @@ const SignUpPage = ({ signInData, setSignInData }: SignUpPageProps) => {
         setSignInData,
         signInData,
       });
-      dataToDb.makeFetchForCode({ email: signInData.email });
+      dataToDb.makeFetchForCode({
+        email: signInData.email,
+        operationCode: 3,
+        setRegistrationStatus,
+        setStep
+      });
     }
   }, [signInData.recaptchaValue, signInData.isAgreed]);
 
   return (
     <>
+
       {step >= 4 ? null : (
         <img
           onClick={() => {
@@ -104,7 +124,7 @@ const SignUpPage = ({ signInData, setSignInData }: SignUpPageProps) => {
       <div className="sign__up-block">
         {!hide ? <img src={decoration} alt="" className="decoration" /> : null}
         <div className={`sign__up-main_flex ${hide ? "captcha__active" : ""}`}>
-          {/* {registrationStatus === "" ? ( */}
+          {registrationStatus ? null : (
             <h1 className="sign__up-title">
               <TypeWriterComponent
                 words={[titles[currentIndex]]}
@@ -122,7 +142,7 @@ const SignUpPage = ({ signInData, setSignInData }: SignUpPageProps) => {
                 }}
               />
             </h1>
-          {/* ) : null} */}
+          )}
 
           {step === 3 ? (
             <div className="captcha__flex-box">
@@ -136,7 +156,7 @@ const SignUpPage = ({ signInData, setSignInData }: SignUpPageProps) => {
 
               <div className="checkbox__block">
                 <input
-                  onClick={() => {
+                  onChange={() => {
                     setSignInData((prev) => ({
                       ...prev,
                       isAgreed: !prev.isAgreed,
@@ -201,12 +221,16 @@ const SignUpPage = ({ signInData, setSignInData }: SignUpPageProps) => {
 
           {registrationStatus ? (
             <div className="result__block">
-              <div className="result__block-emoji">{statusMessages[registrationStatus].emoji}</div>
-              <h2 className="result__block-title">{statusMessages[registrationStatus].title}</h2>
+              <div className="result__block-emoji">
+                {statusMessages[registrationStatus].emoji}
+              </div>
+              <h2 className="result__block-title">
+                {t(statusMessages[registrationStatus].title)}
+              </h2>
               <p className="result__block-subtitle">
-                We'll redirect you to main page in
+                {t("We'll redirect you to main page in")}
               </p>
-              <h2 className="result__block-number">5</h2>
+              <h2 className="result__block-number">{countdown}</h2>
             </div>
           ) : null}
 

@@ -8,6 +8,7 @@
     font-size: 39px;
 }
 .continue__btn{
+    transition: transform 0.3s ease;
     background-color: black;
     color: white;
     border-radius: 15px;
@@ -15,6 +16,10 @@
     font-weight: 600;
     font-size: 15px;
     cursor: pointer;
+}
+
+.continue__btn:hover{
+    transform: scale(0.95);
 }
 
 .sign__up-main_flex{
@@ -82,9 +87,10 @@
 .result__block-title{
     font-size: 54px;
     margin: 0;
+    text-align: center;
 }
 .result__block-subtitle{
-    font-size: 24px;
+    font-size: 22px;
     margin: 0;
 }
 .result__block-number{

@@ -10,7 +10,7 @@ import {
   VideoData,
   PurchaseData,
   dataGettingState,
-  registrationStatus,
+  RegistrationStatusKey,
 } from "../interfaces/interfaces";
 import { NavigateFunction } from "react-router-dom";
 
@@ -414,6 +414,9 @@ export type DeleteProfileProps = {
 
 export type MakeFetchForCodeDBProps = {
   email: string;
+  operationCode : number;
+  setRegistrationStatus : React.Dispatch<React.SetStateAction<RegistrationStatusKey | null>>
+  setStep : React.Dispatch<React.SetStateAction<number>>;
 };
 
 export type IsVerificationCodeCorrectProps = {
@@ -531,9 +534,18 @@ export type CodeInputProps = {
 
 export type HandleRegisterProps = {
   updatedData : SignInData
-  setRegistrationStatus : React.Dispatch<React.SetStateAction<registrationStatus>>
+  setRegistrationStatus : React.Dispatch<React.SetStateAction<RegistrationStatusKey | null>>
   setHide : React.Dispatch<React.SetStateAction<boolean>>
 }
+
+export type LogInPageProps = {
+  logInData : LogInData;
+} & SelectProps<TypesOfSets,"setLogInData" | "setUserData" | "setIsLoggedIn"> & SelectProps<CommonTypes,"userData">
+
+export type LogInFunctionProps = {
+    logInData : LogInData
+    setLogInStatus : React.Dispatch<React.SetStateAction<string | "success" | "fail">>
+} & SelectProps<TypesOfSets,"setUserData" | "setIsLoggedIn">
 
 export const defaultUserData: UserData = {
   channels: [],

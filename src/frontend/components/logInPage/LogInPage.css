@@ -1,102 +1,184 @@
-.login__block{
-    margin: 0 auto;
-    width: 55%;
-    gap: 30px;
-    align-items : center;
-    margin-bottom: 110px;
+.login__block {
+  margin: 0 auto;
+  width: 55%;
+  gap: 30px;
+  align-items: center;
+  margin-bottom: 110px;
 }
-.login__block-title{
-    font-size: 38px;
-    text-align: left;
-    margin-left: 29%;
-    font-weight: 700;
-}
-
-.login__block{
-    display: flex;
-    flex-direction: column;
+.login__block-title {
+  font-size: 38px;
+  text-align: left;
+  margin-left: 29%;
+  font-weight: 700;
 }
 
-.input__block{
-    display: flex;
-    gap: 20px;
+.login__block {
+  display: flex;
+  flex-direction: column;
+}
+
+.input__block {
+  display: flex;
+  gap: 20px;
 }
 
 .input__block:nth-child(2) {
-    flex-direction: row-reverse;
+  flex-direction: row-reverse;
 }
 .input__block:nth-child(1) {
-    flex-direction: row;
+  flex-direction: row;
 }
 
-.placeholder{
-    text-transform: uppercase;
-    background-color: black;
-    color: white;
-    width: 190px;
-    height: 54px;
-    border-radius: 15px;
-    font-weight: 600;
-    font-size: 13px;
-    span {
-        display: block;
-        text-align: center;
-        margin: 0 auto;
-        margin-top: 20px;
-    }
-}
-
-.input{
-    font-size: 15px;
-    font-weight: 700;
-    padding-left: 15px;
-    width: 365px;
-    height: 50px;
-    border-radius: 15px;
-    border: 1px solid black;
-}
-
-.button{
-    cursor: pointer;
-    height: 50px;
-    width: 75%;
-    border-radius: 15px;
-    border : 1px solid black;
-    background-color: #fff;
-    color : black;
-    text-transform: uppercase;
-    font-weight: 700;
-    font-size: 15px;
-}
-
-#forgot{
+.placeholder {
+  text-transform: uppercase;
+  background-color: black;
+  color: white;
+  width: 190px;
+  height: 54px;
+  border-radius: 15px;
+  font-weight: 600;
+  font-size: 13px;
+  span {
+    display: block;
+    text-align: center;
+    margin: 0 auto;
     margin-top: 20px;
-    background-color: black;
-    color : white;
+  }
 }
 
-.divider{
-    background-color: #ccc;
-    height: 1px;
-    width: 75%;
+.input {
+  font-size: 15px;
+  font-weight: 700;
+  padding-left: 15px;
+  width: 365px;
+  height: 50px;
+  border-radius: 15px;
+  border: 1px solid black;
 }
 
-.divider__container{
-    display: flex;
-    width: 75%;
-    align-items : center;
-    gap: 30px;
+.button {
+  cursor: pointer;
+  height: 50px;
+  width: 75%;
+  border-radius: 15px;
+  border: 1px solid black;
+  background-color: #fff;
+  color: black;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+#forgot {
+  margin-top: 20px;
+  background-color: black;
+  color: white;
+}
+
+.divider {
+  background-color: #ccc;
+  height: 1px;
+  width: 75%;
+}
+
+.divider__container {
+  display: flex;
+  width: 75%;
+  align-items: center;
+  gap: 30px;
+  font-weight: 700;
+}
+
+.google__btn {
+  width: 30px;
+  height: 30px;
+}
+
+.google__container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.form__input-block {
+  display: flex;
+  flex-direction: column;
+  gap: 33px;
+  .button {
+    width: 100%;
+  }
+}
+
+.log__in-result_block {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  margin-top: 7%;
+  margin-bottom: 10%;
+}
+
+.log__in-result_block--title {
+  font-size: 40px;
+  display: block;
+}
+
+.shimmer-text {
+  font-size: 22px;
+  display: inline-block;
+  font-weight: bold;
+  background: linear-gradient(90deg, #444 0%, #666 40%, #999 60%, #444 100%);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent; /* для Safari */
+  animation: shimmer 1.5s linear infinite;
+}
+
+.emoji{
+    font-size: 80px;
+    margin: 0;
+}
+
+.fancy-button {
+    position: relative;
+    display: inline-block;
+    padding: 12px 24px;
+    color: black;
+    background: white;
+    border: 2px solid black;
+    overflow: hidden;
+    transition: color 0.3s ease;
+    cursor: pointer;
+    z-index: 0;
+    height: 50px;
+    width: 100%;
+    border-radius: 15px;
+    text-transform: uppercase;
     font-weight: 700;
-}
-
-.google__btn{
-    width: 30px;
-    height: 30px;
-}
-
-.google__container{
-    display: flex;
-    align-items : center;
-    justify-content: center;
-    gap: 15px;
-}
+    font-size: 15px;
+  }
+  
+  .fancy-button::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 0%;
+    background: black;
+    z-index: -1;
+    transition: width 0.4s ease;
+  }
+  
+  .fancy-button:hover::before {
+    width: 100%;
+  }
+  
+  .fancy-button:hover {
+    color: white;
+  }
+  

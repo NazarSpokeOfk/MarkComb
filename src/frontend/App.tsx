@@ -312,12 +312,11 @@ function App() {
           element={
             <ErrorBoundary>
               <LogInPage
-              // setIsLoggedIn={setIsLoggedIn}
-              // setUserData={setUserData}
-              // isModalOpened={isModalOpened}
-              // logInData={logInData}
-              // setLogInData={setLogInData}
-              // signInData={signInData}
+              logInData={logInData}
+              setLogInData={setLogInData}
+              setIsLoggedIn={setIsLoggedIn}
+              setUserData={setUserData}
+              userData={userData}
               />
             </ErrorBoundary>
           }

@@ -186,7 +186,8 @@ class DataToDB {
       } else {
         return { status: "exists" };
       }
-    } catch {
+    } catch (error) {
+      console.log(error)
       this.setIsLoggedIn?.(false);
       return { status: "invalid" };
     }
@@ -197,6 +198,7 @@ class DataToDB {
     setUserData,
     setIsLoggedIn,
   }: ValidateLogInProps) {
+    console.log(setIsLoggedIn)
     try {
       const request = await this.fetchData({
         endpoint: `${apiBaseUrl}/login`,
@@ -217,11 +219,13 @@ class DataToDB {
           uses: numberUses,
         },
       };
+      console.log(request)
       setIsLoggedIn(true);
       setUserData?.(result);
       return { message: true };
-    } catch {
-      this.setIsLoggedIn?.(false);
+    } catch (error){
+      console.log(error)
+      setIsLoggedIn?.(false);
       return { message: false };
     }
   }
@@ -268,7 +272,7 @@ class DataToDB {
       });
   }
 
-  async makeFetchForCode({ email }: MakeFetchForCodeDBProps) {
+  async makeFetchForCode({ email , operationCode , setRegistrationStatus , setStep }: MakeFetchForCodeDBProps) {
     try {
       const result = await fetch(`${apiBaseUrl}/verification`, {
         method: "POST",
@@ -276,17 +280,20 @@ class DataToDB {
           "Content-type": "application/json",
           "x-api-key": import.meta.env.VITE_API_KEY,
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email , operationCode }),
       });
+      const response = await result.json();
+
       if (result.ok) {
         return Promise.resolve();
-      } else {
-        console.log(result);
+      } else if(response.message === "exists") {
+        // setHide(true)
+        setRegistrationStatus("exists")
+        setStep(6)
+        return;
       }
     } catch (error) {
-      toast.error(
-        i18n.t("There was an error during sending verification code")
-      );
+      setRegistrationStatus('wrong')
     }
   }
 

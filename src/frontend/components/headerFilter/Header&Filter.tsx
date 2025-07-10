@@ -159,6 +159,7 @@ const HeaderFilter = ({
                 "Authentic",
               ]}
               autoLoop={true}
+              delayBetweenWords={3000}
             />
           </h1>
 

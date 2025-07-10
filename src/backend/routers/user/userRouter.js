@@ -57,7 +57,7 @@ const userController = new UserController
 router.post('/Uses/:id',(req,res) => userController.addUses(req,res))
 router.post('/user'  , (req,res) =>userController.SignIn(req,res))
 router.post('/auth/google' , (req,res) => googleAuthController(req,res))
-router.post('/login' , logInLimiter, (req,res) => userController.logIn(req,res))
+router.post('/login', (req,res) => userController.logIn(req,res))
 router.post('/verification' , (req,res) => verifController(req,res)) 
 router.post('/checkCode' , (req,res) => userController.isVerificationCodeCorrect(req,res))
 
