@@ -1,3 +1,6 @@
+:root {
+  --main-red-col: #ff0000;
+}
 .login__block {
   margin: 0 auto;
   width: 55%;
@@ -181,4 +184,35 @@
   .fancy-button:hover {
     color: white;
   }
+
+  .default{
+    opacity: 0;
+    transition: all 0.6s ease;
+    transform: scale(0.5);
+  }
+
+  .appearing {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .loading{
+    width: 5%;
+    height: 5%;
+  }
   
+  .Toastify__toast--error {
+    background: #222;
+    color: white;
+    border-left: none;
+  }
+
+  .Toastify__toast{
+    font-weight: 600;
+    align-items: center;
+  }
+
+  .my-toast-container {
+    margin-top: 100px;
+    margin-right: 14px;
+  }

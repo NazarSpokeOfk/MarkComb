@@ -5,8 +5,7 @@ import { CodeInputProps } from "../../types/types";
 import CodeInputFunctions from "./functions/CodeInputFunctions";
 
 import "./CodeInput.css"
-const CodeInput = ({ onComplete, setSignInData } : CodeInputProps) => {
-  // setHide(true)
+const CodeInput = <T,>({ onComplete, setData } : CodeInputProps<T>) => {
   const codeInputFunctions = new CodeInputFunctions();
 
   const [values, setValues] = useState<string[]>(Array(6).fill(""));
@@ -35,7 +34,7 @@ const CodeInput = ({ onComplete, setSignInData } : CodeInputProps) => {
               setValues,
               onComplete,
               inputsRef,
-              setSignInData
+              setData
             })
           }
           onKeyDown={(e) =>

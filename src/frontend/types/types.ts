@@ -11,6 +11,7 @@ import {
   PurchaseData,
   dataGettingState,
   RegistrationStatusKey,
+  verificationCode,
 } from "../interfaces/interfaces";
 import { NavigateFunction } from "react-router-dom";
 
@@ -33,6 +34,7 @@ export type TypesOfSets = {
   setLogInData: React.Dispatch<React.SetStateAction<LogInData>>;
   setSignInData: React.Dispatch<React.SetStateAction<SignInData>>;
   setIsPasswordWillBeReset: React.Dispatch<React.SetStateAction<boolean>>;
+  setVerificationCode : React.Dispatch<React.SetStateAction<verificationCode>>
 };
 
 type SelectProps<T, K extends keyof T> = Pick<T, K>;
@@ -414,9 +416,10 @@ export type DeleteProfileProps = {
 
 export type MakeFetchForCodeDBProps = {
   email: string;
-  operationCode : number;
-  setRegistrationStatus : React.Dispatch<React.SetStateAction<RegistrationStatusKey | null>>
-  setStep : React.Dispatch<React.SetStateAction<number>>;
+  operationCode? : string;
+  isRegistration : boolean;
+  setRegistrationStatus? : React.Dispatch<React.SetStateAction<RegistrationStatusKey | null>>
+  setStep? : React.Dispatch<React.SetStateAction<number>>;
 };
 
 export type IsVerificationCodeCorrectProps = {
@@ -504,14 +507,15 @@ export type CheckIfReadyToContinueProps = {
   setTriggerErase : React.Dispatch<React.SetStateAction<"forward" | "backward" | null>>,
 } & SelectProps<TypesOfSets,"setSignInData">
 
-export type HandleChangeCodeInputProps = {
+export type HandleChangeCodeInputProps<T> = {
   index : number;
   code  : string;
   values : string[]
   setValues : React.Dispatch<React.SetStateAction<string[]>>
   onComplete: (code: string) => void
   inputsRef : RefObject<(HTMLInputElement | null)[]>
-} & SelectProps<TypesOfSets,"setSignInData">
+  setData : React.Dispatch<React.SetStateAction<T>>
+} 
 
 export type HandleKeyDownProps = {
   index : number;
@@ -528,9 +532,10 @@ export type HandlePasteProps = {
   inputsRef : RefObject<(HTMLInputElement | null)[]>
 }
 
-export type CodeInputProps = {
+export type CodeInputProps<T> = {
   onComplete: (code: string) => void
-} & SelectProps<TypesOfSets,"setSignInData">
+  setData : React.Dispatch<React.SetStateAction<T>>
+}
 
 export type HandleRegisterProps = {
   updatedData : SignInData
@@ -545,7 +550,16 @@ export type LogInPageProps = {
 export type LogInFunctionProps = {
     logInData : LogInData
     setLogInStatus : React.Dispatch<React.SetStateAction<string | "success" | "fail">>
+    setIsLoading : React.Dispatch<React.SetStateAction<boolean>>
+    setError : React.Dispatch<React.SetStateAction<string>>
+    setHide : React.Dispatch<React.SetStateAction<boolean>>
 } & SelectProps<TypesOfSets,"setUserData" | "setIsLoggedIn">
+
+
+export type ForgotPasswordProps = {
+  email : string;
+  setHide : React.Dispatch<React.SetStateAction<boolean>>
+}
 
 export const defaultUserData: UserData = {
   channels: [],

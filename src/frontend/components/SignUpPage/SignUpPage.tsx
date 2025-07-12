@@ -1,5 +1,5 @@
 import backIcon from "../../icons/backbutton.png";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import { useTranslation } from "react-i18next";
 import { useNavigate, Link } from "react-router-dom";
@@ -21,6 +21,8 @@ import {
 import SignUpFunctions from "./functions/SignUpFunctions";
 
 import DataToDB from "../../Client-ServerMethods/dataToDB";
+
+import smoothThumbnail from "../../utilities/smoothThumbnail";
 
 import decoration from "../../icons/decoration.png";
 const SignUpPage = ({ signInData, setSignInData }: SignUpPageProps) => {
@@ -56,6 +58,8 @@ const SignUpPage = ({ signInData, setSignInData }: SignUpPageProps) => {
   const isCheckboxesComplete = Boolean(
     signInData.isAgreed && signInData.recaptchaValue
   );
+
+  const thumbnailRef = useRef<HTMLDivElement>(null);
 
   const signUpFunctions = new SignUpFunctions();
 
@@ -95,16 +99,20 @@ const SignUpPage = ({ signInData, setSignInData }: SignUpPageProps) => {
       });
       dataToDb.makeFetchForCode({
         email: signInData.email,
-        operationCode: 3,
+        operationCode: "REGISTRATION",
+        isRegistration : true,
         setRegistrationStatus,
-        setStep
+        setStep,
       });
     }
   }, [signInData.recaptchaValue, signInData.isAgreed]);
 
+  useEffect(() => {
+    smoothThumbnail(thumbnailRef)
+  }, [registrationStatus]);
+
   return (
     <>
-
       {step >= 4 ? null : (
         <img
           onClick={() => {
@@ -220,17 +228,19 @@ const SignUpPage = ({ signInData, setSignInData }: SignUpPageProps) => {
           )}
 
           {registrationStatus ? (
-            <div className="result__block">
-              <div className="result__block-emoji">
-                {statusMessages[registrationStatus].emoji}
+            <div ref={thumbnailRef} className="default">
+              <div className="result__block">
+                <div className="result__block-emoji">
+                  {statusMessages[registrationStatus].emoji}
+                </div>
+                <h2 className="result__block-title">
+                  {t(statusMessages[registrationStatus].title)}
+                </h2>
+                <p className="result__block-subtitle">
+                  {t("We'll redirect you to main page in")}
+                </p>
+                <h2 className="result__block-number">{countdown}</h2>
               </div>
-              <h2 className="result__block-title">
-                {t(statusMessages[registrationStatus].title)}
-              </h2>
-              <p className="result__block-subtitle">
-                {t("We'll redirect you to main page in")}
-              </p>
-              <h2 className="result__block-number">{countdown}</h2>
             </div>
           ) : null}
 
@@ -249,11 +259,11 @@ const SignUpPage = ({ signInData, setSignInData }: SignUpPageProps) => {
                   setStep(6);
                 }, 1000);
               }}
-              setSignInData={setSignInData}
+              setData={setSignInData}
             />
           )}
 
-          {error && <p className="error-text">{error}</p>}
+          {error && <p className="error-text">{t(error)}</p>}
         </div>
       </div>
     </>

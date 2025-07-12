@@ -123,5 +123,9 @@ export const statusMessages = {
   }
 } as const;
 
+export interface verificationCode {
+  verification_code : string
+}
+
 export type RegistrationStatusKey = keyof typeof statusMessages;
 

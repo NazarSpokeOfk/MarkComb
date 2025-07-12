@@ -79,7 +79,7 @@ function App() {
     username: "",
     recaptchaValue: "",
     verification_code: "",
-    isAgreed : false
+    isAgreed: false,
   });
   const [logInData, setLogInData] = useState<LogInData>({
     email: "",
@@ -312,12 +312,13 @@ function App() {
           element={
             <ErrorBoundary>
               <LogInPage
-              logInData={logInData}
-              setLogInData={setLogInData}
-              setIsLoggedIn={setIsLoggedIn}
-              setUserData={setUserData}
-              userData={userData}
+                logInData={logInData}
+                setLogInData={setLogInData}
+                setIsLoggedIn={setIsLoggedIn}
+                setUserData={setUserData}
+                userData={userData}
               />
+              <ToastContainer className="my-toast-container" />
             </ErrorBoundary>
           }
         />

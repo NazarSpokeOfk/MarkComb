@@ -1,7 +1,12 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
-import { useState, useEffect } from "react";
+import smoothThumbnail from "../../utilities/smoothThumbnail";
+
+import { useState, useEffect, useRef } from "react";
+
+import { toast } from "react-toastify";
+
+import CodeInput from "../codeInput/CodeInput";
 
 import { useTranslation } from "react-i18next";
 
@@ -11,12 +16,14 @@ import "../../types/declarations.d.ts";
 
 import backIcon from "../../icons/backbutton.png";
 import google from "../../icons/Google.png";
-// import decoration from "../../icons/decoration.png"
+import loading from "../../images/loading-gif.gif";
 
 import "./LogInPage.css";
+import "../../fonts/font.css";
 
 import TypeWriterComponent from "../headerFilter/functions/TypeWriterComponent.js";
 import { LogInPageProps } from "../../types/types.js";
+import { verificationCode } from "../../interfaces/interfaces";
 
 import LogInPageFunctions from "./functions/LogInPageFunctions.js";
 
@@ -34,6 +41,14 @@ const LogInPage = ({
   );
   const { t } = useTranslation();
   const [userName, setUsername] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
+  const [isPasswordWillBeReset, setIsPasswordWillBeReset] =
+    useState<boolean>(false);
+  const [verificationCode, setVerificationCode] = useState<verificationCode>();
+  const [hide, setHide] = useState<boolean>(false);
+
+  const thumbnailRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!userData) return;
@@ -41,20 +56,31 @@ const LogInPage = ({
     setUsername(userData.userInformation.username);
   }, [logInStatus]);
 
+  useEffect(() => {
+    if (logInStatus === "fail") {
+      toast(t(error), {
+        icon: <>❌</>,
+        hideProgressBar: true,
+        theme: "dark",
+        autoClose: 5000,
+      });
+      setLogInStatus("");
+    } else if (logInStatus === "success") {
+      console.log("Ало");
+      const timeout = setTimeout(() => {
+        navigate("/search");
+      }, 2000);
+      return () => clearTimeout(timeout);
+    }
+  }, [logInStatus]);
 
   useEffect(() => {
-    if(logInStatus === "fail") {
-      alert("Пиздец")
-      setLogInStatus("")
-    } else if (logInStatus === "success"){
-      console.log("Ало")
-      const timeout = setTimeout(() => {
-        navigate("/search")
-      }, 2000);
-  
-      return () => clearTimeout(timeout)
-    }
-  },[logInStatus])
+    smoothThumbnail(thumbnailRef);
+  }, [logInStatus]);
+
+  useEffect(() => {
+    console.log("isPasswordWillBeReset : ", isPasswordWillBeReset);
+  }, [isPasswordWillBeReset]);
 
   return (
     <>
@@ -65,16 +91,20 @@ const LogInPage = ({
       )}
 
       {logInStatus === "success" ? (
-        <div className="log__in-result_block">
-          <h2 className="log__in-result_block--title">
-            {t("Welcome")}, {userName} 
-          </h2>
-          <h2 className="emoji">
-             👋
-          </h2>
-          <p className="log__in-result_block-subtitle shimmer-text">{t("Redirecting")}...</p>
+        <div ref={thumbnailRef} className="default">
+          <div className="log__in-result_block">
+            <h2 className="log__in-result_block--title">
+              {t("Welcome")}, {userName}
+            </h2>
+            <h2 className="emoji">👋</h2>
+            <p className="log__in-result_block-subtitle shimmer-text">
+              {t("Redirecting")}...
+            </p>
+          </div>
         </div>
-      ) : (
+      ) : null}
+
+      {hide ? null : (
         <>
           <h1 className="login__block-title">
             <TypeWriterComponent
@@ -122,6 +152,9 @@ const LogInPage = ({
                     setUserData,
                     setIsLoggedIn,
                     setLogInStatus,
+                    setIsLoading,
+                    setError,
+                    setHide,
                   });
                 }}
                 className="fancy-button"
@@ -130,7 +163,23 @@ const LogInPage = ({
               </button>
             </form>
 
-            <button id="forgot" className="button">
+            {isLoading ? (
+              <>
+                <img src={loading} className="loading" alt="" />
+              </>
+            ) : null}
+
+            <button
+              onClick={async () => {
+                setIsPasswordWillBeReset(true)
+                await logInPageFunctions.forgotPassword({
+                  email: logInData.email,
+                  setHide,
+                });
+              }}
+              id="forgot"
+              className="button"
+            >
               {t("forgot password")}
             </button>
 
@@ -149,6 +198,18 @@ const LogInPage = ({
           </div>
         </>
       )}
+
+      {isPasswordWillBeReset ? (
+        <CodeInput
+          onComplete={(code) => {
+            setVerificationCode((prev) => ({
+              ...prev,
+              verification_code: code,
+            }));
+          }}
+          setData={setVerificationCode}
+        />
+      ) : null}
     </>
   );
 };

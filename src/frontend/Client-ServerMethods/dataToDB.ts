@@ -27,11 +27,7 @@ import { toast } from "react-toastify";
 
 import i18n from "i18next";
 
-import {
-  VideoData,
-  DataToDBParams,
-  UserData,
-} from "../interfaces/interfaces";
+import { VideoData, DataToDBParams, UserData } from "../interfaces/interfaces";
 
 import { ValidateLogInProps } from "../types/types";
 
@@ -52,17 +48,19 @@ class DataToDB {
     channelName: "",
   };
 
-  
-
-  async fetchData(
-    { endpoint, method, body, csrfToken, withToast }: FetchDataToDBProps
-  ) {
+  async fetchData({
+    endpoint,
+    method,
+    body,
+    csrfToken,
+    withToast,
+  }: FetchDataToDBProps) {
     const headers = {
       "Content-Type": "application/json",
       "x-api-key": import.meta.env.VITE_API_KEY,
       "x-csrf-token": csrfToken || "",
     };
-  
+
     const fetchPromise = (async () => {
       const response = await fetch(endpoint, {
         method,
@@ -70,38 +68,37 @@ class DataToDB {
         credentials: "include",
         body: body ? JSON.stringify(body) : undefined,
       });
-  
+
       if (!response.ok) {
         handleHttpError(response);
         throw response;
       }
-  
+
       return await response.json();
     })();
-  
+
     if (withToast) {
       return toast.promise(fetchPromise, {
-        pending:  (i18n.t("Загрузка...")),
-        success:  (i18n.t("Успешно!")),
-        error:  (i18n.t("Ошибка запроса")),
+        pending: i18n.t("Загрузка..."),
+        success: i18n.t("Успешно!"),
+        error: i18n.t("Ошибка запроса"),
       });
     } else {
       return fetchPromise;
     }
   }
 
-  deletePurchaseData({ channelName, userId, csrfToken }: DeletePurchaseData,) {
+  deletePurchaseData({ channelName, userId, csrfToken }: DeletePurchaseData) {
     return this.fetchData({
       endpoint: `${apiBaseUrl}/rmpurchase/${userId}`,
       method: "DELETE",
       body: { channelName },
       csrfToken,
-      withToast : true
-    },
-  );
+      withToast: true,
+    });
   }
 
-  async getEmail({ csrfToken, channelId, setDataGettingState  }: GetEmailProps) {
+  async getEmail({ csrfToken, channelId, setDataGettingState }: GetEmailProps) {
     console.log("Поступившие данные : ", channelId, csrfToken);
     try {
       const result = await fetch(`${apiBaseUrl}/getemail`, {
@@ -113,15 +110,14 @@ class DataToDB {
           "x-api-key": import.meta.env.VITE_API_KEY,
         },
         body: JSON.stringify({ channelId }),
-
       });
       const response = await result.json();
-      console.log("response : ",response)
+      console.log("response : ", response);
 
-      if(response.name && response.email){
-        setDataGettingState({state : "success"})
+      if (response.name && response.email) {
+        setDataGettingState({ state: "success" });
       } else {
-        setDataGettingState({state : "fail"})
+        setDataGettingState({ state: "fail" });
       }
       return response;
     } catch (error) {
@@ -158,13 +154,10 @@ class DataToDB {
     }
   }
 
-  async validateSignIn({
-    data,
-  }: ValidateSignInProps): Promise<{
+  async validateSignIn({ data }: ValidateSignInProps): Promise<{
     status: "ok" | "invalid" | "exists" | "wrong";
   }> {
-
-    console.log("Дата в validateSignIn : " , data)
+    console.log("Дата в validateSignIn : ", data);
     try {
       const result = await this.fetchData({
         endpoint: `${apiBaseUrl}/user`,
@@ -187,7 +180,7 @@ class DataToDB {
         return { status: "exists" };
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       this.setIsLoggedIn?.(false);
       return { status: "invalid" };
     }
@@ -198,14 +191,14 @@ class DataToDB {
     setUserData,
     setIsLoggedIn,
   }: ValidateLogInProps) {
-    console.log(setIsLoggedIn)
+    console.log(setIsLoggedIn);
     try {
       const request = await this.fetchData({
         endpoint: `${apiBaseUrl}/login`,
         method: "POST",
         body: data,
       });
-      
+
       const uses = await request?.userInformation?.uses;
 
       console.log(uses);
@@ -219,12 +212,12 @@ class DataToDB {
           uses: numberUses,
         },
       };
-      console.log(request)
+      console.log(request);
       setIsLoggedIn(true);
       setUserData?.(result);
       return { message: true };
-    } catch (error){
-      console.log(error)
+    } catch (error) {
+      console.log(error);
       setIsLoggedIn?.(false);
       return { message: false };
     }
@@ -236,7 +229,7 @@ class DataToDB {
         endpoint: `${apiBaseUrl}/update/${data.user_id}`,
         method: "PUT",
         body: data,
-        withToast : true
+        withToast: true,
       });
       this.setUserData?.(result);
       return { message: true };
@@ -255,7 +248,7 @@ class DataToDB {
       method: "DELETE",
       body: { operationCode: 1 },
       csrfToken,
-      withToast : true
+      withToast: true,
     })
       .then(() => {
         this.setIsLoggedIn?.(false);
@@ -272,28 +265,42 @@ class DataToDB {
       });
   }
 
-  async makeFetchForCode({ email , operationCode , setRegistrationStatus , setStep }: MakeFetchForCodeDBProps) {
+  async makeFetchForCode({
+    email,
+    operationCode,
+    isRegistration = false,
+    setRegistrationStatus,
+    setStep,
+  }: MakeFetchForCodeDBProps): Promise<void> {
     try {
-      const result = await fetch(`${apiBaseUrl}/verification`, {
+      const response = await fetch(`${apiBaseUrl}/verification`, {
         method: "POST",
         headers: {
-          "Content-type": "application/json",
+          "Content-Type": "application/json",
           "x-api-key": import.meta.env.VITE_API_KEY,
         },
-        body: JSON.stringify({ email , operationCode }),
+        body: JSON.stringify({ email, operationCode }),
       });
-      const response = await result.json();
 
-      if (result.ok) {
-        return Promise.resolve();
-      } else if(response.message === "exists") {
-        // setHide(true)
-        setRegistrationStatus("exists")
-        setStep(6)
-        return;
+      const data = await response.json();
+
+      if (response.ok) {
+        return; // Всё хорошо
       }
+
+      // Обработка ошибок
+      if (isRegistration) {
+        if (data.message === "exists") {
+          setRegistrationStatus?.("exists");
+          setStep?.(6);
+          return;
+        }
+      }
+
+      setRegistrationStatus?.("wrong");
     } catch (error) {
-      setRegistrationStatus('wrong')
+      console.error("Ошибка при отправке запроса:", error);
+      setRegistrationStatus?.("wrong");
     }
   }
 
@@ -308,7 +315,7 @@ class DataToDB {
         email,
         verification_code: verificationCode,
       },
-      withToast : true
+      withToast: true,
     })
       .then(() => ({ message: true }))
       .catch(() => ({ message: false }));
@@ -325,7 +332,7 @@ class DataToDB {
         newPassword,
         email,
       },
-      withToast : true
+      withToast: true,
     })
       .then(() => ({ message: true }))
       .catch(() => ({ message: false }));
@@ -339,7 +346,7 @@ class DataToDB {
         promocode,
         email,
       },
-      withToast : true
+      withToast: true,
     }).then((response) => {
       return response;
     });
@@ -369,7 +376,7 @@ class DataToDB {
         featureName,
         user_id,
       },
-      withToast : true
+      withToast: true,
     })
       .then(() => ({ message: true }))
       .catch(() => ({ message: false }));
@@ -413,7 +420,7 @@ class DataToDB {
         endpoint: `${apiBaseUrl}/${type}`,
         method: "POST",
         body: bodyData,
-        withToast : true
+        withToast: true,
       });
 
       const finalVideoData = response?.finalVideoData;

@@ -37,7 +37,7 @@ class MailVerification {
 
     console.log(email)
 
-    if (operationCode === 3 ) {
+    if (operationCode === "REGISTRATION" ) {
       const checkForUser = await pool.query(
         "SELECT 1 FROM users WHERE email = $1 LIMIT 1",
         [email]

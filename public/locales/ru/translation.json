@@ -394,5 +394,13 @@
     "We'll redirect you to main page in":"Мы перенаправим вас на главную страницу через",
     "Sorry, an error occurred. Please check your email and come back later.":"Простите, возникла ошибка. Проверьте корректность почты, и возращайтесь позднее.",
     "The email you want to use already has an account linked to it.":"Почта, которую вы хотите использовать, уже привязана к другому аккаунту.",
-    "Something went wrong. Try again.":"Что-то пошло не так. Попробуйте еще раз."
+    "Something went wrong. Try again.":"Что-то пошло не так. Попробуйте еще раз.",
+    "Username must be longer than 2 characters":"Имя пользователя должно быть длиннее 2 символов",
+    "Username can only contain letters, numbers, and underscores":"Имя может состоять только из букв, цифр, и подчеркиваний",
+    "Username cannot be only numbers":"Имя пользователя не может состоять только из цифр",
+    "Empty email":"Пустая почта",
+    "Invalid email":"Неверная почта",
+    "Short password":"Короткий пароль",
+    "full in all fields":"Заполните все поля",
+    "Check that the data entered is correct":"Проверьте корректность введенных данных"
 }

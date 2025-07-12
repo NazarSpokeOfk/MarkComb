@@ -96,3 +96,7 @@
 .result__block-number{
     margin-top: 30px;
 }
+
+.error-text{
+    color: red;
+}

@@ -18,7 +18,7 @@ class SignUpFunctions {
     console.log("юзер наме : ", pureUsername);
 
     if (pureUsername.length <= 2) {
-      return "username must be longer than 2 characters";
+      return "Username must be longer than 2 characters";
     }
 
     if (!/^[a-zA-Zа-яА-ЯёЁ0-9_]+$/.test(pureUsername)) {
@@ -44,12 +44,12 @@ class SignUpFunctions {
 
     if (pureEmail.length === 0) {
       console.log("Залупа");
-      return "empty email";
+      return "Empty email";
     }
 
     if (!emailRegex.test(pureEmail)) {
       console.log("Залупа");
-      return "invalid email";
+      return "Invalid email";
     }
 
     setSignInData((prev) => ({
@@ -64,7 +64,7 @@ class SignUpFunctions {
 
     if (purePassword.length < 5) {
       console.log("Залупа");
-      return "short password";
+      return "Short password";
     }
     setSignInData((prev) => ({
       ...prev,
@@ -80,7 +80,7 @@ class SignUpFunctions {
       console.log("Ало");
       return null;
     } else {
-      return "fill all fields";
+      return "Fill all fields";
     }
   }
 
