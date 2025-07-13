@@ -330,6 +330,7 @@ function App() {
                 signInData={signInData}
                 setSignInData={setSignInData}
               />
+              <ToastContainer className="my-toast-container" />
             </ErrorBoundary>
           }
         />

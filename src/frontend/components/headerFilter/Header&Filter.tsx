@@ -1,19 +1,12 @@
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useMediaQuery } from "react-responsive";
-
-import Modal from "../modal/Modal";
-import VerifModal from "../modal/VerifModal";
-import VerifCode from "../modal/verifCode";
-import NewPassword from "../modal/newPassword";
 
 import manageFiltersFetch from "../../Client-ServerMethods/filterFetches";
 
 import { HeaderFilterProps } from "../../types/types";
 
-// import { defaultUserData } from "../../types/types";
 
 import { SelectedFilterLabels } from "../../interfaces/interfaces";
 
@@ -27,38 +20,23 @@ import FilterBtnImg from "../../icons/filterIcon.png";
 import SearchBtn from "../../icons/searchIcon.png";
 import ResetIcon from "../../icons/reseticon.png";
 import CloseFilter from "../../icons/closefilter.png";
-import DataToDB from "../../Client-ServerMethods/dataToDB";
 import HeaderFilterFunctions from "./functions/HeaderFilterFunctions";
 import YtLogo from "../../icons/YTLogo.png";
 
 const HeaderFilter = ({
   setChannelData,
-  setIsLoggedIn,
   isLoggedIn,
-  setUserData,
-  signInData,
-  setSignInData,
-  logInData,
-  setLogInData,
   userData,
   csrfToken,
   isFilterCTAActive,
-  isModalOpened,
-  setIsModalOpened,
-  entryMethod,
-  setEntryMethod,
   setIsFilter,
 }: HeaderFilterProps) => {
   const headerFilterFunctions = new HeaderFilterFunctions();
 
-  const dataToDB = new DataToDB();
-
-  const [fade, setFade] = useState<boolean>(true);
 
   const isLittleMobile = useMediaQuery({ maxWidth: 430 });
 
   const { t } = useTranslation();
-  const [isDataFilledIn, setIsDataFilledIn] = useState<boolean>(false);
   const [isSearching, setIsSearching] = useState<boolean>(false);
   const [isFiltersFetching, setIsFiltersFetching] = useState<boolean>(false);
   const [isMultiFiltersEnabled, setIsMultiFiltersEnabled] =
@@ -74,11 +52,6 @@ const HeaderFilter = ({
   });
 
   const [mainInputValue, setMainInputValue] = useState<string>("");
-  const [isPasswordWillBeReset, setIsPasswordWillBeReset] =
-    useState<boolean>(false);
-  const [isVerificationCodeCorrect, setIsVerificationCodeCorrect] = useState<
-    boolean | null
-  >(null);
   const [selectedFilterLabels, setSelectedFilterLabels] = useState<
     SelectedFilterLabels[]
   >([]);
@@ -488,52 +461,6 @@ const HeaderFilter = ({
             </div>
           </div>
         </section>
-
-        {isModalOpened ? (
-          <Modal
-            isModalOpened={isModalOpened}
-            setIsModalOpened={setIsModalOpened}
-            entryMethod={entryMethod}
-            setIsLoggedIn={setIsLoggedIn}
-            setUserData={setUserData}
-            setIsDataFilledIn={setIsDataFilledIn}
-            logInData={logInData}
-            setLogInData={setLogInData}
-            signInData={signInData}
-            setSignInData={setSignInData}
-            setIsPasswordWillBeReset={setIsPasswordWillBeReset}
-          />
-        ) : null}
-        {isDataFilledIn ? (
-          <>
-            <VerifModal
-              logInData={logInData}
-              isDataFilledIn={isDataFilledIn}
-              setSignInData={setSignInData}
-              signInData={signInData}
-              setUserData={setUserData}
-              setIsLoggedIn={setIsLoggedIn}
-              isLoggedIn={isLoggedIn}
-            />
-          </>
-        ) : null}
-
-        {isPasswordWillBeReset ? (
-          <VerifCode
-            email={logInData.email}
-            isTriggered={isPasswordWillBeReset}
-            setIsTriggered={setIsPasswordWillBeReset}
-            setIsVerificationCodeCorrect={setIsVerificationCodeCorrect}
-          />
-        ) : null}
-
-        {isVerificationCodeCorrect ? (
-          <NewPassword
-            email={logInData.email}
-            isVerificationCodeCorrect={isVerificationCodeCorrect}
-            setIsVerificationCodeCorrect={setIsVerificationCodeCorrect}
-          />
-        ) : null}
       </HelmetProvider>
     </>
   );

@@ -3,15 +3,67 @@ import {
   HandleContinueProps,
   SignInValidatorsProps,
   ValidateCaptchaAndAgreementProps,
-  HandleRegisterProps
+  HandleRegisterProps,
+  ShowInputOrNotProps,
+  CheckIsCaptchaAndTermsPassedProps,
+  ThrowToastOrThumbnailProps,
 } from "../../../types/types";
 
+import smoothThumbnail from "../../../utilities/smoothThumbnail";
+
+import {toast} from "react-toastify"
+
+import i18n from "i18next"
+
+import { RegistrationStatusKey } from "../../../interfaces/interfaces";
+
 import DataToDB from "../../../Client-ServerMethods/dataToDB";
-import { SignInData } from "../../../interfaces/interfaces";
 
 const dataToDb = new DataToDB();
 
 class SignUpFunctions {
+  showInputOrNot({ step, setHide }: ShowInputOrNotProps) {
+    if (step >= 3) {
+      setHide(true);
+    } else {
+      setHide(false);
+    }
+  }
+
+  checkIsCaptchaAndTermsPassed({
+    signInData,
+    step,
+    stepKeys,
+    setStep,
+    inputValue,
+    setError,
+    setTriggerErase,
+    setSignInData,
+    setRegistrationStatus,
+  }: CheckIsCaptchaAndTermsPassedProps) {
+    const isCaptchaPassed = !!signInData.recaptchaValue;
+    const isAgreementChecked = signInData.isAgreed;
+
+    if (isCaptchaPassed && isAgreementChecked && step !== 0) {
+      this.handleContinue({
+        stepKeys,
+        step,
+        inputValue,
+        setError,
+        setTriggerErase,
+        setSignInData,
+        signInData,
+      });
+      dataToDb.makeFetchForCode({
+        email: signInData.email,
+        operationCode: "REGISTRATION",
+        isRegistration: true,
+        setRegistrationStatus,
+        setStep,
+      });
+    }
+  }
+
   validateUserName({ string, setSignInData }: SignInValidatorsProps) {
     const pureUsername = string.trim();
 
@@ -147,15 +199,18 @@ class SignUpFunctions {
     return null;
   };
 
-  async handleRegister ({updatedData,setRegistrationStatus,setHide} : HandleRegisterProps) {
+  async handleRegister({
+    updatedData,
+    setRegistrationStatus,
+    setHide,
+  }: HandleRegisterProps): Promise<RegistrationStatusKey> {
     const registration = await dataToDb.validateSignIn({ data: updatedData });
-
     const status = registration.status;
 
     setRegistrationStatus(status);
+    setHide(true);
 
-    console.log("результат регистрации : ",status)
-    return setHide(true)
+    return status; // ← вернем результат обратно
   }
 }
 export default SignUpFunctions;

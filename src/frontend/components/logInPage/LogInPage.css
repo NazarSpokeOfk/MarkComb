@@ -191,11 +191,6 @@
     transform: scale(0.5);
   }
 
-  .appearing {
-    opacity: 1;
-    transform: scale(1);
-  }
-
   .loading{
     width: 5%;
     height: 5%;
@@ -215,4 +210,21 @@
   .my-toast-container {
     margin-top: 100px;
     margin-right: 14px;
+  }
+
+  .code__input-block{
+    .code__flex{
+      justify-content: center;
+      margin-bottom: 20%;
+      margin-top: 5%;
+    }
+    .sign__up-title{
+      margin-top: 5%;
+      text-align: center;
+    }
+  }
+
+  .password__change-block_result{
+    margin-top: 70px;
+    margin-bottom: 120px;
   }

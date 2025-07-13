@@ -10,6 +10,9 @@ import "../../fonts/font.css";
 import ReCAPTCHA from "react-google-recaptcha";
 import TypeWriterComponent from "../headerFilter/functions/TypeWriterComponent";
 import CodeInput from "../codeInput/CodeInput";
+import AuthorizationThumbnail from "../authorizationThumbnail/authorizationThumbnail";
+
+import { toast } from "react-toastify";
 
 import { SignUpPageProps } from "../../types/types";
 import {
@@ -30,7 +33,6 @@ const SignUpPage = ({ signInData, setSignInData }: SignUpPageProps) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [step, setStep] = useState<number>(0);
-  const [countdown, setCountDown] = useState<number>(5);
   const [hide, setHide] = useState<boolean>(false);
   const [registrationStatus, setRegistrationStatus] =
     useState<RegistrationStatusKey | null>(null);
@@ -63,54 +65,39 @@ const SignUpPage = ({ signInData, setSignInData }: SignUpPageProps) => {
 
   const signUpFunctions = new SignUpFunctions();
 
+  const showTitle = !["ok", "exists", "changed"].includes(
+    registrationStatus || ""
+  );
+
   useEffect(() => {
-    if (step >= 3) {
-      setHide(true);
-    } else {
-      setHide(false);
-    }
+    signUpFunctions.showInputOrNot({ step, setHide });
   }, [step]);
 
   useEffect(() => {
-    if (registrationStatus) {
-      const countDownTimer = setTimeout(() => {
-        setCountDown(countdown - 1);
-        if (countdown === 0) {
-          clearInterval(countDownTimer);
-          navigate("/search");
-        }
-      }, 1000);
-    }
-  });
-
-  useEffect(() => {
-    const isCaptchaPassed = !!signInData.recaptchaValue;
-    const isAgreementChecked = signInData.isAgreed;
-
-    if (isCaptchaPassed && isAgreementChecked && step !== 0) {
-      signUpFunctions.handleContinue({
-        stepKeys,
-        step,
-        inputValue,
-        setError,
-        setTriggerErase,
-        setSignInData,
-        signInData,
-      });
-      dataToDb.makeFetchForCode({
-        email: signInData.email,
-        operationCode: "REGISTRATION",
-        isRegistration : true,
-        setRegistrationStatus,
-        setStep,
-      });
-    }
+    signUpFunctions.checkIsCaptchaAndTermsPassed({
+      signInData,
+      step,
+      stepKeys,
+      setStep,
+      inputValue,
+      setError,
+      setTriggerErase,
+      setSignInData,
+      setRegistrationStatus,
+    });
   }, [signInData.recaptchaValue, signInData.isAgreed]);
 
   useEffect(() => {
-    smoothThumbnail(thumbnailRef)
+    if (registrationStatus === "invalid" || registrationStatus === "wrong") {
+      toast(t(statusMessages[registrationStatus].title), {
+        icon: <>{statusMessages[registrationStatus].emoji}</>,
+        hideProgressBar: true,
+        theme: "dark",
+        autoClose: 5000,
+      });
+    }
+    smoothThumbnail(thumbnailRef);
   }, [registrationStatus]);
-
   return (
     <>
       {step >= 4 ? null : (
@@ -132,7 +119,7 @@ const SignUpPage = ({ signInData, setSignInData }: SignUpPageProps) => {
       <div className="sign__up-block">
         {!hide ? <img src={decoration} alt="" className="decoration" /> : null}
         <div className={`sign__up-main_flex ${hide ? "captcha__active" : ""}`}>
-          {registrationStatus ? null : (
+          {showTitle && (
             <h1 className="sign__up-title">
               <TypeWriterComponent
                 words={[titles[currentIndex]]}
@@ -151,7 +138,6 @@ const SignUpPage = ({ signInData, setSignInData }: SignUpPageProps) => {
               />
             </h1>
           )}
-
           {step === 3 ? (
             <div className="captcha__flex-box">
               <ReCAPTCHA
@@ -196,7 +182,6 @@ const SignUpPage = ({ signInData, setSignInData }: SignUpPageProps) => {
               </div>
             </div>
           ) : null}
-
           {hide ? null : (
             <div className="sign__up-flex">
               <input
@@ -227,42 +212,42 @@ const SignUpPage = ({ signInData, setSignInData }: SignUpPageProps) => {
             </div>
           )}
 
-          {registrationStatus ? (
-            <div ref={thumbnailRef} className="default">
-              <div className="result__block">
-                <div className="result__block-emoji">
-                  {statusMessages[registrationStatus].emoji}
-                </div>
-                <h2 className="result__block-title">
-                  {t(statusMessages[registrationStatus].title)}
-                </h2>
-                <p className="result__block-subtitle">
-                  {t("We'll redirect you to main page in")}
-                </p>
-                <h2 className="result__block-number">{countdown}</h2>
-              </div>
-            </div>
-          ) : null}
+          {registrationStatus &&
+            ["ok", "exists", "changed"].includes(registrationStatus) && (
+              <AuthorizationThumbnail
+                thumbnailRef={thumbnailRef}
+                statusMessages={statusMessages}
+                status={registrationStatus}
+              />
+            )}
 
           {isCheckboxesComplete && step === 4 && (
-            <CodeInput
-              onComplete={(code) => {
-                const updatedData = { ...signInData, verification_code: code };
-                setSignInData(updatedData);
+            <>
+              <CodeInput
+                onComplete={(code) => {
+                  const updatedData = {
+                    ...signInData,
+                    verification_code: code,
+                  };
+                  setSignInData(updatedData);
 
-                setTimeout(async () => {
-                  await signUpFunctions.handleRegister({
-                    updatedData,
-                    setRegistrationStatus,
-                    setHide,
-                  });
-                  setStep(6);
-                }, 1000);
-              }}
-              setData={setSignInData}
-            />
+                  setTimeout(async () => {
+                    const result = await signUpFunctions.handleRegister({
+                      updatedData,
+                      setRegistrationStatus,
+                      setHide,
+                    });
+
+                    // Переход к следующему шагу — только если результат успешный
+                    if (["ok", "exists", "changed"].includes(result)) {
+                      setStep(6);
+                    }
+                  }, 1000);
+                }}
+                setData={setSignInData}
+              />
+            </>
           )}
-
           {error && <p className="error-text">{t(error)}</p>}
         </div>
       </div>

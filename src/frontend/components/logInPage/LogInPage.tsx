@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 
+import { ToastIcon } from "react-toastify";
+
 import smoothThumbnail from "../../utilities/smoothThumbnail";
 
 import { useState, useEffect, useRef } from "react";
@@ -7,6 +9,8 @@ import { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 
 import CodeInput from "../codeInput/CodeInput";
+import SuccessfullLogInThumbnail from "../logInPage/components/successfullLogInThumbnail/SuccessfullLogInThumbnail";
+import MainForm from "./components/mainForm/MainForm";
 
 import { useTranslation } from "react-i18next";
 
@@ -17,13 +21,21 @@ import "../../types/declarations.d.ts";
 import backIcon from "../../icons/backbutton.png";
 import google from "../../icons/Google.png";
 import loading from "../../images/loading-gif.gif";
+import decoration from "../../icons/decoration.png";
 
 import "./LogInPage.css";
 import "../../fonts/font.css";
 
 import TypeWriterComponent from "../headerFilter/functions/TypeWriterComponent.js";
+import AuthorizationThumbnail from "../authorizationThumbnail/authorizationThumbnail";
+
 import { LogInPageProps } from "../../types/types.js";
-import { verificationCode } from "../../interfaces/interfaces";
+
+import {
+  RegistrationStatusKey,
+  statusMessages,
+  verificationCode,
+} from "../../interfaces/interfaces";
 
 import LogInPageFunctions from "./functions/LogInPageFunctions.js";
 
@@ -34,21 +46,38 @@ const LogInPage = ({
   setIsLoggedIn,
   userData,
 }: LogInPageProps) => {
+  const { t } = useTranslation();
+
   const navigate = useNavigate();
+
   const logInPageFunctions = new LogInPageFunctions();
+
   const [logInStatus, setLogInStatus] = useState<string | "fail" | "success">(
     ""
   );
-  const { t } = useTranslation();
   const [userName, setUsername] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>("");
+  const [error, setError] = useState<string | null>(null);
   const [isPasswordWillBeReset, setIsPasswordWillBeReset] =
     useState<boolean>(false);
   const [verificationCode, setVerificationCode] = useState<verificationCode>();
   const [hide, setHide] = useState<boolean>(false);
+  const [isVerificationCodeCorrect, setIsVerificationCodeCorrect] =
+    useState<boolean>(false);
+  const [newPassword, setNewPassword] = useState<string>("");
+  const [isPasswordChangedSuccessfully, setIsPasswordChangedSuccessfully] =
+    useState<RegistrationStatusKey | null>(null);
 
   const thumbnailRef = useRef<HTMLDivElement>(null);
+
+  const showErrorToast = (message: string, icon: ToastIcon) => {
+    toast(t(message), {
+      icon,
+      hideProgressBar: true,
+      theme: "dark",
+      autoClose: 5000,
+    });
+  };
 
   useEffect(() => {
     if (!userData) return;
@@ -57,30 +86,27 @@ const LogInPage = ({
   }, [logInStatus]);
 
   useEffect(() => {
-    if (logInStatus === "fail") {
-      toast(t(error), {
-        icon: <>❌</>,
-        hideProgressBar: true,
-        theme: "dark",
-        autoClose: 5000,
-      });
-      setLogInStatus("");
-    } else if (logInStatus === "success") {
-      console.log("Ало");
-      const timeout = setTimeout(() => {
-        navigate("/search");
-      }, 2000);
-      return () => clearTimeout(timeout);
+    logInPageFunctions.redirectToMainPage({ logInStatus, navigate });
+  }, [logInStatus]);
+
+  useEffect(() => {
+    if (error) {
+      toast.dismiss();
+      showErrorToast(error, <>❌</>);
     }
-  }, [logInStatus]);
+  }, [error]);
 
   useEffect(() => {
+    if (
+      isPasswordChangedSuccessfully === "invalid" ||
+      isPasswordChangedSuccessfully === "wrong"
+    ) {
+      const msg = statusMessages[isPasswordChangedSuccessfully];
+      showErrorToast(msg.title, <>{msg.emoji}</>);
+    }
+
     smoothThumbnail(thumbnailRef);
-  }, [logInStatus]);
-
-  useEffect(() => {
-    console.log("isPasswordWillBeReset : ", isPasswordWillBeReset);
-  }, [isPasswordWillBeReset]);
+  }, [isPasswordChangedSuccessfully, logInStatus]);
 
   return (
     <>
@@ -91,124 +117,104 @@ const LogInPage = ({
       )}
 
       {logInStatus === "success" ? (
-        <div ref={thumbnailRef} className="default">
-          <div className="log__in-result_block">
-            <h2 className="log__in-result_block--title">
-              {t("Welcome")}, {userName}
-            </h2>
-            <h2 className="emoji">👋</h2>
-            <p className="log__in-result_block-subtitle shimmer-text">
-              {t("Redirecting")}...
-            </p>
+        <SuccessfullLogInThumbnail
+          thumbnailRef={thumbnailRef}
+          userName={userName}
+        />
+      ) : null}
+
+      {hide ? null : (
+        <MainForm
+          logInData={logInData}
+          setLogInData={setLogInData}
+          setUserData={setUserData}
+          setIsLoggedIn={setIsLoggedIn}
+          setLogInStatus={setLogInStatus}
+          setIsLoading={setIsLoading}
+          setError={setError}
+          setHide={setHide}
+          isLoading={isLoading}
+          loading={loading}
+          setIsPasswordWillBeReset={setIsPasswordWillBeReset}
+          google={google}
+        />
+      )}
+
+      {isPasswordWillBeReset && hide ? (
+        <>
+          <div className="code__input-block">
+            <h1 className="sign__up-title">
+              <TypeWriterComponent words={["Enter verification code"]} />
+            </h1>
+            <CodeInput
+              onComplete={(code) => {
+                setVerificationCode((prev) => ({
+                  ...prev,
+                  verification_code: code,
+                }));
+
+                console.log(code);
+
+                logInPageFunctions.isVerificationCodeCorrect({
+                  email: logInData.email,
+                  verificationCode: code,
+                  setIsVerificationCodeCorrect: setIsVerificationCodeCorrect,
+                  setIsPasswordWillBeReset,
+                  setError,
+                });
+              }}
+              setData={setVerificationCode}
+            />
+          </div>
+        </>
+      ) : null}
+
+      {isVerificationCodeCorrect ? (
+        <div className="sign__up-block">
+          <img src={decoration} alt="" className="decoration" />
+
+          <div className="sign__up-main_flex">
+            <h1 className="sign__up-title">
+              <TypeWriterComponent words={["Enter your new password"]} />
+            </h1>
+
+            <div className="sign__up-flex">
+              <input
+                value={newPassword}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setNewPassword(value);
+                }}
+                type="text"
+                className="input"
+              />
+              <button
+                onClick={() => {
+                  logInPageFunctions.setNewPassword({
+                    email: logInData.email,
+                    newPassword,
+                    setError,
+                    setIsPasswordChangedSuccessfully,
+                    setIsVerificationCodeCorrect,
+                  });
+                }}
+                className="continue__btn"
+              >
+                {t("Continue")}
+              </button>
+            </div>
           </div>
         </div>
       ) : null}
 
-      {hide ? null : (
-        <>
-          <h1 className="login__block-title">
-            <TypeWriterComponent
-              words={["Welcome back", "It's good to see you"]}
-            />
-          </h1>
-          <div className="login__block">
-            <form className="form__input-block" action="submit">
-              <div className="input__block">
-                <input
-                  value={logInData.email}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    setLogInData((prev) => ({ ...prev, email: value }));
-                  }}
-                  required
-                  type="email"
-                  className="input"
-                />
-                <div className="placeholder">
-                  <span>{t("email")}</span>
-                </div>
-              </div>
-
-              <div className="input__block">
-                <input
-                  value={logInData.password}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    setLogInData((prev) => ({ ...prev, password: value }));
-                  }}
-                  required
-                  type="text"
-                  className="input"
-                />
-                <div className="placeholder">
-                  <span>{t("password")}</span>
-                </div>
-              </div>
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  logInPageFunctions.logIn({
-                    logInData,
-                    setUserData,
-                    setIsLoggedIn,
-                    setLogInStatus,
-                    setIsLoading,
-                    setError,
-                    setHide,
-                  });
-                }}
-                className="fancy-button"
-              >
-                {t("continue")}
-              </button>
-            </form>
-
-            {isLoading ? (
-              <>
-                <img src={loading} className="loading" alt="" />
-              </>
-            ) : null}
-
-            <button
-              onClick={async () => {
-                setIsPasswordWillBeReset(true)
-                await logInPageFunctions.forgotPassword({
-                  email: logInData.email,
-                  setHide,
-                });
-              }}
-              id="forgot"
-              className="button"
-            >
-              {t("forgot password")}
-            </button>
-
-            <div className="divider__container">
-              <div className="divider"></div>
-              {t("OR")}
-              <div className="divider"></div>
-            </div>
-
-            <button className="button">
-              <div className="google__container">
-                {t("continue with google")}{" "}
-                <img className="google__btn" src={google} alt="" />
-              </div>
-            </button>
-          </div>
-        </>
-      )}
-
-      {isPasswordWillBeReset ? (
-        <CodeInput
-          onComplete={(code) => {
-            setVerificationCode((prev) => ({
-              ...prev,
-              verification_code: code,
-            }));
-          }}
-          setData={setVerificationCode}
-        />
+      {isPasswordChangedSuccessfully !== null ? (
+        <div className="password__change-block_result">
+          <AuthorizationThumbnail
+            thumbnailRef={thumbnailRef}
+            statusMessages={statusMessages}
+            status={isPasswordChangedSuccessfully}
+          />
+        </div>
       ) : null}
     </>
   );

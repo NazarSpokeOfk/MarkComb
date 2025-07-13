@@ -1,5 +1,6 @@
-import React, { RefObject, SetStateAction } from "react";
+import React, { ImgHTMLAttributes, RefObject } from "react";
 import { CredentialResponse } from "@react-oauth/google";
+import { IconProps } from "react-toastify";
 import {
   UserData,
   ChannelData,
@@ -12,6 +13,7 @@ import {
   dataGettingState,
   RegistrationStatusKey,
   verificationCode,
+  statusMessages,
 } from "../interfaces/interfaces";
 import { NavigateFunction } from "react-router-dom";
 
@@ -29,12 +31,16 @@ export type TypesOfSets = {
   setChannelData: React.Dispatch<React.SetStateAction<ChannelData | null>>;
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
   setUserData: React.Dispatch<React.SetStateAction<UserData>>;
-  setIsModalOpened: React.Dispatch<React.SetStateAction<boolean>>;
   setIsDataFilledIn: React.Dispatch<React.SetStateAction<boolean>>;
   setLogInData: React.Dispatch<React.SetStateAction<LogInData>>;
   setSignInData: React.Dispatch<React.SetStateAction<SignInData>>;
   setIsPasswordWillBeReset: React.Dispatch<React.SetStateAction<boolean>>;
-  setVerificationCode : React.Dispatch<React.SetStateAction<verificationCode>>
+  setVerificationCode: React.Dispatch<React.SetStateAction<verificationCode>>;
+  setError: React.Dispatch<React.SetStateAction<string | null>>;
+  setHide: React.Dispatch<React.SetStateAction<boolean>>;
+  setRegistrationStatus: React.Dispatch<
+    React.SetStateAction<RegistrationStatusKey | null>
+  >;
 };
 
 type SelectProps<T, K extends keyof T> = Pick<T, K>;
@@ -53,7 +59,6 @@ export type HeaderFilterProps = SelectProps<
   | "setSignInData"
   | "setLogInData"
   | "setEntryMethod"
-  | "setIsModalOpened"
 > &
   CommonTypes & {
     signInData: SignInData;
@@ -69,8 +74,6 @@ export type ModalProps = SelectProps<
   TypesOfSets,
   | "setIsLoggedIn"
   | "setUserData"
-  | "setIsModalOpened"
-  | "setIsDataFilledIn"
   | "setLogInData"
   | "setSignInData"
   | "setIsPasswordWillBeReset"
@@ -203,7 +206,7 @@ export type HeaderProps = {
 
 export type ForbiddenThumbnailProps = SelectProps<
   TypesOfSets,
-  "setIsModalOpened" | "setEntryMethod" | "setUserData"
+  "setEntryMethod" | "setUserData"
 >;
 
 export type VotingPageProps = SelectProps<CommonTypes, "userData">;
@@ -221,12 +224,12 @@ export type GoogleLogInButtonProps = {
   response: CredentialResponse;
 } & SelectProps<
   TypesOfSets,
-  "setIsLoggedIn" | "setUserData" | "setIsModalOpened"
+  "setIsLoggedIn" | "setUserData" 
 >;
 
 export type GoogleLogInButtonPropsWithoutResponse = SelectProps<
   TypesOfSets,
-  "setIsLoggedIn" | "setUserData" | "setIsModalOpened"
+  "setIsLoggedIn" | "setUserData" 
 >;
 
 export type SearchFetchProps = {
@@ -294,18 +297,6 @@ export type AnimateModalButtonShakeProps = {
 export type HandleLogInErrorProps = {
   setIsUserMakeAMistake: React.Dispatch<React.SetStateAction<number>>;
 };
-
-export type ValidateFormData = {
-  e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>;
-  signInData: SignInData;
-  isChecked: boolean;
-  emailRegex: RegExp;
-  modalRef: RefObject<HTMLDivElement | null>;
-  modalButtonRef: RefObject<HTMLButtonElement | null>;
-} & SelectProps<
-  TypesOfSets,
-  "setIsLoggedIn" | "setIsModalOpened" | "setIsDataFilledIn"
->;
 
 export type MakeFetchForCodeProps = {
   signInData: SignInData;
@@ -416,11 +407,10 @@ export type DeleteProfileProps = {
 
 export type MakeFetchForCodeDBProps = {
   email: string;
-  operationCode? : string;
-  isRegistration : boolean;
-  setRegistrationStatus? : React.Dispatch<React.SetStateAction<RegistrationStatusKey | null>>
-  setStep? : React.Dispatch<React.SetStateAction<number>>;
-};
+  operationCode?: string;
+  isRegistration: boolean;
+  setStep?: React.Dispatch<React.SetStateAction<number>>;
+} & SelectProps<TypesOfSets,"setRegistrationStatus">;
 
 export type IsVerificationCodeCorrectProps = {
   email: string;
@@ -465,21 +455,21 @@ export type SignUpPageProps = {
 } & SelectProps<TypesOfSets, "setSignInData">;
 
 export type ValidateStepProps = {
-  step : number;
-  stepKeys : (keyof SignInData)[];
-  inputValue : string;
-  setError : React.Dispatch<React.SetStateAction<string | null>>
-  signInData : SignInData
-} & SelectProps<TypesOfSets,"setSignInData">
+  step: number;
+  stepKeys: (keyof SignInData)[];
+  inputValue: string;
+  signInData: SignInData;
+} & SelectProps<TypesOfSets, "setSignInData" | "setError">;
 
 export type HandleContinueProps = {
-  step : number;
-  stepKeys : (keyof SignInData)[];
-  inputValue : string;
-  setError : React.Dispatch<React.SetStateAction<string | null>>
-  setTriggerErase : React.Dispatch<React.SetStateAction<"forward" | "backward" | null>>,
-  signInData : SignInData
-} & SelectProps<TypesOfSets,"setSignInData">
+  step: number;
+  stepKeys: (keyof SignInData)[];
+  inputValue: string;
+  setTriggerErase: React.Dispatch<
+    React.SetStateAction<"forward" | "backward" | null>
+  >;
+  signInData: SignInData;
+} & SelectProps<TypesOfSets, "setSignInData" | "setError">;
 
 export type Direction = "forward" | "backward" | null;
 
@@ -489,77 +479,147 @@ export type TypeWriterComponentProps = {
   onEraseComplete?: (direction: "forward" | "backward") => void;
   autoLoop?: boolean; // Автономный режим
   delayBetweenWords?: number;
-}
+};
 
 export type SignInValidatorsProps = {
-  string : string;
-} & SelectProps<TypesOfSets,"setSignInData">
+  string: string;
+} & SelectProps<TypesOfSets, "setSignInData">;
 
 export type ValidateCaptchaAndAgreementProps = {
-  signInData : SignInData
-}
+  signInData: SignInData;
+};
 
 export type CheckIfReadyToContinueProps = {
-  stepKeys : (keyof SignInData)[];
-  step : number
-  inputValue : string
-  setError : React.Dispatch<React.SetStateAction<string | null>>
-  setTriggerErase : React.Dispatch<React.SetStateAction<"forward" | "backward" | null>>,
-} & SelectProps<TypesOfSets,"setSignInData">
+  stepKeys: (keyof SignInData)[];
+  step: number;
+  inputValue: string;
+  setTriggerErase: React.Dispatch<
+    React.SetStateAction<"forward" | "backward" | null>
+  >;
+} & SelectProps<TypesOfSets, "setSignInData" | "setError">;
 
 export type HandleChangeCodeInputProps<T> = {
-  index : number;
-  code  : string;
-  values : string[]
-  setValues : React.Dispatch<React.SetStateAction<string[]>>
-  onComplete: (code: string) => void
-  inputsRef : RefObject<(HTMLInputElement | null)[]>
-  setData : React.Dispatch<React.SetStateAction<T>>
-} 
+  index: number;
+  code: string;
+  values: string[];
+  setValues: React.Dispatch<React.SetStateAction<string[]>>;
+  onComplete: (code: string) => void;
+  inputsRef: RefObject<(HTMLInputElement | null)[]>;
+  setData: React.Dispatch<React.SetStateAction<T>>;
+};
 
 export type HandleKeyDownProps = {
-  index : number;
+  index: number;
   e: React.KeyboardEvent;
-  values : string[];
-  inputsRef : RefObject<(HTMLInputElement | null)[]>
-}
+  values: string[];
+  inputsRef: RefObject<(HTMLInputElement | null)[]>;
+};
 
 export type HandlePasteProps = {
   e: React.ClipboardEvent;
-  values : string[]
-  setValues : React.Dispatch<React.SetStateAction<string[]>>
-  onComplete: (code: string) => void
-  inputsRef : RefObject<(HTMLInputElement | null)[]>
-}
+  values: string[];
+  setValues: React.Dispatch<React.SetStateAction<string[]>>;
+  onComplete: (code: string) => void;
+  inputsRef: RefObject<(HTMLInputElement | null)[]>;
+};
 
 export type CodeInputProps<T> = {
-  onComplete: (code: string) => void
-  setData : React.Dispatch<React.SetStateAction<T>>
-}
+  onComplete: (code: string) => void;
+  setData: React.Dispatch<React.SetStateAction<T>>;
+};
 
 export type HandleRegisterProps = {
-  updatedData : SignInData
-  setRegistrationStatus : React.Dispatch<React.SetStateAction<RegistrationStatusKey | null>>
-  setHide : React.Dispatch<React.SetStateAction<boolean>>
-}
+  updatedData: SignInData;
+} & SelectProps<TypesOfSets,"setHide" | "setRegistrationStatus">;
 
 export type LogInPageProps = {
-  logInData : LogInData;
-} & SelectProps<TypesOfSets,"setLogInData" | "setUserData" | "setIsLoggedIn"> & SelectProps<CommonTypes,"userData">
+  logInData: LogInData;
+} & SelectProps<TypesOfSets, "setLogInData" | "setUserData" | "setIsLoggedIn"> &
+  SelectProps<CommonTypes, "userData">;
 
 export type LogInFunctionProps = {
-    logInData : LogInData
-    setLogInStatus : React.Dispatch<React.SetStateAction<string | "success" | "fail">>
-    setIsLoading : React.Dispatch<React.SetStateAction<boolean>>
-    setError : React.Dispatch<React.SetStateAction<string>>
-    setHide : React.Dispatch<React.SetStateAction<boolean>>
-} & SelectProps<TypesOfSets,"setUserData" | "setIsLoggedIn">
-
+  logInData: LogInData;
+  setLogInStatus: React.Dispatch<
+    React.SetStateAction<string | "success" | "fail">
+  >;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+} & SelectProps<TypesOfSets, "setUserData" | "setIsLoggedIn" | "setError" | "setHide">;
 
 export type ForgotPasswordProps = {
-  email : string;
-  setHide : React.Dispatch<React.SetStateAction<boolean>>
-}
+  email: string;
+} & SelectProps<TypesOfSets, "setError" | "setHide">;
+
+export type IsVerificationCodeCorrectLogInPageProps = {
+  email: string;
+  verificationCode: string;
+  setIsVerificationCodeCorrect: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsPasswordWillBeReset: React.Dispatch<React.SetStateAction<boolean>>;
+} & SelectProps<TypesOfSets, "setError">;
+
+export type SetNewPasswordProps = {
+  email: string;
+  newPassword: string;
+  setIsPasswordChangedSuccessfully: React.Dispatch<
+    React.SetStateAction<RegistrationStatusKey | null>
+  >;
+  setIsVerificationCodeCorrect: React.Dispatch<React.SetStateAction<boolean>>;
+} & SelectProps<TypesOfSets, "setError">;
+
+export type AuthorizationThumbnailProps = {
+  thumbnailRef: RefObject<HTMLDivElement | null>;
+  statusMessages: typeof statusMessages;
+  status: RegistrationStatusKey;
+};
+
+export type ShowInputOrNotProps = {
+  step: number;
+} & SelectProps<TypesOfSets,"setHide">
+
+export type CheckIsCaptchaAndTermsPassedProps = {
+  signInData: SignInData;
+  step: number;
+  stepKeys: (keyof SignInData)[];
+  setStep: React.Dispatch<React.SetStateAction<number>>;
+  inputValue: string;
+  setTriggerErase: React.Dispatch<
+    React.SetStateAction<"forward" | "backward" | null>
+  >;
+} & SelectProps<TypesOfSets, "setSignInData" | "setError" | "setRegistrationStatus">;
+
+export type ThrowToastOrThumbnailProps = {
+  registrationStatus: RegistrationStatusKey;
+  statusMessages: typeof statusMessages;
+  thumbnailRef: RefObject<HTMLDivElement | null>;
+};
+
+export type RedirectToMainPageProps = {
+  logInStatus: string | "success" | "fail";
+  navigate: NavigateFunction;
+};
+
+export type SuccessfullLogInThumbnailProps = {
+  thumbnailRef: RefObject<HTMLDivElement | null>;
+  userName: string;
+};
+
+export type MainFormProps = {
+  logInData: LogInData;
+  setLogInStatus: React.Dispatch<
+    React.SetStateAction<string | "success" | "fail">
+  >;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  isLoading: boolean;
+  loading: string;
+  google: string;
+} & SelectProps<
+  TypesOfSets,
+  | "setLogInData"
+  | "setUserData"
+  | "setIsLoggedIn"
+  | "setIsPasswordWillBeReset"
+  | "setError"
+  | "setHide"
+>;
 
 export const defaultUserData: UserData = {
   channels: [],
@@ -574,4 +634,3 @@ export const defaultUserData: UserData = {
     uses: 0,
   },
 };
-

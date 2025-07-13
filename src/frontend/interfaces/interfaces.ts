@@ -110,7 +110,7 @@ export const statusMessages = {
     emoji: "✅"
   },
   invalid: {
-    title: "Sorry, an error occurred. Please check your email and come back later.",
+    title: "Apparently, you have entered the wrong code. Try again",
     emoji: "❌"
   },
   exists: {
@@ -120,6 +120,10 @@ export const statusMessages = {
   wrong: {
     title: "Something went wrong. Try again.",
     emoji: "🚫"
+  },
+  changed : {
+    title : "Password was changed.",
+    emoji : "✅"
   }
 } as const;
 

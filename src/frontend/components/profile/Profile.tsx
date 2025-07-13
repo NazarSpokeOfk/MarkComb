@@ -4,7 +4,6 @@ import bin from "../../icons/bin.svg";
 import arrow from "../../icons/arrow.svg";
 import SponsorsImg from "../../icons/sponsorsimg.jpg";
 
-import VerifPassword from "../modal/verifPassword.js";
 
 import DataToDB from "../../Client-ServerMethods/dataToDB.js";
 import ProfileFunctions from "./functions/ProfileFunctions";
@@ -17,8 +16,6 @@ import { useState, useEffect } from "react";
 
 import { ProfileProps } from "../../types/types";
 
-import VerifCode from "../modal/verifCode.jsx";
-import NewPassword from "../modal/newPassword.js";
 
 const Profile = ({
   userData,
@@ -37,9 +34,6 @@ const Profile = ({
   );
   const [isPasswordChanged, setIsPasswordChanged] = useState(false);
   const [isAccountWillBeDeleted, setIsAccountWillBeDeleted] = useState(false);
-  const [isVerificationCodeCorrect, setIsVerificationCodeCorrect] = useState<
-    boolean | null
-  >(false);
 
   const [changedData, setChangedData] = useState({
     username: "",
@@ -61,18 +55,6 @@ const Profile = ({
       navigate("/");
     }
   }, [isLoggedIn]);
-
-  useEffect(() => {
-    if (isVerificationCodeCorrect && isAccountWillBeDeleted) {
-      dataToDb.deleteProfile(
-        {userId : userData!.userInformation.user_id,
-        csrfToken : userData!.userInformation.csrfToken}
-      );
-      document.body.style.overflow = "";
-      navigate("/search");
-      toast.success("Account deleted");
-    }
-  }, [isVerificationCodeCorrect, isAccountWillBeDeleted]);
 
   const expirationRaw = userData?.userInformation?.subscription_expiration;
   const expirationDate = expirationRaw ? new Date(expirationRaw) : null;
@@ -268,49 +250,6 @@ const Profile = ({
           </button>
         </section>
 
-        {isAccountWillBeDeleted ? (
-          <VerifCode
-            setUserData={setUserData}
-            setIsLoggedIn={setIsLoggedIn}
-            email={userData.userInformation.email}
-            isTriggered={isAccountWillBeDeleted}
-            setIsTriggered={setIsAccountWillBeDeleted}
-            setIsVerificationCodeCorrect={setIsVerificationCodeCorrect}
-          />
-        ) : null}
-
-        {isPasswordChanged ? (
-          <VerifCode
-            email={userData.userInformation.email}
-            isTriggered={isPasswordChanged}
-            setIsTriggered={setIsPasswordChanged}
-            setIsVerificationCodeCorrect={setIsVerificationCodeCorrect}
-          />
-        ) : null}
-
-        {isVerificationCodeCorrect && isPasswordChanged ? (
-          <>
-            <NewPassword
-              email={userData.userInformation.email}
-              isVerificationCodeCorrect={isVerificationCodeCorrect}
-              setIsVerificationCodeCorrect={setIsVerificationCodeCorrect}
-            />
-          </>
-        ) : null}
-
-        {changedData.changeMethod ? (
-          <VerifPassword
-            changedData={changedData}
-            setChangedData={setChangedData}
-            setUserData={setUserData}
-            isAccountWillBeDeleted={isAccountWillBeDeleted}
-            setIsLoggedIn={setIsLoggedIn}
-            setIsAccountWillBeDeleted={setIsAccountWillBeDeleted}
-            csrfToken={csrfToken}
-            setIsNameChanged={setIsNameChanged}
-            setIsPasswordChanged={setIsPasswordChanged}
-          />
-        ) : null}
       </HelmetProvider>
       <ToastContainer />
     </>

@@ -1,10 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useEffect, useRef, useState } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import { toast, ToastContainer } from "react-toastify";
-
-import { useMediaQuery } from "react-responsive";
-
+import { ToastContainer } from "react-toastify";
 
 import "./Purchase.css";
 

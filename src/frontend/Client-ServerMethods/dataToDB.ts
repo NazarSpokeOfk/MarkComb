@@ -23,6 +23,8 @@ import {
   CheckStatisticsOfVideoProps,
 } from "../types/types";
 
+import { RegistrationStatusKey } from "../interfaces/interfaces";
+
 import { toast } from "react-toastify";
 
 import i18n from "i18next";
@@ -267,10 +269,10 @@ class DataToDB {
 
   async makeFetchForCode({
     email,
-    operationCode,
     isRegistration = false,
     setRegistrationStatus,
     setStep,
+    operationCode
   }: MakeFetchForCodeDBProps): Promise<void> {
     try {
       const response = await fetch(`${apiBaseUrl}/verification`, {
@@ -285,7 +287,8 @@ class DataToDB {
       const data = await response.json();
 
       if (response.ok) {
-        return; // Всё хорошо
+        console.log("респонс : ",response)
+        return;
       }
 
       // Обработка ошибок
@@ -315,16 +318,13 @@ class DataToDB {
         email,
         verification_code: verificationCode,
       },
-      withToast: true,
+      withToast: false,
     })
       .then(() => ({ message: true }))
       .catch(() => ({ message: false }));
   }
 
   changePassword({ newPassword, email }: ChangePasswordProps) {
-    if (newPassword.length < 0) {
-      Promise.reject("Password cannot be empty");
-    }
     return this.fetchData({
       endpoint: `${apiBaseUrl}/changePassword`,
       method: "PUT",
@@ -332,10 +332,10 @@ class DataToDB {
         newPassword,
         email,
       },
-      withToast: true,
+      withToast: false,
     })
-      .then(() => ({ message: true }))
-      .catch(() => ({ message: false }));
+    .then((): { message: RegistrationStatusKey } => ({ message: "changed" }))
+    .catch((): { message: RegistrationStatusKey } => ({ message: "wrong" }))
   }
 
   activatePromocode({ promocode, email }: ActivatePromocodeProps) {
