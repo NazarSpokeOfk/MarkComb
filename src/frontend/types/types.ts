@@ -65,7 +65,6 @@ export type HeaderFilterProps = SelectProps<
     logInData: LogInData;
     csrfToken: string;
     isFilterCTAActive: boolean;
-    isModalOpened: boolean;
     entryMethod: string;
     setIsFilter: React.Dispatch<React.SetStateAction<boolean>>;
   };
@@ -200,8 +199,8 @@ export type FilterFetchesProps = SelectProps<TypesOfSets, "setChannelData"> & {
 };
 
 export type HeaderProps = {
-  hideLinks: boolean;
-  isVoteEnabled: boolean;
+  userData : UserData
+  isLoggedIn : boolean
 };
 
 export type ForbiddenThumbnailProps = SelectProps<
@@ -227,9 +226,13 @@ export type GoogleLogInButtonProps = {
   "setIsLoggedIn" | "setUserData" 
 >;
 
-export type GoogleLogInButtonPropsWithoutResponse = SelectProps<
+export type GoogleLogInButtonPropsWithoutResponse = {
+  setLogInStatus: React.Dispatch<
+    React.SetStateAction<string | "success" | "fail">
+  >;
+} & SelectProps<
   TypesOfSets,
-  "setIsLoggedIn" | "setUserData" 
+  "setIsLoggedIn" | "setUserData"
 >;
 
 export type SearchFetchProps = {
@@ -410,7 +413,7 @@ export type MakeFetchForCodeDBProps = {
   operationCode?: string;
   isRegistration: boolean;
   setStep?: React.Dispatch<React.SetStateAction<number>>;
-} & SelectProps<TypesOfSets,"setRegistrationStatus">;
+} & PartialSelectProps<TypesOfSets,"setRegistrationStatus">
 
 export type IsVerificationCodeCorrectProps = {
   email: string;
@@ -543,11 +546,12 @@ export type LogInFunctionProps = {
     React.SetStateAction<string | "success" | "fail">
   >;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-} & SelectProps<TypesOfSets, "setUserData" | "setIsLoggedIn" | "setError" | "setHide">;
+} & SelectProps<TypesOfSets, "setUserData" | "setIsLoggedIn" | "setError">;
 
 export type ForgotPasswordProps = {
   email: string;
-} & SelectProps<TypesOfSets, "setError" | "setHide">;
+  setIsPasswordWillBeReset: React.Dispatch<React.SetStateAction<boolean>>;
+} & SelectProps<TypesOfSets, "setError">;
 
 export type IsVerificationCodeCorrectLogInPageProps = {
   email: string;
@@ -604,13 +608,13 @@ export type SuccessfullLogInThumbnailProps = {
 
 export type MainFormProps = {
   logInData: LogInData;
+  userData : UserData
   setLogInStatus: React.Dispatch<
     React.SetStateAction<string | "success" | "fail">
   >;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   isLoading: boolean;
   loading: string;
-  google: string;
 } & SelectProps<
   TypesOfSets,
   | "setLogInData"
@@ -618,7 +622,6 @@ export type MainFormProps = {
   | "setIsLoggedIn"
   | "setIsPasswordWillBeReset"
   | "setError"
-  | "setHide"
 >;
 
 export const defaultUserData: UserData = {

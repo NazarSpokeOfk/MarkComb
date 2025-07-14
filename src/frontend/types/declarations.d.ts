@@ -6,4 +6,10 @@ declare module "*.png" {
     const content: string;
     export default content;
   }
+
+  declare global {
+    interface Window {
+      google: any;
+    }
+  }
   

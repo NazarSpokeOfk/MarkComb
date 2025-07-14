@@ -1,9 +1,5 @@
 import "./profile.css";
-import Edit from "../../images/image 70.png";
-import bin from "../../icons/bin.svg";
-import arrow from "../../icons/arrow.svg";
-import SponsorsImg from "../../icons/sponsorsimg.jpg";
-
+import "../../fonts/font.css";
 
 import DataToDB from "../../Client-ServerMethods/dataToDB.js";
 import ProfileFunctions from "./functions/ProfileFunctions";
@@ -16,6 +12,8 @@ import { useState, useEffect } from "react";
 
 import { ProfileProps } from "../../types/types";
 
+import plusIcon from "../../icons/plusIcon.jpg";
+import editIcon from "../../icons/editIcon.png";
 
 const Profile = ({
   userData,
@@ -27,24 +25,6 @@ const Profile = ({
   const profileFunctions = new ProfileFunctions();
 
   const { t } = useTranslation();
-
-  const [isNameChanged, setIsNameChanged] = useState(false);
-  const [localName, setLocalName] = useState(
-    userData?.userInformation?.username || ""
-  );
-  const [isPasswordChanged, setIsPasswordChanged] = useState(false);
-  const [isAccountWillBeDeleted, setIsAccountWillBeDeleted] = useState(false);
-
-  const [changedData, setChangedData] = useState({
-    username: "",
-    newPassword: "",
-    oldPassword: "",
-    user_id: userData?.userInformation?.user_id,
-    changeMethod: "",
-  });
-
-  const [isPromocodeActive, setIsPromocodeActive] = useState(false);
-  const [promocodeValue, setPromocodeValue] = useState("");
 
   const dataToDb = new DataToDB({ setUserData, setIsLoggedIn });
 
@@ -74,182 +54,56 @@ const Profile = ({
           <title>Your profile</title>
           <meta name="description" content="Profile page" />
         </Helmet>
+        <div className="profile__block">
+          <div className="personal__data-block">
+            <h1 className="profile__title">Personal Data</h1>
 
-        <section className="profile">
-          <div className="container">
-            <div className="name__container">
-              {isNameChanged ? (
-                <input
-                  className="name__input"
-                  value={localName}
-                  onChange={(e) =>
-                    profileFunctions.handleNameChange({
-                      e,
-                      setLocalName,
-                      setChangedData,
-                    })
-                  }
-                  type="text"
-                  placeholder="Enter your new username"
-                />
-              ) : (
-                <h1 className="profile_name">
-                  {userData
-                    ? userData.userInformation.username
-                    : "Log in firstly"}
-                </h1>
-              )}
-
-              <button
-                onClick={() => {
-                  setIsNameChanged(true);
-                }}
-                className={`username__edit-button ${
-                  isNameChanged ? "unactive" : ""
-                }`}
-              >
-                <img src={Edit} alt="edit" />
-              </button>
+            <div className="personal__data-username_block">
+              <h2 className="personal__data-username">spokeofk</h2>
+              <img
+                src={editIcon}
+                alt=""
+                className="personal__data-image_edit"
+              />
             </div>
 
-            <h2 className="profile_uses-title none">{t("uses")}</h2>
-            <h3 className="profile_uses-amount">
-              {userData ? userData.userInformation.uses : ""}
-            </h3>
-            <button
-              onClick={() => {
-                setIsPromocodeActive(true);
-              }}
-              className={`profile__promocode-activation ${
-                isPromocodeActive ? "none" : ""
-              }`}
-            >
-              {t("Activate")} <span>{t("promocode")}</span>
-            </button>
-
-            <div className="promocode__container">
-              {isPromocodeActive ? (
-                <>
-                  {" "}
-                  <input
-                    onChange={(e) => {
-                      setPromocodeValue(e.target.value);
-                    }}
-                    autoFocus
-                    value={promocodeValue}
-                    placeholder="promocode"
-                    className="promocode_input"
-                    maxLength={15}
-                    type="text"
-                  />
-                  <button
-                    onClick={() => {
-                      dataToDb
-                        .activatePromocode(
-                         { promocode : promocodeValue,
-                          email : userData.userInformation.email}
-                        )
-                        .then((response) => {
-                          if (response?.status === true) {
-                            setIsPromocodeActive(false);
-                            toast.success(t("Promocode activated!"));
-                            setUserData((prevState) => ({
-                              ...prevState,
-                              userInformation: {
-                                ...prevState.userInformation,
-                                uses: prevState.userInformation.uses + 10,
-                              },
-                            }));
-                          } else {
-                            toast.error(
-                              t(
-                                "Failed to activate promocode. Please try again."
-                              )
-                            );
-                          }
-                        })
-                        .catch((error) => {
-                          toast.error(
-                            t(
-                              "An error occurred while activating the promocode."
-                            )
-                          );
-                        });
-                    }}
-                    className="promocode__submit-btn"
-                  >
-                    <img src={arrow} alt="send promocode" />
-                  </button>
-                </>
-              ) : null}
-            </div>
-
-            {userData.userInformation.isSubscriber && finalDate ? (
-              <div className="subscription__block">
-                <div className="bussiness__subscriber-flex">
-                  <img
-                    src={SponsorsImg}
-                    alt=""
-                    className="bussiness__subscriber-img"
-                  />
-                  <h2 className="bussiness__subscriber-text">
-                    {t("Bussiness subscription expires in")} : <br />
-                  </h2>
-                  <h2 className="bussiness__subscriber-info">{finalDate}</h2>
-                </div>
-              </div>
-            ) : null}
-
-            <div className="info_block">
-              <h3 className="info_block-title none">
-                {t("in")}
-                <span>{t("fo")}</span>
-              </h3>
-              <h2 className="info_block-email none">
-                {t("EM")}
-                <span>{t("AIL")}</span> :{" "}
-                {userData ? userData?.userInformation?.email : ""}
-              </h2>
-
-              <div className="password__container">
-                <h2 className="info_block-password none">
-                  {t("PASS")}
-                  <span>{t("WORD")}</span> : *
-                </h2>
-
-                <button
-                  onClick={() => {
-                    setIsPasswordChanged(true);
-                  }}
-                  className={`password__edit-button ${
-                    isPasswordChanged ? "unactive" : ""
-                  }`}
-                >
-                  <img src={Edit} alt="edit" />
+            <div className="credentials-block">
+              <h1 className="profile__title">Credentials</h1>
+              <h3 className="credentials-block__email">kurakn10@gmail.com</h3>
+              <div className="credentials-block__buttons">
+                <button className="credentials-block__button">
+                  Change password
+                </button>
+                <button className="credentials-block__button">
+                  Save changes
                 </button>
               </div>
             </div>
-
-            <button
-              onClick={() => {
-                profileFunctions.checkWhatChange({changedData,setChangedData});
-              }}
-              className="edit__button"
-            >
-              {t("Save")}
-            </button>
           </div>
-          <button
-            onClick={() => {
-              setIsAccountWillBeDeleted(true);
-            }}
-            id="delete"
-            className="edit__button"
-          >
-            <img src={bin} alt="delete your profile" className="bin_btn" />
-          </button>
-        </section>
 
+          <div className="currency-block">
+            <h1 className="profile__title">Currency</h1>
+            <div className="currency__amount-block">
+              <h3 className="currency-block__amount">86 uses</h3>
+              <img
+                src={plusIcon}
+                alt=""
+                className="currency-block__amount-plus"
+              />
+            </div>
+          </div>
+
+          <div className="subscription-block">
+            <h1 className="profile__title">Subscription</h1>
+            <h4 className="subscription__active-till">Active till</h4>
+            <div className="subscription__date-expiration_block">
+              <h1 className="subscription__date-expiration_block-date">31</h1>
+              <h3 className="subscription__date-expiration_block-month">Aug</h3>
+            </div>
+          </div>
+
+          <button className="delete__account-button">Delete account</button>
+        </div>
       </HelmetProvider>
       <ToastContainer />
     </>

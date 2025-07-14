@@ -28,7 +28,6 @@ class LogInPageFunctions {
     setLogInStatus,
     setIsLoading,
     setError,
-    setHide,
   }: LogInFunctionProps) {
     if (!logInData.email || !logInData.password) {
       return setError("full in all fields");
@@ -42,7 +41,6 @@ class LogInPageFunctions {
     console.log(logInRequest);
     if (logInRequest.message === true) {
       setIsLoading(false);
-      setHide(true);
       console.log("Пенис")
       return setLogInStatus("success");
     } else {
@@ -52,13 +50,12 @@ class LogInPageFunctions {
     }
   }
 
-  async forgotPassword({ email, setHide, setError }: ForgotPasswordProps) {
+  async forgotPassword({ email, setError, setIsPasswordWillBeReset }: ForgotPasswordProps) {
     if (!email) {
       setError("Enter your mail in the input field");
       return;
-    } else {
-      setHide(true);
     }
+    setIsPasswordWillBeReset(true)
     await dataToDb.makeFetchForCode({ email, isRegistration: false });
   }
 

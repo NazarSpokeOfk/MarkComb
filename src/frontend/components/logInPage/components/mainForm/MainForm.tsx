@@ -1,7 +1,5 @@
-import React from "react";
-
 import TypeWriterComponent from "../../../headerFilter/functions/TypeWriterComponent";
-
+import GoogleLoginButton from "../../../googleLogInButton/GoogleLogInButton";
 import LogInPageFunctions from "../../functions/LogInPageFunctions";
 
 import { useTranslation } from "react-i18next";
@@ -15,11 +13,9 @@ const MainForm = ({
   setLogInStatus,
   setIsLoading,
   setError,
-  setHide,
   isLoading,
   loading,
   setIsPasswordWillBeReset,
-  google
 } : MainFormProps) => {
   const {t} = useTranslation();
   const logInPageFunctions = new LogInPageFunctions();
@@ -70,8 +66,7 @@ const MainForm = ({
                 setIsLoggedIn,
                 setLogInStatus,
                 setIsLoading,
-                setError,
-                setHide,
+                setError
               });
             }}
             className="fancy-button"
@@ -88,11 +83,10 @@ const MainForm = ({
 
         <button
           onClick={async () => {
-            setIsPasswordWillBeReset(true);
             await logInPageFunctions.forgotPassword({
               email: logInData.email,
-              setHide,
               setError,
+              setIsPasswordWillBeReset
             });
           }}
           id="forgot"
@@ -107,12 +101,7 @@ const MainForm = ({
           <div className="divider"></div>
         </div>
 
-        <button className="button">
-          <div className="google__container">
-            {t("continue with google")}{" "}
-            <img className="google__btn" src={google} alt="" />
-          </div>
-        </button>
+        <GoogleLoginButton setIsLoggedIn={setIsLoggedIn} setUserData={setUserData} setLogInStatus={setLogInStatus}/>
       </div>
     </>
   );

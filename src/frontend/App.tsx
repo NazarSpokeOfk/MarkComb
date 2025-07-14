@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 
 import "./i18";
 import { ToastContainer } from "react-toastify";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import "react-toastify/dist/ReactToastify.css";
 
 import {
@@ -70,7 +71,6 @@ function App() {
 
   const [isFilter, setIsFilter] = useState(false);
   const [isFilterCTAActive, setIsFilterCTAActive] = useState(false);
-  const [isModalOpened, setIsModalOpened] = useState(false);
   const [entryMethod, setEntryMethod] = useState("");
 
   const [signInData, setSignInData] = useState<SignInData>({
@@ -108,10 +108,11 @@ function App() {
 
   return (
     <>
-      <ScrollToTop />
+    <GoogleOAuthProvider clientId="867104217256-63f1fg6mlqf501r974ud4nkvaks3ik1b.apps.googleusercontent.com">
+    <ScrollToTop />
       <Header
-        isVoteEnabled={userData.userInformation.isVoteEnabled}
-        hideLinks={false}
+      isLoggedIn = {isLoggedIn}
+      userData={userData}
       />
       <Routes>
         <Route
@@ -156,8 +157,6 @@ function App() {
                   userData={userData}
                   csrfToken={userData.userInformation.csrfToken}
                   isFilterCTAActive={isFilterCTAActive}
-                  isModalOpened={isModalOpened}
-                  setIsModalOpened={setIsModalOpened}
                   entryMethod={entryMethod}
                   setEntryMethod={setEntryMethod}
                   setIsFilter={setIsFilter}
@@ -284,7 +283,6 @@ function App() {
           element={
             <ErrorBoundary>
               <ForbiddenThumbnail
-                setIsModalOpened={setIsModalOpened}
                 setEntryMethod={setEntryMethod}
                 setUserData={setUserData}
               />
@@ -340,6 +338,7 @@ function App() {
         setIsCookieClosed={setIsCookieClosed}
       />
       <Footer />
+    </GoogleOAuthProvider>
     </>
   );
 }

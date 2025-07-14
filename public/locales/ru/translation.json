@@ -96,7 +96,7 @@
   "AIL": "ПОЧ",
   "Save": "сохранить",
   "Delete": "Удалить",
-  "profile": "профиль",
+  "Profile": "Профиль",
   "You have no purchases.": "У вас нет никаких покупок.",
   "PUR": "ПРИО",
   "CHASE": "БРЕСТИ",
@@ -375,7 +375,7 @@
   "Contact us": "Свяжитесь с нами",
   "A tool for promotion through YouTube. Fast": "Инструмент для продвижения через YouTube. Быстро",
   "Smart. Effective": "Умно. Эффективно",
-  "Authorize": "Авторизация",
+  "Authorization": "Авторизация",
   "© 2025 MarkComb. All rights reserved": "© 2025 MarkComb. Все права защищены",
   "What would you like to do?": "Что бы вы хотели сделать?",
   "Sign Up": "Создать аккаунт",
@@ -409,4 +409,5 @@
   "Password was changed.":"Пароль изменен",
   "Wrong verification code" : "Неправильный код верификации",
   "Apparently, you have entered the wrong code. Try again":"Видимо, вы ввели неверный код. Попробуйте еще раз"
+  
 }

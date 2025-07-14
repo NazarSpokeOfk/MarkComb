@@ -1,8 +1,7 @@
 const apiBaseUrl = import.meta.env.VITE_API_URL;
-import {toast} from "react-toastify"
 import { GoogleLogInButtonProps } from "../../../types/types";
 
-const handleSuccess = async ({setIsLoggedIn,setUserData,setIsModalOpened,response} : GoogleLogInButtonProps) => {
+const handleSuccess = async ({setIsLoggedIn,setUserData,response} : GoogleLogInButtonProps) => {
     const credential = response.credential
     console.log("Вход с помощью google.", response);
     await fetch(`${apiBaseUrl}/auth/google`, {
@@ -24,12 +23,9 @@ const handleSuccess = async ({setIsLoggedIn,setUserData,setIsModalOpened,respons
         console.log(data);
         setIsLoggedIn(true)
         setUserData(data)
-        setIsModalOpened(false)
-        document.body.style.overflow = "";
       })
       .catch((error) => {
         console.log("Ошибка в google log in:", error);
-        toast.error("There is no such account created previously.")
       });
   };
 

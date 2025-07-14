@@ -80,12 +80,18 @@ const LogInPage = ({
   };
 
   useEffect(() => {
+    isPasswordWillBeReset ? setHide(true) : null
+  },[isPasswordWillBeReset])
+  
+  useEffect(() => {
+    if(logInStatus === "success"){
+      setHide(true)
+    }
+
     if (!userData) return;
 
     setUsername(userData.userInformation.username);
-  }, [logInStatus]);
 
-  useEffect(() => {
     logInPageFunctions.redirectToMainPage({ logInStatus, navigate });
   }, [logInStatus]);
 
@@ -104,7 +110,6 @@ const LogInPage = ({
       const msg = statusMessages[isPasswordChangedSuccessfully];
       showErrorToast(msg.title, <>{msg.emoji}</>);
     }
-
     smoothThumbnail(thumbnailRef);
   }, [isPasswordChangedSuccessfully, logInStatus]);
 
@@ -132,11 +137,10 @@ const LogInPage = ({
           setLogInStatus={setLogInStatus}
           setIsLoading={setIsLoading}
           setError={setError}
-          setHide={setHide}
           isLoading={isLoading}
           loading={loading}
           setIsPasswordWillBeReset={setIsPasswordWillBeReset}
-          google={google}
+          userData = {userData}
         />
       )}
 

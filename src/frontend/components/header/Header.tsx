@@ -1,11 +1,11 @@
 import { useMediaQuery } from "react-responsive";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import MiniLogo from "../../../../public/favicon/favicon.svg";
 
-import { HeaderProps } from "../../types/types";
+import { defaultUserData, HeaderProps } from "../../types/types";
 
 import "../../fonts/font.css";
 import "./Header.css";
@@ -14,15 +14,27 @@ import HeaderLogo from "../../icons/MarkComb.png";
 
 import HeaderToRightArrow from "../../icons/HeaderToRightArrow.svg";
 
-const Header = ({ hideLinks = false, isVoteEnabled }: HeaderProps) => {
+const Header = ({ userData , isLoggedIn } : HeaderProps) => {
   const { t } = useTranslation();
   const isLittleMobile = useMediaQuery({ maxWidth: 430 });
 
   const [showMore, setShowMore] = useState<boolean>(false);
-  const [isHeaderExpanded, setIsHeaderExpanded] = useState(false);
+
+  const [dinamicLink, setDinamicLink] = useState<"Authorization" | "Profile">(
+    "Authorization"
+  );
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      setDinamicLink("Profile");
+    }
+    if (!isLoggedIn) {
+      setDinamicLink("Authorization");
+    }
+  },[userData]);
 
   return (
-    <header className={`${isHeaderExpanded ? "active" : ""}`}>
+    <header>
       <div className="header__flex">
         <div className="header__left">
           <Link to="/search" className="logo">
@@ -75,8 +87,8 @@ const Header = ({ hideLinks = false, isVoteEnabled }: HeaderProps) => {
         </div>
 
         <div className="header__right">
-          <Link to={"/authorization"}>
-          <button className="authorize__button">{t("Authorize")}</button>
+          <Link to={"/" + dinamicLink}>
+            <button className="authorize__button">{t(dinamicLink)}</button>
           </Link>
         </div>
       </div>

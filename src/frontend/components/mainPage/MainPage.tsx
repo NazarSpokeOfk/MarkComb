@@ -21,7 +21,7 @@ import MrBeast from "../../images/MrBeast.webp";
 import StopGame from "../../images/stopgame.jpg";
 import VideoPreview from "../../images/videopreview.jpg";
 
-const MainPage = ({ setIsFilterCTAActive, userData }: MainPageProps) => {
+const MainPage = ({ setIsFilterCTAActive }: MainPageProps) => {
 
   const isMobile = useMediaQuery({ maxWidth: 480 });
 
