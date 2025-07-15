@@ -408,6 +408,15 @@
   "Oops, we lost your credentials. Please, try again a little later": "Упс, мы потеряли ваши учетные данные. Пожалуйста, попробуйте чуть позже",
   "Password was changed.":"Пароль изменен",
   "Wrong verification code" : "Неправильный код верификации",
-  "Apparently, you have entered the wrong code. Try again":"Видимо, вы ввели неверный код. Попробуйте еще раз"
-  
+  "Apparently, you have entered the wrong code. Try again":"Видимо, вы ввели неверный код. Попробуйте еще раз",
+  "Your profile":"Ваш профиль",
+  "Your Data":"Ваши данные",
+  "Credentials":"Учетные данные",
+  "Change password":"Сменить пароль",
+  "Save changes" : "Сохранить изменения",
+  "Currency":"Валюта",
+  "Subscription":"Подписка",
+  "Active till":"Активна до",
+  "Aug":"Авг",
+  "Delete account":"Удалить аккаунт"
 }

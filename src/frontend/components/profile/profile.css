@@ -19,13 +19,14 @@
   font-size: 40px;
   margin: 0;
   font-weight: 700;
+  width: fit-content;
 }
 
 .profile__block{
   margin-top: 80px;
   margin-left: 3rem;
   display: flex;
-  gap: 35px;
+  gap: 32px;
   margin-bottom: 70px;
 }
 
@@ -43,6 +44,7 @@
 }
 
 .credentials-block__button{
+  transition: transform 0.4s ease;
   background-color: black;
   color: white;
   width: 200px;
@@ -51,6 +53,10 @@
   font-weight: 900;
   font-size: 15px;
   cursor: pointer;
+}
+
+.credentials-block__button:hover{
+  transform: scale(0.95);
 }
 
 .credentials-block__buttons{
@@ -68,12 +74,13 @@
 }
 
 .currency-block{
-  width: 235px;
-  height: 200px;
+  width: 230px;
+  height: 145px;
   border : 1px solid black;
-  border-radius : 40px;
-  padding-top: 60px;
+  border-radius : 35px;
+  padding-top: 55px;
   padding-left: 31px;
+  padding-bottom: 40px;
   display: flex;
   flex-direction: column;
   gap: 33px;
@@ -92,9 +99,13 @@
 }
 
 .currency-block__amount-plus{
+  transition: transform 0.3s ease;
   width: 25px;
   height: 25px;
   cursor: pointer;
+}
+.currency-block__amount-plus:hover{
+  transform: scale(0.9);
 }
 
 .personal__data-username_block{
@@ -104,7 +115,103 @@
 }
 
 .personal__data-image_edit{
+  transition: transform 0.4s ease-out;
   cursor: pointer;
   width: 30px;
   height: 30px;
+}
+
+.personal__data-image_edit:hover{
+  transform: scale(0.90);
+}
+
+
+.profile-second__part{
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.subscription-block{
+  padding-top: 25px;
+  width: 261px;
+  height: 220px;
+  border : 1px solid black;
+  border-radius : 35px;
+}
+
+.subscription__title{
+  font-size: 30px;
+  text-align: center;
+}
+
+.subscription__active-till{
+  text-align: center;
+  color: rgba(0,0,0,0.77)
+}
+
+.subscription__date-expiration_block{
+  display: flex;
+  margin: 0 auto;
+  width: fit-content;
+  flex-direction: column;
+  align-items: center;
+}
+
+.subscription__date-expiration_block-month{
+  margin: 0;
+  color: rgba(0,0,0,0.77)
+}
+
+.subscription__date-expiration_block-date{
+  margin: 0;
+  font-size: 45px;
+}
+
+.delete__account-button{
+  background-color: #fff;
+  color: black;
+  border : 1px solid black;
+  width: 261px;
+  height: 47px;
+  font-weight: 900;
+  border-radius: 13px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.log__out-btn{
+  height: 69px;
+  width: 71px;
+  cursor: pointer;
+}
+
+.logout-button {
+  background: white;
+  border: 1px solid black;
+  padding: 8px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+  width: 80px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 400px;
+}
+
+.door {
+  width: 100%;
+  height: 100%;
+}
+
+/* Дверь — 3D-поворот */
+.door-panel {
+  transition: transform 0.4s ease;
+  transform-origin: left center;
+}
+
+.logout-button:hover .door-panel {
+  transform: rotateY(60deg);
 }
