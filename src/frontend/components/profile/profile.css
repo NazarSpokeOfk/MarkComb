@@ -27,7 +27,7 @@
   margin-left: 3rem;
   display: flex;
   gap: 32px;
-  margin-bottom: 70px;
+  margin-bottom: 80px;
 }
 
 .personal__data-username{
@@ -214,4 +214,17 @@
 
 .logout-button:hover .door-panel {
   transform: rotateY(60deg);
+}
+
+.new__userdata-input{
+  margin-top: 29px;
+  margin-bottom: 29px;
+  width: 162px;
+  height: 22.5px;
+  font-size: 30px;
+  color : var(--main-grey-colour);
+  border-radius : 10px;
+  border : 1px solid black;
+  padding : 10px;
+  font-weight: 600;
 }

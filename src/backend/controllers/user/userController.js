@@ -235,7 +235,7 @@ class UserController {
 
   async updateUser(req, res) {
     const id = parseInt(req.params.id, 10);
-    const { newPassword, oldPassword, username, changeMethod } = req.body;
+    const { newValue, changeMethod } = req.body;
 
     try {
       const userResult = await pool.query(
@@ -249,46 +249,14 @@ class UserController {
         });
       }
 
-      this.validateInput({ username, newPassword, oldPassword }, "update");
-
-      const storedHash = userResult.rows[0].password;
-      const isPasswordValid = await this.comparePassword(
-        oldPassword,
-        storedHash
-      );
-
-      if (!isPasswordValid) {
-        return res.status(400).json({ message: "Неправильный пароль!" });
-      }
-
-      let hashedPassword;
+      this.validateInput({ newValue }, "update");
+  
       let updateUser;
 
-      if (changeMethod === "password" && !username) {
-        delete req.body.username;
-        hashedPassword = await this.hashPassword(newPassword);
-        if (!hashedPassword) {
-          return res.status(400).json({ message: "Ошибка хеширования пароля" });
-        }
-
-        updateUser = await pool.query(
-          `UPDATE users SET password = $1 WHERE user_id = $2 RETURNING *`,
-          [hashedPassword, id]
-        );
-      } else if (changeMethod === "username") {
+      if (changeMethod === "username") {
         updateUser = await pool.query(
           `UPDATE users SET username = $1 WHERE user_id = $2 RETURNING *`,
-          [username, id]
-        );
-      } else if (changeMethod === "username&password") {
-        hashedPassword = await this.hashPassword(newPassword);
-        if (!hashedPassword) {
-          return res.status(400).json({ message: "Ошибка хеширования пароля" });
-        }
-
-        updateUser = await pool.query(
-          `UPDATE users SET username = $1, password = $2 WHERE user_id = $3 RETURNING *`,
-          [username, hashedPassword, id]
+          [newValue, id]
         );
       } else {
         return res
@@ -486,9 +454,7 @@ class UserController {
   });
 
   userUpdateSchema = Joi.object({
-    oldPassword: Joi.string().min(5).required(),
-    newPassword: Joi.string().min(5).optional().allow(""),
-    username: Joi.string().alphanum().min(3).max(30).optional().allow(""), // Добавляем allow('') чтобы разрешить пустое значение
+    newValue: Joi.string().min(3).required(),
   });
 
   validateInput(input, method) {

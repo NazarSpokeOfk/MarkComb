@@ -11,11 +11,13 @@ import { useTranslation } from "react-i18next";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useState, useEffect } from "react";
 
-import { ProfileProps } from "../../types/types";
+import { InputProps, ProfileProps } from "../../types/types";
+
+import Curtain from "../curtain/Curtain";
 
 import plusIcon from "../../icons/plusIcon.jpg";
 import editIcon from "../../icons/editIcon.png";
-import logOutIcon from "../../icons/logOutIcon.jpg";
+import { IsDataChanged, NewUserData } from "../../interfaces/interfaces";
 
 const Profile = ({
   userData,
@@ -28,7 +30,15 @@ const Profile = ({
 
   const { t } = useTranslation();
 
-  const dataToDb = new DataToDB({ setUserData, setIsLoggedIn });
+  const [isDataChanged, setIsDataChanged] = useState<IsDataChanged>({
+    isDataChanged: false,
+    whatChanged: null,
+  });
+
+  const [newUserData, setNewUserData] = useState<NewUserData>({
+    password: "",
+    username: "",
+  });
 
   const navigate = useNavigate();
 
@@ -41,14 +51,31 @@ const Profile = ({
   const expirationRaw = userData?.userInformation?.subscription_expiration;
   const expirationDate = expirationRaw ? new Date(expirationRaw) : null;
 
-  const dayAndMonth = expirationDate ? new Intl.DateTimeFormat("ru-RU", {
-    day : "numeric",
-    month : "short"
-  }).formatToParts(expirationDate)
-  : null;
+  const dayAndMonth = expirationDate
+    ? new Intl.DateTimeFormat("ru-RU", {
+        day: "numeric",
+        month: "short",
+      }).formatToParts(expirationDate)
+    : null;
 
   const day = dayAndMonth?.find((part) => part.type === "day")?.value;
-  const month = dayAndMonth?.find((part) => part.type === "month")?.value
+  const month = dayAndMonth?.find((part) => part.type === "month")?.value;
+
+  // const Input = ({ whatToChange, whatToWatchFor, value }: InputProps) => {
+  //   return (
+  //     <>
+  //       <input
+  //         onChange={(e) => {
+  //           const val = e.target.value.trim();
+  //           whatToChange((prev) => ({ ...prev, [whatToWatchFor]: val }));
+  //         }}
+  //         value={value}
+  //         className="new__userdata-input"
+  //         type="text"
+  //       />
+  //     </>
+  //   );
+  // };
 
   return (
     <>
@@ -62,8 +89,16 @@ const Profile = ({
             <h1 className="profile__title">{t("Your Data")}</h1>
 
             <div className="personal__data-username_block">
-              <h2 className="personal__data-username">{userData.userInformation.username}</h2>
+              <h2 className="personal__data-username">
+                {userData.userInformation.username}
+              </h2>
               <img
+                onClick={() =>
+                  setIsDataChanged((prev) => ({
+                    ...prev,
+                    isDataChanged: !prev.isDataChanged,
+                  }))
+                }
                 src={editIcon}
                 alt=""
                 className="personal__data-image_edit"
@@ -72,13 +107,12 @@ const Profile = ({
 
             <div className="credentials-block">
               <h1 className="profile__title">{t("Credentials")}</h1>
-              <h3 className="credentials-block__email">{userData.userInformation.email}</h3>
+              <h3 className="credentials-block__email">
+                {userData.userInformation.email}
+              </h3>
               <div className="credentials-block__buttons">
                 <button className="credentials-block__button">
                   {t("Change password")}
-                </button>
-                <button className="credentials-block__button">
-                  {t("Save changes")}
                 </button>
               </div>
             </div>
@@ -88,7 +122,9 @@ const Profile = ({
             <div className="currency-block">
               <h1 className="profile__title">{t("Currency")}</h1>
               <div className="currency__amount-block">
-                <h3 className="currency-block__amount">{userData.userInformation.uses}</h3>
+                <h3 className="currency-block__amount">
+                  {userData.userInformation.uses}
+                </h3>
                 <Link to="/purchase">
                   <img
                     src={plusIcon}
@@ -103,7 +139,9 @@ const Profile = ({
               <h1 className="subscription__title">{t("Subscription")}</h1>
               <h4 className="subscription__active-till">{t("Active till")}</h4>
               <div className="subscription__date-expiration_block">
-                <h1 className="subscription__date-expiration_block-date">{day}</h1>
+                <h1 className="subscription__date-expiration_block-date">
+                  {day}
+                </h1>
                 <h3 className="subscription__date-expiration_block-month">
                   {month}
                 </h3>
@@ -146,6 +184,14 @@ const Profile = ({
             </svg>
           </button>
         </div>
+
+        <Curtain
+          action={"name"}
+          isCurtainOpen={isDataChanged.isDataChanged}
+          setIsDataChanged={setIsDataChanged}
+          userData={userData}
+          setUserData={setUserData}
+        />
       </HelmetProvider>
       <ToastContainer />
     </>

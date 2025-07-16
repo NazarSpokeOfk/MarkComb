@@ -418,5 +418,8 @@
   "Subscription":"Подписка",
   "Active till":"Активна до",
   "Aug":"Авг",
-  "Delete account":"Удалить аккаунт"
+  "Delete account":"Удалить аккаунт",
+  "Your new":"Ваше новое",
+  "name":"имя",
+  "Username was changed":"Имя изменено"
 }

@@ -1,0 +1,82 @@
+.curtain__flex {
+    padding-top: 7%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 450px; /* или % */
+    height: 100vh;
+    background-color: white;
+    border-left: 0.5px solid black;
+    transform: translateX(100%); /* спрятана за правым краем */
+    transition: transform 0.5s ease;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 60px;
+  }
+  
+  .curtain__flex.open {
+    transform: translateX(0); /* выезжает */
+  }
+  
+  .close__curtain-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 1001;
+  }
+  
+  .curtain__text-bg {
+    padding-left: 5%;
+    text-align: left;
+    width: 100%;
+    background-color: black;
+  }
+
+  .curtain__text{
+    color: white;
+    font-size: 45px;
+  }
+  
+  
+  .curtain__input-flex {
+    margin-left: 5%;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
+  
+  .curtain__input {
+    height: 27px;
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-weight: 600;
+  }
+  
+  .curtain__input-btn {
+    height: 30px;
+    width: 30px;
+    padding: 6.5px 8px;
+    background-color: rgb(255, 255, 255);
+    color: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .curtain__flex-close_btn{
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    margin-left: 5%;
+    transition : transform 0.3s ease-in-out
+  }
+  .curtain__flex-close_btn:hover{
+    transform: scale(0.9);
+  }
+  

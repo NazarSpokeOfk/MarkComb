@@ -70,7 +70,7 @@ router.get('/loginbyid/:id' , (req,res) => userController.getUserByUserId(req,re
 router.get('/cookie' , (req,res) => verifyJWT(req,res))
 router.get('/users', (req,res) => userController.getAllUsers(req,res))
 
-router.put('/update/:id'  , updateLimiter , (req,res) => userController.updateUser(req,res))
+router.put('/update/:id' , (req,res) => userController.updateUser(req,res))
 router.put('/changePassword'  , (req,res) => userController.changePassword(req,res))
 router.put('/promocode',(req,res) => userController.activatePromocode(req,res))
 

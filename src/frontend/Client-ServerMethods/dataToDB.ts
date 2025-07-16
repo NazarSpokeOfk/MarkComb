@@ -231,13 +231,13 @@ class DataToDB {
         endpoint: `${apiBaseUrl}/update/${data.user_id}`,
         method: "PUT",
         body: data,
-        withToast: true,
+        withToast: false,
       });
       this.setUserData?.(result);
-      return { message: true };
+      return { message: "Username was changed",status : true};
     } catch {
       console.log("Не удалось изменить данные аккаунта.");
-      return { message: false };
+      return { message: "Username wasn't changed", status : true };
     }
   }
 

@@ -85,10 +85,8 @@ export interface FilterData {
 }
 
 export interface ChangedData {
-  username : string
   changeMethod : string
-  oldPassword : string
-  newPassword : string
+  newValue : string
   user_id : number
 }
 
@@ -131,5 +129,19 @@ export interface verificationCode {
   verification_code : string
 }
 
+export interface NewUserData {
+  password : string;
+  username : string;
+}
+
+export interface IsDataChanged {
+  isDataChanged : boolean;
+  whatChanged : keyof NewUserData | null; 
+}
+
+export interface Status {
+  status : boolean;
+  message : string;
+}
 export type RegistrationStatusKey = keyof typeof statusMessages;
 

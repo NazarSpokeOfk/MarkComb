@@ -14,6 +14,9 @@ import {
   RegistrationStatusKey,
   verificationCode,
   statusMessages,
+  NewUserData,
+  IsDataChanged,
+  Status,
 } from "../interfaces/interfaces";
 import { NavigateFunction } from "react-router-dom";
 
@@ -623,6 +626,35 @@ export type MainFormProps = {
   | "setIsPasswordWillBeReset"
   | "setError"
 >;
+
+export type InputProps = {
+  whatToChange : React.Dispatch<React.SetStateAction<NewUserData>>;
+  whatToWatchFor : keyof NewUserData;
+  value : string
+}
+
+export type CurtainProps = {
+  action : string;
+  isCurtainOpen : boolean
+  setIsDataChanged : React.Dispatch<React.SetStateAction<IsDataChanged>>
+  userData : UserData
+} & SelectProps<TypesOfSets,"setUserData">
+
+export type SaveChangesProps = {
+  changeMethod : "password" | "username";
+  newValue : string
+  userData : UserData;
+  setStatus : React.Dispatch<React.SetStateAction<Status | null>>
+  setIsLoading : React.Dispatch<React.SetStateAction<boolean>>
+  setIsDataChanged : React.Dispatch<React.SetStateAction<IsDataChanged>>
+} & SelectProps<TypesOfSets,"setUserData">
+
+export type ValidateUserName = {
+  prevUsername : string;
+  newUsername : string;
+  setStatus : React.Dispatch<React.SetStateAction<Status | null>>
+  setIsLoading : React.Dispatch<React.SetStateAction<boolean>>
+}
 
 export const defaultUserData: UserData = {
   channels: [],
