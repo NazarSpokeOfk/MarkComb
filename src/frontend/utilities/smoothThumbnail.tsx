@@ -4,6 +4,8 @@ const smoothThumbnail = ( thumbnailRef  : RefObject<HTMLDivElement | null>) => {
   if (thumbnailRef.current) {
     const el = thumbnailRef.current;
 
+    console.log(el)
+
     // Сброс состояния на изначальное
     el.classList.remove("appearing");
 

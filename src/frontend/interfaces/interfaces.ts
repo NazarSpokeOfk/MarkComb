@@ -143,5 +143,11 @@ export interface Status {
   status : boolean;
   message : string;
 }
+
+export interface CodeStatus {
+  isCodeCorrect : boolean | null;
+  code : string | null;
+  isCodeSent : boolean | null;
+}
 export type RegistrationStatusKey = keyof typeof statusMessages;
 

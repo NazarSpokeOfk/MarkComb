@@ -1,8 +1,15 @@
 import dataToDB from "../../../Client-ServerMethods/dataToDB";
-import { SaveChangesProps, ValidateUserName } from "../../../types/types";
+import { SaveChangesProps, SendVerificationCodeProps, ValidateUserName } from "../../../types/types";
+
+const dataToDb = new dataToDB();
 
 class CurtainFunctions {
-  validateUsername({ prevUsername, newUsername, setStatus, setIsLoading }: ValidateUserName) {
+  validateUsername({
+    prevUsername,
+    newUsername,
+    setStatus,
+    setIsLoading,
+  }: ValidateUserName) {
     const pureUsername = newUsername.trim();
 
     if (pureUsername.length <= 2) {
@@ -11,8 +18,8 @@ class CurtainFunctions {
         message: "Username must be longer than 2 characters",
         status: false,
       }));
-      setIsLoading(false)
-      return "fail"
+      setIsLoading(false);
+      return "fail";
     }
 
     if (prevUsername === newUsername) {
@@ -21,8 +28,8 @@ class CurtainFunctions {
         message: "You can't set the same username",
         status: false,
       }));
-      setIsLoading(false)
-      return "fail"
+      setIsLoading(false);
+      return "fail";
     }
 
     if (!/^[a-zA-Zа-яА-ЯёЁ0-9_]+$/.test(pureUsername)) {
@@ -31,8 +38,8 @@ class CurtainFunctions {
         message: "Username can only contain letters, numbers, and underscores",
         status: false,
       }));
-      setIsLoading(false)
-      return "fail"
+      setIsLoading(false);
+      return "fail";
     }
 
     if (/^\d+$/.test(pureUsername)) {
@@ -41,8 +48,8 @@ class CurtainFunctions {
         message: "Username cannot be only numbers",
         status: false,
       }));
-      setIsLoading(false)
-      return "fail"
+      setIsLoading(false);
+      return "fail";
     }
 
     return pureUsername;
@@ -55,9 +62,9 @@ class CurtainFunctions {
     setStatus,
     setUserData,
     setIsLoading,
-    setIsDataChanged
+    setIsCurtainOpen,
   }: SaveChangesProps) {
-    setIsLoading(true)
+    setIsLoading(true);
     const dataToDb = new dataToDB({ setUserData });
 
     let data = {
@@ -71,21 +78,39 @@ class CurtainFunctions {
         prevUsername: userData.userInformation.username,
         newUsername: newValue,
         setStatus,
-        setIsLoading
+        setIsLoading,
       });
 
-      if(data.newValue === "fail"){
+      if (data.newValue === "fail") {
         return;
       }
 
       try {
         const result = await dataToDb.updateData({ data });
-        setIsLoading(false)
+        setIsLoading(false);
         setStatus(result);
+        setIsCurtainOpen(false);
       } catch (error) {
         console.log(error);
       }
     }
   }
+
+  async sendVerificationCode({ email, setIsCodeSent } : SendVerificationCodeProps) {
+    if (!email) {
+      return;
+    }
+    try {
+      await dataToDb.makeFetchForCode({ email, isRegistration: false });
+      setIsCodeSent(true)
+    } catch (error) {
+      setIsCodeSent(false)     
+      console.log(error);
+    }
+  }
+
+  // async changePassword({code}){
+
+  // }
 }
 export default CurtainFunctions;

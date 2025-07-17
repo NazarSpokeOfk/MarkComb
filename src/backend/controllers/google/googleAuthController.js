@@ -7,8 +7,8 @@ import crypto from "crypto";
 import generateJWT from "../../cookies/generateJWT.js";
 
 import returnUserInformation from "../../dto/user/returnUserInformation.js";
-import returnCookie from "../../dto/cookies/returnCookie.js"
-import returnCsrftoken from "../../dto/cookies/returnCsrfToken.js"
+import returnCookie from "../../dto/cookies/returnCookie.js";
+import returnCsrftoken from "../../dto/cookies/returnCsrfToken.js";
 
 import { OAuth2Client } from "google-auth-library";
 
@@ -30,7 +30,7 @@ const googleAuthController = async (req, res) => {
     const payload = ticket.getPayload();
 
     const findUser = await pool.query(
-      `SELECT email,user_id,username,uses FROM users WHERE email = $1`,
+      `SELECT email,user_id,username,uses,subscription_expiration,isvoteenabled FROM users WHERE email = $1`,
       [payload.email]
     );
 
@@ -53,9 +53,9 @@ const googleAuthController = async (req, res) => {
           const csrfToken = crypto.randomBytes(16).toString("hex");
           req.session.csrfToken = csrfToken;
 
-          returnCookie(token,res);
+          returnCookie(token, res);
 
-          returnCsrftoken(csrfToken,res);
+          returnCsrftoken(csrfToken, res);
 
           const userInformation = returnUserInformation(user, token, csrfToken);
 
@@ -81,12 +81,12 @@ const googleAuthController = async (req, res) => {
       [userId]
     );
 
-    returnCookie(token,res);
+    returnCookie(token, res);
 
     const csrfToken = crypto.randomBytes(16).toString("hex");
     req.session.csrfToken = csrfToken;
 
-    returnCsrftoken(csrfToken,res);
+    returnCsrftoken(csrfToken, res);
 
     const userInformation = returnUserInformation(user, token, csrfToken);
 

@@ -3,6 +3,9 @@ import nodemailer from "nodemailer";
 import pool from "../db/main/index.js";
 import { google } from "googleapis";
 import dotenv from "dotenv";
+
+import { v4 as uuidv4 } from 'uuid';
+
 dotenv.config();
 
 const CLIENT_ID = process.env.CLIENT_ID;
@@ -99,7 +102,7 @@ class MailVerification {
         console.log("Код не сходится");
         return { success: false, message: "Wrong code" };
       }
-      console.log("азуенчик");
+
       return { success: true };
     } catch (error) {
       logger.error(" (verifyCode) Ошибка при проверке кода:", error);

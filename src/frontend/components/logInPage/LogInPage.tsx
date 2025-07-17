@@ -9,7 +9,7 @@ import { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 
 import CodeInput from "../codeInput/CodeInput";
-import SuccessfullLogInThumbnail from "../logInPage/components/successfullLogInThumbnail/SuccessfullLogInThumbnail";
+import LogInAndLogOutThumbnail from "./components/LogInAndLogOutThumbnail/LogInAndLogOutThumbnail";
 import MainForm from "./components/mainForm/MainForm";
 
 import { useTranslation } from "react-i18next";
@@ -82,7 +82,7 @@ const LogInPage = ({
   useEffect(() => {
     isPasswordWillBeReset ? setHide(true) : null
   },[isPasswordWillBeReset])
-  
+  //track thumbnail show
   useEffect(() => {
     if(logInStatus === "success"){
       setHide(true)
@@ -122,9 +122,10 @@ const LogInPage = ({
       )}
 
       {logInStatus === "success" ? (
-        <SuccessfullLogInThumbnail
+        <LogInAndLogOutThumbnail
           thumbnailRef={thumbnailRef}
           userName={userName}
+          text="Welcome"
         />
       ) : null}
 

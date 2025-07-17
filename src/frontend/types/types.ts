@@ -17,6 +17,7 @@ import {
   NewUserData,
   IsDataChanged,
   Status,
+  CodeStatus,
 } from "../interfaces/interfaces";
 import { NavigateFunction } from "react-router-dom";
 
@@ -607,6 +608,7 @@ export type RedirectToMainPageProps = {
 export type SuccessfullLogInThumbnailProps = {
   thumbnailRef: RefObject<HTMLDivElement | null>;
   userName: string;
+  text : string
 };
 
 export type MainFormProps = {
@@ -634,9 +636,9 @@ export type InputProps = {
 }
 
 export type CurtainProps = {
-  action : string;
+  action : "password" | "username" | null;
   isCurtainOpen : boolean
-  setIsDataChanged : React.Dispatch<React.SetStateAction<IsDataChanged>>
+  setIsCurtainOpen : React.Dispatch<React.SetStateAction<boolean>>
   userData : UserData
 } & SelectProps<TypesOfSets,"setUserData">
 
@@ -646,7 +648,7 @@ export type SaveChangesProps = {
   userData : UserData;
   setStatus : React.Dispatch<React.SetStateAction<Status | null>>
   setIsLoading : React.Dispatch<React.SetStateAction<boolean>>
-  setIsDataChanged : React.Dispatch<React.SetStateAction<IsDataChanged>>
+  setIsCurtainOpen : React.Dispatch<React.SetStateAction<boolean>>
 } & SelectProps<TypesOfSets,"setUserData">
 
 export type ValidateUserName = {
@@ -654,6 +656,11 @@ export type ValidateUserName = {
   newUsername : string;
   setStatus : React.Dispatch<React.SetStateAction<Status | null>>
   setIsLoading : React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export type SendVerificationCodeProps = {
+  email : string;
+  setIsCodeSent : React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const defaultUserData: UserData = {

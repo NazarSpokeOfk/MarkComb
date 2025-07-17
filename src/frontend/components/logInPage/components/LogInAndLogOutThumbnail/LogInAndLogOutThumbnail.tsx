@@ -2,14 +2,14 @@ import { useTranslation } from "react-i18next";
 import { SuccessfullLogInThumbnailProps } from "../../../../types/types";
 
 
-const SuccessfullLogInThumbnail = ({thumbnailRef,userName} : SuccessfullLogInThumbnailProps) => {
+const LogInAndLogOutThumbnail = ({thumbnailRef,userName,text} : SuccessfullLogInThumbnailProps) => {
     const {t} = useTranslation();
 
     return (
         <div ref={thumbnailRef} className="default">
           <div className="log__in-result_block">
             <h2 className="log__in-result_block--title">
-              {t("Welcome")}, {userName}
+              {t(text)}, {userName}
             </h2>
             <h2 className="emoji">👋</h2>
             <p className="log__in-result_block-subtitle shimmer-text">
@@ -20,4 +20,4 @@ const SuccessfullLogInThumbnail = ({thumbnailRef,userName} : SuccessfullLogInThu
     )
 }
 
-export default SuccessfullLogInThumbnail
+export default LogInAndLogOutThumbnail

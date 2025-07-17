@@ -2,6 +2,8 @@ import { toast } from "react-toastify";
 
 import { useState, useEffect } from "react";
 
+import CodeInput from "../codeInput/CodeInput";
+
 import { CurtainProps } from "../../types/types";
 import "./Curtain.css";
 
@@ -12,12 +14,12 @@ import loading from "../../images/loading-gif.gif";
 import { useTranslation } from "react-i18next";
 
 import CurtainFunctions from "./functions/CurtainFunctions";
-import { Status } from "../../interfaces/interfaces";
+import { CodeStatus, Status } from "../../interfaces/interfaces";
 
 const Curtain = ({
   action,
   isCurtainOpen,
-  setIsDataChanged,
+  setIsCurtainOpen,
   userData,
   setUserData,
 }: CurtainProps) => {
@@ -25,7 +27,13 @@ const Curtain = ({
   const { t } = useTranslation();
   const [status, setStatus] = useState<Status | null>(null);
   const [newValue, setNewValue] = useState<string>("");
-  const [isLoading,setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isCodeSent,setIsCodeSent] = useState<boolean>(false);
+
+  const title = {
+    password: "Enter verification code",
+    username: "Your new name?",
+  };
 
   useEffect(() => {
     if (status) {
@@ -36,12 +44,21 @@ const Curtain = ({
       });
     }
   }, [status]);
+
+  useEffect(() => {
+    if (action === "password") {
+      curtainFunctions.sendVerificationCode({
+        email: userData.userInformation.email,
+        setIsCodeSent,
+      });
+    }
+  }, [action]);
   return (
     <>
       <div className={`curtain__flex ${isCurtainOpen ? "open" : ""}`}>
         <img
           onClick={() => {
-            setIsDataChanged((prev) => ({ ...prev, isDataChanged: false }));
+            setIsCurtainOpen(false);
           }}
           src={crossIcon}
           alt=""
@@ -49,37 +66,44 @@ const Curtain = ({
         />
         <div className="curtain__text-bg">
           <h1 className="curtain__text">
-            {t("Your new")} <br />
-            {t(action)}?
+            {action ? <>{t(title[action])}</> : null}
           </h1>
         </div>
-        <div className="curtain__input-flex">
-          <input
-            value={newValue}
-            onChange={(e) => {
-              const value = e.target.value;
-              setNewValue(value);
-            }}
-            type="text"
-            className="curtain__input"
-          />
-          <img
-            onClick={() => {
-              curtainFunctions.saveChanges({
-                changeMethod: "username",
-                newValue,
-                userData,
-                setStatus,
-                setUserData,
-                setIsLoading,
-                setIsDataChanged
-              });
-            }}
-            src={isLoading ? loading : saveIcon}
-            alt=""
-            className="curtain__input-btn"
-          />
-        </div>
+
+        {isCodeSent ? (
+          <CodeInput onComplete={(code) => {
+              console.log(code)
+          }} setData={setIsCodeSent} />
+          
+        ) : (
+          <div className="curtain__input-flex">
+            <input
+              value={newValue}
+              onChange={(e) => {
+                const value = e.target.value;
+                setNewValue(value);
+              }}
+              type="text"
+              className="curtain__input"
+            />
+            <img
+              onClick={() => {
+                curtainFunctions.saveChanges({
+                  changeMethod: "username",
+                  newValue,
+                  userData,
+                  setStatus,
+                  setUserData,
+                  setIsLoading,
+                  setIsCurtainOpen,
+                });
+              }}
+              src={isLoading ? loading : saveIcon}
+              alt=""
+              className="curtain__input-btn"
+            />
+          </div>
+        )}
       </div>
     </>
   );

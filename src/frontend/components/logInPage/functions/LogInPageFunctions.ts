@@ -87,7 +87,7 @@ class LogInPageFunctions {
     }
 
     if(!newPassword){
-        return
+      return
     }
 
     const settingNewPassword = await dataToDb.changePassword({newPassword,email})

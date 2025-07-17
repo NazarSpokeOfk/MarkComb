@@ -419,7 +419,8 @@
   "Active till":"Активна до",
   "Aug":"Авг",
   "Delete account":"Удалить аккаунт",
-  "Your new":"Ваше новое",
-  "name":"имя",
-  "Username was changed":"Имя изменено"
+  "Username was changed":"Имя изменено",
+  "You can't set the same username":"Вы не можете установить то же самое имя",
+  "Goodbye":"До свидания",
+  "Your new name?":"Ваше новое имя?"
 }
