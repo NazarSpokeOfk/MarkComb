@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 import MiniLogo from "../../../../public/favicon/favicon.svg";
 
-import { defaultUserData, HeaderProps } from "../../types/types";
+import { HeaderProps } from "../../types/types";
 
 import "../../fonts/font.css";
 import "./Header.css";
@@ -14,9 +14,29 @@ import HeaderLogo from "../../icons/MarkComb.png";
 
 import HeaderToRightArrow from "../../icons/HeaderToRightArrow.svg";
 
-const Header = ({ userData , isLoggedIn } : HeaderProps) => {
+const Header = ({ userData, isLoggedIn }: HeaderProps) => {
   const { t } = useTranslation();
   const isLittleMobile = useMediaQuery({ maxWidth: 430 });
+
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
+  const links = {
+    1: {
+      title: "PURCHASES",
+      link: "/purchases",
+      index: 1,
+    },
+    2: {
+      title: "PROMOTION",
+      link: "/promotion",
+      index: 2,
+    },
+    3: {
+      title: "PURCHASE",
+      link: "/purchase",
+      index: 3,
+    },
+  };
 
   const [showMore, setShowMore] = useState<boolean>(false);
 
@@ -31,13 +51,17 @@ const Header = ({ userData , isLoggedIn } : HeaderProps) => {
     if (!isLoggedIn) {
       setDinamicLink("Authorization");
     }
-  },[userData]);
+  }, [userData]);
 
   return (
     <header>
       <div className="header__flex">
         <div className="header__left">
-          <Link to="/search" className="logo">
+          <Link
+            onClick={() => setActiveIndex(null)}
+            to="/search"
+            className="logo"
+          >
             {isLittleMobile ? (
               <>
                 <img src={MiniLogo} alt="" className="mini__logo" />
@@ -52,16 +76,20 @@ const Header = ({ userData , isLoggedIn } : HeaderProps) => {
 
         <div className="header__center">
           <nav className="nav__links">
-            <Link to="/purchases" className="header__link">
-              {t("PURCHASES")}
-            </Link>
-            <Link to="/promotion" className="header__link">
-              {t("PROMOTION")}
-            </Link>
-            <Link to="/purchase" className="header__link">
-              {t("PURCHASE")}
-            </Link>
-
+            {Object.values(links).map(({ title, link, index }) => (
+              <Link
+                onClick={() => {
+                  setActiveIndex(index);
+                }}
+                className={`header__link ${
+                  activeIndex === index ? "pressed" : ""
+                }`}
+                to={link}
+                key={index}
+              >
+                {t(title)}
+              </Link>
+            ))}
             <div
               className={`nav__extra-container ${showMore ? "visible" : ""}`}
             >

@@ -9,6 +9,7 @@
     "@react-oauth/google": "^0.12.1",
     "@testing-library/jest-dom": "^5.17.0",
     "crypto": "^1.0.1",
+    "framer-motion": "^12.23.6",
     "googleapis": "^144.0.0",
     "i18next": "^23.16.8",
     "i18next-browser-languagedetector": "^6.1.8",

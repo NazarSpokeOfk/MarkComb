@@ -283,7 +283,7 @@ function App() {
           element={
             <ErrorBoundary>
               <ForbiddenThumbnail
-                setEntryMethod={setEntryMethod}
+                setIsLoggedIn={setIsLoggedIn}
                 setUserData={setUserData}
               />
             </ErrorBoundary>

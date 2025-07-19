@@ -77,7 +77,7 @@ const googleAuthController = async (req, res) => {
     const userId = await findUser.rows[0].user_id;
 
     const userChannels = await pool.query(
-      `SELECT channel_name,email,thumbnail FROM purchases_channels WHERE user_id = $1`,
+      `SELECT channel_name,email,thumbnail,transaction_id FROM purchases_channels WHERE user_id = $1`,
       [userId]
     );
 

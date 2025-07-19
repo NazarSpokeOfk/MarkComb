@@ -90,7 +90,7 @@ class UserController {
       const userId = await user.user_id;
 
       const userChannels = await pool.query(
-        `SELECT channel_name,email,thumbnail FROM purchases_channels WHERE user_id = $1`,
+        `SELECT channel_name,email,thumbnail,transaction_id FROM purchases_channels WHERE user_id = $1`,
         [userId]
       );
 
@@ -139,7 +139,7 @@ class UserController {
       }
 
       const userChannels = await pool.query(
-        `SELECT channel_name,email,thumbnail FROM purchases_channels WHERE user_id = $1`,
+        `SELECT channel_name,email,thumbnail,transaction_id FROM purchases_channels WHERE user_id = $1`,
         [user_id]
       );
       const userInformation = returnUserInformation(user);

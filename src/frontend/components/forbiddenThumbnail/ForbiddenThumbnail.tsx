@@ -10,12 +10,22 @@ import { defaultUserData } from "../../types/types";
 import { ForbiddenThumbnailProps } from "../../types/types";
 
 import "./ForbiddenThumbnail.css";
+import { useEffect } from "react";
 
-const ForbiddenThumbnail = ({ setIsModalOpened, setEntryMethod, setUserData } : ForbiddenThumbnailProps) => {
-
+const ForbiddenThumbnail = ({
+  setUserData,
+  setIsLoggedIn,
+}: ForbiddenThumbnailProps) => {
   const dataToDB = new DataToDB({});
 
   const { t } = useTranslation();
+
+  useEffect(() => {
+    console.log("Сброс фекалий")
+    dataToDB.logOut();
+    setUserData(defaultUserData);
+    setIsLoggedIn(false);
+  })
 
   return (
     <>
@@ -26,16 +36,7 @@ const ForbiddenThumbnail = ({ setIsModalOpened, setEntryMethod, setUserData } : 
           {t("Usually this error occurs due to an")} <br />{" "}
           {t("expired session")}.{" "}
         </h1>
-        <Link
-          className="forbidden__link"
-          onClick={() => {
-            setIsModalOpened(true);
-            setEntryMethod("logIn");
-            dataToDB.logOut()
-            setUserData(defaultUserData)
-          }}
-          to="/search"
-        >
+        <Link className="forbidden__link" to="/search">
           <button className="forbidden__button">
             <span>{t("Log in again")}</span>
           </button>

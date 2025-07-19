@@ -68,6 +68,7 @@ export interface PurchasedChannelData {
   thumbnail : string
   email : string
   channel_name : string
+  transaction_id : number
 }
 
 export interface SelectedFilterLabels {
@@ -100,6 +101,12 @@ export interface SelectedPackage  {
 
 export interface dataGettingState {
   state : "default" | "success" | "fail"
+}
+
+export interface PressedButton {
+  first : boolean;
+  second : boolean;
+  third : boolean
 }
 
 export const statusMessages = {

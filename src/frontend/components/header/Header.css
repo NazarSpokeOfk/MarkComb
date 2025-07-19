@@ -110,12 +110,15 @@ header {
 }
 
 .header__link {
+  transition: all 0.3s ease;
   color: white;
   font-weight: 600;
   text-decoration: none;
   font-size: 16px;
 }
-
+.pressed {
+  transform:scale(0.9);
+}
 .down__arrow {
   width: 30px;
   height: 30px;

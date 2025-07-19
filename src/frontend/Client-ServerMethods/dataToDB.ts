@@ -96,7 +96,7 @@ class DataToDB {
       method: "DELETE",
       body: { channelName },
       csrfToken,
-      withToast: true,
+      withToast: false,
     });
   }
 

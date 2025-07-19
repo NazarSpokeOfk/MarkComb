@@ -209,7 +209,7 @@ export type HeaderProps = {
 
 export type ForbiddenThumbnailProps = SelectProps<
   TypesOfSets,
-  "setEntryMethod" | "setUserData"
+  "setUserData" | "setIsLoggedIn"
 >;
 
 export type VotingPageProps = SelectProps<CommonTypes, "userData">;
@@ -344,10 +344,11 @@ export type ValidateVideoFindingProps = {
 };
 
 export type RemovePurchaseProps = {
-  index: number;
   user_id: number;
   channelName: string;
   csrfToken: string;
+  contentRefs : RefObject<HTMLDivElement[]>;
+  transaction_id : number
 } & SelectProps<TypesOfSets, "setUserData">;
 
 export type SelectFeatureProps = {
@@ -661,6 +662,16 @@ export type ValidateUserName = {
 export type SendVerificationCodeProps = {
   email : string;
   setIsCodeSent : React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export type ScrollContainerProps = {
+  containerRef : RefObject<HTMLDivElement | null>;
+  contentRefs : RefObject<HTMLDivElement[]>;
+}
+
+export type HandleDeleteProps = {
+  purchaseId : string;
+  contentRefs : RefObject<HTMLDivElement[]>;
 }
 
 export const defaultUserData: UserData = {
