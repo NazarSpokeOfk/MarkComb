@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import { motion, AnimatePresence } from "framer-motion";
@@ -8,6 +8,7 @@ import "./Purchases.css";
 import "../../fonts/font.css";
 
 import removeIcon from "../../icons/removeIcon.png";
+import purchasesThumbnail from "../../icons/purchasesThumbnail.png";
 
 import PurchasesFunctions from "./functions/PurchasesFunctions";
 
@@ -36,10 +37,6 @@ const Purchases = ({ userData, setUserData, csrfToken }: PurchasesProps) => {
   }, []);
 
   useEffect(() => {
-    console.log("Данные каналов в purchases:", userData.channels);
-  }, [userData]);
-
-  useEffect(() => {
     purchasesFunctions.scrollContainer({
       containerRef: scrollContainerRef,
       contentRefs,
@@ -58,74 +55,88 @@ const Purchases = ({ userData, setUserData, csrfToken }: PurchasesProps) => {
         </Helmet>
 
         <section className="recent">
-          <div className="container">
-            <h2
-              ref={(el) => {
-                if (el) titlesRef.current[0] = el as HTMLDivElement;
-              }}
-              className="title none"
-            >
-              {t("purch")}
-              <span>{t("ases")}</span>
-            </h2>
+          {userData.channels.length > 0 ? (
+            <div className="container">
+              <h2
+                ref={(el) => {
+                  if (el) titlesRef.current[0] = el as HTMLDivElement;
+                }}
+                className="title none"
+              >
+                {t("purch")}
+                <span>{t("ases")}</span>
+              </h2>
 
-            <div ref={scrollContainerRef} className="scroll-container">
-              <div className="purchases__flex-container">
-                <AnimatePresence>
-                  {userData.channels.map((purchase) => {
-                    return (
-                      <motion.div
-                        key={purchase.transaction_id}
-                        layout
-                        exit={{ opacity: 0, y: 40 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <div
+              <div ref={scrollContainerRef} className="scroll-container">
+                <div className="purchases__flex-container">
+                  <AnimatePresence>
+                    {userData.channels.map((purchase) => {
+                      return (
+                        <motion.div
                           key={purchase.transaction_id}
-                          ref={(el) => {
-                            if (el)
-                              contentRefs.current[purchase.transaction_id] = el;
-                          }}
-                          className="purchase__block item"
+                          layout
+                          exit={{ opacity: 0, y: 40 }}
+                          transition={{ duration: 0.3 }}
                         >
-                          <div className="purchase__block-subflex">
-                            <div className="name_and_email__flex">
-                              <h2 className="purchase__channelname">
-                                {purchase.channel_name}
-                              </h2>
-                              <h2 className="purchase__email">
-                                {purchase.email}
-                              </h2>
+                          <div
+                            key={purchase.transaction_id}
+                            ref={(el) => {
+                              if (el)
+                                contentRefs.current[purchase.transaction_id] =
+                                  el;
+                            }}
+                            className="purchase__block item"
+                          >
+                            <div className="purchase__block-subflex">
+                              <div className="name_and_email__flex">
+                                <h2 className="purchase__channelname">
+                                  {purchase.channel_name}
+                                </h2>
+                                <h2 className="purchase__email">
+                                  {purchase.email}
+                                </h2>
+                              </div>
+                              <img
+                                onClick={() =>
+                                  purchasesFunctions.removePurchase({
+                                    user_id: userData.userInformation.user_id,
+                                    channelName: purchase.channel_name,
+                                    csrfToken,
+                                    setUserData,
+                                    contentRefs,
+                                    transaction_id: purchase.transaction_id,
+                                  })
+                                }
+                                src={removeIcon}
+                                alt=""
+                                className="remove__btn"
+                              />
                             </div>
                             <img
-                              onClick={() =>
-                                purchasesFunctions.removePurchase({
-                                  user_id: userData.userInformation.user_id,
-                                  channelName: purchase.channel_name,
-                                  csrfToken,
-                                  setUserData,
-                                  contentRefs,
-                                  transaction_id: purchase.transaction_id,
-                                })
-                              }
-                              src={removeIcon}
+                              src={purchase.thumbnail}
                               alt=""
-                              className="remove__btn"
+                              className="purchase__channelthumbnail"
                             />
                           </div>
-                          <img
-                            src={purchase.thumbnail}
-                            alt=""
-                            className="purchase__channelthumbnail"
-                          />
-                        </div>
-                      </motion.div>
-                    );
-                  })}
-                </AnimatePresence>
+                        </motion.div>
+                      );
+                    })}
+                  </AnimatePresence>
+                </div>
               </div>
             </div>
-          </div>
+          ) : (
+            <div className="purchases__thumbnail-flex">
+              <img
+                src={purchasesThumbnail}
+                className="purchases__thumbnail"
+                alt=""
+              />
+              <h1 className="purchases__thumbnail-title">
+                {t("Your")} <br /> {t("purchases")} <br /> <span>{t("will be here")}.</span>
+              </h1>
+            </div>
+          )}
         </section>
       </HelmetProvider>
     </>

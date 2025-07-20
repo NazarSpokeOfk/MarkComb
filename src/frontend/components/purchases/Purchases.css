@@ -159,6 +159,33 @@
   transform: translateY(30px);
 }
 
+.purchases__thumbnail{
+  width: 400px;
+  height: 460px;
+  display: block;
+}
+
+.purchases__thumbnail-flex{
+  margin: 0 auto;
+  width: 60%;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  display: flex;
+  align-items : center;
+  gap: 75px;
+}
+
+.purchases__thumbnail-title{
+  font-size: 40px;
+  font-weight: 900;
+  margin: 0;
+  span {
+    background-color: rgba(0, 0, 0, 1);
+    color : white;
+    font-size: 35px;
+  }
+}
+
 @keyframes shake {
   0% { transform: rotate(0deg); }
   25% { transform: rotate(5deg); }
