@@ -1,40 +1,42 @@
 import { useTranslation } from "react-i18next";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, TimeHTMLAttributes } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import { useMediaQuery } from "react-responsive";
 
 import "./Promotion.css";
 
 import DataToDB from "../../Client-ServerMethods/dataToDB";
-import PromotionFunctions from "./functions/PromotionFunctions"
+import PromotionFunctions from "./functions/PromotionFunctions";
+
+import smoothScrollContainer from "../../utilities/smoothScroll";
 
 import { CommonTypes } from "../../types/types";
 
 import { VideoData } from "../../interfaces/interfaces";
 
-import buttonIcon from "../../icons/morefilters.png";
-import glass from "../../icons/magnifing_glass.png";
-import like from "../../icons/like.svg";
-import views from "../../icons/eye.svg";
+import searchIcon from "../../icons/searchIcon.png";
+
+import Loading from "../../images/loading-gif.gif";
 
 const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
   const promotionFunctions = new PromotionFunctions();
   const [channelName, setChannelName] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [videoData, setVideoData] = useState<VideoData | null>(null);
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [showSearch, setShowSearch] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showResults, setShowResults] = useState(false);
+
+  const searchSectionRef = useRef<HTMLInputElement | null>(null);
+  const resultBlockRef = useRef<HTMLDivElement | null>(null);
 
   const dataToDb = new DataToDB({
     setVideoData,
   });
 
-  const isMobile = useMediaQuery({ maxWidth: 480 });
+  const titleRef = useRef<HTMLHeadingElement | null>(null);
 
-  const secondYouTubersContainerRef = useRef<HTMLDivElement | null>(null),
-    triggerBtnRef = useRef<HTMLButtonElement | null>(null),
-    titleRef = useRef<HTMLHeadingElement | null>(null),
-    membersRef = useRef<(HTMLHeadingElement | null)[]>([]),
-    inputRef = useRef<HTMLInputElement | null>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const contentRefs = useRef<HTMLDivElement[]>([]);
 
   const { t } = useTranslation();
 
@@ -44,71 +46,81 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
     }
   }, 50);
 
-  let channelsFirstPart, channelsSecondPart;
-
-  if (userData && userData?.channels?.length > 5) {
-    channelsFirstPart = userData?.channels?.slice(0, 5);
-    channelsSecondPart = userData?.channels?.slice(5);
-  } else {
-    channelsFirstPart = userData?.channels;
-  }
+  useEffect(() => {
+    smoothScrollContainer({
+      containerRef: scrollContainerRef,
+      contentRefs,
+    });
+  }, []);
 
   useEffect(() => {
-    console.log("videoData :", videoData);
-  }, [videoData]);
-
-  useEffect(() => {
+    let timeout: ReturnType<typeof setTimeout>;
+    if (videoData) {
+      setShowResults(true);
+      timeout = setTimeout(() => {
+        resultBlockRef.current?.classList.add("appearing");
+      }, 100);
+    }
     if (!videoData?.analitics && videoData?.videoId) {
-      dataToDb.checkStatisticsOfVideo(
-        {type : "analitics",
+      dataToDb.checkStatisticsOfVideo({
+        type: "analitics",
         channelName,
         inputValue,
-        videoId : videoData?.videoId}
-      );
+        videoId: videoData?.videoId,
+        setIsLoading,
+      });
     }
+    return () => {
+      clearTimeout(timeout);
+    };
   }, [videoData?.videoId]);
+
+  useEffect(() => {
+    if (showSearch === true) {
+      searchSectionRef.current?.classList.add("appearing");
+    }
+  }, [showSearch]);
 
   const resultBlock = (videoData: VideoData) => {
     return (
       <>
-        {videoData ? (
-          <div
-            className="search-suggested__block"
-          >
-            <div className="suggested__block-flex">
-              <div className="suggested__block-subflex">
-                <h2 className="suggested-block__name">{videoData?.title}</h2>
-
-                <h3 className="suggested-block__title">{t("Statistic")}</h3>
-
-                <div className="suggested__block-stats_grid">
-                  <img loading="lazy" src={like} alt="like" className="like" />
-                  <img
-                    loading="lazy"
-                    src={views}
-                    alt="views"
-                    className="views"
-                  />
-
-                  <div className="analitics__text">
-                    {videoData?.analitics?.likes}
-                  </div>
-                  <div className="analitics__text">
-                    {videoData?.analitics?.views}
-                  </div>
-                </div>
-              </div>
-              <img
-                loading="lazy"
-                src={videoData?.thumbnail}
-                alt="a video thumbnail"
-                className={`suggested-block__img`}
-              />
-            </div>
+        <div ref={resultBlockRef} className="result__block-promotion">
+          <div id="first__subblock" className="result__block-subblock">
+            <h2 className="result__block-title_promotion">{t("Title")}</h2>
+            <h3 className="result__block-subtitle_promotion">
+              {videoData.title}
+            </h3>
           </div>
-        ) : (
-          <h2>Look for something!</h2>
-        )}
+
+          <div id="second__subblock" className="result__block-subblock">
+            <h2 className="result__block-title_promotion">{t("Statistic")}</h2>
+            <h3 className="result__block-subtitle_promotion">
+              {t("On today")}
+            </h3>
+          </div>
+
+          <img
+            src={videoData.thumbnail}
+            alt=""
+            className="result__block-videoimage"
+          />
+
+          <div id="third__subblock" className="result__block-subblock">
+            <div className="card-top"></div>
+            <h2 className="result__block-title_promotion">{t("Likes")}</h2>
+            <h3 className="result__block-subtitle_promotion">
+              {videoData.analitics?.likes}
+            </h3>
+          </div>
+
+          <div id="fourth__subblock" className="result__block-subblock">
+            <div className="card-top"></div>
+            <h2 className="result__block-title_promotion">{t("Views")}</h2>
+            <h3 className="result__block-subtitle_promotion">
+              {videoData.analitics?.views}
+            </h3>
+          </div>
+        </div>
       </>
     );
   };
@@ -125,108 +137,91 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
         </Helmet>
 
         <section className="list">
-          <div className="container">
-            <h1 ref={titleRef} className="title_promotion none">
-              {t("li")}
-              <span>{t("st")}</span>
-            </h1>
-            <div className="list__container">
-              {isLoggedIn && channelsFirstPart ? (
-                channelsFirstPart.map((channel, index) => (
-                  <h2
-                    key={index}
-                    ref={(el) => {
-                      membersRef.current[index] = el;
-                    }}
+          <h1 ref={titleRef} className="title_promotion none">
+            {t("promo")}
+            <span>{t("tion")}</span>
+          </h1>
+
+          <div className="cards__overflow-wrapper">
+            <div ref={scrollContainerRef} className="cards__flex-container">
+              {userData.channels.map((channel, index) => {
+                return (
+                  <div
                     onClick={() => {
-                      promotionFunctions.toggleMemberListStyle({index, currentGroup : 1, setActiveIndex});
-                      setChannelName(channel?.channel_name);
+                      promotionFunctions.onCardClickActions({
+                        resultBlockRef,
+                        setVideoData,
+                        setInputValue,
+                        setChannelName,
+                        channel,
+                        setShowSearch,
+                        contentRefs,
+                        index,
+                        setShowResults,
+                      });
                     }}
-                    className={`list-container__member ${
-                      activeIndex === index ? "active" : ""
-                    }`}
+                    ref={(el) => {
+                      if (el) contentRefs.current[index] = el;
+                    }}
+                    key={index}
+                    className={`card item`}
                   >
-                    {channel?.channel_name}
-                  </h2>
-                ))
-              ) : (
-                <>
-                  <p className="no_available">{t("You have no purchases.")}</p>
-                </>
-              )}
-              <br />
-            </div>
-            <div
-              ref={secondYouTubersContainerRef}
-              className="list__container__more"
-            >
-              {isLoggedIn && channelsSecondPart
-                ? channelsSecondPart.map((channel, index) => (
-                    <h2
-                      onClick={() => {
-                        promotionFunctions.toggleMemberListStyle({index, currentGroup : 2, setActiveIndex});
-                        setChannelName(channel?.channel_name);
-                      }}
-                      key={index}
-                      className={`list-container__member ${
-                        activeIndex === index + 5 ? "active" : ""
-                      }`}
-                    >
-                      {channel?.channel_name}
-                    </h2>
-                  ))
-                : ":)"}
-              <br />
+                    <img
+                      src={channel.thumbnail}
+                      alt=""
+                      className="card__image"
+                    />
+                    <h3 className="card__name">{channel.channel_name}</h3>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </section>
 
-        <section className="search">
-          <div className="promotion__search-flex">
-            <input
-              type="text"
-              className="search__input"
-              value={inputValue}
-              onChange={(e) => {
-                const value = e.target.value;
-                setInputValue(value);
-              }}
-              placeholder={
-                isMobile
-                  ? t("Search video of selected YouTuber")
-                  : t("Search for any video of selected YouTuber")
-              }
-            />
-            <div className="promotion__buttons-flex">
-              {userData ? (
-                <button
-                  ref={triggerBtnRef}
-                  onClick={() => promotionFunctions.handleToggle({secondYouTubersContainerRef,triggerBtnRef})}
-                  className="list-container__button"
-                >
-                  <img
-                    className="more_youtubers"
-                    loading="lazy"
-                    src={buttonIcon}
-                    alt="moreyoutubers"
-                  />
-                </button>
-              ) : (
-                ""
-              )}
+        <section ref={searchSectionRef} className="promotion-search">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+            }}
+            action="submit"
+          >
+            <div className="promotion__input-block">
+              <input
+                value={inputValue}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setInputValue(value);
+                }}
+                type="text"
+                className="promotion__input"
+              />
               <button
                 onClick={() => {
-                  promotionFunctions.validateVideoFinding({channelName,inputValue,setVideoData});
+                  promotionFunctions.validateVideoFinding({
+                    channelName,
+                    inputValue,
+                    setVideoData,
+                    setIsLoading,
+                  });
                 }}
-                className="search-input__button"
+                className="promotion__search-btn"
               >
-                <img loading="lazy" src={glass} alt="find" />
+                <img
+                  className="promotion__search-btn_img"
+                  src={isLoading ? Loading : searchIcon}
+                  alt=""
+                />
               </button>
             </div>
-          </div>
-          {videoData?.title ? resultBlock(videoData) : ""}
+          </form>
         </section>
-
+        <div
+          className={`result__wrapper ${showResults ? "expanded" : ""}`}
+          ref={resultBlockRef}
+        >
+          {videoData && resultBlock(videoData)}
+        </div>
       </HelmetProvider>
     </>
   );

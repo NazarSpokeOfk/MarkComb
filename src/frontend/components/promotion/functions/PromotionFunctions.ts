@@ -2,30 +2,69 @@ import DataToDB from "../../../Client-ServerMethods/dataToDB";
 
 import {
   HandleToggleProps,
+  OnCardClickActionsProps,
   ToggleMemberListStyleProps,
   ValidateVideoFindingProps,
 } from "../../../types/types";
 
 class PromotionsFunctions {
-  handleToggle({ secondYouTubersContainerRef, triggerBtnRef } : HandleToggleProps) {
-    secondYouTubersContainerRef?.current?.classList.toggle("active");
-    triggerBtnRef?.current?.classList.toggle("rotate");
-  }
+  // handleToggle({ secondYouTubersContainerRef, triggerBtnRef } : HandleToggleProps) {
+  //   secondYouTubersContainerRef?.current?.classList.toggle("active");
+  //   triggerBtnRef?.current?.classList.toggle("rotate");
+  // }
 
-  toggleMemberListStyle({ index, currentGroup, setActiveIndex } : ToggleMemberListStyleProps) {
-    const normalizedIndex = index + (currentGroup === 2 ? 5 : 0);
-    setActiveIndex(normalizedIndex);
-  }
+  // toggleMemberListStyle({ index, currentGroup, setActiveIndex } : ToggleMemberListStyleProps) {
+  //   const normalizedIndex = index + (currentGroup === 2 ? 5 : 0);
+  //   setActiveIndex(normalizedIndex);
+  // }
 
-  async validateVideoFinding({ channelName, inputValue, setVideoData } : ValidateVideoFindingProps) {
-
-    const dataToDb = new DataToDB({setVideoData});
+  async validateVideoFinding({
+    channelName,
+    inputValue,
+    setVideoData,
+    setIsLoading,
+  }: ValidateVideoFindingProps) {
+    const dataToDb = new DataToDB({ setVideoData });
 
     if (channelName && inputValue) {
-        dataToDb.checkStatisticsOfVideo({type : "video", channelName, inputValue,videoId : null})
+      setIsLoading(true);
+      dataToDb.checkStatisticsOfVideo({
+        type: "video",
+        channelName,
+        inputValue,
+        videoId: null,
+        setIsLoading,
+      });
     } else {
       return;
     }
   }
+
+  onCardClickActions = ({
+    resultBlockRef,
+    setVideoData,
+    setInputValue,
+    setChannelName,
+    channel,
+    setShowSearch,
+    contentRefs,
+    index,
+    setShowResults,
+  }: OnCardClickActionsProps) => {
+    let timeout: ReturnType<typeof setTimeout>;
+    resultBlockRef.current?.classList.remove("appearing");
+    timeout = setTimeout(() => {
+      setVideoData(null);
+    }, 400);
+    setInputValue("");
+    setChannelName(channel.channel_name);
+    setShowSearch(true);
+    contentRefs.current.forEach((el) => {
+      if (el) el.classList.remove("pressed");
+      setShowResults(false);
+    });
+    const currentEl = contentRefs.current[index];
+    if (currentEl) currentEl.classList.add("pressed");
+  };
 }
 export default PromotionsFunctions;

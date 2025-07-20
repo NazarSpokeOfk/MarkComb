@@ -18,6 +18,7 @@ import {
   IsDataChanged,
   Status,
   CodeStatus,
+  PurchasedChannelData,
 } from "../interfaces/interfaces";
 import { NavigateFunction } from "react-router-dom";
 
@@ -203,8 +204,8 @@ export type FilterFetchesProps = SelectProps<TypesOfSets, "setChannelData"> & {
 };
 
 export type HeaderProps = {
-  userData : UserData
-  isLoggedIn : boolean
+  userData: UserData;
+  isLoggedIn: boolean;
 };
 
 export type ForbiddenThumbnailProps = SelectProps<
@@ -225,19 +226,13 @@ export type CookiesWindowProps = {
 
 export type GoogleLogInButtonProps = {
   response: CredentialResponse;
-} & SelectProps<
-  TypesOfSets,
-  "setIsLoggedIn" | "setUserData" 
->;
+} & SelectProps<TypesOfSets, "setIsLoggedIn" | "setUserData">;
 
 export type GoogleLogInButtonPropsWithoutResponse = {
   setLogInStatus: React.Dispatch<
     React.SetStateAction<string | "success" | "fail">
   >;
-} & SelectProps<
-  TypesOfSets,
-  "setIsLoggedIn" | "setUserData"
->;
+} & SelectProps<TypesOfSets, "setIsLoggedIn" | "setUserData">;
 
 export type SearchFetchProps = {
   e: React.FormEvent;
@@ -341,14 +336,15 @@ export type ValidateVideoFindingProps = {
   channelName: string;
   inputValue: string;
   setVideoData: React.Dispatch<React.SetStateAction<VideoData | null>>;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export type RemovePurchaseProps = {
   user_id: number;
   channelName: string;
   csrfToken: string;
-  contentRefs : RefObject<HTMLDivElement[]>;
-  transaction_id : number
+  contentRefs: RefObject<HTMLDivElement[]>;
+  transaction_id: number;
 } & SelectProps<TypesOfSets, "setUserData">;
 
 export type SelectFeatureProps = {
@@ -418,7 +414,7 @@ export type MakeFetchForCodeDBProps = {
   operationCode?: string;
   isRegistration: boolean;
   setStep?: React.Dispatch<React.SetStateAction<number>>;
-} & PartialSelectProps<TypesOfSets,"setRegistrationStatus">
+} & PartialSelectProps<TypesOfSets, "setRegistrationStatus">;
 
 export type IsVerificationCodeCorrectProps = {
   email: string;
@@ -456,6 +452,7 @@ export type CheckStatisticsOfVideoProps = {
   channelName: string;
   inputValue: string;
   videoId: string | null;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export type SignUpPageProps = {
@@ -538,7 +535,7 @@ export type CodeInputProps<T> = {
 
 export type HandleRegisterProps = {
   updatedData: SignInData;
-} & SelectProps<TypesOfSets,"setHide" | "setRegistrationStatus">;
+} & SelectProps<TypesOfSets, "setHide" | "setRegistrationStatus">;
 
 export type LogInPageProps = {
   logInData: LogInData;
@@ -582,7 +579,7 @@ export type AuthorizationThumbnailProps = {
 
 export type ShowInputOrNotProps = {
   step: number;
-} & SelectProps<TypesOfSets,"setHide">
+} & SelectProps<TypesOfSets, "setHide">;
 
 export type CheckIsCaptchaAndTermsPassedProps = {
   signInData: SignInData;
@@ -593,7 +590,10 @@ export type CheckIsCaptchaAndTermsPassedProps = {
   setTriggerErase: React.Dispatch<
     React.SetStateAction<"forward" | "backward" | null>
   >;
-} & SelectProps<TypesOfSets, "setSignInData" | "setError" | "setRegistrationStatus">;
+} & SelectProps<
+  TypesOfSets,
+  "setSignInData" | "setError" | "setRegistrationStatus"
+>;
 
 export type ThrowToastOrThumbnailProps = {
   registrationStatus: RegistrationStatusKey;
@@ -609,12 +609,12 @@ export type RedirectToMainPageProps = {
 export type SuccessfullLogInThumbnailProps = {
   thumbnailRef: RefObject<HTMLDivElement | null>;
   userName: string;
-  text : string
+  text: string;
 };
 
 export type MainFormProps = {
   logInData: LogInData;
-  userData : UserData
+  userData: UserData;
   setLogInStatus: React.Dispatch<
     React.SetStateAction<string | "success" | "fail">
   >;
@@ -631,48 +631,60 @@ export type MainFormProps = {
 >;
 
 export type InputProps = {
-  whatToChange : React.Dispatch<React.SetStateAction<NewUserData>>;
-  whatToWatchFor : keyof NewUserData;
-  value : string
-}
+  whatToChange: React.Dispatch<React.SetStateAction<NewUserData>>;
+  whatToWatchFor: keyof NewUserData;
+  value: string;
+};
 
 export type CurtainProps = {
-  action : "password" | "username" | null;
-  isCurtainOpen : boolean
-  setIsCurtainOpen : React.Dispatch<React.SetStateAction<boolean>>
-  userData : UserData
-} & SelectProps<TypesOfSets,"setUserData">
+  action: "password" | "username" | null;
+  isCurtainOpen: boolean;
+  setIsCurtainOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  userData: UserData;
+} & SelectProps<TypesOfSets, "setUserData">;
 
 export type SaveChangesProps = {
-  changeMethod : "password" | "username";
-  newValue : string
-  userData : UserData;
-  setStatus : React.Dispatch<React.SetStateAction<Status | null>>
-  setIsLoading : React.Dispatch<React.SetStateAction<boolean>>
-  setIsCurtainOpen : React.Dispatch<React.SetStateAction<boolean>>
-} & SelectProps<TypesOfSets,"setUserData">
+  changeMethod: "password" | "username";
+  newValue: string;
+  userData: UserData;
+  setStatus: React.Dispatch<React.SetStateAction<Status | null>>;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsCurtainOpen: React.Dispatch<React.SetStateAction<boolean>>;
+} & SelectProps<TypesOfSets, "setUserData">;
 
 export type ValidateUserName = {
-  prevUsername : string;
-  newUsername : string;
-  setStatus : React.Dispatch<React.SetStateAction<Status | null>>
-  setIsLoading : React.Dispatch<React.SetStateAction<boolean>>
-}
+  prevUsername: string;
+  newUsername: string;
+  setStatus: React.Dispatch<React.SetStateAction<Status | null>>;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
 export type SendVerificationCodeProps = {
-  email : string;
-  setIsCodeSent : React.Dispatch<React.SetStateAction<boolean>>
-}
+  email: string;
+  setIsCodeSent: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
-export type ScrollContainerProps = {
-  containerRef : RefObject<HTMLDivElement | null>;
-  contentRefs : RefObject<HTMLDivElement[]>;
-}
+export type SmoothScrollProps = {
+  containerRef: RefObject<HTMLDivElement | null>;
+  contentRefs: RefObject<HTMLDivElement[]>;
+};
 
 export type HandleDeleteProps = {
-  purchaseId : string;
-  contentRefs : RefObject<HTMLDivElement[]>;
-}
+  purchaseId: string;
+  contentRefs: RefObject<HTMLDivElement[]>;
+};
+
+export type OnCardClickActionsProps = {
+  resultBlockRef: RefObject<HTMLDivElement | null>;
+  setVideoData: React.Dispatch<React.SetStateAction<VideoData | null>>;
+  setInputValue: React.Dispatch<React.SetStateAction<string>>;
+  setChannelName: React.Dispatch<React.SetStateAction<string>>;
+  channel: PurchasedChannelData;
+  setShowSearch: React.Dispatch<React.SetStateAction<boolean>>;
+  contentRefs: RefObject<HTMLDivElement[]>;
+  index: number;
+  setShowResults: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
 export const defaultUserData: UserData = {
   channels: [],

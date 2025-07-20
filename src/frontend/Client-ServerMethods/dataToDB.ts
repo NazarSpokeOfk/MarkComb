@@ -408,6 +408,7 @@ class DataToDB {
     channelName,
     inputValue,
     videoId,
+    setIsLoading
   }: CheckStatisticsOfVideoProps) {
     const bodyData = {
       channelName: channelName,
@@ -420,7 +421,7 @@ class DataToDB {
         endpoint: `${apiBaseUrl}/${type}`,
         method: "POST",
         body: bodyData,
-        withToast: true,
+        withToast: false,
       });
 
       const finalVideoData = response?.finalVideoData;
@@ -428,8 +429,10 @@ class DataToDB {
       console.log("setVideoData : ", this.setVideoData);
 
       if (finalVideoData) {
+        setIsLoading(false);
         this.setVideoData?.(finalVideoData);
       } else {
+        // setIsLoading(false);
         const analitics = response?.analitics;
         this.setVideoData?.((prevData) => ({
           ...prevData,

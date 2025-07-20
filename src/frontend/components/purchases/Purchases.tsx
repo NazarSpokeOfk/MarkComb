@@ -10,6 +10,8 @@ import "../../fonts/font.css";
 import removeIcon from "../../icons/removeIcon.png";
 import purchasesThumbnail from "../../icons/purchasesThumbnail.png";
 
+import smoothScrollContainer from "../../utilities/smoothScroll"
+
 import PurchasesFunctions from "./functions/PurchasesFunctions";
 
 import { PurchasesProps } from "../../types/types";
@@ -37,7 +39,7 @@ const Purchases = ({ userData, setUserData, csrfToken }: PurchasesProps) => {
   }, []);
 
   useEffect(() => {
-    purchasesFunctions.scrollContainer({
+    smoothScrollContainer({
       containerRef: scrollContainerRef,
       contentRefs,
     });
