@@ -53,10 +53,10 @@ const Footer = () => {
               markcombsup@gmail.com
             </a>
             <div className="social__media-flex">
-              <a href="" className="social__media-icon_telegram">
+              <a target="_blank" href="https://t.me/markcomb" className="social__media-icon_telegram">
                 <img src={TelegramLogo} alt="" />
               </a>
-              <a href="" className="social__media-icon_yt">
+              <a target="_blank" href="https://www.youtube.com/@MarkCombtm" className="social__media-icon_yt">
                 <img src={YTLogo} alt="" />
               </a>
             </div>

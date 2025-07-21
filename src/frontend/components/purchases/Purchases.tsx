@@ -10,7 +10,7 @@ import "../../fonts/font.css";
 import removeIcon from "../../icons/removeIcon.png";
 import purchasesThumbnail from "../../icons/purchasesThumbnail.png";
 
-import smoothScrollContainer from "../../utilities/smoothScroll"
+import smoothScrollContainer from "../../utilities/smoothScroll";
 
 import PurchasesFunctions from "./functions/PurchasesFunctions";
 
@@ -22,8 +22,15 @@ const Purchases = ({ userData, setUserData, csrfToken }: PurchasesProps) => {
   const titlesRef = useRef<HTMLElement[]>([]);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const contentRefs = useRef<HTMLDivElement[]>([]);
+  const thumbnailRef = useRef<HTMLDivElement | null>(null);
 
   const { t } = useTranslation();
+
+  useEffect(() => {
+    if (userData.channels.length <= 0) {
+      thumbnailRef.current?.classList.add("thumbnail__appearing");
+    }
+  },[userData.channels]);
 
   useEffect(() => {
     let timers: number[] = [];
@@ -128,14 +135,15 @@ const Purchases = ({ userData, setUserData, csrfToken }: PurchasesProps) => {
               </div>
             </div>
           ) : (
-            <div className="purchases__thumbnail-flex">
+            <div ref={thumbnailRef} className="purchases__thumbnail-flex">
               <img
                 src={purchasesThumbnail}
                 className="purchases__thumbnail"
                 alt=""
               />
               <h1 className="purchases__thumbnail-title">
-                {t("Your")} <br /> {t("purchases")} <br /> <span>{t("will be here")}.</span>
+                {t("Your")} <br /> {t("purchases")} <br />{" "}
+                <span>{t("will be here")}.</span>
               </h1>
             </div>
           )}

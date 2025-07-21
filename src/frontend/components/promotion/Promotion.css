@@ -451,6 +451,37 @@
   max-height: 1000px; /* больше максимальной высоты содержимого */
 }
 
+.promotion__thumbnail-flex{
+  transition: transform 0.4s ease;
+  transform: translateY(40px);
+  width: 60%;
+  margin: 0 auto;
+  margin-top: 10%;
+  margin-bottom: 72px;
+  display: flex;
+  flex-direction: column;
+  align-items : center;
+  gap: 50px;  
+}
+
+.promotion__thumbnail{
+  height: 100%;
+  width: 100%;
+}
+
+.thumbnail__appearing{
+  transform: translateY(0px);
+}
+
+.promotion__thumbnail-title{
+  font-weight: 600;
+  margin: 0;
+  text-align: center;
+  span {
+    background-color: black;
+    color : white
+  }
+}
 
 @media (min-width: 1900px) and (min-height: 1050px)
  {

@@ -14,6 +14,7 @@ import { CommonTypes } from "../../types/types";
 import { VideoData } from "../../interfaces/interfaces";
 
 import searchIcon from "../../icons/searchIcon.png";
+import promotionThumbnail from "../../icons/promotionThumbnail.png";
 
 import Loading from "../../images/loading-gif.gif";
 
@@ -28,6 +29,7 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
 
   const searchSectionRef = useRef<HTMLInputElement | null>(null);
   const resultBlockRef = useRef<HTMLDivElement | null>(null);
+  const thumbnailRef = useRef<HTMLDivElement | null>(null);
 
   const dataToDb = new DataToDB({
     setVideoData,
@@ -45,6 +47,12 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
       titleRef.current.classList.add("titleActive");
     }
   }, 50);
+
+  useEffect(() => {
+    if(userData.channels.length <= 0){
+      thumbnailRef.current?.classList.add("thumbnail__appearing")
+    }
+  },[userData.channels])
 
   useEffect(() => {
     smoothScrollContainer({
@@ -137,46 +145,60 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
         </Helmet>
 
         <section className="list">
-          <h1 ref={titleRef} className="title_promotion none">
-            {t("promo")}
-            <span>{t("tion")}</span>
-          </h1>
-
-          <div className="cards__overflow-wrapper">
-            <div ref={scrollContainerRef} className="cards__flex-container">
-              {userData.channels.map((channel, index) => {
-                return (
-                  <div
-                    onClick={() => {
-                      promotionFunctions.onCardClickActions({
-                        resultBlockRef,
-                        setVideoData,
-                        setInputValue,
-                        setChannelName,
-                        channel,
-                        setShowSearch,
-                        contentRefs,
-                        index,
-                        setShowResults,
-                      });
-                    }}
-                    ref={(el) => {
-                      if (el) contentRefs.current[index] = el;
-                    }}
-                    key={index}
-                    className={`card item`}
-                  >
-                    <img
-                      src={channel.thumbnail}
-                      alt=""
-                      className="card__image"
-                    />
-                    <h3 className="card__name">{channel.channel_name}</h3>
-                  </div>
-                );
-              })}
+          {userData.channels.length > 0 ? (
+            <>
+              <h1 ref={titleRef} className="title_promotion none">
+                {t("promo")}
+                <span>{t("tion")}</span>
+              </h1>
+              <div className="cards__overflow-wrapper">
+                <div ref={scrollContainerRef} className="cards__flex-container">
+                  {userData.channels.map((channel, index) => {
+                    return (
+                      <div
+                        onClick={() => {
+                          promotionFunctions.onCardClickActions({
+                            resultBlockRef,
+                            setVideoData,
+                            setInputValue,
+                            setChannelName,
+                            channel,
+                            setShowSearch,
+                            contentRefs,
+                            index,
+                            setShowResults,
+                          });
+                        }}
+                        ref={(el) => {
+                          if (el) contentRefs.current[index] = el;
+                        }}
+                        key={index}
+                        className={`card item`}
+                      >
+                        <img
+                          src={channel.thumbnail}
+                          alt=""
+                          className="card__image"
+                        />
+                        <h3 className="card__name">{channel.channel_name}</h3>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </>
+          ) : (
+            <div ref={thumbnailRef} className="promotion__thumbnail-flex">
+              <img
+                src={promotionThumbnail}
+                className="promotion__thumbnail"
+                alt=""
+              />
+              <h1 className="promotion__thumbnail-title">
+              {t("You can check out")} <br /> <span>{t("youtubers' video stats here")}.</span>
+              </h1>
             </div>
-          </div>
+          )}
         </section>
 
         <section ref={searchSectionRef} className="promotion-search">

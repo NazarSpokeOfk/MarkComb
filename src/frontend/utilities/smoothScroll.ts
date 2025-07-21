@@ -20,7 +20,9 @@ function smoothScrollContainer({ containerRef, contentRefs }: SmoothScrollProps)
   const disappearObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
+        console.log("➡️ CHECKING:", entry.target, entry.isIntersecting);
         if (!entry.isIntersecting) {
+          console.log("Не виден : ", entry)
           entry.target.classList.remove("animate-in");
           entry.target.classList.add("fall-off");
         }
