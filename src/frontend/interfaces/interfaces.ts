@@ -92,10 +92,8 @@ export interface ChangedData {
 }
 
 export interface SelectedPackage  {
-    packageName: string
-    usesQuantity: number
+    name: string
     price: number
-    isBusiness: boolean
     packageId: number
 }
 

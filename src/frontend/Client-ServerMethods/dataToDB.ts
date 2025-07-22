@@ -353,7 +353,6 @@ class DataToDB {
   }
 
   async payment({ user_id, packageId, userEmail }: PaymentProps) {
-    console.log(packageId, user_id, userEmail);
     return this.fetchData({
       endpoint: `${apiBaseUrl}/payment`,
       method: "POST",

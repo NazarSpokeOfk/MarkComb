@@ -1,3 +1,6 @@
+:root{
+  --main-grey-colour : rgba(0,0,0,0.66)
+}
 .title__purchase {
   font-size: 70px;
   text-transform: uppercase;
@@ -20,10 +23,7 @@
   flex-direction: column;
   align-items: center;
   gap: 65px;
-  justify-content: center;    
-  overflow-y: auto;
-  white-space: nowrap;   
-  scroll-behavior: smooth;
+  justify-content: center;
 }
 
 .package__card {
@@ -60,7 +60,51 @@
   font-weight: bold;
   margin: 0;
   margin-top: 30px;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
+}
+
+.package__littletitle{
+  opacity: 0;
+  transition: all 0.4s ease;
+  transform: translateX(-40px);
+  font-size: 30px;
+  margin-top: 0px;
+  margin-bottom: 0;
+  font-weight: 600;
+}
+
+.package__study-offer{
+  opacity: 0;
+  transition: all 0.6s ease;
+  transform: translateX(-40px);
+  font-weight: 500;
+  margin-top: 20px;
+  color: var(--main-grey-colour);
+}
+
+.package__text{
+  opacity: 0;
+  transition: all 0.8s ease;
+  transform: translateX(-40px);
+  width: 250px;
+  margin: 0;
+  margin-top: 10px;
+  color: var(--main-grey-colour);
+}
+
+.moving__in{
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.moving__out{
+  opacity: 0;
+  transform: translateX(-40px);
+}
+
+.loading__img{
+  width: 40px;
+  height: 40px;
 }
 
 .package__subtitle {
@@ -73,7 +117,7 @@
 .package__button {
   align-self: flex-start;
   padding: 1rem 2rem;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   font-weight: 700;
   text-transform: uppercase;
   border: 1px solid black;
@@ -92,25 +136,15 @@
   object-fit: contain;
 }
 
-.burst {
-  animation: bubble-pop 0.5s ease forwards;
+.package__button.fancy-button {
+  width: 210px;
+  height: 79px;
+  padding: 1rem 2rem;
+  font-size: 1.3rem;
+  font-weight: 700;
+  border-radius: 20px;
 }
 
-@keyframes bubble-pop {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.15);
-    opacity: 0.75;
-  }
-  70% {
-    transform: scale(0.9);
-    opacity: 0.5;
-  }
-  100% {
-    transform: scale(1.5);
-    opacity: 0;
-  }
+#title-expanded{
+  margin-bottom: 10px;
 }

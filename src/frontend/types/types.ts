@@ -686,6 +686,25 @@ export type OnCardClickActionsProps = {
   setShowResults: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
+export type ExpandedPackageInfoProps = {
+  name : string;
+  textRefs : RefObject<HTMLHeadingElement[]>
+  isPackageExpanded : boolean
+  data : {
+    price : number;
+    information : string,
+    packageId : number
+  };
+  userData : UserData
+}
+
+export type ValidatePaymentProps = {
+  user_id : number;
+  packageId : number;
+  userEmail : string;
+  setIsLoading : React.Dispatch<React.SetStateAction<boolean>>
+} & SelectProps<TypesOfSets,"setError">
+
 export const defaultUserData: UserData = {
   channels: [],
   userInformation: {

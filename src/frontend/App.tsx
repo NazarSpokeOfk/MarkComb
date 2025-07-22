@@ -196,6 +196,7 @@ function App() {
           element={
             <ErrorBoundary>
               <Purchase isLoggedIn={isLoggedIn} userData={userData} />
+              <ToastContainer/>
             </ErrorBoundary>
           }
         />
