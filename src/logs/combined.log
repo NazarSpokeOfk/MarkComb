@@ -153,3 +153,27 @@ Node.js v20.17.0
 10.07.2025, 17:53:50 + "
 " [ERROR] + "
 " (printf.js:11): duplicate key value violates unique constraint "users_email_key"
+23.07.2025, 18:31:07 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в logIn: data and hash arguments required
+23.07.2025, 18:31:12 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в logIn: data and hash arguments required
+23.07.2025, 18:31:14 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в logIn: data and hash arguments required
+23.07.2025, 18:31:15 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в logIn: data and hash arguments required
+23.07.2025, 18:31:15 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в logIn: data and hash arguments required
+23.07.2025, 18:31:15 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в logIn: data and hash arguments required
+23.07.2025, 18:31:16 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в logIn: data and hash arguments required
+23.07.2025, 18:31:23 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в logIn: data and hash arguments required

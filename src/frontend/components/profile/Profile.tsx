@@ -30,6 +30,7 @@ const Profile = ({
   const profileFunctions = new ProfileFunctions();
 
   const thumbnailRef = useRef<HTMLDivElement | null>(null);
+  const profileBlock = useRef<HTMLDivElement | null>(null);
 
   const { t } = useTranslation();
 
@@ -45,6 +46,10 @@ const Profile = ({
       navigate("/search");
     }
   }, [isLoggedIn]);
+
+  useEffect(() => {
+    profileBlock.current?.classList.add("thumbnail__appearing");
+  }, []);
 
   //track thumbnail show
   useEffect(() => {
@@ -86,7 +91,7 @@ const Profile = ({
         </Helmet>
 
         {hide ? null : (
-          <div className="profile__block">
+          <div ref={profileBlock} className="profile__block">
             <div className="personal__data-block">
               <h1 className="profile__title">{t("Your Data")}</h1>
 

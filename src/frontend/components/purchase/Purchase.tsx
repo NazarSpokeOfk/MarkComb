@@ -15,7 +15,8 @@ import businessPackageIcon from "../../icons/businessIcon.png";
 import smoothScrollContainer from "../../utilities/smoothScroll";
 
 
-const Purchase = ({ isLoggedIn, userData }: CommonTypes) => {
+const Purchase = ({userData}: CommonTypes) => {
+
   useEffect(() => {
     smoothScrollContainer({
       containerRef,

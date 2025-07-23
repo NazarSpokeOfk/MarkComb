@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { useState , useEffect , useRef } from "react";
 
 import FeedbackForm from "../modal/FeedbackForm";
 import YouTuberBlock from "../youtuberBlock/YoutuberBlock";
@@ -16,7 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import Envelope from "../../icons/email.svg";
 
-const YoutuberBlock = ({
+const YoutubersBlock = ({
   channelData,
   setChannelData,
   userData,
@@ -27,10 +27,21 @@ const YoutuberBlock = ({
 } : YouTubersBlockProps) => {
 
   const [isFeedbackWillBeWrited, setIsFeedbackWillBeWrited] = useState(false);
+  const youtubersSectionRef = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    if(channelData){
+      youtubersSectionRef.current?.classList.add("expanded")
+    }
+    if(!channelData){
+      youtubersSectionRef.current?.classList.remove("expanded")
+    }
+  },[channelData])
 
   return (
     <>
-      <section className="youtubers">
+      <section ref={youtubersSectionRef} className="youtubers">
+
         <div className="container">
           <div className="youtubers__block-flex">
           <YouTuberBlock
@@ -48,7 +59,7 @@ const YoutuberBlock = ({
         </div>
       </section>
 
-      <section className="feedback">
+      {/* <section className="feedback">
         <div className="container">
           <button
             onClick={() => {
@@ -68,9 +79,9 @@ const YoutuberBlock = ({
       <FeedbackForm
         isFeedbackWillBeWrited={isFeedbackWillBeWrited}
         setIsFeedbackWillBeWrited={setIsFeedbackWillBeWrited}
-      />
+      /> */}
     </>
   );
 };
 
-export default YoutuberBlock;
+export default YoutubersBlock;

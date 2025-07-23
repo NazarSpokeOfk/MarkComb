@@ -21,7 +21,7 @@
     margin-top: 30px;
 }
 
-.appearing {
+.default.appearing {
     opacity: 1;
     transform: scale(1);
   }

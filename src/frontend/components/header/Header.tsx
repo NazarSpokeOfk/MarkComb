@@ -19,7 +19,7 @@ const Header = ({ userData, isLoggedIn }: HeaderProps) => {
   const isLittleMobile = useMediaQuery({ maxWidth: 430 });
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-
+  // const [additionalActive]
   const links = {
     1: {
       title: "PURCHASES",
@@ -93,7 +93,7 @@ const Header = ({ userData, isLoggedIn }: HeaderProps) => {
             <div
               className={`nav__extra-container ${showMore ? "visible" : ""}`}
             >
-              <div className="nav__extra-wrapper">
+              {/* <div className="nav__extra-wrapper">
                 <Link to="/faq" className="header__link">
                   {t("SPONSORS")}
                 </Link>
@@ -103,7 +103,7 @@ const Header = ({ userData, isLoggedIn }: HeaderProps) => {
                 <Link to="/contact" className="header__link">
                   {t("SUPPORT PROJECT")}
                 </Link>
-              </div>
+              </div> */}
             </div>
             <img
               onClick={() => setShowMore(!showMore)}

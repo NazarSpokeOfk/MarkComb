@@ -1,11 +1,22 @@
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 
-import SuccessImg from "../../../images/successpurchase.png";
+import { useEffect, useRef } from "react";
+import { statusMessages } from "../../../interfaces/interfaces";
+
+import AuthorizationThumbnail from "../../authorizationThumbnail/authorizationThumbnail";
+
+import smoothThumbnail from "../../../utilities/smoothThumbnail";
 
 import "../thumbnail.css";
 const SuccessThumbnail = () => {
+
+  useEffect(() => {
+    smoothThumbnail(thumbnailRef)
+  },[])
+
+  const thumbnailRef = useRef<HTMLDivElement | null>(null);
+
   const { t } = useTranslation();
   return (
     <>
@@ -15,17 +26,11 @@ const SuccessThumbnail = () => {
           <meta name="description" content="Successfull purchase" />
         </Helmet>
 
-        <div className="container">
-          <h1 className="payment__title">{t("Thank you for your purchase!")}</h1>
-          <img
-            src={SuccessImg}
-            alt="Successfull purchase"
-            className="payment__img"
-          />
-          <Link className="payment__to-main" to="/">
-            {t("To")} <span>{t("main page")}</span>
-          </Link>
-        </div>
+        <AuthorizationThumbnail
+          thumbnailRef={thumbnailRef}
+          statusMessages={statusMessages}
+          status="successfullPurchase"
+        />
       </HelmetProvider>
     </>
   );

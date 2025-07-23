@@ -7,7 +7,6 @@ import manageFiltersFetch from "../../Client-ServerMethods/filterFetches";
 
 import { HeaderFilterProps } from "../../types/types";
 
-
 import { SelectedFilterLabels } from "../../interfaces/interfaces";
 
 import "./Header&Filter.css";
@@ -33,7 +32,6 @@ const HeaderFilter = ({
 }: HeaderFilterProps) => {
   const headerFilterFunctions = new HeaderFilterFunctions();
 
-
   const isLittleMobile = useMediaQuery({ maxWidth: 430 });
 
   const { t } = useTranslation();
@@ -58,20 +56,25 @@ const HeaderFilter = ({
 
   const filterRef = useRef<HTMLDivElement | null>(null);
 
-  const audienceButtonLabels = ["Kids", "Adults", "Teenagers", "OlderGen"];
+  const audienceButtonLabels = [
+    "Kids 👶",
+    "Adults 👨",
+    "Teenagers 🧑",
+    "OlderGen 👨‍🦳",
+  ];
   const contentButtonLabels = [
-    "Comedy",
-    "Vlogs",
-    "Animation",
-    "Education",
-    "Entertaiment",
-    "Fitness",
-    "Health",
-    "Music",
-    "News",
-    "Gaming",
-    "Travel",
-    "Fashion",
+    "Comedy 🎭",
+    "Vlogs 📸",
+    "Animation ✏️",
+    "Education 📚",
+    "Entertainment 🎢",
+    "Fitness 💪",
+    "Health ⚕️",
+    "Music 🎶",
+    "News 📰",
+    "Gaming 🎮",
+    "Travel 🗺️",
+    "Fashion 👕",
   ];
   const subscribersButtonLabels = {
     "0-1K": [0, 1000],
@@ -207,7 +210,7 @@ const HeaderFilter = ({
         <section ref={filterRef} className="filters">
           <div className="container">
             <hr className="filter__divider" />
-            <div className="multifilter__block">
+            {/* <div className="multifilter__block">
               <h2 className="multifilter__title">
                 {t("Multi - ")}
                 <span>{t("Filter")}</span>
@@ -290,173 +293,174 @@ const HeaderFilter = ({
                   </div>
                 </>
               ) : null}
-            </div>
-            <div className="target__audence">
-              <h2 className="target-audence__title text">
-                {t("target")}
-                <span> {t("audience")}</span>
-              </h2>
-              <div className="target-audence__blocks">
-                {audienceButtonLabels.map((label, index) => (
-                  <button
-                    key={index}
-                    className={`filter__block ${
-                      selectedFilter.type === "audience" &&
-                      selectedFilter.value === label
-                        ? "filteractive"
-                        : ""
-                    }`}
-                    onClick={() => {
-                      setIsFilter(true);
-                      const newFilter = {
-                        type: "audience",
-                        value: label,
-                        min: null,
-                        max: null,
-                      };
-                      if (isMultiFiltersEnabled && isLoggedIn) {
-                        headerFilterFunctions.addSelectedFilter({
-                          label,
+            </div> */}
+            <div className="filters__flex">
+              <div className="target__audence">
+                <h2 className="target-audence__title text">{t("audience")}</h2>
+                <div className="target-audence__blocks">
+                  {audienceButtonLabels.map((label, index) => (
+                    <button
+                      key={index}
+                      className={`filter__block ${
+                        selectedFilter.type === "audience" &&
+                        selectedFilter.value === label
+                          ? "filteractive"
+                          : ""
+                      }`}
+                      onClick={() => {
+                        setIsFilter(true);
+                        const newFilter = {
                           type: "audience",
+                          value: label,
                           min: null,
                           max: null,
-                          setSelectedFilterLabels,
-                        });
+                        };
+                        if (isMultiFiltersEnabled && isLoggedIn) {
+                          headerFilterFunctions.addSelectedFilter({
+                            label,
+                            type: "audience",
+                            min: null,
+                            max: null,
+                            setSelectedFilterLabels,
+                          });
+                          setSelectedFilter(newFilter);
+                          return;
+                        }
                         setSelectedFilter(newFilter);
-                        return;
-                      }
-                      setSelectedFilter(newFilter);
-                      if (isLoggedIn) {
-                        manageFiltersFetch({
-                          content_type: null,
-                          setChannelData,
-                          age_group: label,
-                          minsubs: null,
-                          maxsubs: null,
-                          setIsFiltersFetching,
-                        });
-                      } else {
-                        headerFilterFunctions.logInFirstly();
-                      }
-                    }}
-                  >
-                    {t(label)}
-                  </button>
-                ))}
+                        if (isLoggedIn) {
+                          manageFiltersFetch({
+                            content_type: null,
+                            setChannelData,
+                            age_group: label,
+                            minsubs: null,
+                            maxsubs: null,
+                            setIsFiltersFetching,
+                          });
+                        } else {
+                          headerFilterFunctions.logInFirstly();
+                        }
+                      }}
+                    >
+                      {t(label)}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            <div className="number__of__subs">
-              <h2 className="target-audence__title">
-                {t("number of")}
-                <span> {t("subscribers")}</span>
-              </h2>
-              <div className="number__ofsubs__blocks">
-                {Object.entries(subscribersButtonLabels).map((label, index) => (
-                  <button
-                    key={index}
-                    className={`filter__block ${
-                      selectedFilter.type === "subscribers" &&
-                      selectedFilter.value &&
-                      selectedFilter.value[0] === label[1][0] &&
-                      selectedFilter.value[1] === label[1][1]
-                        ? "filteractive"
-                        : ""
-                    }`}
-                    onClick={() => {
-                      setIsFilter(true);
-                      const newFilter = {
-                        type: "subscribers",
-                        value: label[1],
-                        min: null,
-                        max: null,
-                      };
+              <div className="number__of__subs">
+                <h2 className="target-audence__title">
+                  {t("Number of")}
+                  <span> {t("subscribers")}</span>
+                </h2>
+                <div className="number__ofsubs__blocks">
+                  {Object.entries(subscribersButtonLabels).map(
+                    (label, index) => (
+                      <button
+                        key={index}
+                        className={`filter__block ${
+                          selectedFilter.type === "subscribers" &&
+                          selectedFilter.value &&
+                          selectedFilter.value[0] === label[1][0] &&
+                          selectedFilter.value[1] === label[1][1]
+                            ? "filteractive"
+                            : ""
+                        }`}
+                        onClick={() => {
+                          setIsFilter(true);
+                          const newFilter = {
+                            type: "subscribers",
+                            value: label[1],
+                            min: null,
+                            max: null,
+                          };
 
-                      if (isMultiFiltersEnabled && isLoggedIn) {
-                        headerFilterFunctions.addSelectedFilter({
-                          label: label[0],
-                          type: "subscribers",
-                          min: label?.[1]?.[0],
-                          max: label?.[1]?.[1],
-                          setSelectedFilterLabels,
-                        });
-                        setSelectedFilter(newFilter);
-                        return;
-                      }
+                          if (isMultiFiltersEnabled && isLoggedIn) {
+                            headerFilterFunctions.addSelectedFilter({
+                              label: label[0],
+                              type: "subscribers",
+                              min: label?.[1]?.[0],
+                              max: label?.[1]?.[1],
+                              setSelectedFilterLabels,
+                            });
+                            setSelectedFilter(newFilter);
+                            return;
+                          }
 
-                      setSelectedFilter(newFilter);
-                      if (isLoggedIn) {
-                        manageFiltersFetch({
-                          content_type: null,
-                          setChannelData,
-                          age_group: null,
-                          minsubs: label?.[1]?.[0],
-                          maxsubs: label?.[1]?.[1],
-                          setIsFiltersFetching,
-                        });
-                      } else {
-                        headerFilterFunctions.logInFirstly();
-                      }
-                    }}
-                  >
-                    {label[0]}
-                  </button>
-                ))}
+                          setSelectedFilter(newFilter);
+                          if (isLoggedIn) {
+                            manageFiltersFetch({
+                              content_type: null,
+                              setChannelData,
+                              age_group: null,
+                              minsubs: label?.[1]?.[0],
+                              maxsubs: label?.[1]?.[1],
+                              setIsFiltersFetching,
+                            });
+                          } else {
+                            headerFilterFunctions.logInFirstly();
+                          }
+                        }}
+                      >
+                        {label[0]}
+                      </button>
+                    )
+                  )}
+                </div>
               </div>
-            </div>
 
-            <div className="content__type">
-              <h2 className="target-audence__title">
-                {t("content")}
-                <span> {t("type")}</span>
-              </h2>
-              <div className="content__type__blocks">
-                {contentButtonLabels.map((label, index) => (
-                  <button
-                    key={index}
-                    className={`filter__block ${
-                      selectedFilter.type === "contentType" &&
-                      selectedFilter.value === label
-                        ? "filteractive"
-                        : ""
-                    }`}
-                    onClick={() => {
-                      setIsFilter(true);
-                      const newFilter = {
-                        type: "contentType",
-                        value: label,
-                        min: null,
-                        max: null,
-                      };
-                      if (isMultiFiltersEnabled && isLoggedIn) {
-                        headerFilterFunctions.addSelectedFilter({
-                          label,
+              <div className="content__type">
+                <h2 className="target-audence__title">
+                  {t("Content")}
+                  <span> {t("type")}</span>
+                </h2>
+                <div className="content__type__blocks">
+                  {contentButtonLabels.map((label, index) => (
+                    <button
+                      key={index}
+                      className={`filter__block ${
+                        selectedFilter.type === "contentType" &&
+                        selectedFilter.value === label
+                          ? "filteractive"
+                          : ""
+                      }`}
+                      onClick={() => {
+                        setIsFilter(true);
+                        const newFilter = {
                           type: "contentType",
+                          value: label,
                           min: null,
                           max: null,
-                          setSelectedFilterLabels,
-                        });
+                        };
+                        if (isMultiFiltersEnabled && isLoggedIn) {
+                          headerFilterFunctions.addSelectedFilter({
+                            label,
+                            type: "contentType",
+                            min: null,
+                            max: null,
+                            setSelectedFilterLabels,
+                          });
+                          setSelectedFilter(newFilter);
+                          return;
+                        }
                         setSelectedFilter(newFilter);
-                        return;
-                      }
-                      setSelectedFilter(newFilter);
-                      if (isLoggedIn) {
-                        manageFiltersFetch({
-                          content_type: label,
-                          setChannelData,
-                          age_group: null,
-                          minsubs: null,
-                          maxsubs: null,
-                          setIsFiltersFetching,
-                        });
-                      } else {
-                        headerFilterFunctions.logInFirstly();
-                      }
-                    }}
-                  >
-                    {t(label)}
-                  </button>
-                ))}
+                        if (isLoggedIn) {
+                          manageFiltersFetch({
+                            content_type: label,
+                            setChannelData,
+                            age_group: null,
+                            minsubs: null,
+                            maxsubs: null,
+                            setIsFiltersFetching,
+                          });
+                        } else {
+                          headerFilterFunctions.logInFirstly();
+                        }
+                      }}
+                    >
+                      {t(label)}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

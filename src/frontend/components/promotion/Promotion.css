@@ -332,6 +332,11 @@
   max-height: 800px;
 }
 
+.result__block-promotion.appearing{
+  opacity: 1;
+  transform: translateY(0px);
+}
+
 #first__subblock{
   grid-column: 1;
   grid-row: 1;
@@ -436,7 +441,7 @@
   transform: translateY(40px);
 }
 
-.search.appearing{
+.promotion-search.appearing{
   opacity: 1;
   transform: translateY(0px);
 }

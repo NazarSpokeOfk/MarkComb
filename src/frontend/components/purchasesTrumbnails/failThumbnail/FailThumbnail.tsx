@@ -2,11 +2,22 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
-import FailImg from "../../../images/failpurchase.png";
+import { useRef, useEffect } from "react";
 
-import "../thumbnail.css"
+import smoothThumbnail from "../../../utilities/smoothThumbnail";
+
+import { statusMessages } from "../../../interfaces/interfaces";
+
+import AuthorizationThumbnail from "../../authorizationThumbnail/authorizationThumbnail";
+
+import "../thumbnail.css";
 const FailThumbnail = () => {
+  const thumbnailRef = useRef<HTMLDivElement | null>(null);
   const { t } = useTranslation();
+
+  useEffect(() => {
+    smoothThumbnail(thumbnailRef)
+  },[])
   return (
     <>
       <HelmetProvider>
@@ -15,15 +26,11 @@ const FailThumbnail = () => {
           <meta name="description" content="Purchase was ended with error" />
         </Helmet>
 
-        <div className="container">
-          <h1 className="payment__title">{t("There was a purchase error")}</h1>
-          <img
-            src={FailImg}
-            alt="Purchase error"
-            className="payment__img"
-          />
-          <Link className="payment__to-main" to="/">{t("To")} <span>{t("main page")}</span></Link>
-        </div>
+        <AuthorizationThumbnail
+          thumbnailRef={thumbnailRef}
+          statusMessages={statusMessages}
+          status="wrong"
+        />
       </HelmetProvider>
     </>
   );

@@ -108,238 +108,231 @@ function App() {
 
   return (
     <>
-    <GoogleOAuthProvider clientId="867104217256-63f1fg6mlqf501r974ud4nkvaks3ik1b.apps.googleusercontent.com">
-    <ScrollToTop />
-      <Header
-      isLoggedIn = {isLoggedIn}
-      userData={userData}
-      />
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <ErrorBoundary>
-              <MainPage
-                setIsFilterCTAActive={setIsFilterCTAActive}
-                userData={userData}
-              />
-            </ErrorBoundary>
-          }
-        />
-        <Route
-          path="/purchases"
-          element={
-            <ErrorBoundary>
-              <Purchases
-                userData={userData}
-                setUserData={setUserData}
-                csrfToken={userData.userInformation.csrfToken}
-              />
-              <ToastContainer />
-            </ErrorBoundary>
-          }
-        />
-        <Route
-          path="/search"
-          element={
-            <>
+      <GoogleOAuthProvider clientId="867104217256-63f1fg6mlqf501r974ud4nkvaks3ik1b.apps.googleusercontent.com">
+        <ScrollToTop />
+        <Header isLoggedIn={isLoggedIn} userData={userData} />
+        <Routes>
+          <Route
+            path="/"
+            element={
               <ErrorBoundary>
-                <HeaderFilter
-                  setChannelData={setChannelData}
-                  setSimilarChannelData={setSimilarChannelData}
-                  setIsLoggedIn={setIsLoggedIn}
-                  isLoggedIn={isLoggedIn}
-                  setUserData={setUserData}
-                  signInData={signInData}
-                  setSignInData={setSignInData}
-                  logInData={logInData}
-                  setLogInData={setLogInData}
+                <MainPage
+                  setIsFilterCTAActive={setIsFilterCTAActive}
                   userData={userData}
-                  csrfToken={userData.userInformation.csrfToken}
-                  isFilterCTAActive={isFilterCTAActive}
-                  entryMethod={entryMethod}
-                  setEntryMethod={setEntryMethod}
-                  setIsFilter={setIsFilter}
                 />
               </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/purchases"
+            element={
               <ErrorBoundary>
-                {channelData ? (
-                  <>
-                    <YoutubersBlock
-                      channelData={channelData}
-                      SimilarChannelData={SimilarChannelData}
-                      userData={userData}
-                      setUserData={setUserData}
-                      isLoggedIn={isLoggedIn}
-                      csrfToken={userData.userInformation.csrfToken}
-                      setChannelData={setChannelData}
-                      isFilter={isFilter}
-                    />
-                  </>
-                ) : null}
+                <Purchases
+                  userData={userData}
+                  setUserData={setUserData}
+                  csrfToken={userData.userInformation.csrfToken}
+                />
+                <ToastContainer />
               </ErrorBoundary>
-              <ToastContainer />
-            </>
-          }
+            }
+          />
+          <Route
+            path="/search"
+            element={
+              <>
+                <ErrorBoundary>
+                  <HeaderFilter
+                    setChannelData={setChannelData}
+                    setSimilarChannelData={setSimilarChannelData}
+                    setIsLoggedIn={setIsLoggedIn}
+                    isLoggedIn={isLoggedIn}
+                    setUserData={setUserData}
+                    signInData={signInData}
+                    setSignInData={setSignInData}
+                    logInData={logInData}
+                    setLogInData={setLogInData}
+                    userData={userData}
+                    csrfToken={userData.userInformation.csrfToken}
+                    isFilterCTAActive={isFilterCTAActive}
+                    entryMethod={entryMethod}
+                    setEntryMethod={setEntryMethod}
+                    setIsFilter={setIsFilter}
+                  />
+                </ErrorBoundary>
+                <ErrorBoundary>
+                  <YoutubersBlock
+                    channelData={channelData}
+                    SimilarChannelData={SimilarChannelData}
+                    userData={userData}
+                    setUserData={setUserData}
+                    isLoggedIn={isLoggedIn}
+                    csrfToken={userData.userInformation.csrfToken}
+                    setChannelData={setChannelData}
+                    isFilter={isFilter}
+                  />
+                </ErrorBoundary>
+                <ToastContainer />
+              </>
+            }
+          />
+          <Route
+            path="/promotion"
+            element={
+              <ErrorBoundary>
+                <Promotion userData={userData} isLoggedIn={isLoggedIn} />
+                <ToastContainer />
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/purchase"
+            element={
+              <ErrorBoundary>
+                <Purchase isLoggedIn={isLoggedIn} userData={userData} />
+                <ToastContainer />
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/terms"
+            element={
+              <ErrorBoundary>
+                <Terms />
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/purpose"
+            element={
+              <ErrorBoundary>
+                <Purpose />
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/dataprocessing"
+            element={
+              <ErrorBoundary>
+                <UserDataProcessing />
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ErrorBoundary>
+                <Profile
+                  userData={userData}
+                  setUserData={setUserData}
+                  setIsLoggedIn={setIsLoggedIn}
+                  csrfToken={userData.userInformation.csrfToken}
+                  isLoggedIn={isLoggedIn}
+                />
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="*"
+            element={
+              <ErrorBoundary>
+                <NotFound />
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/paymentsuccess"
+            element={
+              <ErrorBoundary>
+                <SuccessThumbnail />
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/paymenterror"
+            element={
+              <ErrorBoundary>
+                <FailThumbnail />
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/sponsors"
+            element={
+              <ErrorBoundary>
+                <SponsorsPage />
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/vote"
+            element={
+              <ErrorBoundary>
+                <VotingPage userData={userData} />
+                <ToastContainer />
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/forbidden"
+            element={
+              <ErrorBoundary>
+                <ForbiddenThumbnail
+                  setIsLoggedIn={setIsLoggedIn}
+                  setUserData={setUserData}
+                />
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/toomanyrequests"
+            element={
+              <ErrorBoundary>
+                <TooManyRequestsThumbnail />
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/authorization"
+            element={
+              <ErrorBoundary>
+                <AuthorizationPage />
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <ErrorBoundary>
+                <LogInPage
+                  logInData={logInData}
+                  setLogInData={setLogInData}
+                  setIsLoggedIn={setIsLoggedIn}
+                  setUserData={setUserData}
+                  userData={userData}
+                />
+                <ToastContainer className="my-toast-container" />
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <ErrorBoundary>
+                <SignUpPage
+                  signInData={signInData}
+                  setSignInData={setSignInData}
+                />
+                <ToastContainer className="my-toast-container" />
+              </ErrorBoundary>
+            }
+          />
+        </Routes>
+        <CookiesWindow
+          isCookieClosed={isCookieClosed}
+          setIsCookieClosed={setIsCookieClosed}
         />
-        <Route
-          path="/promotion"
-          element={
-            <ErrorBoundary>
-              <Promotion userData={userData} isLoggedIn={isLoggedIn} />
-              <ToastContainer />
-            </ErrorBoundary>
-          }
-        />
-        <Route
-          path="/purchase"
-          element={
-            <ErrorBoundary>
-              <Purchase isLoggedIn={isLoggedIn} userData={userData} />
-              <ToastContainer/>
-            </ErrorBoundary>
-          }
-        />
-        <Route
-          path="/terms"
-          element={
-            <ErrorBoundary>
-              <Terms />
-            </ErrorBoundary>
-          }
-        />
-        <Route
-          path="/purpose"
-          element={
-            <ErrorBoundary>
-              <Purpose />
-            </ErrorBoundary>
-          }
-        />
-        <Route
-          path="/dataprocessing"
-          element={
-            <ErrorBoundary>
-              <UserDataProcessing />
-            </ErrorBoundary>
-          }
-        />
-        <Route
-          path="/profile"
-          element={
-            <ErrorBoundary>
-              <Profile
-                userData={userData}
-                setUserData={setUserData}
-                setIsLoggedIn={setIsLoggedIn}
-                csrfToken={userData.userInformation.csrfToken}
-                isLoggedIn={isLoggedIn}
-              />
-            </ErrorBoundary>
-          }
-        />
-        <Route
-          path="*"
-          element={
-            <ErrorBoundary>
-              <NotFound />
-            </ErrorBoundary>
-          }
-        />
-        <Route
-          path="/paymentsuccess"
-          element={
-            <ErrorBoundary>
-              <SuccessThumbnail />
-            </ErrorBoundary>
-          }
-        />
-        <Route
-          path="/paymenterror"
-          element={
-            <ErrorBoundary>
-              <FailThumbnail />
-            </ErrorBoundary>
-          }
-        />
-        <Route
-          path="/sponsors"
-          element={
-            <ErrorBoundary>
-              <SponsorsPage />
-            </ErrorBoundary>
-          }
-        />
-        <Route
-          path="/vote"
-          element={
-            <ErrorBoundary>
-              <VotingPage userData={userData} />
-              <ToastContainer />
-            </ErrorBoundary>
-          }
-        />
-        <Route
-          path="/forbidden"
-          element={
-            <ErrorBoundary>
-              <ForbiddenThumbnail
-                setIsLoggedIn={setIsLoggedIn}
-                setUserData={setUserData}
-              />
-            </ErrorBoundary>
-          }
-        />
-        <Route
-          path="/toomanyrequests"
-          element={
-            <ErrorBoundary>
-              <TooManyRequestsThumbnail />
-            </ErrorBoundary>
-          }
-        />
-        <Route
-          path="/authorization"
-          element={
-            <ErrorBoundary>
-              <AuthorizationPage />
-            </ErrorBoundary>
-          }
-        />
-        <Route
-          path="/login"
-          element={
-            <ErrorBoundary>
-              <LogInPage
-                logInData={logInData}
-                setLogInData={setLogInData}
-                setIsLoggedIn={setIsLoggedIn}
-                setUserData={setUserData}
-                userData={userData}
-              />
-              <ToastContainer className="my-toast-container" />
-            </ErrorBoundary>
-          }
-        />
-        <Route
-          path="/signup"
-          element={
-            <ErrorBoundary>
-              <SignUpPage
-                signInData={signInData}
-                setSignInData={setSignInData}
-              />
-              <ToastContainer className="my-toast-container" />
-            </ErrorBoundary>
-          }
-        />
-      </Routes>
-      <CookiesWindow
-        isCookieClosed={isCookieClosed}
-        setIsCookieClosed={setIsCookieClosed}
-      />
-      <Footer />
-    </GoogleOAuthProvider>
+        <Footer />
+      </GoogleOAuthProvider>
     </>
   );
 }

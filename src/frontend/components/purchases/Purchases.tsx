@@ -46,10 +46,14 @@ const Purchases = ({ userData, setUserData, csrfToken }: PurchasesProps) => {
   }, []);
 
   useEffect(() => {
-    smoothScrollContainer({
-      containerRef: scrollContainerRef,
-      contentRefs,
-    });
+    let timeout : ReturnType<typeof setTimeout>
+    timeout = setTimeout(() => {
+      smoothScrollContainer({
+        containerRef: scrollContainerRef,
+        contentRefs,
+      });
+    },100)
+    return () => {clearTimeout(timeout)}
   }, []);
 
   return (

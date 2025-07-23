@@ -100,7 +100,7 @@ class DataToDB {
     });
   }
 
-  async getEmail({ csrfToken, channelId, setDataGettingState }: GetEmailProps) {
+  async getEmail({ csrfToken, channelId }: GetEmailProps) {
     console.log("Поступившие данные : ", channelId, csrfToken);
     try {
       const result = await fetch(`${apiBaseUrl}/getemail`, {
@@ -116,11 +116,11 @@ class DataToDB {
       const response = await result.json();
       console.log("response : ", response);
 
-      if (response.name && response.email) {
-        setDataGettingState({ state: "success" });
-      } else {
-        setDataGettingState({ state: "fail" });
-      }
+      // if (response.name && response.email) {
+      //   setDataGettingState({ state: "success" });
+      // } else {
+      //   setDataGettingState({ state: "fail" });
+      // }
       return response;
     } catch (error) {
       return { message: error, status: false };
@@ -131,8 +131,8 @@ class DataToDB {
     data,
     userId,
     csrfToken,
+    setError
   }: ValidatePurchaseDataProps) {
-    console.log("Дата в validatePurchaseData : ", data, csrfToken);
     if (!data.email) {
       return;
     }
@@ -152,7 +152,7 @@ class DataToDB {
         },
       }));
     } catch (error) {
-      console.log("Ошибка : ", error);
+      setError("You already bought this data")
     }
   }
 

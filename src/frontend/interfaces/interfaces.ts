@@ -54,10 +54,10 @@ export interface LogInData {
 
 export interface ChannelData {
   updatedData : {
-    channel_name : string,
+    channelName : string,
     targetAudience : string,
     subsCount : number,
-    contenttype : string,
+    contentType : string,
     thumbnail : string,
     channelId : string,
     email : string
@@ -126,6 +126,10 @@ export const statusMessages = {
   },
   changed : {
     title : "Password was changed.",
+    emoji : "✅"
+  },
+  successfullPurchase : {
+    title : "Thank you for your purchase.",
     emoji : "✅"
   }
 } as const;

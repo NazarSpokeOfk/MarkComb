@@ -5,7 +5,7 @@ class SearchApiController{
   //Форматировка данных
   transformRes = (result) => {
     return {
-      channel_name: result.snippet.title,
+      channelName: result.snippet.title,
       thumbnail: result.snippet.thumbnails.high.url,
       channelId: result.snippet.channelId,
     };
@@ -197,7 +197,7 @@ class SearchApiController{
               : "Unknown category";
             return {
               ...channel,
-              contenttype: genreName[1],
+              contentType: genreName[1],
               targetAudience: genreName[0],
             }; // Добавляем жанр
           } catch (error) {
@@ -264,7 +264,7 @@ class SearchApiController{
         triplet = ""
       }
       const finalVideoData = {
-        channel_name: videoData?.items?.[0]?.snippet?.title.slice(0,35) + triplet,
+        channelName: videoData?.items?.[0]?.snippet?.title.slice(0,35) + triplet,
         thumbnail: videoData?.items?.[0]?.snippet?.thumbnails?.medium?.url,
         videoId : videoData?.items?.[0]?.id?.videoId
       };

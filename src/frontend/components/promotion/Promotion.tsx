@@ -55,10 +55,14 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
   },[userData.channels])
 
   useEffect(() => {
-    smoothScrollContainer({
-      containerRef: scrollContainerRef,
-      contentRefs,
-    });
+    let timeout : ReturnType<typeof setTimeout>
+    timeout = setTimeout(() => {
+      smoothScrollContainer({
+        containerRef: scrollContainerRef,
+        contentRefs,
+      });
+    },100)
+    return () => {clearTimeout(timeout)}
   }, []);
 
   useEffect(() => {

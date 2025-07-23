@@ -356,15 +356,13 @@ export type SelectFeatureProps = {
 };
 
 export type HandleButtonClickProps = {
-  updatedData: ChannelData;
-  buttonId: number;
-  dataGettingState: dataGettingState;
-  setDataGettingState: React.Dispatch<React.SetStateAction<dataGettingState>>;
+  updatedData: ChannelData | null;
   isProcessingRef: RefObject<Record<number, boolean>>;
   userData: UserData;
   csrfToken: string;
-  channelData: ChannelData;
-} & SelectProps<TypesOfSets, "setUserData" | "setChannelData">;
+  channelData: ChannelData | null;
+  setContactDataStatus : React.Dispatch<React.SetStateAction<"default" | "fail" | "success">>
+} & SelectProps<TypesOfSets, "setUserData" | "setChannelData" | "setError">;
 
 export type ValidateLogInProps = {
   data: LogInData;
@@ -387,14 +385,13 @@ export type DeletePurchaseData = {
 export type GetEmailProps = {
   csrfToken: string;
   channelId: string;
-  setDataGettingState: React.Dispatch<React.SetStateAction<dataGettingState>>;
 };
 
 export type ValidatePurchaseDataProps = {
   data: PurchaseData;
   userId: number;
   csrfToken: string;
-};
+} & SelectProps<TypesOfSets,"setError">
 
 export type ValidateSignInProps = {
   data: SignInData;

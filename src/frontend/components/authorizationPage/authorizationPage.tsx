@@ -31,7 +31,7 @@ const AuthorizationPage = ({}) => {
           alt=""
           className="decoration"
         />
-
+  
         <h1 className="authorization__page-title">
           {t("What would you like to do?")}
         </h1>
