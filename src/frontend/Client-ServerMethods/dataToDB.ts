@@ -100,7 +100,7 @@ class DataToDB {
     });
   }
 
-  async getEmail({ csrfToken, channelId }: GetEmailProps) {
+  async getEmail({ csrfToken, channelId , setContactDataStatus }: GetEmailProps) {
     console.log("Поступившие данные : ", channelId, csrfToken);
     try {
       const result = await fetch(`${apiBaseUrl}/getemail`, {
@@ -114,14 +114,11 @@ class DataToDB {
         body: JSON.stringify({ channelId }),
       });
       const response = await result.json();
-      console.log("response : ", response);
-
-      // if (response.name && response.email) {
-      //   setDataGettingState({ state: "success" });
-      // } else {
-      //   setDataGettingState({ state: "fail" });
-      // }
-      return response;
+      if(!response.email){
+        console.log("кто здесь")
+        setContactDataStatus("fail")
+      }
+      return response
     } catch (error) {
       return { message: error, status: false };
     }
@@ -131,7 +128,8 @@ class DataToDB {
     data,
     userId,
     csrfToken,
-    setError
+    setError,
+    setContactDataStatus
   }: ValidatePurchaseDataProps) {
     if (!data.email) {
       return;
@@ -143,6 +141,10 @@ class DataToDB {
         body: data,
         csrfToken,
       });
+      if(result.message){
+        setContactDataStatus("success")
+      }
+      console.log(result)
       this.setUserData?.((prevData: UserData) => ({
         ...prevData,
         channels: [...prevData.channels, result.purchase],

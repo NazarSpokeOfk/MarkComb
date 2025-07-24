@@ -81,17 +81,85 @@
   height: 400px;
 }
 
-.youtuber__block-button.fancy-button{
+.youtuber__block-button span {
+  display: inline-block;
+  transition: transform 0.7s ease;
+}
+
+.youtuber__block-button{
+  transition: transform 0.7s ease;
   text-transform: uppercase;
   font-size: 20px;
   font-weight: 700;
   height: 96px;
+  color: black;
+  background: white;
+  border: 2px solid black;
+  border-radius: 15px;
+ cursor: pointer;
+}
+
+.wave__effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.wave__effect::before,
+.wave__effect::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 0;
+  height: 100%;
+  background-color: currentColor;
+  opacity: 0.7;
+  transform: translateY(-50%) scaleX(0);
+  animation: waveSpread 0.5s ease-out forwards;
+}
+
+.wave__effect[data-status="success"] {
+  color: #1dbf73; /* зелёный */
+}
+
+.wave__effect[data-status="fail"] {
+  color: #e74c3c; /* красный */
+}
+
+.wave__effect::before {
+  left: 50%;
+  transform-origin: left;
+}
+
+.wave__effect::after {
+  right: 50%;
+  transform-origin: right;
+}
+
+@keyframes waveSpread {
+  to {
+    width: 100%;
+    transform: translateY(-50%) scaleX(1);
+    opacity: 0;
+  }
+}
+
+
+.youtuber__block-button.disolving{
+  span {
+    transform: scale(0.3);
+  }
+}
+
+.youtuber__block-button.arises{
+  span {
+    transform: scale(1);
+  }
 }
 
 
 .blur-shimmer {
-  width: 100px;
-  height: 20px;
+  width: 150px;
+  height: 50px;
   border-radius: 5px;
   background: linear-gradient(
     90deg,

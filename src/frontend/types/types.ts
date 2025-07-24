@@ -197,9 +197,9 @@ export type CheckCookiesProps = {
 
 export type FilterFetchesProps = SelectProps<TypesOfSets, "setChannelData"> & {
   content_type: string | null | number[];
-  age_group: string | null | number[];
-  minsubs: number | null;
-  maxsubs: number | null;
+  ageGroup: string | null | number[];
+  minSubs: number | null;
+  maxSubs: number | null;
   setIsFiltersFetching: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -385,12 +385,14 @@ export type DeletePurchaseData = {
 export type GetEmailProps = {
   csrfToken: string;
   channelId: string;
+  setContactDataStatus : React.Dispatch<React.SetStateAction<"default" | "fail" | "success">>
 };
 
 export type ValidatePurchaseDataProps = {
   data: PurchaseData;
   userId: number;
   csrfToken: string;
+  setContactDataStatus : React.Dispatch<React.SetStateAction<"default" | "fail" | "success">>
 } & SelectProps<TypesOfSets,"setError">
 
 export type ValidateSignInProps = {
@@ -701,6 +703,12 @@ export type ValidatePaymentProps = {
   userEmail : string;
   setIsLoading : React.Dispatch<React.SetStateAction<boolean>>
 } & SelectProps<TypesOfSets,"setError">
+
+export type ClickAnimationProps = {
+  contactDataStatus : "default" | "success" | "fail";
+  setButtonText : React.Dispatch<React.SetStateAction<"get data" | "✅" | "❌">>
+  buttonRef : RefObject<HTMLButtonElement | null>
+}
 
 export const defaultUserData: UserData = {
   channels: [],

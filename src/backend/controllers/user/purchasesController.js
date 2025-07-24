@@ -76,7 +76,7 @@ class PurchasesController {
       const purchase = await pool.query(
         `INSERT INTO purchases_channels (user_id, channel_name, thumbnail, email) 
          VALUES ($1, $2, $3, $4) 
-         RETURNING thumbnail, email, channel_name`,
+         RETURNING thumbnail, email, channel_name , transaction_id`,
         [id, channelName, thumbnail, email]
       );
 

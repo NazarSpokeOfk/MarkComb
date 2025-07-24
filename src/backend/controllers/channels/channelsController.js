@@ -12,28 +12,28 @@ class ChannelsController {
 
     console.log(req.body)
     
-    const { age_group, minsubs, maxsubs, content_type } = req.body;
+    const { ageGroup, minSubs, maxSubs, contentType } = req.body;
 
     
     let query = "SELECT * FROM channels WHERE 1=1";
     let params = [];
     let index = 1; // Переменная для нумерации параметров ($1, $2, $3)
 
-    if (age_group) {
+    if (ageGroup) {
       query += ` AND age_group = $${index}`;
-      params.push(age_group);
+      params.push(ageGroup);
       index++;
     }
 
-    if (minsubs || maxsubs) {
+    if (minSubs || maxSubs) {
       query += ` AND subs_count BETWEEN $${index} AND $${index + 1}`;
-      params.push(minsubs, maxsubs);
+      params.push(minSubs, maxSubs);
       index += 2;
     }
     
-    if (content_type) {
+    if (contentType) {
       query += ` AND content_type = $${index}`;
-      params.push(content_type);
+      params.push(contentType);
       index++;
     }
 
@@ -74,7 +74,7 @@ class ChannelsController {
       if (result) {
         const updatedData = {
           subsCount: result?.items?.[0]?.statistics?.subscriberCount,
-          contenttype: contentType,
+          contentType: contentType,
           targetAudience: audience,
           thumbnail: result?.items?.[0]?.snippet?.thumbnails?.medium?.url,
           channelId: channelId,

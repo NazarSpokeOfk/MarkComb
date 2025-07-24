@@ -329,11 +329,11 @@ const HeaderFilter = ({
                         setSelectedFilter(newFilter);
                         if (isLoggedIn) {
                           manageFiltersFetch({
-                            content_type: null,
+                            contentType: null,
                             setChannelData,
-                            age_group: label,
-                            minsubs: null,
-                            maxsubs: null,
+                            ageGroup: label,
+                            minSubs: null,
+                            maxSubs: null,
                             setIsFiltersFetching,
                           });
                         } else {
@@ -389,11 +389,11 @@ const HeaderFilter = ({
                           setSelectedFilter(newFilter);
                           if (isLoggedIn) {
                             manageFiltersFetch({
-                              content_type: null,
+                              contentType: null,
                               setChannelData,
-                              age_group: null,
-                              minsubs: label?.[1]?.[0],
-                              maxsubs: label?.[1]?.[1],
+                              ageGroup: null,
+                              minSubs: label?.[1]?.[0],
+                              maxSubs: label?.[1]?.[1],
                               setIsFiltersFetching,
                             });
                           } else {
@@ -445,11 +445,11 @@ const HeaderFilter = ({
                         setSelectedFilter(newFilter);
                         if (isLoggedIn) {
                           manageFiltersFetch({
-                            content_type: label,
+                            contentType: label,
                             setChannelData,
-                            age_group: null,
-                            minsubs: null,
-                            maxsubs: null,
+                            ageGroup: null,
+                            minSubs: null,
+                            maxSubs: null,
                             setIsFiltersFetching,
                           });
                         } else {

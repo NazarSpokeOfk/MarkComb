@@ -103,57 +103,61 @@ class HeaderFilterFunctions {
     });
   }
 
-  async searchWithMultiplyFilters({
-    setIsFiltersFetching,
-    selectedFilterLabels,
-    setChannelData,
-  }: SearchWithMultiplyFiltersProps) {
-    setIsFiltersFetching(true);
+  // async searchWithMultiplyFilters({
+  //   setIsFiltersFetching,
+  //   selectedFilterLabels,
+  //   setChannelData,
+  // }: SearchWithMultiplyFiltersProps) {
+  //   setIsFiltersFetching(true);
 
-    try {
-      const filterData: FilterData = {
-        content_type: null,
-        age_group: null,
-        minsubs: null,
-        maxsubs: null,
-      };
+  //   try {
+  //     const filterData: FilterData = {
+  //       content_type: null,
+  //       age_group: null,
+  //       minsubs: null,
+  //       maxsubs: null,
+  //     };
 
-      if (Array.isArray(selectedFilterLabels))
-        selectedFilterLabels.forEach(({ type, value, min, max }) => {
-          switch (type) {
-            case "contentType":
-              filterData.content_type = value;
-              break;
+  //     if (Array.isArray(selectedFilterLabels))
+  //       selectedFilterLabels.forEach(({ type, value, min, max }) => {
+  //         switch (type) {
+  //           case "contentType":
+  //             filterData.content_type = value;
+  //             break;
 
-            case "audience":
-              filterData.age_group = value;
-              break;
+  //           case "audience":
+  //             filterData.age_group = value;
+  //             break;
 
-            case "subscribers":
-              filterData.minsubs = min;
-              filterData.maxsubs = max;
-              break;
+  //           case "subscribers":
+  //             filterData.minsubs = min;
+  //             filterData.maxsubs = max;
+  //             break;
 
-            default:
-              break;
-          }
-        });
+  //           default:
+  //             break;
+  //         }
+  //       });
 
-      const response = await manageFiltersFetch({
-        ...filterData,
-        setChannelData,
-        setIsFiltersFetching,
-      });
-      console.log("response :", response);
-      if (response === false) {
-        toast.error(i18n.t("Unfortunately, the filters don't match"), {
-          autoClose: 3000,
-        });
-      }
-    } catch (error) {
-      console.log("Возникла ошибка в searchWithMultiplyFilters :", error);
-    }
-  }
+  //     const response = await manageFiltersFetch({
+  //       ...filterData,
+  //       setChannelData,
+  //       setIsFiltersFetching,
+  //       ageGroup : ,
+  //       minSubs,
+  //       maxSubs,
+  //       contentType
+  //     });
+  //     console.log("response :", response);
+  //     if (response === false) {
+  //       toast.error(i18n.t("Unfortunately, the filters don't match"), {
+  //         autoClose: 3000,
+  //       });
+  //     }
+  //   } catch (error) {
+  //     console.log("Возникла ошибка в searchWithMultiplyFilters :", error);
+  //   }
+  // }
 }
 
 export default HeaderFilterFunctions;

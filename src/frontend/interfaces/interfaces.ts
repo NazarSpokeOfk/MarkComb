@@ -54,10 +54,10 @@ export interface LogInData {
 
 export interface ChannelData {
   updatedData : {
-    channelName : string,
+    channel_name : string,
     targetAudience : string,
     subsCount : number,
-    contentType : string,
+    content_type : string,
     thumbnail : string,
     channelId : string,
     email : string

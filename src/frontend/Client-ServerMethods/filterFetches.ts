@@ -5,18 +5,11 @@ import { FilterFetchesProps } from "../types/types";
 const manageFiltersFetch = async ({
   content_type,
   setChannelData,
-  age_group,
-  minsubs,
-  maxsubs,
+  ageGroup,
+  minSubs,
+  maxSubs,
   setIsFiltersFetching,
 }: FilterFetchesProps) => {
-  console.log(
-    "Данные которые приходят в filterFetches : ",
-    content_type,
-    age_group,
-    minsubs,
-    maxsubs
-  );
 
   try {
     let response;
@@ -26,7 +19,7 @@ const manageFiltersFetch = async ({
         "Content-type": "application/json",
         "x-api-key": import.meta.env.VITE_API_KEY,
       },
-      body: JSON.stringify({ age_group, minsubs, maxsubs, content_type }),
+      body: JSON.stringify({ ageGroup, minSubs, maxSubs, content_type }),
     });
 
     if (!response.ok) {

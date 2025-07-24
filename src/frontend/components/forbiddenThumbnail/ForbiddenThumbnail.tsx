@@ -36,7 +36,7 @@ const ForbiddenThumbnail = ({
           {t("Usually this error occurs due to an")} <br />{" "}
           {t("expired session")}.{" "}
         </h1>
-        <Link className="forbidden__link" to="/search">
+        <Link className="forbidden__link" to="/authorization">
           <button className="forbidden__button">
             <span>{t("Log in again")}</span>
           </button>

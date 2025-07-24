@@ -54,7 +54,11 @@ const Purchases = ({ userData, setUserData, csrfToken }: PurchasesProps) => {
       });
     },100)
     return () => {clearTimeout(timeout)}
-  }, []);
+  }, [userData.channels]);
+
+  useEffect(() => {
+    console.log(userData.channels)
+  },[userData.channels])
 
   return (
     <>
@@ -92,7 +96,7 @@ const Purchases = ({ userData, setUserData, csrfToken }: PurchasesProps) => {
                           transition={{ duration: 0.3 }}
                         >
                           <div
-                            key={purchase.transaction_id}
+                            key={purchase.email}
                             ref={(el) => {
                               if (el)
                                 contentRefs.current[purchase.transaction_id] =

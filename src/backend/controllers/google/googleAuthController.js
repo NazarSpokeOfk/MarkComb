@@ -87,7 +87,6 @@ const googleAuthController = async (req, res) => {
     req.session.csrfToken = csrfToken;
 
     returnCsrftoken(csrfToken, res);
-
     const userInformation = returnUserInformation(user, token, csrfToken);
 
     res.json({

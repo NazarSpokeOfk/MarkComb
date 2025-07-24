@@ -3,7 +3,10 @@ import i18n from "i18next";
 
 import DataToDB from "../../../Client-ServerMethods/dataToDB";
 
-import { HandleButtonClickProps } from "../../../types/types";
+import {
+  ClickAnimationProps,
+  HandleButtonClickProps,
+} from "../../../types/types";
 
 class YoutuberBlockFunctions {
   async handleButtonClick({
@@ -14,24 +17,22 @@ class YoutuberBlockFunctions {
     channelData,
     setChannelData,
     setError,
-    setContactDataStatus
+    setContactDataStatus,
   }: HandleButtonClickProps) {
     const dataToDB = new DataToDB({ setUserData });
 
-    let timeout1, timeout2, timeout3;
-
     if (userData.userInformation.uses < 0) {
       setError("No uses");
+      return;
     }
 
-    try {
-      if (!updatedData) {
-        return;
-      }
+    if (!updatedData) return;
 
+    try {
       const response = await dataToDB.getEmail({
         csrfToken,
-        channelId: updatedData?.updatedData.channelId,
+        channelId: updatedData.updatedData.channelId,
+        setContactDataStatus,
       });
 
       dataToDB.validatePurchaseData({
@@ -40,34 +41,69 @@ class YoutuberBlockFunctions {
           email: response?.email || "",
           channelName: response?.name || "",
         },
-        userId: userData?.userInformation?.user_id,
+        userId: userData.userInformation.user_id,
         csrfToken,
-        setError
+        setError,
+        setContactDataStatus
       });
-      if (channelData != null) {
-        setChannelData((prevState) => {
-          if (prevState == null) return null;
-          setContactDataStatus("success")
-          return {
-            ...prevState,
-            updatedData: {
-              ...prevState.updatedData,
-              channelName: response?.name,
-            },
-          };
-        });
-      }
+
+      if (!channelData) return;
+
+      setChannelData((prevState) => {
+        if (prevState == null) return null;
+        return {
+          ...prevState,
+          updatedData: {
+            ...prevState.updatedData,
+            channel_name: response?.name,
+          },
+        };
+      });
     } catch (error) {
       setError("Error in data transfer");
-    // } finally {
-    //   timeout2 = setTimeout(() => {
-    //     setDataGettingState({ state: "default" });
-    //   }, 2000);
+      setContactDataStatus("fail");
     }
+  }
+
+  clickAnimation({
+    contactDataStatus,
+    setButtonText,
+    buttonRef,
+  }: ClickAnimationProps) {
+    console.log(contactDataStatus);
+    if (!contactDataStatus) return;
+
+    //какой-то класс disolving
+    if (buttonRef) buttonRef.current?.classList.add("disolving");
+
+    if (contactDataStatus === "fail") setButtonText("❌");
+
+    if (contactDataStatus === "success") setButtonText("✅");
+
+    let removeDisolvingClassTimeout = setTimeout(() => {
+      buttonRef.current?.classList.remove("disolving");
+    }, 700);
+
+    buttonRef.current?.classList.add("wave__effect");
+
+    let setToDefaultTextTimeout = setTimeout(() => {
+      buttonRef.current?.classList.remove("wave__effect");
+    
+      // Добавим уменьшение
+      buttonRef.current?.classList.add("disolving");
+    
+      // Дождись анимации disolving, прежде чем вернуть текст
+      setTimeout(() => {
+        setButtonText("get data");
+    
+        // и сразу увеличим
+        buttonRef.current?.classList.remove("disolving");
+      }, 700); // длительность твоей анимации уменьшения
+    }, 3000);
+
     return () => {
-      clearTimeout(timeout1);
-      clearTimeout(timeout2);
-      clearTimeout(timeout3);
+      clearTimeout(setToDefaultTextTimeout);
+      clearTimeout(removeDisolvingClassTimeout);
     };
   }
 }

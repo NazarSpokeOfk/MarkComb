@@ -5,7 +5,7 @@ class SearchApiController{
   //Форматировка данных
   transformRes = (result) => {
     return {
-      channelName: result.snippet.title,
+      channel_name: result.snippet.title,
       thumbnail: result.snippet.thumbnails.high.url,
       channelId: result.snippet.channelId,
     };
@@ -106,7 +106,7 @@ class SearchApiController{
         targetAudience = "Kids,teenagers,youth,adults,older generation";
         break;
       case 21:
-        targetAudience = " Youth,Teenagers";
+        targetAudience = "Youth,Teenagers";
         break;
       case 10:
         targetAudience = "Kids,teenagers,youth,adults,older generation";
@@ -124,10 +124,10 @@ class SearchApiController{
         targetAudience = "Kids,teenagers,youth,adults,older generation";
         break;
       case 24:
-        targetAudience = "Teenagers, youth , adults";
+        targetAudience = "Youth,teenagers,adults";
         break;
       case 25:
-        targetAudience = "Youth, adults, older generation";
+        targetAudience = "Youth,adults,oldergeneration";
         break;
       case 27:
         targetAudience = "Kids,teenagers,youth,adults,older generation";
@@ -197,7 +197,7 @@ class SearchApiController{
               : "Unknown category";
             return {
               ...channel,
-              contentType: genreName[1],
+              content_type: genreName[1],
               targetAudience: genreName[0],
             }; // Добавляем жанр
           } catch (error) {
@@ -237,8 +237,8 @@ class SearchApiController{
     }
   };
 
-  channelAndVideoSearch = async (channelName, videoName) => {
-    const urlForChannelId = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&q=${channelName}&key=${this.apiKey}`;
+  channelAndVideoSearch = async (channel_name, videoName) => {
+    const urlForChannelId = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&q=${channel_name}&key=${this.apiKey}`;
     try {
       const resForChannelId = await fetch(urlForChannelId);
       if (!resForChannelId.ok) {
@@ -264,7 +264,7 @@ class SearchApiController{
         triplet = ""
       }
       const finalVideoData = {
-        channelName: videoData?.items?.[0]?.snippet?.title.slice(0,35) + triplet,
+        channel_name: videoData?.items?.[0]?.snippet?.title.slice(0,35) + triplet,
         thumbnail: videoData?.items?.[0]?.snippet?.thumbnails?.medium?.url,
         videoId : videoData?.items?.[0]?.id?.videoId
       };
