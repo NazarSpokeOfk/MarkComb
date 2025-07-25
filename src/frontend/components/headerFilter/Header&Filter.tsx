@@ -209,7 +209,7 @@ const HeaderFilter = ({
 
         <section ref={filterRef} className="filters">
           <div className="container">
-            <hr className="filter__divider" />
+            { isLittleMobile ? null : <hr className="filter__divider" />}
             {/* <div className="multifilter__block">
               <h2 className="multifilter__title">
                 {t("Multi - ")}
@@ -329,7 +329,7 @@ const HeaderFilter = ({
                         setSelectedFilter(newFilter);
                         if (isLoggedIn) {
                           manageFiltersFetch({
-                            contentType: null,
+                            content_type: null,
                             setChannelData,
                             ageGroup: label,
                             minSubs: null,
@@ -389,7 +389,7 @@ const HeaderFilter = ({
                           setSelectedFilter(newFilter);
                           if (isLoggedIn) {
                             manageFiltersFetch({
-                              contentType: null,
+                              content_type: null,
                               setChannelData,
                               ageGroup: null,
                               minSubs: label?.[1]?.[0],
@@ -445,7 +445,7 @@ const HeaderFilter = ({
                         setSelectedFilter(newFilter);
                         if (isLoggedIn) {
                           manageFiltersFetch({
-                            contentType: label,
+                            content_type: label,
                             setChannelData,
                             ageGroup: null,
                             minSubs: null,

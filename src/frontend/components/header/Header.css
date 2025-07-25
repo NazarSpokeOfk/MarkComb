@@ -5,6 +5,10 @@
   padding: 0 20px;
   box-sizing: border-box;
 }
+html, body {
+  overflow-x: hidden;
+}
+
 :root {
   --main-red-col: #ff0000;
 }
@@ -17,6 +21,7 @@ header {
   background-color: #000000;
 }
 .header__flex {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -24,7 +29,6 @@ header {
   padding-right: 2rem;
   background-color: black;
   height: 90px;
-  position: relative;
 }
 
 .header__left {
@@ -32,6 +36,7 @@ header {
 }
 
 .header__center {
+  position: relative;
   flex: 2;
   display: flex;
   align-items: center;
@@ -42,6 +47,12 @@ header {
   display: flex;
   align-items: center;
   flex-wrap: nowrap;
+}
+
+.nav__links.mobile{
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 15px;
 }
 
 .header__link {
@@ -210,50 +221,31 @@ header.active .header__sublinks {
   border-radius: 7px;
   font-weight: 700;
 }
-@media (min-width: 768px) and (max-width: 1024px) {
-  .header__right {
-    flex: 0;
-  }
-  .logo {
-    width: 100px;
-    font-size: 20px;
-  }
-  .header__link {
-    font-size: 13px;
-  }
-}
 
-@media (max-width: 450px) {
+@media (max-width: 430px){
   .header__link {
     font-size: 10px;
+    margin-right: 0;
+    padding: 10px;
+    color: black;
+    text-align: left;
   }
-  .header__right {
-    flex: 0;
-  }
-  .down__arrow {
-    width: 15px;
-    height: 15px;
-  }
-  .header__sublinks {
-    .header__link {
-      font-size: 7px;
-      width: 70px;
+  .logo{
+    img{
+      width: 101px;
+      height: 17px;
     }
   }
-  header.active .header__sublinks {
-    margin: 0 auto;
-    margin-top: 5%;
+  .header__flex{
+    padding-left: 23px;
   }
-  header.active {
-    padding-bottom: 20px;
+  .header__link:last-child{
+    margin-right: 0;
   }
-}
-
-@media (min-width: 2500px) and (max-height: 1480px) {
-  header.active .header__sublinks {
-    margin-top: 1.5%;
-  }
-  .header__sublinks {
-    margin-left: 1.7%;
+  .authorize__button{
+    height: 30px;
+    width: 100px;
+    font-size: 12px;
+    margin-left: 20px;
   }
 }

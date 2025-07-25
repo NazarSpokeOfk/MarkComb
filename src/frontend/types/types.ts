@@ -710,6 +710,10 @@ export type ClickAnimationProps = {
   buttonRef : RefObject<HTMLButtonElement | null>
 }
 
+export type MobileMenuProps = {
+  dinamicLink : "Authorization" | "Profile"
+}
+
 export const defaultUserData: UserData = {
   channels: [],
   userInformation: {

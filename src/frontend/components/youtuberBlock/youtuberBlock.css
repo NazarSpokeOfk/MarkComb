@@ -193,3 +193,55 @@
     opacity: 0.5;
   }
 }
+
+@media (max-width: 430px){
+  .youtuber__logo-img{
+    border-radius: 15px;
+    width: 133px;
+    height: 133px;
+    border : 1px solid black;
+  }
+  .youtuber__info-channel_name {
+    font-size: 16px;
+  }
+  .youtuber__block{
+    width: 326px;
+    gap: 12px;
+  }
+  .youtuber__info-card{
+    width: 69px;
+    height: 63px;
+    border-radius: 10px;
+    border : 1px solid black;
+  }
+  .youtuber__block-button{
+    width: 100%;
+    height: 28px;
+    border-radius: 7px;
+    font-size: 6px;
+    border : 1px solid black;
+  }
+  .youtuber__info-card_head{
+    height: 9px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  .youtuber__info-card_title{
+    font-size: 6px;
+    margin-top: 25px;
+    margin-bottom: 5px;
+  }
+  .youtuber__info-card_subtitle{
+    font-size: 5px;
+  }
+  .youtuber__info-cards{
+    gap: 5px;
+  }
+  .youtuber__info-block{
+    gap: 8px;
+  }
+  .blur-shimmer {
+    width: 100px;
+    height: 20px;
+  }
+}
