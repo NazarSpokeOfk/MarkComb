@@ -230,3 +230,64 @@
     margin-top: 70px;
     margin-bottom: 120px;
   }
+
+@media (max-width: 430px) {
+
+  .login__block-title{
+    margin-left: 35px;
+    font-size: 25px;
+    margin-top: 50px;
+  }
+  .placeholder{
+    height: 45px;
+    font-size: 10px;
+    border-radius: 12px;
+    width: 130px;
+    span{
+      margin-top: 17px;
+    }
+  }
+  .input{
+    border-radius: 12px;
+  }
+  .input__block{
+    gap: 10px;
+  }
+  .form__input-block{
+    width: 360px;
+    gap: 20px;
+    .fancy-button{
+      font-size: 12px;
+      border : 1px solid black;
+      border-radius: 12px;
+    }
+  }
+  .login__block{
+    width: 360px;
+    gap: 20px;
+  }
+  #forgot{
+    width: 100%;
+    margin-top: 0;
+    font-size: 12px;
+    border-radius: 12px;
+  }
+  .divider__container{
+    width: 100%;
+    font-size: 12px;
+  }
+  .log__in-result_block--title{
+    font-size: 24px;
+    text-align: center;
+  }
+  .emoji{
+    font-size: 45px;
+  }
+  .log__in-result_block-subtitle{
+    font-size: 18px;
+    text-align: center;
+  }
+  .log__in-result_block{
+    margin-bottom: 20%;
+  }
+}

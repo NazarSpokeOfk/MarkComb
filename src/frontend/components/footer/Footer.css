@@ -130,6 +130,7 @@
   }
   .first__flex{
     align-items: center;
+    gap: 15px;
   }
   .first__flex-text{
     text-align: center;

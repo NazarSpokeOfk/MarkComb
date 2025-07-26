@@ -244,7 +244,7 @@ header.active .header__sublinks {
   }
   .authorize__button{
     height: 30px;
-    width: 100px;
+    width: 100%;
     font-size: 12px;
     margin-left: 20px;
   }

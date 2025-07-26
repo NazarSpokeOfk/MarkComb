@@ -1,4 +1,6 @@
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import { useMediaQuery } from "react-responsive";
+
 
 import { GoogleLogInButtonPropsWithoutResponse } from "../../types/types";
 
@@ -12,6 +14,7 @@ const GoogleLoginButton = ({
   const handleError = (error: Error) => {
     console.log("Ошибка в аутентификации гугл:", error);
   };
+  const isLittleMobile = useMediaQuery({ maxWidth: 430 });
 
   return (
     <GoogleOAuthProvider clientId="867104217256-63f1fg6mlqf501r974ud4nkvaks3ik1b.apps.googleusercontent.com">
@@ -22,7 +25,7 @@ const GoogleLoginButton = ({
         }}
         onError={() => handleError}
         shape="circle"
-        width={"500"}
+        width={ isLittleMobile ? "350" : "500"}
         text="continue_with"
       />
     </GoogleOAuthProvider>

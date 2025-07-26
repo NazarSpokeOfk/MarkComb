@@ -209,8 +209,8 @@
     gap: 12px;
   }
   .youtuber__info-card{
-    width: 69px;
-    height: 63px;
+    width: 58px;
+    height: 53px;
     border-radius: 10px;
     border : 1px solid black;
   }
@@ -218,7 +218,7 @@
     width: 100%;
     height: 28px;
     border-radius: 7px;
-    font-size: 6px;
+    font-size: 8px;
     border : 1px solid black;
   }
   .youtuber__info-card_head{
@@ -227,9 +227,9 @@
     border-top-right-radius: 10px;
   }
   .youtuber__info-card_title{
-    font-size: 6px;
-    margin-top: 25px;
-    margin-bottom: 5px;
+    font-size: 6.5px;
+    margin-top: 17px;
+    margin-bottom: 2px;
   }
   .youtuber__info-card_subtitle{
     font-size: 5px;

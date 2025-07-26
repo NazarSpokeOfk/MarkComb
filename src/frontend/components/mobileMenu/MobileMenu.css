@@ -14,8 +14,9 @@
     top: 100%; /* или top: 90px, если хочешь под хедером */
     right: 0;
     width: 150px;
-    height: 66.2vh;
-    background-color: rgb(255, 255, 255);
+    height: 100vh;
+    background-color: rgba(255, 255, 255,0.5);
+    backdrop-filter: blur(15px);
     transform: translateX(100%);
     transition: transform 0.4s ease;
     display: flex;
@@ -25,7 +26,7 @@
     z-index: 1000;
     gap: 10px;
     padding-top: 10%;
-    border-left: 0.5px solid black;
+    /* border-left: 0.1px solid rgb(109, 109, 109); */
   }
   
   

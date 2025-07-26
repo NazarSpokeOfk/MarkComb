@@ -1,5 +1,7 @@
 import backIcon from "../../icons/backbutton.png";
 import { useState, useEffect, useRef } from "react";
+import { useMediaQuery } from "react-responsive";
+
 
 import { useTranslation } from "react-i18next";
 import { useNavigate, Link } from "react-router-dom";
@@ -29,6 +31,7 @@ import smoothThumbnail from "../../utilities/smoothThumbnail";
 
 import decoration from "../../icons/decoration.png";
 const SignUpPage = ({ signInData, setSignInData }: SignUpPageProps) => {
+  const isLittleMobile = useMediaQuery({ maxWidth: 430 });
   const dataToDb = new DataToDB();
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -98,6 +101,8 @@ const SignUpPage = ({ signInData, setSignInData }: SignUpPageProps) => {
     }
     smoothThumbnail(thumbnailRef);
   }, [registrationStatus]);
+
+  console.log(isLittleMobile)
   return (
     <>
       {step >= 4 ? null : (
@@ -117,7 +122,7 @@ const SignUpPage = ({ signInData, setSignInData }: SignUpPageProps) => {
       )}
 
       <div className="sign__up-block">
-        {!hide ? <img src={decoration} alt="" className="decoration" /> : null}
+        {!hide && !isLittleMobile ? <img src={decoration} alt="" className="decoration" /> : null}
         <div className={`sign__up-main_flex ${hide ? "captcha__active" : ""}`}>
           {showTitle && (
             <h1 className="sign__up-title">

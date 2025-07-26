@@ -532,6 +532,7 @@ input:checked + .slider:before {
     width: 268px;
     height: 45px;
     border: 1px solid black;
+    border-radius: 15px;
   }
   .search__filters {
     img {
@@ -564,28 +565,28 @@ input:checked + .slider:before {
   }
   .target-audence__blocks {
     display: grid;
-    grid-template-columns: repeat(2, 142px);
-    grid-template-rows: repeat(2, 42px);
+    grid-template-columns: repeat(2, 132px);
+    grid-template-rows: repeat(2, 35px);
     row-gap: 10px;
     column-gap: 10px;
   }
   .filter__block {
-    width: 142px;
-    height: 42px;
+    width: 132px;
+    height: 35px;
     font-size: 15px;
     border : 1px solid black;
   }
   .number__ofsubs__blocks {
     display: grid;
-    grid-template-columns: repeat(2, 142px);
-    grid-template-rows: repeat(2, 42px);
+    grid-template-columns: repeat(2, 132px);
+    grid-template-rows: repeat(2, 35px);
     row-gap: 15px;
     column-gap: 10px;
   }
   .content__type__blocks{
     display: grid;
-    grid-template-columns: repeat(2, 142px);
-    grid-template-rows: repeat(2, 42px);
+    grid-template-columns: repeat(2, 132px);
+    grid-template-rows: repeat(2, 35px);
     row-gap: 15px;
     column-gap: 10px; 
   }

@@ -209,6 +209,52 @@
  {
  
 }
-@media (max-width: 430px) and (max-height: 920px) {
-
+@media (max-width: 430px){
+.title{
+  font-size: 32px;
+  margin-top: 60px;
+}
+.purchase__block{
+  width: 242px;
+  height: 312px;
+}
+.purchase__channelname{
+  font-size: 14px;
+  word-break: break-all;
+  max-width: 180px;
+}
+.purchase__email{
+  font-size: 12px;
+  max-width: 180px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+}
+.purchase__channelthumbnail{
+  width: 242px;
+  height: 225px;
+}
+.remove__btn{
+  width: 24px;
+  height: 24px;
+}
+.scroll-container{
+  width: 385px;
+}
+.purchases__thumbnail{
+  width: 70%;
+  height: 70%;
+}
+.purchases__thumbnail-title{
+  font-size: 15px;
+  span{
+    font-size: 15px;
+  }
+}
+.purchases__thumbnail-flex{
+  margin-top: 10%;
+  margin-bottom: 10%;
+  gap: 30px;
+}
 }

@@ -57,24 +57,24 @@ const HeaderFilter = ({
   const filterRef = useRef<HTMLDivElement | null>(null);
 
   const audienceButtonLabels = [
-    "Kids 👶",
-    "Adults 👨",
-    "Teenagers 🧑",
-    "OlderGen 👨‍🦳",
+    {label : "Kids" , emoji : "👶"},
+    {label : "Adults" , emoji : "👨"},
+    {label : "Teenagers" , emoji : "🧑"},
+    {label : "OlderGen" , emoji : "👨‍🦳"}
   ];
   const contentButtonLabels = [
-    "Comedy 🎭",
-    "Vlogs 📸",
-    "Animation ✏️",
-    "Education 📚",
-    "Entertainment 🎢",
-    "Fitness 💪",
-    "Health ⚕️",
-    "Music 🎶",
-    "News 📰",
-    "Gaming 🎮",
-    "Travel 🗺️",
-    "Fashion 👕",
+    {label : "Comedy" , emoji : "🎭"},
+    {label : "Vlogs" , emoji : "📸"},
+    {label : "Animation" , emoji : "✏️"},
+    {label : "Education" , emoji : "📚"},
+    {label : "Entertainment" , emoji : "🎢"},
+    {label : "Fitness" , emoji : "💪"},
+    {label : "Health" , emoji : "⚕️"},
+    {label : "Music" , emoji : "🎶"},
+    {label : "News" , emoji : "📰"},
+    {label : "Gaming" , emoji : "🎮"},
+    {label : "Travel" , emoji : "🗺️"},
+    {label : "Fashion" , emoji : "👕"}
   ];
   const subscribersButtonLabels = {
     "0-1K": [0, 1000],
@@ -298,9 +298,9 @@ const HeaderFilter = ({
               <div className="target__audence">
                 <h2 className="target-audence__title text">{t("audience")}</h2>
                 <div className="target-audence__blocks">
-                  {audienceButtonLabels.map((label, index) => (
+                  {audienceButtonLabels.map(({label,emoji}) => (
                     <button
-                      key={index}
+                      key={label}
                       className={`filter__block ${
                         selectedFilter.type === "audience" &&
                         selectedFilter.value === label
@@ -315,17 +315,6 @@ const HeaderFilter = ({
                           min: null,
                           max: null,
                         };
-                        if (isMultiFiltersEnabled && isLoggedIn) {
-                          headerFilterFunctions.addSelectedFilter({
-                            label,
-                            type: "audience",
-                            min: null,
-                            max: null,
-                            setSelectedFilterLabels,
-                          });
-                          setSelectedFilter(newFilter);
-                          return;
-                        }
                         setSelectedFilter(newFilter);
                         if (isLoggedIn) {
                           manageFiltersFetch({
@@ -341,7 +330,7 @@ const HeaderFilter = ({
                         }
                       }}
                     >
-                      {t(label)}
+                      {t(label)} {emoji}
                     </button>
                   ))}
                 </div>
@@ -414,9 +403,9 @@ const HeaderFilter = ({
                   <span> {t("type")}</span>
                 </h2>
                 <div className="content__type__blocks">
-                  {contentButtonLabels.map((label, index) => (
+                  {contentButtonLabels.map(({label, emoji}) => (
                     <button
-                      key={index}
+                      key={label}
                       className={`filter__block ${
                         selectedFilter.type === "contentType" &&
                         selectedFilter.value === label
@@ -457,7 +446,7 @@ const HeaderFilter = ({
                         }
                       }}
                     >
-                      {t(label)}
+                      {t(label)}{emoji}
                     </button>
                   ))}
                 </div>

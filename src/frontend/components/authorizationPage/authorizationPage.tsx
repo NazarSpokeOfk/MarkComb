@@ -20,9 +20,9 @@ const AuthorizationPage = ({}) => {
 
   return (
     <>
-      <Link to={"/search"}>
+      {/* <Link to={"/search"}>
         <img src={backIcon} alt="" className="back__button" />
-      </Link>
+      </Link> */}
 
       <div className="authrorization__block">
         <img

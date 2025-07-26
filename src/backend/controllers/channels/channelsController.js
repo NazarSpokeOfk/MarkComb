@@ -12,7 +12,7 @@ class ChannelsController {
 
     console.log(req.body)
     
-    const { ageGroup, minSubs, maxSubs, contentType } = req.body;
+    const { ageGroup, minSubs, maxSubs, content_type } = req.body;
 
     
     let query = "SELECT * FROM channels WHERE 1=1";
@@ -31,9 +31,9 @@ class ChannelsController {
       index += 2;
     }
     
-    if (contentType) {
+    if (content_type) {
       query += ` AND content_type = $${index}`;
-      params.push(contentType);
+      params.push(content_type);
       index++;
     }
 
@@ -65,7 +65,7 @@ class ChannelsController {
     }
   }
 
-  async fetchChannelData(channelId, contentType, audience) {
+  async fetchChannelData(channelId, content_type, audience) {
     try {
       const response = await fetch(
         `https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${channelId}&key=${apiKey}`
@@ -74,7 +74,7 @@ class ChannelsController {
       if (result) {
         const updatedData = {
           subsCount: result?.items?.[0]?.statistics?.subscriberCount,
-          contentType: contentType,
+          content_type: content_type,
           targetAudience: audience,
           thumbnail: result?.items?.[0]?.snippet?.thumbnails?.medium?.url,
           channelId: channelId,
