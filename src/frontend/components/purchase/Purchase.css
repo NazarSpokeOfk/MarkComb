@@ -217,3 +217,15 @@
     height: 120px;
   }
 }
+
+@media (min-width: 1680px) and (max-width: 2100px){
+  .title__purchase{
+    margin-left: 32%;
+  }
+}
+
+@media (min-width: 2400px) and (max-width: 2700px){
+  .title__purchase {
+    margin-left: 36%;
+  }
+}

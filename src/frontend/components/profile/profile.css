@@ -333,3 +333,9 @@
     gap: 17px;
   }
 }
+
+@media (min-width: 2400px) and (max-width: 2700px){
+  .profile__block{
+    margin-bottom: 120px;
+  }
+}

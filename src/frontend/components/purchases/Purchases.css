@@ -258,3 +258,16 @@
   gap: 30px;
 }
 }
+
+@media (min-width: 1680px) and (max-width: 2100px){
+  .purchases__thumbnail-flex{
+    width: 35%;
+  }
+}
+
+@media (min-width: 2400px) and (max-width: 2700px){
+  .purchases__thumbnail-flex{
+    width: 25%;
+    margin-bottom: 7%;
+  }
+}

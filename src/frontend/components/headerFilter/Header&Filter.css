@@ -591,3 +591,32 @@ input:checked + .slider:before {
     column-gap: 10px; 
   }
 }
+
+@media (min-width: 1680px) and (max-width: 2100px){
+  .Header__input-flex{
+    width: 55%;
+  }
+  .filter__divider{
+    width: 51%;
+    height: 1px;
+    margin-top: 3%;
+  }
+  .filters__flex{
+    margin-left: 24.5%;
+  }
+}
+
+@media (min-width: 2400px) and (max-width: 2700px){
+  .Header__input-flex{
+    width: 40%;
+  }
+  .filter__divider{
+    margin: 0 auto;
+    width: 37.5%;
+    margin-top: 2%;
+    height: 0.5px;
+  }
+  .filters__flex{
+    margin-left: 31%;
+  }
+}

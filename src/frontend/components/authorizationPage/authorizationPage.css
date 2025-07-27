@@ -89,3 +89,16 @@
     margin-left: 35px;
   }
 }
+
+
+@media (min-width: 1680px) and (max-width: 2100px){
+  .authorization__page-block{
+    width: 28%;
+  }
+}
+
+@media (min-width: 2400px) and (max-width: 2700px){
+  .authorization__page-block{
+    width: 20%;
+  }
+}

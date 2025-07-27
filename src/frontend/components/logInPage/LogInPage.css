@@ -298,3 +298,40 @@
     text-align: center;
   }
 }
+
+@media (min-width: 1680px) and (max-width: 2100px){
+  .login__block{
+    width: 31%;
+  }
+  #forgot{
+    width: 100%;
+  }
+  .divider__container{
+    width: 100%;
+  }
+  .login__block-title{
+    margin-left: 34.5%;
+  }
+}
+
+@media (min-width: 2400px) and (max-width: 2700px){
+  .login__block{
+    width: 23%;
+    margin-bottom: 160px;
+  }
+  #forgot{
+    width: 100%;
+  }
+  .login__block-title{
+    margin-left: 38.5%;
+  }
+  .divider__container{
+    width: 100%;
+  }
+}
+
+@media (min-width: 2400px) and (max-width: 2700px){
+  .log__in-result_block{
+    margin-bottom: 12%;
+  }
+}
