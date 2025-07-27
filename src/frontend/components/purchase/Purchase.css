@@ -1,5 +1,5 @@
-:root{
-  --main-grey-colour : rgba(0,0,0,0.66)
+:root {
+  --main-grey-colour: rgba(0, 0, 0, 0.66);
 }
 .title__purchase {
   font-size: 70px;
@@ -41,7 +41,7 @@
   height: 400px;
 }
 
-.package__card.appearing{
+.package__card.appearing {
   transform: translateY(0px);
 }
 
@@ -63,7 +63,7 @@
   margin-bottom: 20px;
 }
 
-.package__littletitle{
+.package__littletitle {
   opacity: 0;
   transition: all 0.4s ease;
   transform: translateX(-40px);
@@ -73,7 +73,7 @@
   font-weight: 600;
 }
 
-.package__study-offer{
+.package__study-offer {
   opacity: 0;
   transition: all 0.6s ease;
   transform: translateX(-40px);
@@ -82,7 +82,7 @@
   color: var(--main-grey-colour);
 }
 
-.package__text{
+.package__text {
   opacity: 0;
   transition: all 0.8s ease;
   transform: translateX(-40px);
@@ -92,17 +92,17 @@
   color: var(--main-grey-colour);
 }
 
-.moving__in{
+.moving__in {
   opacity: 1;
   transform: translateX(0);
 }
 
-.moving__out{
+.moving__out {
   opacity: 0;
   transform: translateX(-40px);
 }
 
-.loading__img{
+.loading__img {
   width: 40px;
   height: 40px;
 }
@@ -145,31 +145,31 @@
   border-radius: 20px;
 }
 
-#title-expanded{
+#title-expanded {
   margin-bottom: 10px;
 }
 
-@media (max-width: 430px){
-  .package{
+@media (max-width: 430px) {
+  .package {
     gap: 30px;
   }
-  .title__purchase{
+  .title__purchase {
     font-size: 32px;
     margin-left: 50px;
     margin-top: 55px;
   }
-  .package__text{
+  .package__text {
     font-size: 12px;
     width: 150px;
     word-break: break-all;
     margin-bottom: 10px;
   }
-  .package__study-offer{
+  .package__study-offer {
     font-size: 9px;
     margin: 0;
   }
-  .package__card{
-    transition: height 0.4s ease;
+  .package__card {
+    transition: max-height 0.4s ease;
     width: 318px;
     height: auto;
     /* max-height: 254px; */
@@ -177,44 +177,43 @@
     padding: 0;
     padding-top: 30px;
     padding-left: 18px;
-    padding-bottom:9px;
+    padding-bottom: 9px;
     padding-right: 26px;
   }
-  .package__title{
+  .package__title {
     font-size: 30px;
     margin: 0;
   }
-  .package__info{
+  .package__info {
     width: 98px;
     height: auto;
   }
-  .package__subtitle{
+  .package__subtitle {
     font-size: 9px;
     margin-top: 16px;
   }
-  .package__button{
+  .package__button {
     width: 98px;
     height: 36px;
     font-size: 10px;
-    border-radius : 12px;
+    border-radius: 12px;
     padding: 0;
     margin-top: 34px;
   }
-  .package__littletitle{
+  .package__littletitle {
     font-size: 20px;
   }
-  .package__button.fancy-button{
+  .package__button.fancy-button {
     padding-top: 10px;
     padding-bottom: 10px;
     width: 98px;
     height: 36px;
     font-size: 10px;
-    border-radius : 12px;
-    border : 1px solid black;
+    border-radius: 12px;
+    border: 1px solid black;
   }
-  .package__img{
+  .package__img {
     width: 113px;
     height: 120px;
-
   }
 }

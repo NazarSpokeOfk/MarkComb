@@ -59,7 +59,7 @@ const Header = ({ userData, isLoggedIn }: HeaderProps) => {
         <div className="header__left">
           <Link
             onClick={() => setActiveIndex(null)}
-            to="/search"
+            to="/"
             className="logo"
           >
             <>
@@ -85,7 +85,7 @@ const Header = ({ userData, isLoggedIn }: HeaderProps) => {
                   {t(title)}
                 </Link>
               ))}
-              <div
+              {/* <div
                 className={`nav__extra-container ${showMore ? "visible" : ""}`}
               ></div>
               <img
@@ -93,7 +93,7 @@ const Header = ({ userData, isLoggedIn }: HeaderProps) => {
                 src={HeaderToRightArrow}
                 alt="Toggle menu"
                 className={`arrow-icon ${showMore ? "rotated" : ""}`}
-              />
+              /> */}
             </nav>
           )}
         </div>
@@ -103,7 +103,7 @@ const Header = ({ userData, isLoggedIn }: HeaderProps) => {
             <MobileMenu dinamicLink={dinamicLink} />
           ) : (
             <Link to={"/" + dinamicLink}>
-              <button className="authorize__button">{t(dinamicLink)}</button>
+              <button onClick={() => setActiveIndex(null)} className="authorize__button">{t(dinamicLink)}</button>
             </Link>
           )}
         </div>

@@ -67,6 +67,7 @@ const YouTuberBlock = ({
         contactDataStatus,
         setButtonText,
         buttonRef,
+        setContactDataStatus
       });
     }
   }, [contactDataStatus]);

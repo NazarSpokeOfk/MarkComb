@@ -29,19 +29,19 @@ const Footer = () => {
           <div className="second__flex">
             <h2 className="flex__title">{t("Documents")}</h2>
             <div className="links__flex">
-              <Link to="" className="flex__link">
+              <Link to="/dataprocessing" className="flex__link">
                 {t("Data processing agreement")}
               </Link>
-              <Link to="" className="flex__link">
+              <Link to="/terms" className="flex__link">
                 {t("Terms of service")}
               </Link>
-              <Link to="" className="flex__link">
+              <Link to="/dataprocessing" className="flex__link">
                 {t("Privacy policy")}
               </Link>
-              <Link to="" className="flex__link">
+              <a href="/offer.pdf" className="flex__link">
                 {t("Offer")}
-              </Link>{" "}
-              <Link to="" className="flex__link">
+              </a>{" "}
+              <Link to="/purpose" className="flex__link">
                 {t("Our purpose")}
               </Link>
             </div>

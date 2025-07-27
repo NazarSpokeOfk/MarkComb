@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { useMediaQuery } from "react-responsive";
 import { useEffect, useRef, useState } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { ToastContainer } from "react-toastify";
@@ -14,8 +15,8 @@ import bigPackageIcon from "../../icons/bigPackageIcon.png";
 import businessPackageIcon from "../../icons/businessIcon.png";
 import smoothScrollContainer from "../../utilities/smoothScroll";
 
-
-const Purchase = ({userData}: CommonTypes) => {
+const Purchase = ({ userData }: CommonTypes) => {
+  const isLittleMobile = useMediaQuery({ maxWidth: 430 });
 
   useEffect(() => {
     smoothScrollContainer({

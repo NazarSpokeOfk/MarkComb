@@ -31,7 +31,7 @@ class VotingPageFunctions {
       toast.error(i18n.t("Unfortunately, we can't get your vote"));
     }
     setTimeout(() => {
-      navigate("/search");
+      navigate("/");
     }, 5000);
   }
 }

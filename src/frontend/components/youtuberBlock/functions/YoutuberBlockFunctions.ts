@@ -69,6 +69,7 @@ class YoutuberBlockFunctions {
     contactDataStatus,
     setButtonText,
     buttonRef,
+    setContactDataStatus
   }: ClickAnimationProps) {
     console.log(contactDataStatus);
     if (!contactDataStatus) return;
@@ -99,8 +100,8 @@ class YoutuberBlockFunctions {
         // и сразу увеличим
         buttonRef.current?.classList.remove("disolving");
       }, 700); // длительность твоей анимации уменьшения
+      setContactDataStatus("default")
     }, 3000);
-
     return () => {
       clearTimeout(setToDefaultTextTimeout);
       clearTimeout(removeDisolvingClassTimeout);

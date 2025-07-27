@@ -112,7 +112,7 @@ function App() {
         <ScrollToTop />
         <Header isLoggedIn={isLoggedIn} userData={userData} />
         <Routes>
-          <Route
+          {/* <Route
             path="/"
             element={
               <ErrorBoundary>
@@ -122,7 +122,7 @@ function App() {
                 />
               </ErrorBoundary>
             }
-          />
+          /> */}
           <Route
             path="/purchases"
             element={
@@ -137,7 +137,7 @@ function App() {
             }
           />
           <Route
-            path="/search"
+            path="/"
             element={
               <>
                 <ErrorBoundary>

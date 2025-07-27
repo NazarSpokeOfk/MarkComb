@@ -708,6 +708,7 @@ export type ClickAnimationProps = {
   contactDataStatus : "default" | "success" | "fail";
   setButtonText : React.Dispatch<React.SetStateAction<"get data" | "✅" | "❌">>
   buttonRef : RefObject<HTMLButtonElement | null>
+  setContactDataStatus : React.Dispatch<React.SetStateAction<"default" | "success" | "fail">>
 }
 
 export type MobileMenuProps = {

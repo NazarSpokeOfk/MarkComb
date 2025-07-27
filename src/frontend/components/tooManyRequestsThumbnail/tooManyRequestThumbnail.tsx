@@ -19,7 +19,7 @@ const TooManyRequestsThumbnail = ({}) => {
           {t("Well, well, too many requests")}.
         </h1>
 
-        <Link className="forbidden__link" to="/search">
+        <Link className="forbidden__link" to="/">
           <button className="requests__button">
             <span>{t("To main page")}</span>
           </button>

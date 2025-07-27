@@ -15,7 +15,7 @@ class LogInPageFunctions {
     if (logInStatus === "success") {
       console.log("Ало");
       const timeout = setTimeout(() => {
-        navigate("/search");
+        navigate("/");
       }, 2000);
       return () => clearTimeout(timeout);
     }

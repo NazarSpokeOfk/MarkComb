@@ -43,7 +43,7 @@ const Profile = ({
 
   useEffect(() => {
     if (!isLoggedIn) {
-      navigate("/search");
+      navigate("/");
     }
   }, [isLoggedIn]);
 
