@@ -172,6 +172,8 @@ class DataToDB {
       });
       console.log("ГОВНО");
       if (result.status === "ok") {
+        console.log(result)
+        console.log(this.setIsLoggedIn)
         this.setIsLoggedIn?.(true);
         this.setUserData?.(result);
         return { status: "ok" };
@@ -348,7 +350,7 @@ class DataToDB {
         promocode,
         email,
       },
-      withToast: true,
+      withToast: false,
     }).then((response) => {
       return response;
     });

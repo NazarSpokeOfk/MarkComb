@@ -319,6 +319,8 @@ function App() {
             element={
               <ErrorBoundary>
                 <SignUpPage
+                  setUserData={setUserData}
+                  setIsLoggedIn={setIsLoggedIn}
                   signInData={signInData}
                   setSignInData={setSignInData}
                 />

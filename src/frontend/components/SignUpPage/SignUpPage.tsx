@@ -30,7 +30,7 @@ import DataToDB from "../../Client-ServerMethods/dataToDB";
 import smoothThumbnail from "../../utilities/smoothThumbnail";
 
 import decoration from "../../icons/decoration.png";
-const SignUpPage = ({ signInData, setSignInData }: SignUpPageProps) => {
+const SignUpPage = ({ signInData, setSignInData, setIsLoggedIn,setUserData }: SignUpPageProps) => {
   const isLittleMobile = useMediaQuery({ maxWidth: 430 });
   const dataToDb = new DataToDB();
   const { t } = useTranslation();
@@ -87,6 +87,7 @@ const SignUpPage = ({ signInData, setSignInData }: SignUpPageProps) => {
       setTriggerErase,
       setSignInData,
       setRegistrationStatus,
+      setIsLoggedIn
     });
   }, [signInData.recaptchaValue, signInData.isAgreed]);
 
@@ -241,6 +242,8 @@ const SignUpPage = ({ signInData, setSignInData }: SignUpPageProps) => {
                       updatedData,
                       setRegistrationStatus,
                       setHide,
+                      setIsLoggedIn,
+                      setUserData
                     });
 
                     // Переход к следующему шагу — только если результат успешный

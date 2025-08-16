@@ -19,7 +19,7 @@ const TypeWriterComponent = ({
   const currentWord = t(words[index] ?? "");
 
   useEffect(() => {
-    const speed = isDeleting ? 70 : 90;
+    const speed = isDeleting ? 40 : 40;
 
     const timeout = setTimeout(() => {
       if (isDeleting) {

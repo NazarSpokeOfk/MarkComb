@@ -2,9 +2,9 @@ const returnCsrftoken = (csrfToken,res) => {
   try {
     res.cookie("csrfToken", csrfToken, {
       httpOnly: false,
-      secure: false,
+      secure: true,
       maxAge: 3600000,
-      sameSite: "lax",
+      sameSite: "strict",
     });
   } catch (error) {
     console.log("Ошибка при загрузке csrfТокена на сайт", error);

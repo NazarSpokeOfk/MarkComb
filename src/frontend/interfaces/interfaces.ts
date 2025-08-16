@@ -25,7 +25,7 @@ export interface PurchaseData {
 
 
 export interface UserData {
-  channels: PurchasedChannelData[];
+  channels: PurchasedChannelData[] | [];
   userInformation: {
     csrfToken: string;
     email: string;

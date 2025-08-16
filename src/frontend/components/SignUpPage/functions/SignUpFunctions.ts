@@ -19,8 +19,6 @@ import { RegistrationStatusKey } from "../../../interfaces/interfaces";
 
 import DataToDB from "../../../Client-ServerMethods/dataToDB";
 
-const dataToDb = new DataToDB();
-
 class SignUpFunctions {
   showInputOrNot({ step, setHide }: ShowInputOrNotProps) {
     if (step >= 3) {
@@ -40,9 +38,12 @@ class SignUpFunctions {
     setTriggerErase,
     setSignInData,
     setRegistrationStatus,
+    setIsLoggedIn
   }: CheckIsCaptchaAndTermsPassedProps) {
     const isCaptchaPassed = !!signInData.recaptchaValue;
     const isAgreementChecked = signInData.isAgreed;
+
+    const dataToDb = new DataToDB({setIsLoggedIn});
 
     if (isCaptchaPassed && isAgreementChecked && step !== 0) {
       this.handleContinue({
@@ -203,8 +204,12 @@ class SignUpFunctions {
     updatedData,
     setRegistrationStatus,
     setHide,
+    setIsLoggedIn,
+    setUserData
   }: HandleRegisterProps): Promise<RegistrationStatusKey> {
-    const registration = await dataToDb.validateSignIn({ data: updatedData });
+    const dataToDb = new DataToDB({setIsLoggedIn,setUserData});
+
+    const registration = await dataToDb.validateSignIn({ data: updatedData, });
     const status = registration.status;
 
     setRegistrationStatus(status);

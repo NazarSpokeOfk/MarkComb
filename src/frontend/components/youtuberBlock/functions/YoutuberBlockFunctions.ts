@@ -21,7 +21,7 @@ class YoutuberBlockFunctions {
   }: HandleButtonClickProps) {
     const dataToDB = new DataToDB({ setUserData });
 
-    if (userData.userInformation.uses < 0) {
+    if (userData.userInformation.uses === 0) {
       setError("No uses");
       return;
     }

@@ -231,6 +231,10 @@
   font-weight: 600;
 }
 
+.promocode__btn.fancy-button{
+  width: 100%;
+}
+
 @media (max-width: 430px){
   .personal__data-username_block{
     margin-top: 20px;

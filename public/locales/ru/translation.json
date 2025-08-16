@@ -469,5 +469,8 @@
   "Youth,teenagers,adults":"Молодежь,подростки,взрослые",
   "Kids,teenagers,youth,adults":"Дети, подростки, молодежь, взрослые",
   "Youth,adults,oldergeneration":"Молодежь, взрослые, старшее поколение",
-  "Unknown target audience":"Неизвестная целевая аудитория"
+  "Unknown target audience":"Неизвестная целевая аудитория",
+  "Enter promocode":"Введите промокод",
+  "Function in development.Please,try again later" : "Функция в разработке, пожалуйста, попробуйте позднее.",
+  "No uses":"Нет использований"
 }

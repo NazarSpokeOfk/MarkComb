@@ -4,7 +4,7 @@ const returnUserInformation = (user, csrfToken = null) => {
       user_id: user.user_id,
       email: user.email,
       username: user.username,
-      uses: user.uses,
+      uses: Number(user.uses),
       isVoteEnabled: user.isvoteenabled,
       subscription_expiration: user.subscription_expiration || "",
       isSubscriber: user.isSubscriber,

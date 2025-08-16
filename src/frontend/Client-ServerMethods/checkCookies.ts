@@ -1,6 +1,6 @@
 const apiBaseUrl = import.meta.env.VITE_API_URL;
 
-import { CheckCookiesProps } from "../../types/types";
+import { CheckCookiesProps } from "../types/types";
 
 const checkCookies = async ({setIsLoggedIn, setUserData, setIsCookieClosed} : CheckCookiesProps) => {
     try {

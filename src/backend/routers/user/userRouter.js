@@ -55,9 +55,9 @@ import clearCookie from "../../controllers/cookies/logOutController.js"
 const userController = new UserController
 
 router.post('/Uses/:id',(req,res) => userController.addUses(req,res))
-router.post('/user'  , (req,res) =>userController.SignIn(req,res))
+router.post('/user', (req,res) =>userController.SignIn(req,res))
 router.post('/auth/google' , (req,res) => googleAuthController(req,res))
-router.post('/login', (req,res) => userController.logIn(req,res))
+router.post('/login',logInLimiter, (req,res) => userController.logIn(req,res))
 router.post('/verification' , (req,res) => verifController(req,res)) 
 router.post('/checkCode' , (req,res) => userController.isVerificationCodeCorrect(req,res))
 
@@ -70,8 +70,8 @@ router.get('/loginbyid/:id' , (req,res) => userController.getUserByUserId(req,re
 router.get('/cookie' , (req,res) => verifyJWT(req,res))
 router.get('/users', (req,res) => userController.getAllUsers(req,res))
 
-router.put('/update/:id' , (req,res) => userController.updateUser(req,res))
-router.put('/changePassword'  , (req,res) => userController.changePassword(req,res))
+router.put('/update/:id', updateLimiter, (req,res) => userController.updateUser(req,res))
+router.put('/changePassword', (req,res) => userController.changePassword(req,res))
 router.put('/promocode',(req,res) => userController.activatePromocode(req,res))
 
 router.delete('/user/:id', (req,res) =>userController.deleteUser(req,res))

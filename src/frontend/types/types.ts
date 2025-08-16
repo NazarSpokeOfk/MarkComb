@@ -456,7 +456,7 @@ export type CheckStatisticsOfVideoProps = {
 
 export type SignUpPageProps = {
   signInData: SignInData;
-} & SelectProps<TypesOfSets, "setSignInData">;
+} & SelectProps<TypesOfSets, "setSignInData" | "setIsLoggedIn" | "setUserData">;
 
 export type ValidateStepProps = {
   step: number;
@@ -534,7 +534,7 @@ export type CodeInputProps<T> = {
 
 export type HandleRegisterProps = {
   updatedData: SignInData;
-} & SelectProps<TypesOfSets, "setHide" | "setRegistrationStatus">;
+} & SelectProps<TypesOfSets, "setHide" | "setRegistrationStatus" | "setIsLoggedIn" | "setUserData">;
 
 export type LogInPageProps = {
   logInData: LogInData;
@@ -591,7 +591,7 @@ export type CheckIsCaptchaAndTermsPassedProps = {
   >;
 } & SelectProps<
   TypesOfSets,
-  "setSignInData" | "setError" | "setRegistrationStatus"
+  "setSignInData" | "setError" | "setRegistrationStatus" | "setIsLoggedIn"
 >;
 
 export type ThrowToastOrThumbnailProps = {
@@ -636,14 +636,14 @@ export type InputProps = {
 };
 
 export type CurtainProps = {
-  action: "password" | "username" | null;
+  action: "password" | "username" | "promocode" | null;
   isCurtainOpen: boolean;
   setIsCurtainOpen: React.Dispatch<React.SetStateAction<boolean>>;
   userData: UserData;
 } & SelectProps<TypesOfSets, "setUserData">;
 
 export type SaveChangesProps = {
-  changeMethod: "password" | "username";
+  changeMethod: "password" | "username" | "promocode" | null;
   newValue: string;
   userData: UserData;
   setStatus: React.Dispatch<React.SetStateAction<Status | null>>;

@@ -427,7 +427,7 @@ class UserController {
 
       if (rowCount === 0) {
         return res
-          .status(404)
+          .status(409)
           .json({ status: false, message: "Промокод уже активирован." });
       }
 

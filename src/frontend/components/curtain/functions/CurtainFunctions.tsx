@@ -1,5 +1,11 @@
 import dataToDB from "../../../Client-ServerMethods/dataToDB";
-import { SaveChangesProps, SendVerificationCodeProps, ValidateUserName } from "../../../types/types";
+import {
+  SaveChangesProps,
+  SendVerificationCodeProps,
+  ValidateUserName,
+} from "../../../types/types";
+
+import { ChangedData } from "../../../interfaces/interfaces";
 
 const dataToDb = new dataToDB();
 
@@ -67,23 +73,23 @@ class CurtainFunctions {
     setIsLoading(true);
     const dataToDb = new dataToDB({ setUserData });
 
-    let data = {
-      changeMethod,
-      newValue,
-      user_id: userData.userInformation.user_id,
-    };
-
     if (changeMethod === "username") {
-      data.newValue = this.validateUsername({
+      const validatedUsername = this.validateUsername({
         prevUsername: userData.userInformation.username,
         newUsername: newValue,
         setStatus,
         setIsLoading,
       });
 
-      if (data.newValue === "fail") {
+      if (validatedUsername === "fail") {
         return;
       }
+
+      const data: ChangedData = {
+        changeMethod: "username",
+        newValue: validatedUsername,
+        user_id: userData.userInformation.user_id,
+      };
 
       try {
         const result = await dataToDb.updateData({ data });
@@ -94,17 +100,38 @@ class CurtainFunctions {
         console.log(error);
       }
     }
+
+    if (changeMethod === "promocode") {
+      try {
+        const result = await dataToDb.activatePromocode({
+          promocode: newValue,
+          email: userData.userInformation.email,
+        });
+        setStatus({ status: result?.status, message: `Успешно! Ваши использования : ${result?.newUses}` });
+        setIsCurtainOpen(false);
+        setIsLoading(false);
+      } catch (error) {
+        setIsLoading(false);
+        setStatus({
+          status: false,
+          message: "Не удалось активировать промокод",
+        });
+      }
+    }
   }
 
-  async sendVerificationCode({ email, setIsCodeSent } : SendVerificationCodeProps) {
+  async sendVerificationCode({
+    email,
+    setIsCodeSent,
+  }: SendVerificationCodeProps) {
     if (!email) {
       return;
     }
     try {
       await dataToDb.makeFetchForCode({ email, isRegistration: false });
-      setIsCodeSent(true)
+      setIsCodeSent(true);
     } catch (error) {
-      setIsCodeSent(false)     
+      setIsCodeSent(false);
       console.log(error);
     }
   }

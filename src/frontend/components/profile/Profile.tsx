@@ -34,7 +34,9 @@ const Profile = ({
 
   const { t } = useTranslation();
 
-  const [action, setAction] = useState<"password" | "username" | null>(null);
+  const [action, setAction] = useState<
+    "password" | "username" | "promocode" | null
+  >(null);
   const [isLoggingOut, setIsLoggingOut] = useState<boolean>(false);
   const [hide, setHide] = useState<boolean>(false);
   const [isCurtainOpen, setIsCurtainOpen] = useState<boolean>(false);
@@ -118,8 +120,9 @@ const Profile = ({
                 <div className="credentials-block__buttons">
                   <button
                     onClick={() => {
-                      setIsCurtainOpen(true);
-                      setAction("password");
+                      // setIsCurtainOpen(true);
+                      // setAction("password");
+                      alert(t("Function in development.Please,try again later"))
                     }}
                     className="credentials-block__button"
                   >
@@ -163,8 +166,22 @@ const Profile = ({
                 </div>
               ) : null}
 
-              <button className="delete__account-button fancy-button">
+              <button
+                onClick={() =>
+                  alert(t("Function in development.Please,try again later"))
+                }
+                className="delete__account-button fancy-button"
+              >
                 {t("Delete account")}
+              </button>
+              <button
+                onClick={() => {
+                  setIsCurtainOpen(true);
+                  setAction("promocode");
+                }}
+                className="promocode__btn fancy-button"
+              >
+                Активировать промокод
               </button>
             </div>
 
@@ -206,7 +223,6 @@ const Profile = ({
             </button>
           </div>
         )}
-
         <Curtain
           action={action}
           isCurtainOpen={isCurtainOpen}

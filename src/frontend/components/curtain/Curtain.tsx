@@ -33,6 +33,7 @@ const Curtain = ({
   const title = {
     password: "Enter verification code",
     username: "Your new name?",
+    promocode : "Enter promocode"
   };
 
   useEffect(() => {
@@ -89,7 +90,7 @@ const Curtain = ({
             <img
               onClick={() => {
                 curtainFunctions.saveChanges({
-                  changeMethod: "username",
+                  changeMethod: action,
                   newValue,
                   userData,
                   setStatus,

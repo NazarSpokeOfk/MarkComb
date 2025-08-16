@@ -2,9 +2,9 @@ const returnCookie = (token,res) => {
   try {
     res.cookie("sessionToken", token, {
       httpOnly: false,
-      secure: false,
+      secure: true,
       maxAge: 3600000,
-      sameSite: "lax",
+      sameSite: "strict",
       path : "/"
     });
   } catch (error) {

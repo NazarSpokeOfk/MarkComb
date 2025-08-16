@@ -34,7 +34,11 @@ const googleAuthController = async (req, res) => {
       [payload.email]
     );
 
+    console.log("check")
+
     const user = findUser.rows[0];
+
+    console.log("USer :", user)
 
     if (!user) {
       const generatedUsername = payload.email.split("@")[0];
@@ -71,24 +75,29 @@ const googleAuthController = async (req, res) => {
         return res.status(500).json({ message: "Ошибка сервера" });
       }
     }
+    console.log("check1")
 
     const token = generateJWT(user);
 
+    console.log("check2")
+
     const userId = await findUser.rows[0].user_id;
 
+    console.log("userId",userId)
     const userChannels = await pool.query(
-      `SELECT channel_name,email,thumbnail,transaction_id, FROM purchases_channels WHERE user_id = $1`,
+      `SELECT channel_name,email,thumbnail,transaction_id FROM purchases_channels WHERE user_id = $1`,
       [userId]
     );
-
+    
+    console.log("check3")
     returnCookie(token, res);
-
+    console.log("check4")
     const csrfToken = crypto.randomBytes(16).toString("hex");
     req.session.csrfToken = csrfToken;
 
     returnCsrftoken(csrfToken, res);
     const userInformation = returnUserInformation(user, token, csrfToken);
-
+    
     res.json({
       userInformation,
       channels: userChannels.rows,
