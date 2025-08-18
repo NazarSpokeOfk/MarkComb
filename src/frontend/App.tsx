@@ -112,17 +112,14 @@ function App() {
         <ScrollToTop />
         <Header isLoggedIn={isLoggedIn} userData={userData} />
         <Routes>
-          {/* <Route
+          <Route
             path="/"
             element={
               <ErrorBoundary>
-                <MainPage
-                  setIsFilterCTAActive={setIsFilterCTAActive}
-                  userData={userData}
-                />
+                <MainPage setIsFilterCTAActive={setIsFilterCTAActive}/>
               </ErrorBoundary>
             }
-          /> */}
+          />
           <Route
             path="/purchases"
             element={
@@ -137,7 +134,7 @@ function App() {
             }
           />
           <Route
-            path="/"
+            path="/search"
             element={
               <>
                 <ErrorBoundary>

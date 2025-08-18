@@ -1,0 +1,26 @@
+.scroll-content {
+  display: flex;
+  gap: 57px;
+  /* ширина удвоена за счёт дублирования */
+  animation: scroll-horizontal 25s linear infinite;
+}
+
+/* Дублируем контент через ::after для плавного перехода */
+@keyframes scroll-horizontal {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.filter__line-subtext {
+  white-space: nowrap;
+  flex-shrink: 0; /* запретить сжиматься */
+  text-decoration: none;
+}
+
+.Link-react-router-dom{
+  text-decoration: none;
+}

@@ -52,8 +52,7 @@ type SelectProps<T, K extends keyof T> = Pick<T, K>;
 
 type PartialSelectProps<T, K extends keyof T> = Partial<Pick<T, K>>;
 
-export type MainPageProps = SelectProps<CommonTypes, "userData"> &
-  SelectProps<TypesOfSets, "setIsFilterCTAActive">;
+export type MainPageProps = SelectProps<TypesOfSets, "setIsFilterCTAActive">;
 
 export type HeaderFilterProps = SelectProps<
   TypesOfSets,
@@ -361,7 +360,9 @@ export type HandleButtonClickProps = {
   userData: UserData;
   csrfToken: string;
   channelData: ChannelData | null;
-  setContactDataStatus : React.Dispatch<React.SetStateAction<"default" | "fail" | "success">>
+  setContactDataStatus: React.Dispatch<
+    React.SetStateAction<"default" | "fail" | "success">
+  >;
 } & SelectProps<TypesOfSets, "setUserData" | "setChannelData" | "setError">;
 
 export type ValidateLogInProps = {
@@ -385,15 +386,19 @@ export type DeletePurchaseData = {
 export type GetEmailProps = {
   csrfToken: string;
   channelId: string;
-  setContactDataStatus : React.Dispatch<React.SetStateAction<"default" | "fail" | "success">>
+  setContactDataStatus: React.Dispatch<
+    React.SetStateAction<"default" | "fail" | "success">
+  >;
 };
 
 export type ValidatePurchaseDataProps = {
   data: PurchaseData;
   userId: number;
   csrfToken: string;
-  setContactDataStatus : React.Dispatch<React.SetStateAction<"default" | "fail" | "success">>
-} & SelectProps<TypesOfSets,"setError">
+  setContactDataStatus: React.Dispatch<
+    React.SetStateAction<"default" | "fail" | "success">
+  >;
+} & SelectProps<TypesOfSets, "setError">;
 
 export type ValidateSignInProps = {
   data: SignInData;
@@ -534,7 +539,10 @@ export type CodeInputProps<T> = {
 
 export type HandleRegisterProps = {
   updatedData: SignInData;
-} & SelectProps<TypesOfSets, "setHide" | "setRegistrationStatus" | "setIsLoggedIn" | "setUserData">;
+} & SelectProps<
+  TypesOfSets,
+  "setHide" | "setRegistrationStatus" | "setIsLoggedIn" | "setUserData"
+>;
 
 export type LogInPageProps = {
   logInData: LogInData;
@@ -686,34 +694,40 @@ export type OnCardClickActionsProps = {
 };
 
 export type ExpandedPackageInfoProps = {
-  name : string;
-  textRefs : RefObject<HTMLHeadingElement[]>
-  isPackageExpanded : boolean
-  data : {
-    price : number;
-    information : string,
-    packageId : number
+  name: string;
+  textRefs: RefObject<HTMLHeadingElement[]>;
+  isPackageExpanded: boolean;
+  data: {
+    price: number;
+    information: string;
+    packageId: number;
   };
-  userData : UserData
-}
+  userData: UserData;
+};
 
 export type ValidatePaymentProps = {
-  user_id : number;
-  packageId : number;
-  userEmail : string;
-  setIsLoading : React.Dispatch<React.SetStateAction<boolean>>
-} & SelectProps<TypesOfSets,"setError">
+  user_id: number;
+  packageId: number;
+  userEmail: string;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+} & SelectProps<TypesOfSets, "setError">;
 
 export type ClickAnimationProps = {
-  contactDataStatus : "default" | "success" | "fail";
-  setButtonText : React.Dispatch<React.SetStateAction<"get data" | "✅" | "❌">>
-  buttonRef : RefObject<HTMLButtonElement | null>
-  setContactDataStatus : React.Dispatch<React.SetStateAction<"default" | "success" | "fail">>
-}
+  contactDataStatus: "default" | "success" | "fail";
+  setButtonText: React.Dispatch<React.SetStateAction<"get data" | "✅" | "❌">>;
+  buttonRef: RefObject<HTMLButtonElement | null>;
+  setContactDataStatus: React.Dispatch<
+    React.SetStateAction<"default" | "success" | "fail">
+  >;
+};
 
 export type MobileMenuProps = {
-  dinamicLink : "Authorization" | "Profile"
-}
+  dinamicLink: "Authorization" | "Profile";
+};
+
+export type ScrollLineProps = {
+  stringArray: string[];
+} & SelectProps<TypesOfSets,"setIsFilterCTAActive">;
 
 export const defaultUserData: UserData = {
   channels: [],

@@ -59,7 +59,7 @@ const Header = ({ userData, isLoggedIn }: HeaderProps) => {
         <div className="header__left">
           <Link
             onClick={() => setActiveIndex(null)}
-            to="/"
+            to="/search"
             className="logo"
           >
             <>
