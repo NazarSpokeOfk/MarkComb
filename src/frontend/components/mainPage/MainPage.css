@@ -14,7 +14,15 @@
   display: flex;
   gap: 220px;
 }
-
+.moving__in-class_initial-state{
+  transition: all 0.5s ease;
+  opacity: 0;
+  transform: translateY(-40px);
+}
+.moving__in-class_initial-state.moving__in-class{
+  opacity: 1;
+  transform: translateY(0px);
+}
 .start__section-text {
   margin: 0;
   font-size: 50px;
@@ -39,8 +47,7 @@
 }
 
 .start__section-block {
-  transition: transform 0.4s ease;
-  transform: translateY(-40px);
+  transition: transform 0.6s ease;
   height: 238px;
   width: 238px;
   border: 0.5px solid white;
@@ -56,16 +63,12 @@
   z-index: 2; /* чтобы были поверх волн */
 }
 
-#start__section-first_block{
-  transition: transform 0.4s ease;
+#start-2__section-block{
+  transition: transform 1s ease;
 }
 
-#start__section-second_block{
-  transition: transform 0.6s ease;
-}
-
-#start__section-third_block{
-  transition: transform 0.8s ease;
+#start-3__section-block{
+  transition: transform 1.4s ease;
 }
 
 /* Волны */
@@ -190,6 +193,14 @@
   background-color: black;
   overflow: hidden;
 }
+.filter__line-white{
+  background-color: rgb(255, 255, 255);
+  border: 1px solid black;
+  overflow: hidden;
+  .filter__line-subtext{
+    color: black;
+  }
+}
 .filter__line-flex {
   overflow: hidden;
   width: 100%;
@@ -197,7 +208,7 @@
 .filter__line-subtext{
   color : white;
   font-size: 20px;
-  font-weight: 400;
+  font-weight: 700;
   margin-top: 35px;
   margin-bottom: 35px;
 }

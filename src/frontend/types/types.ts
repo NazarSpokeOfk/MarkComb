@@ -727,6 +727,7 @@ export type MobileMenuProps = {
 
 export type ScrollLineProps = {
   stringArray: string[];
+  toRight : boolean
 } & SelectProps<TypesOfSets,"setIsFilterCTAActive">;
 
 export const defaultUserData: UserData = {

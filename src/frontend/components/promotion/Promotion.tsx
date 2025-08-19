@@ -7,7 +7,7 @@ import "./Promotion.css";
 import DataToDB from "../../Client-ServerMethods/dataToDB";
 import PromotionFunctions from "./functions/PromotionFunctions";
 
-import smoothScrollContainer from "../../utilities/smoothScroll";
+import smoothScrollContainer from "../../utilities/smoothHorizontalScroll";
 
 import { CommonTypes } from "../../types/types";
 

@@ -5,7 +5,11 @@ import { useTranslation } from "react-i18next";
 import { ScrollLineProps } from "../../../../types/types";
 
 import "./css/scrollLine.css";
-const ScrollLine = ({ stringArray, setIsFilterCTAActive }: ScrollLineProps) => {
+const ScrollLine = ({
+  stringArray,
+  setIsFilterCTAActive,
+  toRight,
+}: ScrollLineProps) => {
   const { t } = useTranslation();
 
   const items = [...stringArray, ...stringArray, ...stringArray];
@@ -13,9 +17,10 @@ const ScrollLine = ({ stringArray, setIsFilterCTAActive }: ScrollLineProps) => {
   return (
     <>
       <div className="filter__line-flex">
-        <div className="scroll-content">
+        <div className={`scroll-content ${toRight ? "to-right" : ""}`}>
           {items.map((value, index) => (
             <Link
+              key={index}
               onClick={() => {
                 setIsFilterCTAActive(true);
               }}

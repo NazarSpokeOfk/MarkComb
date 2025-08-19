@@ -5,6 +5,13 @@
   animation: scroll-horizontal 25s linear infinite;
 }
 
+.to-right{
+  display: flex;
+  gap: 57px;
+  /* ширина удвоена за счёт дублирования */
+  animation: scroll-horizontal-to-right 25s linear infinite;
+}
+
 /* Дублируем контент через ::after для плавного перехода */
 @keyframes scroll-horizontal {
   from {
@@ -12,6 +19,15 @@
   }
   to {
     transform: translateX(-50%);
+  }
+}
+
+@keyframes scroll-horizontal-to-right {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(+50%);
   }
 }
 

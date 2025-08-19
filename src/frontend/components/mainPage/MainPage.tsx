@@ -1,7 +1,10 @@
 import ScrollLine from "./components/scrollLine/scrollLine";
-import smoothScrollContainer from "../../utilities/smoothScroll";
+import smoothScrollContainer from "../../utilities/smoothHorizontalScroll";
+import smoothVerticalScroll from "../../utilities/smoothVerticalScroll";
 
 import { useEffect, useRef } from "react";
+
+import { Link } from "react-router-dom";
 
 import { MainPageProps } from "../../types/types";
 
@@ -15,7 +18,8 @@ import coinIcon from "../../icons/coinIcon.png";
 import arrowIcon from "../../icons/arrowIcon.png";
 import minusOneIcon from "../../icons/minusOneIcon.png";
 import filterSectionGlassEffectImg from "../../images/filterSectionGlassEffectImg.png";
-import filterSectionTargetAudienceGlassFilterImg from "../../images/filterSectionTargetAudienceGlassFilterImg.png";
+import filterSectionGlassEffectImgEN from "../../images/filterSectionGlassEffectImgEN.png";
+
 import videoThumbnailImage from "../../images/videoThumbnailImage.png";
 
 import { useTranslation } from "react-i18next";
@@ -23,12 +27,12 @@ import { useTranslation } from "react-i18next";
 import "./MainPage.css";
 
 const MainPage = ({ setIsFilterCTAActive }: MainPageProps) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const contentRefs = useRef<HTMLDivElement[]>([]);
 
-  const startSectionBlocksRef = useRef<HTMLDivElement[]>([]);
+  const testRef = useRef<HTMLDivElement | null>(null);
 
   const packages = {
     Light: {
@@ -65,12 +69,15 @@ const MainPage = ({ setIsFilterCTAActive }: MainPageProps) => {
   const startSectionBlocks = {
     1: {
       title: "Niche ",
+      id: 1,
     },
     2: {
       title: "Familiar ",
+      id: 2,
     },
     3: {
       title: "Reliable",
+      id: 3,
     },
   };
 
@@ -81,11 +88,15 @@ const MainPage = ({ setIsFilterCTAActive }: MainPageProps) => {
     });
   }, []);
 
+  useEffect(() => {
+    smoothVerticalScroll({ ElementWhichMustMoveOut: testRef });
+  });
+
   return (
     <>
       <section className="start__section">
         <div className="start__section-flex">
-          <h1 className="start__section-text">
+          <h1 className="start__section-text moving__in-class_initial-state">
             {t("Find")} <br />
             {t("youtubers")} <br />
             {t("that match")}
@@ -94,14 +105,10 @@ const MainPage = ({ setIsFilterCTAActive }: MainPageProps) => {
           </h1>
 
           <div className="start__section-blocks_flex">
-            {Object.entries(startSectionBlocks).map(([name, data]) => (
+            {Object.entries(startSectionBlocks).map(([_, data]) => (
               <div
-              ref={(el) => {
-                if (el) {
-                  startSectionBlocksRef.current[name] = el;
-                }
-              }}
-                id="start__section-first_block"
+                id={`start-${data.id}__section-block`}
+                key={data.id}
                 className="start__section-block"
               >
                 <p>{t(data.title)}</p>
@@ -160,7 +167,11 @@ const MainPage = ({ setIsFilterCTAActive }: MainPageProps) => {
       <section className="filter__section">
         <img
           className="filterSectionGlassEffectImg"
-          src={filterSectionGlassEffectImg}
+          src={
+            i18n.language === "ru"
+              ? filterSectionGlassEffectImg
+              : filterSectionGlassEffectImgEN
+          }
           alt=""
         />
         <div className="line__section">
@@ -182,17 +193,20 @@ const MainPage = ({ setIsFilterCTAActive }: MainPageProps) => {
                 "Travel",
                 "Health",
               ]}
+              toRight={false}
               setIsFilterCTAActive={setIsFilterCTAActive}
             />
           </div>
         </div>
 
         <h3 className="filter__line-text">{t("Target audience")}</h3>
-        <img
-          className="filterSectionTargetAudienceGlassFilterImg"
-          src={filterSectionTargetAudienceGlassFilterImg}
-          alt=""
-        />
+        <div className="filter__line-white">
+          <ScrollLine
+            stringArray={["Kids", "Teenagers", "Adults", "OlderGen"]}
+            toRight={true}
+            setIsFilterCTAActive={setIsFilterCTAActive}
+          />
+        </div>
 
         <div className="line__section">
           <h3 className="filter__line-text">{t("Number of subs")}</h3>
@@ -207,6 +221,7 @@ const MainPage = ({ setIsFilterCTAActive }: MainPageProps) => {
                 "5-10M",
                 "10-20M",
               ]}
+              toRight={false}
               setIsFilterCTAActive={setIsFilterCTAActive}
             />
           </div>
@@ -214,7 +229,7 @@ const MainPage = ({ setIsFilterCTAActive }: MainPageProps) => {
       </section>
 
       <section className="purchase__section">
-        <h2 className="purchase__section-title">
+        <h2 className="purchase__section-title moving__in-class_initial-state">
           {t("Purchase uses ")} <br />
           {t("to get youtuber email")}
         </h2>
@@ -243,7 +258,9 @@ const MainPage = ({ setIsFilterCTAActive }: MainPageProps) => {
                     {data.packageId !== 4 ? t("uses") : null}
                   </h3>
                 </div>
-                <button className="package__button">{t("Purchase")}</button>
+                <Link to="/purchase">
+                  <button className="package__button">{t("Purchase")}</button>
+                </Link>
               </div>
 
               <img
@@ -255,7 +272,7 @@ const MainPage = ({ setIsFilterCTAActive }: MainPageProps) => {
           ))}
         </section>
 
-        <div className="purchase__section-last_flex">
+        <div className="purchase__section-last_flex moving__in-class_initial-state">
           <h3 className="purchase__section-last_text">
             {t("Once you find out the")} <br />
             {t("YouTuber's email")} <br />
@@ -281,7 +298,7 @@ const MainPage = ({ setIsFilterCTAActive }: MainPageProps) => {
 
         <div id="promotion-input__main_page" className="promotion__input-block">
           <input
-            value={"rocket mansplain рзт"}
+            value={"rocket mansplain"}
             type="text"
             className="promotion__input"
           />
@@ -293,7 +310,7 @@ const MainPage = ({ setIsFilterCTAActive }: MainPageProps) => {
             />
           </button>
         </div>
-        <div className="result__block-promotion appearing">
+        <div className="result__block-promotion moving__in-class_initial-state">
           <div id="first__subblock" className="result__block-subblock">
             <h2 className="result__block-title_promotion">Title</h2>
             <h3 className="result__block-subtitle_promotion">

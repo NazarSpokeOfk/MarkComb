@@ -10,7 +10,7 @@ import "../../fonts/font.css";
 import removeIcon from "../../icons/removeIcon.png";
 import purchasesThumbnail from "../../icons/purchasesThumbnail.png";
 
-import smoothScrollContainer from "../../utilities/smoothScroll";
+import smoothScrollContainer from "../../utilities/smoothHorizontalScroll";
 
 import PurchasesFunctions from "./functions/PurchasesFunctions";
 

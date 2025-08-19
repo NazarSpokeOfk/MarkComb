@@ -13,7 +13,7 @@ import lightPackageIcon from "../../icons/lightPackageIcon.png";
 import mediumPackageIcon from "../../icons/mediumPackageIcon.png";
 import bigPackageIcon from "../../icons/bigPackageIcon.png";
 import businessPackageIcon from "../../icons/businessIcon.png";
-import smoothScrollContainer from "../../utilities/smoothScroll";
+import smoothScrollContainer from "../../utilities/smoothHorizontalScroll";
 
 const Purchase = ({ userData }: CommonTypes) => {
   const isLittleMobile = useMediaQuery({ maxWidth: 430 });
