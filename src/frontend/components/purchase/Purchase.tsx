@@ -7,23 +7,25 @@ import ExpandedPackageInfo from "./components/ExpandedPackageInfo";
 
 import "./Purchase.css";
 
+// import SmoothVerticalScroll from "../../utilities/smoothVerticalScroll";
+
 import { CommonTypes } from "../../types/types";
 
 import lightPackageIcon from "../../icons/lightPackageIcon.png";
 import mediumPackageIcon from "../../icons/mediumPackageIcon.png";
 import bigPackageIcon from "../../icons/bigPackageIcon.png";
 import businessPackageIcon from "../../icons/businessIcon.png";
-import smoothScrollContainer from "../../utilities/smoothHorizontalScroll";
 
 const Purchase = ({ userData }: CommonTypes) => {
   const isLittleMobile = useMediaQuery({ maxWidth: 430 });
 
-  useEffect(() => {
-    smoothScrollContainer({
-      containerRef,
-      contentRefs,
-    });
-  }, []);
+  // useEffect(() => {
+  //   const observer = SmoothVerticalScroll({});
+
+  //   return () => {
+  //     observer.disconnect();
+  //   }
+  // }, []);
 
   const titleRef = useRef<HTMLHeadingElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -100,7 +102,7 @@ const Purchase = ({ userData }: CommonTypes) => {
                   contentRefs.current[data.packageId] = el;
                 }
               }}
-              className="package__card item"
+              className="package__card"
             >
               {isPackageExpanded && data.packageId === selectedPackage ? (
                 <ExpandedPackageInfo

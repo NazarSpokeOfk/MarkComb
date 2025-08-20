@@ -89,8 +89,12 @@ const MainPage = ({ setIsFilterCTAActive }: MainPageProps) => {
   }, []);
 
   useEffect(() => {
-    smoothVerticalScroll({ ElementWhichMustMoveOut: testRef });
-  });
+    const observer = smoothVerticalScroll({ ElementWhichMustMoveOut: testRef });
+    
+    return () => {
+      observer.disconnect();
+    }
+  },[]);
 
   return (
     <>
@@ -298,6 +302,7 @@ const MainPage = ({ setIsFilterCTAActive }: MainPageProps) => {
 
         <div id="promotion-input__main_page" className="promotion__input-block">
           <input
+            readOnly
             value={"rocket mansplain"}
             type="text"
             className="promotion__input"

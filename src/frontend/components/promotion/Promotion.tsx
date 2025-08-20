@@ -8,6 +8,7 @@ import DataToDB from "../../Client-ServerMethods/dataToDB";
 import PromotionFunctions from "./functions/PromotionFunctions";
 
 import smoothScrollContainer from "../../utilities/smoothHorizontalScroll";
+import SmoothVerticalScroll from "../../utilities/smoothVerticalScroll";
 
 import { CommonTypes } from "../../types/types";
 
@@ -49,20 +50,26 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
   }, 50);
 
   useEffect(() => {
-    if(userData.channels.length <= 0){
-      thumbnailRef.current?.classList.add("thumbnail__appearing")
+    if (userData.channels.length <= 0) {
+      const observer = SmoothVerticalScroll({});
+
+      return () => {
+        observer.disconnect();
+      };
     }
-  },[userData.channels])
+  }, [userData.channels]);
 
   useEffect(() => {
-    let timeout : ReturnType<typeof setTimeout>
+    let timeout: ReturnType<typeof setTimeout>;
     timeout = setTimeout(() => {
       smoothScrollContainer({
         containerRef: scrollContainerRef,
         contentRefs,
       });
-    },100)
-    return () => {clearTimeout(timeout)}
+    }, 100);
+    return () => {
+      clearTimeout(timeout);
+    };
   }, []);
 
   useEffect(() => {
@@ -192,14 +199,15 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
               </div>
             </>
           ) : (
-            <div ref={thumbnailRef} className="promotion__thumbnail-flex">
+            <div className="promotion__thumbnail-flex moving__in-class_initial-state">
               <img
                 src={promotionThumbnail}
                 className="promotion__thumbnail"
                 alt=""
               />
               <h1 className="promotion__thumbnail-title">
-              {t("You can check out")} <br /> <span>{t("youtubers' video stats here")}.</span>
+                {t("You can check out")} <br />{" "}
+                <span>{t("youtubers' video stats here")}.</span>
               </h1>
             </div>
           )}

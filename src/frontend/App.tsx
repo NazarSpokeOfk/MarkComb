@@ -102,10 +102,6 @@ function App() {
     }
   }, [isCookieClosed]);
 
-  useEffect(() => {
-    console.log("signInData : ", signInData);
-  }, [signInData]);
-
   return (
     <>
       <GoogleOAuthProvider clientId="867104217256-63f1fg6mlqf501r974ud4nkvaks3ik1b.apps.googleusercontent.com">

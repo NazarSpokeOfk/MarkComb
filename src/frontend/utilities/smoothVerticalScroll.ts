@@ -2,7 +2,6 @@ const SmoothVerticalScroll = ({}) => {
   const observer = new IntersectionObserver(
     ([entry]) => {
       if (entry.isIntersecting) {
-        console.log("Добавляю?");
         entry.target.classList.add("moving__in-class");
       }
       if (!entry.isIntersecting) {
@@ -15,7 +14,8 @@ const SmoothVerticalScroll = ({}) => {
     }
   );
   const elements = document.querySelectorAll(".moving__in-class_initial-state");
-  console.log("elements : ",elements)
   elements.forEach((el) => observer.observe(el));
+
+  return observer;
 };
 export default SmoothVerticalScroll;

@@ -22,7 +22,7 @@ const AuthorizationThumbnail = ({
       const countDownTimer = setTimeout(() => {
         setCountDown(countdown - 1);
         if (countdown === 0) {
-          navigate("/");
+          navigate("/search");
           clearInterval(countDownTimer);
         }
       }, 1000);

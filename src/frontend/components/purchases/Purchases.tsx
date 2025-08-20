@@ -12,6 +12,8 @@ import purchasesThumbnail from "../../icons/purchasesThumbnail.png";
 
 import smoothScrollContainer from "../../utilities/smoothHorizontalScroll";
 
+import SmoothVerticalScroll from "../../utilities/smoothVerticalScroll";
+
 import PurchasesFunctions from "./functions/PurchasesFunctions";
 
 import { PurchasesProps } from "../../types/types";
@@ -28,7 +30,11 @@ const Purchases = ({ userData, setUserData, csrfToken }: PurchasesProps) => {
 
   useEffect(() => {
     if (userData.channels.length <= 0) {
-      thumbnailRef.current?.classList.add("thumbnail__appearing");
+      const observer = SmoothVerticalScroll({});
+      
+      return () => {
+        observer.disconnect();
+      }
     }
   },[userData.channels]);
 
@@ -143,7 +149,7 @@ const Purchases = ({ userData, setUserData, csrfToken }: PurchasesProps) => {
               </div>
             </div>
           ) : (
-            <div ref={thumbnailRef} className="purchases__thumbnail-flex">
+            <div className="purchases__thumbnail-flex moving__in-class_initial-state">
               <img
                 src={purchasesThumbnail}
                 className="purchases__thumbnail"
