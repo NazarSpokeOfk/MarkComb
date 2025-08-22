@@ -103,6 +103,7 @@ class UserController {
 
       const userInformation = returnUserInformation(user, token, csrfToken);
 
+
       res.json({
         userInformation,
         channels: userChannels.rows,
@@ -187,7 +188,7 @@ class UserController {
         });
       }
     
-      // Теперь продолжаем обработку кода и регистрации пользователя
+      
       const result = await mailVerification.verifyCode(
         email,
         verification_code
@@ -222,12 +223,15 @@ class UserController {
 
       returnCookie(token,res)
       returnCsrftoken(csrfToken,res)
+      
+      console.log(userInformation)
 
       res.status(200).json({
         userInformation, status : "ok"
       });
     } catch (error) {
       // Обработка других ошибок
+      console.log("печень ебаная",error)
       logger.error(error);
       res.status(500).json({ error: "Internal server error" });
     }

@@ -1,6 +1,6 @@
 const returnUserInformation = (user, csrfToken = null) => {
   return {
-    csrfToken,
+      csrfToken,
       user_id: user.user_id,
       email: user.email,
       username: user.username,

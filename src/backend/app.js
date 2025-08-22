@@ -104,4 +104,7 @@ async function initializeApp() {
   }
 }
 
+export default app;
+
 initializeApp();
+
