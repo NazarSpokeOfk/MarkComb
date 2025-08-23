@@ -161,9 +161,9 @@ class UserController {
       const { email, password, username, verification_code, recaptchaValue } =
         req.body.data;
 
-      const domain = email.split("@")[1].toLowerCase();
+      const domain = email.split("@")[1].toLowerCase(); //закомментировать при тестировании
 
-      if (domains.includes(domain)) {
+      if (domains.includes(domain)) { //закомментировать при тестировании
         return res.status(400).json({
           message:
             "У вас не получится зарегистрироваться с временной почтой :(",
@@ -171,14 +171,14 @@ class UserController {
         });
       }
 
-      if (!req.session.captchaVerified && recaptchaValue) {
+      if (!req.session.captchaVerified && recaptchaValue) { //закомментировать при тестировании
         // Если капча еще не была проверена
         const isCaptchaValid = await verifyCaptcha(recaptchaValue);
         if (!isCaptchaValid) {
           return res.status(400).json({ status: "invalid" });
         }
 
-        // Если капча прошла, сохраняем в сессии
+        // Если капча прошла, сохраняем в сессии //закомментировать при тестировании
         req.session.captchaVerified = true;
         req.session.save((err) => {
           if (err) {
@@ -189,16 +189,16 @@ class UserController {
       }
     
       
-      const result = await mailVerification.verifyCode(
+      const result = await mailVerification.verifyCode( //закомментировать при тестировании
         email,
         verification_code
       );
 
-      if (result.message === "Wrong code" && result.success === false) {
+      if (result.message === "Wrong code" && result.success === false) { //закомментировать при тестировании
         return res.status(400).json({ status: "Wrong code" });
       }
 
-      await mailVerification.clearUpVerifCodes(email);
+      await mailVerification.clearUpVerifCodes(email); //закомментировать при тестировании
 
       // Валидация данных
       this.validateInput({ email, password, username });
@@ -223,15 +223,11 @@ class UserController {
 
       returnCookie(token,res)
       returnCsrftoken(csrfToken,res)
-      
-      console.log(userInformation)
-
+    
       res.status(200).json({
         userInformation, status : "ok"
       });
     } catch (error) {
-      // Обработка других ошибок
-      console.log("печень ебаная",error)
       logger.error(error);
       res.status(500).json({ error: "Internal server error" });
     }
@@ -240,7 +236,7 @@ class UserController {
   async updateUser(req, res) {
     const id = parseInt(req.params.id, 10);
     const { newValue, changeMethod } = req.body;
-
+    console.log("Извините?",newValue,changeMethod)
     try {
       const userResult = await pool.query(
         `SELECT password FROM users WHERE user_id = $1`,
@@ -273,7 +269,6 @@ class UserController {
       }
 
       const userInformation = returnUserInformation(updateUser.rows[0]);
-
       res.json({
         message: "Данные пользователя успешно обновлены",
         userInformation,

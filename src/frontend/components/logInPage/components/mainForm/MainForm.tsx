@@ -35,6 +35,7 @@ const MainForm = ({
               }}
               required
               type="email"
+              id="email"
               className="input"
             />
             <div className="placeholder">
@@ -50,6 +51,7 @@ const MainForm = ({
                 setLogInData((prev) => ({ ...prev, password: value }));
               }}
               required
+              id="password"
               type="text"
               className="input"
             />
@@ -101,7 +103,7 @@ const MainForm = ({
           <div className="divider"></div>
         </div>
 
-        <GoogleLoginButton setIsLoggedIn={setIsLoggedIn} setUserData={setUserData} setLogInStatus={setLogInStatus}/>
+        <GoogleLoginButton  setIsLoggedIn={setIsLoggedIn} setUserData={setUserData} setLogInStatus={setLogInStatus}/>
       </div>
     </>
   );

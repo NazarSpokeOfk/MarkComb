@@ -13,7 +13,7 @@ function smoothScrollContainer({ containerRef, contentRefs }: SmoothScrollProps)
     },
     {
       root: containerRef.current,
-      threshold: 0.3,
+      threshold: 0.1,
     }
   );
 
@@ -28,7 +28,7 @@ function smoothScrollContainer({ containerRef, contentRefs }: SmoothScrollProps)
     },
     {
       root: containerRef.current,
-      threshold: 0.3,
+      threshold: 0.1,
     }
   );
 

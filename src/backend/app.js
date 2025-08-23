@@ -98,7 +98,6 @@ async function initializeApp() {
   try {
     await createTables(pool);
     await createStorageTables(storagePool);
-    app.listen(PORT, () => {});
   } catch (error) {
     logger.error("Возникла ошибка в Intialize app:", error);
   }

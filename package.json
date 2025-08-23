@@ -32,10 +32,11 @@
   "scripts": {
     "start": "npm run dev",
     "dev": "concurrently \"npm run backend\" \"npm run react\"",
-    "backend": "cd src/backend && nodemon app.js",
+    "backend": "cd src/backend && nodemon server.js",
     "react": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test":"playwright"
   },
   "eslintConfig": {
     "extends": [

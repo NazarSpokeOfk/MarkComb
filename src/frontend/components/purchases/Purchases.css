@@ -144,17 +144,20 @@
 }
 
 .item {
+  visibility: hidden;
   opacity: 0;
   transform: translateY(30px);
   transition: transform 0.5s ease, opacity 0.5s ease;
 }
 
 .item.animate-in {
+  visibility:visible;
   opacity: 1;
   transform: translateY(0);
 }
 
 .item.fall-off {
+  visibility: hidden;
   opacity: 0;
   transform: translateY(30px);
 }

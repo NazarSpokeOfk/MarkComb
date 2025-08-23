@@ -147,6 +147,7 @@ const SignUpPage = ({ signInData, setSignInData, setIsLoggedIn,setUserData }: Si
           {step === 3 ? (
             <div className="captcha__flex-box">
               <ReCAPTCHA
+                className="captcha"
                 sitekey="6LcxnbQqAAAAALV-GfKKoJPxRVIshbTjTa5izOVr"
                 onChange={(token: string | null) => {
                   setSignInData((prev) => ({ ...prev, recaptchaValue: token }));

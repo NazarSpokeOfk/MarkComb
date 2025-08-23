@@ -34,7 +34,7 @@
     "yookassa": "^0.1.1"
   },
   "scripts": {
-    "dev": "nodemon app.js",
+    "dev": "nodemon server.js",
     "test": "vitest"
   }
 }

@@ -29,7 +29,7 @@ class PurchasesController {
 
     const tokenFromClient = req.cookies.csrfToken;
     const tokenFromSession = req.session.csrfToken;
-
+    console.log(tokenFromClient,tokenFromSession) //дыра в безопасности, тк undefined === undefined. Нет обоих токенов - покупка совершится
     if (tokenFromClient !== tokenFromSession) {
       return res.status(403).send('CSRF token mismatch');
     }

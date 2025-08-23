@@ -1,22 +1,11 @@
 import DataToDB from "../../../Client-ServerMethods/dataToDB";
 
 import {
-  HandleToggleProps,
   OnCardClickActionsProps,
-  ToggleMemberListStyleProps,
   ValidateVideoFindingProps,
 } from "../../../types/types";
 
 class PromotionsFunctions {
-  // handleToggle({ secondYouTubersContainerRef, triggerBtnRef } : HandleToggleProps) {
-  //   secondYouTubersContainerRef?.current?.classList.toggle("active");
-  //   triggerBtnRef?.current?.classList.toggle("rotate");
-  // }
-
-  // toggleMemberListStyle({ index, currentGroup, setActiveIndex } : ToggleMemberListStyleProps) {
-  //   const normalizedIndex = index + (currentGroup === 2 ? 5 : 0);
-  //   setActiveIndex(normalizedIndex);
-  // }
 
   async validateVideoFinding({
     channelName,

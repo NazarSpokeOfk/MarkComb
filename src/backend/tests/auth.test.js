@@ -29,8 +29,6 @@ describe("POST api/user", () => {
         },
       });
 
-    console.log(typeof result.body, result.body);
-
     expect(result.statusCode).toBe(200);
     expect(result.body.userInformation).toHaveProperty("csrfToken");
     expect(result.body.userInformation.email).toBe("testemail@domain.com");
