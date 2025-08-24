@@ -1,7 +1,7 @@
-import app from "../app.js";
+import app from "../server/app.js";
 import request from "supertest";
 import { describe, expect, test, afterAll } from "vitest";
-import pool from "../db/main/index.js";
+import pool from "../db/mk/index.js";
 
 afterAll( async () => {
   await pool.query("UPDATE users SET username = 'spokeofk' WHERE email = 'kurakn10@gmail.com'")

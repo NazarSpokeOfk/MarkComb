@@ -1,0 +1,90 @@
+# Page snapshot
+
+```yaml
+- banner:
+  - link:
+    - /url: /search
+    - img
+  - navigation:
+    - link "PURCHASES":
+      - /url: /purchases
+    - link "PROMOTION":
+      - /url: /promotion
+    - link "PURCHASE":
+      - /url: /purchase
+  - link "Profile":
+    - /url: /Profile
+    - button "Profile"
+- heading "Find a Niche |" [level=1]
+- heading "Channel" [level=1]
+- textbox: Stopgame
+- button "search_filters":
+  - img "search_filters"
+- button "search_button":
+  - img "search_button"
+- separator
+- heading "audience" [level=2]
+- button "Kids 👶"
+- button "Adults 👨"
+- button "Teenagers 🧑"
+- button "OlderGen 👨‍🦳"
+- heading "Number of subscribers" [level=2]
+- button "0-1K"
+- button "1-10K"
+- button "10-100K"
+- button "100-500K"
+- button "1-5M"
+- button "5-10M"
+- button "10-20M"
+- heading "Content type" [level=2]
+- button "Comedy🎭"
+- button "Vlogs📸"
+- button "Animation✏️"
+- button "Education📚"
+- button "Entertainment🎢"
+- button "Fitness💪"
+- button "Health⚕️"
+- button "Music🎶"
+- button "News📰"
+- button "Gaming🎮"
+- button "Travel🗺️"
+- button "Fashion👕"
+- img "undefined logo"
+- heading [level=1]
+- heading "Target audience" [level=3]
+- heading "Kids,teenagers,youth,adults" [level=4]
+- heading "Number of subs" [level=3]
+- heading "2420000" [level=4]
+- heading "Content type" [level=3]
+- heading "Gaming" [level=4]
+- button "get data"
+- region "Notifications Alt+T"
+- paragraph:
+  - text: We use cookies to improve website performance and convenience. By continuing to use the site, you agree to our use of cookies. For more details, please refer to the
+  - link "personal data processing agreement":
+    - /url: /dataprocessing
+  - text: .
+- img "cookie img"
+- button "close window":
+  - img "close window"
+- paragraph: A tool for promotion through YouTube. Fast. Smart. Effective.
+- heading "Documents" [level=2]
+- link "Data processing agreement":
+  - /url: /dataprocessing
+- link "Terms of service":
+  - /url: /terms
+- link "Privacy policy":
+  - /url: /dataprocessing
+- link "Offer":
+  - /url: /offer.pdf
+- link "Our purpose":
+  - /url: /purpose
+- heading "Contact us" [level=2]
+- link "markcombsup@gmail.com":
+  - /url: mailto:markcombsup@gmail.com
+- link:
+  - /url: https://t.me/markcomb
+- link:
+  - /url: https://www.youtube.com/@MarkCombtm
+- paragraph: © 2025 MarkComb. All rights reserved
+```

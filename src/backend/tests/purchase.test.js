@@ -1,6 +1,6 @@
-import app from "../app.js";
+import app from "../server/app.js";
 import request from "supertest";
-import pool from "../db/main/index.js";
+import pool from "../db/mk/index.js";
 import { afterAll, describe, expect, test } from "vitest";
 
 afterAll( async () => {

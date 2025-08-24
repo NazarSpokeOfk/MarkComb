@@ -1,6 +1,6 @@
 import request from "supertest";
-import pool from "../db/main";
-import app from "../app";
+import pool from "../db/mk/index.js";
+import app from "../server/app.js";
 
 import { test } from "vitest";
 

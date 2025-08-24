@@ -102,20 +102,6 @@ function App() {
     }
   }, [isCookieClosed]);
 
-  //-Интеграционные тесты-
-  //тест регистрации --готово
-  //тест входа с login:password --готово
-  //тест смены данных -- готово
-  //покупка email -- готово
-  //проверка promotion -- готово
-  //удаление покупки -- готово
-
-  //-E2E тесты-
-  //тест входа -- готово
-  //тест удаления покупки -- готово
-  //покупка email -- готово
-  //проверка promotion 
-
   return (
     <>
       <GoogleOAuthProvider clientId="867104217256-63f1fg6mlqf501r974ud4nkvaks3ik1b.apps.googleusercontent.com">

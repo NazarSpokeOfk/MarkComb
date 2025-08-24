@@ -1,0 +1,108 @@
+import pool from "../../db/mk/index.js";
+
+import bcrypt from "bcrypt";
+
+import crypto from "crypto";
+
+import generateJWT from "../../cookies/generateJWT.js";
+
+import returnUserInformation from "../../modules/returnUserInformationModule.js";
+import returnCsrftoken from "../../modules/returnCsrftokenModule.js";
+import returnCookie from "../../modules/returnCookieModule.js";
+import { OAuth2Client } from "google-auth-library";
+
+const hashPassword = async (password) => {
+  const saltRounds = 10;
+  return await bcrypt.hash(password, saltRounds);
+};
+
+const googleAuthController = async (req, res) => {
+  const { credential } = req.body;
+
+  const client = new OAuth2Client(process.env.OAUTH2_CLIENT);
+
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: credential,
+      audience: process.env.OAUTH2_CLIENT,
+    });
+    const payload = ticket.getPayload();
+
+    const findUser = await pool.query(
+      `SELECT email,user_id,username,uses,subscription_expiration,isvoteenabled FROM users WHERE email = $1`,
+      [payload.email]
+    );
+
+    console.log("check")
+
+    const user = findUser.rows[0];
+
+    console.log("USer :", user)
+
+    if (!user) {
+      const generatedUsername = payload.email.split("@")[0];
+      const randomPassword = crypto.randomBytes(16).toString("hex");
+      const hashedPassword = await hashPassword(randomPassword);
+
+      try {
+        const creatingUser = await pool.query(
+          "INSERT INTO users (email,password,username) VALUES ($1,$2,$3) RETURNING *",
+          [payload.email, hashedPassword, generatedUsername]
+        );
+        const user = creatingUser.rows[0];
+        if (user) {
+          const token = generateJWT(user);
+
+          const csrfToken = crypto.randomBytes(16).toString("hex");
+          req.session.csrfToken = csrfToken;
+
+          returnCookie(token, res);
+
+          returnCsrftoken(csrfToken, res);
+
+          const userInformation = returnUserInformation(user, token, csrfToken);
+
+          return res.status(200).json({
+            userInformation,
+          });
+        } else {
+          return res
+            .status(500)
+            .json({ message: "Ошибка создания аккаунта через Google" });
+        }
+      } catch (error) {
+        return res.status(500).json({ message: "Ошибка сервера" });
+      }
+    }
+    console.log("check1")
+
+    const token = generateJWT(user);
+
+    console.log("check2")
+
+    const userId = await findUser.rows[0].user_id;
+
+    console.log("userId",userId)
+    const userChannels = await pool.query(
+      `SELECT channel_name,email,thumbnail,transaction_id FROM purchases_channels WHERE user_id = $1`,
+      [userId]
+    );
+    
+    console.log("check3")
+    returnCookie(token, res);
+    console.log("check4")
+    const csrfToken = crypto.randomBytes(16).toString("hex");
+    req.session.csrfToken = csrfToken;
+
+    returnCsrftoken(csrfToken, res);
+    const userInformation = returnUserInformation(user, token, csrfToken);
+    
+    res.json({
+      userInformation,
+      channels: userChannels.rows,
+    });
+  } catch (error) {
+    return res.status(400).json({ message: "Аутентификация гугл не прошла." });
+  }
+};
+export default googleAuthController;

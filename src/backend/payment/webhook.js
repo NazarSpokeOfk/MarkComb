@@ -1,4 +1,4 @@
-import pool from "../db/main/index.js";
+import pool from "../db/mk/index.js";
 import logger from "../winston/winston.js";
 
 import ipaddr from "ipaddr.js";

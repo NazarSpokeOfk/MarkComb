@@ -1,6 +1,6 @@
 import request from "supertest";
-import app from "../app";
-import pool from "../db/main/index.js";
+import app from "../server/app";
+import pool from "../db/mk/index.js";
 
 import { beforeAll, describe, expect, test } from "vitest";
 
