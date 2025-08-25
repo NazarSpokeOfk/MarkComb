@@ -1,4 +1,4 @@
-const returnUserInformation = (user, csrfToken = null) => {
+const returnUserInformationModule = (user, csrfToken = null) => {
   return {
       csrfToken,
       user_id: user.user_id,
@@ -10,4 +10,4 @@ const returnUserInformation = (user, csrfToken = null) => {
       isSubscriber: user.isSubscriber,
   };
 };
-export default returnUserInformation;
+export default returnUserInformationModule;

@@ -1,4 +1,4 @@
-const returnCookie = (token,res) => {
+const returnCookieModule = (token,res) => {
   try {
     res.cookie("sessionToken", token, {
       httpOnly: false,
@@ -11,4 +11,4 @@ const returnCookie = (token,res) => {
     console.log("Ошибка при отправке куки.", error);
   }
 };
-export default returnCookie;
+export default returnCookieModule;

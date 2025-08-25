@@ -1,4 +1,4 @@
-const returnCsrftoken = (csrfToken,res) => {
+const returnCsrftokenModule = (csrfToken,res) => {
   try {
     res.cookie("csrfToken", csrfToken, {
       httpOnly: false,
@@ -10,4 +10,4 @@ const returnCsrftoken = (csrfToken,res) => {
     console.log("Ошибка при загрузке csrfТокена на сайт", error);
   }
 };
-export default returnCsrftoken;
+export default returnCsrftokenModule;
