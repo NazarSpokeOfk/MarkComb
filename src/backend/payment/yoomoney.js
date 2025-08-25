@@ -1,11 +1,11 @@
 import dotenv from "dotenv";
 import Yookassa from "yookassa";
 
-import pool from "../db/mk/index.js";
+import mainPool from "../db/mk/index.js";
 
 import logger from "../winston/winston.js";
 
-dotenv.config();
+import "../loadEnv.js"
 
 const shopId = process.env.SHOP_ID;
 const YMoneyAPIKEY = process.env.YMoney_API_KEY;
@@ -22,7 +22,7 @@ const createPayment = async (req, res) => {
 
   let result;
   try {
-    const request = await pool.query(
+    const request = await mainPool.query(
       "SELECT title,price,uses FROM packages WHERE package_id = $1",
       [packageId]
     );

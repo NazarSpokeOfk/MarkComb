@@ -1,10 +1,10 @@
 import app from "../server/app.js";
 import request from "supertest";
 import { describe, expect, test, afterAll } from "vitest";
-import pool from "../db/mk/index.js";
+import mainPool from "../db/mk/index.js";
 
 afterAll( async () => {
-  await pool.query("UPDATE users SET username = 'spokeofk' WHERE email = 'kurakn10@gmail.com'")
+  await mainPool.query("UPDATE users SET username = 'spokeofk' WHERE email = 'kurakn10@gmail.com'")
 })
 
 describe("/api/update/272", () => {

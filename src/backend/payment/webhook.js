@@ -1,4 +1,4 @@
-import pool from "../db/mk/index.js";
+import mainPool from "../db/mk/index.js";
 import logger from "../winston/winston.js";
 
 import ipaddr from "ipaddr.js";
@@ -53,7 +53,7 @@ const handleWebHook = async (req, res) => {
     const value = payment.amount.value;
 
     try {
-      const selectPackage = await pool.query(
+      const selectPackage = await mainPool.query(
         "SELECT price,uses FROM packages WHERE package_id = $1",
         [packageId]
       );
@@ -72,12 +72,12 @@ const handleWebHook = async (req, res) => {
         const endingDate = dayjs().add(1, "month").toISOString();
 
         try {
-          const addingUses = await pool.query(
+          const addingUses = await mainPool.query(
             "UPDATE users SET uses = uses + 5 WHERE user_id = $1 RETURNING *",
             [user_id]
           );
 
-          const redeemingSubscription = await pool.query(
+          const redeemingSubscription = await mainPool.query(
             "UPDATE users SET subscription_expiration = $1,isvoteenabled = true WHERE user_id = $2 RETURNING *",
             [endingDate, user_id]
           );
@@ -102,7 +102,7 @@ const handleWebHook = async (req, res) => {
         }
       }
 
-      const addingUses = await pool.query(
+      const addingUses = await mainPool.query(
         "UPDATE users SET uses = uses + $1 WHERE user_id = $2 RETURNING *",
         [uses, user_id]
       );

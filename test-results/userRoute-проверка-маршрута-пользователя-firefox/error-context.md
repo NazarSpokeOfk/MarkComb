@@ -49,8 +49,8 @@
 - button "Gaming🎮"
 - button "Travel🗺️"
 - button "Fashion👕"
-- img "undefined logo"
-- heading [level=1]
+- img "StopGame logo"
+- heading "StopGame" [level=1]
 - heading "Target audience" [level=3]
 - heading "Kids,teenagers,youth,adults" [level=4]
 - heading "Number of subs" [level=3]
@@ -58,7 +58,10 @@
 - heading "Content type" [level=3]
 - heading "Gaming" [level=4]
 - button "get data"
-- region "Notifications Alt+T"
+- region "Notifications Alt+T":
+  - alert:
+    - text: ❌ You already bought this data
+    - button "close"
 - paragraph:
   - text: We use cookies to improve website performance and convenience. By continuing to use the site, you agree to our use of cookies. For more details, please refer to the
   - link "personal data processing agreement":

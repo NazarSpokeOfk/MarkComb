@@ -1,10 +1,10 @@
 import app from "../server/app.js";
 import request from "supertest";
-import pool from "../db/mk/index.js";
+import mainPool from "../db/mk/index.js";
 import { afterAll, describe, expect, test } from "vitest";
 
 afterAll( async () => {
-    await pool.query("DELETE FROM purchases_channels WHERE user_id = 272 AND email ='testpurchase@domain.com'")
+    await mainPool.query("DELETE FROM purchases_channels WHERE user_id = 272 AND email ='testpurchase@domain.com'")
 })
 
 describe("/api/purchase/272", () => {

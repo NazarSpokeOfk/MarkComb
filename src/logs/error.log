@@ -462,3 +462,87 @@ Node.js v20.17.0
 24.08.2025, 13:20:02 + "
 " [ERROR] + "
 " (printf.js:11): Возникла ошибка в createStorageTables :  SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+25.08.2025, 11:42:11 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в createStorageTables :  SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+25.08.2025, 11:42:11 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в createStorageTables :  SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+25.08.2025, 11:42:11 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в createStorageTables :  SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+25.08.2025, 11:42:11 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в createStorageTables :  SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+25.08.2025, 11:42:11 + "
+" [ERROR] + "
+" (printf.js:11): duplicate key value violates unique constraint "users_email_key"
+25.08.2025, 11:54:25 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в setup.js: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+25.08.2025, 11:54:25 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в setup.js: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+25.08.2025, 11:54:25 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в setup.js: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+25.08.2025, 11:54:25 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в createStorageTables :  SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+25.08.2025, 11:54:25 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в createStorageTables :  SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+25.08.2025, 11:54:25 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в setup.js: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+25.08.2025, 11:54:25 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в createStorageTables :  SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+25.08.2025, 11:54:25 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в logIn: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+25.08.2025, 11:54:25 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в createStorageTables :  SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+25.08.2025, 11:54:25 + "
+" [ERROR] + "
+" (printf.js:11):  (updateUser) Возникла ошибка в updateUser: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+25.08.2025, 11:54:25 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в addPurchase SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+25.08.2025, 11:55:17 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в addPurchase SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+25.08.2025, 11:55:17 + "
+" [ERROR] + "
+" (printf.js:11):  (updateUser) Возникла ошибка в updateUser: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+25.08.2025, 11:55:17 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в setup.js: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+25.08.2025, 11:55:17 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в logIn: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+25.08.2025, 11:55:17 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в setup.js: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+25.08.2025, 11:55:17 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в setup.js: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+25.08.2025, 11:55:17 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в setup.js: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+25.08.2025, 11:55:17 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в createStorageTables :  SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+25.08.2025, 11:55:17 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в createStorageTables :  SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+25.08.2025, 11:55:17 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в createStorageTables :  SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+25.08.2025, 11:55:17 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в createStorageTables :  SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+25.08.2025, 13:07:36 + "
+" [ERROR] + "
+" (printf.js:11): duplicate key value violates unique constraint "users_email_key"

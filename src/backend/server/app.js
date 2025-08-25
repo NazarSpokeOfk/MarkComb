@@ -8,7 +8,7 @@ import createStorageTables from "../db/mk_storage/setup.js";
 
 import session from "express-session";
 
-import pool from "../db/mk/index.js";
+import mainPool from "../db/mk/index.js";
 import storagePool from "../db/mk_storage/index.js";
 
 import helmet from "helmet";
@@ -96,7 +96,7 @@ app.use((err, req, res, next) => {
 
 async function initializeApp() {
   try {
-    await createTables(pool);
+    await createTables(mainPool);
     await createStorageTables(storagePool);
   } catch (error) {
     logger.error("Возникла ошибка в Intialize app:", error);

@@ -1,16 +1,18 @@
 import dotenv from "dotenv";
 import path from "path";
-import pool from "../db/mk_storage/index.js";
+import { fileURLToPath } from "url";
+import storagePool from "../db/mk_storage/index.js";
 
 import logger from "../winston/winston.js";
 import getEmailModule from "../modules/getEmailModule.js";
 
-dotenv.config({ path: path.resolve(process.cwd(), "../environment/.env") });
+
+import "../loadEnv.js";
 
 const apiKey = process.env.GOOGLE_API_KEY;
 
 if (!apiKey) {
-  console.log(apiKey)
+  console.log("ало",process.env)
   throw new Error("API ключ Google не найден! Проверьте .env файл.");
 }
 
@@ -56,7 +58,7 @@ const getTags = async (age_group, content_type) => {
   let tags;
   try {
     tags = (
-      await pool.query(
+      await storagePool.query(
         `SELECT tag FROM tags WHERE age_group = $1 AND content_type = $2 LIMIT 150`,
         [age_group, content_type]
       )
@@ -73,7 +75,7 @@ const getTags = async (age_group, content_type) => {
   let pairs;
   try {
     pairs = (
-      await pool.query(
+      await storagePool.query(
         `SELECT pair FROM pairs WHERE content_type = $1 LIMIT 50`,
         [content_type]
       )
@@ -105,7 +107,7 @@ const getChannelsAndWriteIntoDB = async (tags, content_type, age_group) => {
     
       console.log("email:", email);
     
-      await pool.query(
+      await storagePool.query(
         `INSERT INTO channels (channelID, content_type, age_group, subs_count, email) 
          VALUES ($1, $2, $3, $4, $5) ON CONFLICT (channelID) DO NOTHING`,
         [channel, content_type, age_group, channelSubsCount, email]

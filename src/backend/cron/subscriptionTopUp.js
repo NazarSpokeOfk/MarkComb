@@ -1,5 +1,5 @@
 import cron from "node-cron";
-import pool from "../db/mk/index.js";
+import mainPool from "../db/mk/index.js";
 import logger from "../winston/winston.js";
 
 cron.schedule("0 0 * * *", async () => {
@@ -7,7 +7,7 @@ cron.schedule("0 0 * * *", async () => {
     const now = new Date();
     const today = now.toISOString().split("T")[0];
 
-    const result = await pool.query(
+    const result = await mainPool.query(
       `UPDATE users 
        SET uses = uses + 5 
        WHERE subscription_expiration >= CURRENT_DATE`

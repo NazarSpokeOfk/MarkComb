@@ -1,12 +1,12 @@
 
-import pool from "../../db/mk/index.js";
+import mainPool from "../../db/mk/index.js";
 import logger from "../../winston/winston.js"
 
 class PurchasesController {
   async getPurchases(req, res) {
     const id = req.params.id;
     try {
-      const purchases = await pool.query(
+      const purchases = await mainPool.query(
         `SELECT thumbnail,email,channelName,transaction_id FROM purchases_channels WHERE user_id = $1`,
         [id]
       );
@@ -36,7 +36,7 @@ class PurchasesController {
 
     try {
       // Проверяем, существует ли пользователь
-      const userCheck = await pool.query(
+      const userCheck = await mainPool.query(
         `SELECT * FROM users WHERE user_id = $1`,
         [id]
       );
@@ -45,7 +45,7 @@ class PurchasesController {
       }
 
       // Проверяем, существует ли покупка для указанного канала
-      const channelsCheck = await pool.query(
+      const channelsCheck = await mainPool.query(
         `SELECT * FROM purchases_channels WHERE channel_name = $1 AND user_id = $2`,
         [channelName, id]
       );
@@ -67,13 +67,13 @@ class PurchasesController {
       }
 
       // Обновляем баланс использований
-      const updateUses = await pool.query(
+      const updateUses = await mainPool.query(
         `UPDATE users SET uses = uses - 1 WHERE user_id = $1 RETURNING *`,
         [id]
       );
 
       // Добавляем покупку в таблицу purchases_channels
-      const purchase = await pool.query(
+      const purchase = await mainPool.query(
         `INSERT INTO purchases_channels (user_id, channel_name, thumbnail, email) 
          VALUES ($1, $2, $3, $4) 
          RETURNING thumbnail, email, channel_name , transaction_id`,
@@ -106,7 +106,7 @@ class PurchasesController {
     
     
     try {
-      const deleteOperation = await pool.query(
+      const deleteOperation = await mainPool.query(
         `DELETE FROM purchases_channels WHERE user_id = $1 AND channel_name = $2 RETURNING *`,
         [id, channelName]
       );

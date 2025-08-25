@@ -1,11 +1,11 @@
-import pool from "../../db/mk/index.js";
+import mainPool from "../../db/mk/index.js";
 
 class VoteController {
   async makeVote(req, res) {
     const { featureName, user_id } = req.body;
 
     try {
-      const addVote = await pool.query(
+      const addVote = await mainPool.query(
         "INSERT INTO votes (user_id,feature_name) VALUES ($1,$2) RETURNING *",
         [user_id, featureName]
       );

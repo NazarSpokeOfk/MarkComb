@@ -1,9 +1,7 @@
 import jwt from "jsonwebtoken"
 import path from "path"
 import dotenv from 'dotenv';
-dotenv.config();
-
-dotenv.config({ path: path.resolve(process.cwd(), "./environment/.env") });
+import "../loadEnv.js"
 
 const verifyJWT = async (req,res) => {
     const token = req.cookies.sessionToken;

@@ -1,16 +1,16 @@
 import request from "supertest";
-import pool from "../db/mk/index.js";
+import mainPool from "../db/mk/index.js";
 import app from "../server/app.js";
 
 import { test } from "vitest";
 
 beforeAll(async () => {
-  await pool.query("DELETE FROM users WHERE email = 'testemail@domain.com'");
+  await mainPool.query("DELETE FROM users WHERE email = 'testemail@domain.com'");
 });
 
 afterAll(async () => {
-  await pool.query("DELETE FROM users WHERE email = 'testemail@domain.com'");
-  await pool.end();
+  await mainPool.query("DELETE FROM users WHERE email = 'testemail@domain.com'");
+  await mainPool.end();
 });
 
 describe("POST api/user", () => {

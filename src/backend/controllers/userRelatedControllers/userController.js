@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import Joi from "joi";
 import crypto from "crypto";
 import logger from "../../winston/winston.js";
-import pool from "../../db/mk/index.js";
+import mainPool from "../../db/mk/index.js";
 import verifyCaptcha from "../captchaRelatedControllers/verifyCaptcha.js";
 import generateJWT from "../../cookies/generateJWT.js";
 import domains from "disposable-email-domains/index.json" assert { type: "json" };
@@ -41,7 +41,7 @@ class UserController {
 
   async getAllUsers(req, res) {
     try {
-      const users = await pool.query(`SELECT * FROM users`);
+      const users = await mainPool.query(`SELECT * FROM users`);
       res.json(users.rows);
     } catch (error) {
       logger.error("Возникла ошибка в getAllUsers :", error);
@@ -52,7 +52,7 @@ class UserController {
     const { email, password } = req.body;
 
     try {
-      const userResult = await pool.query(
+      const userResult = await mainPool.query(
         `SELECT user_id,email,password,username,uses,isvoteenabled,subscription_expiration FROM users WHERE email = $1`,
         [email]
       );
@@ -88,7 +88,7 @@ class UserController {
 
       const userId = await user.user_id;
 
-      const userChannels = await pool.query(
+      const userChannels = await mainPool.query(
         `SELECT channel_name,email,thumbnail,transaction_id FROM purchases_channels WHERE user_id = $1`,
         [userId]
       );
@@ -119,7 +119,7 @@ class UserController {
     const user_id = req.params.id;
 
     try {
-      const userResult = await pool.query(
+      const userResult = await mainPool.query(
         `SELECT user_id,email,username,uses,subscription_expiration,isvoteenabled FROM users WHERE user_id = $1`,
         [user_id]
       );
@@ -138,7 +138,7 @@ class UserController {
         user.isSubscriber = false;
       }
 
-      const userChannels = await pool.query(
+      const userChannels = await mainPool.query(
         `SELECT channel_name,email,thumbnail,transaction_id FROM purchases_channels WHERE user_id = $1`,
         [user_id]
       );
@@ -206,7 +206,7 @@ class UserController {
       const hashedPassword = await this.hashPassword(password);
 
       // Добавление пользователя в базу данных
-      const SignIn = await pool.query(
+      const SignIn = await mainPool.query(
         `INSERT INTO users(email, password, username) VALUES ($1, $2, $3) RETURNING *`,
         [email, hashedPassword, username]
       );
@@ -237,7 +237,7 @@ class UserController {
     const { newValue, changeMethod } = req.body;
     console.log("Извините?",newValue,changeMethod)
     try {
-      const userResult = await pool.query(
+      const userResult = await mainPool.query(
         `SELECT password FROM users WHERE user_id = $1`,
         [id]
       );
@@ -253,7 +253,7 @@ class UserController {
       let updateUser;
 
       if (changeMethod === "username") {
-        updateUser = await pool.query(
+        updateUser = await mainPool.query(
           `UPDATE users SET username = $1 WHERE user_id = $2 RETURNING *`,
           [newValue, id]
         );
@@ -300,7 +300,7 @@ class UserController {
     }
 
     try {
-      const userResult = await pool.query(
+      const userResult = await mainPool.query(
         `SELECT password FROM users WHERE user_id = $1`,
         [id]
       );
@@ -309,7 +309,7 @@ class UserController {
         return res.status(404).json({ message: "Пользователь не найден" });
       }
 
-      const user = await pool.query(
+      const user = await mainPool.query(
         `DELETE FROM users WHERE user_id = $1 RETURNING *`,
         [id]
       );
@@ -328,7 +328,7 @@ class UserController {
     const { password, uses } = req.body;
 
     try {
-      const userCheck = await pool.query(
+      const userCheck = await mainPool.query(
         `SELECT * FROM users WHERE user_id = $1 AND password = $2`,
         [id, password]
       );
@@ -339,7 +339,7 @@ class UserController {
           .json({ message: "Пользователь не найден или пароль неверный" });
       }
 
-      const updateUser = await pool.query(
+      const updateUser = await mainPool.query(
         `UPDATE users 
                  SET uses = uses + $1
                  WHERE user_id = $2
@@ -385,7 +385,7 @@ class UserController {
     try {
       const hashedPassword = await this.hashPassword(newPassword);
 
-      const changeUserPassword = await pool.query(
+      const changeUserPassword = await mainPool.query(
         `UPDATE users SET password = $1 WHERE email = $2 RETURNING *`,
         [hashedPassword, email]
       );
@@ -421,7 +421,7 @@ class UserController {
         RETURNING uses, promo_activated;
       `;
 
-      const { rowCount, rows } = await pool.query(updateQuery, [email]);
+      const { rowCount, rows } = await mainPool.query(updateQuery, [email]);
 
       if (rowCount === 0) {
         return res

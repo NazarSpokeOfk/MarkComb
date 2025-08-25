@@ -1,4 +1,4 @@
-import pool from "../../db/mk/index.js";
+import mainPool from "../../db/mk/index.js";
 
 import bcrypt from "bcrypt";
 
@@ -28,7 +28,7 @@ const googleAuthController = async (req, res) => {
     });
     const payload = ticket.getPayload();
 
-    const findUser = await pool.query(
+    const findUser = await mainPool.query(
       `SELECT email,user_id,username,uses,subscription_expiration,isvoteenabled FROM users WHERE email = $1`,
       [payload.email]
     );
@@ -45,7 +45,7 @@ const googleAuthController = async (req, res) => {
       const hashedPassword = await hashPassword(randomPassword);
 
       try {
-        const creatingUser = await pool.query(
+        const creatingUser = await mainPool.query(
           "INSERT INTO users (email,password,username) VALUES ($1,$2,$3) RETURNING *",
           [payload.email, hashedPassword, generatedUsername]
         );
@@ -83,7 +83,7 @@ const googleAuthController = async (req, res) => {
     const userId = await findUser.rows[0].user_id;
 
     console.log("userId",userId)
-    const userChannels = await pool.query(
+    const userChannels = await mainPool.query(
       `SELECT channel_name,email,thumbnail,transaction_id FROM purchases_channels WHERE user_id = $1`,
       [userId]
     );

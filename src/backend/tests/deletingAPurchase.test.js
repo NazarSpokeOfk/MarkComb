@@ -1,11 +1,11 @@
 import request from "supertest";
 import app from "../server/app";
-import pool from "../db/mk/index.js";
+import mainPool from "../db/mk/index.js";
 
 import { beforeAll, describe, expect, test } from "vitest";
 
 beforeAll( async () => {
-    await pool.query("INSERT INTO purchases_channels (user_id,channel_name,thumbnail,email) VALUES (272,'Stopgame', 'thumbnail', 'mail.com')")
+    await mainPool.query("INSERT INTO purchases_channels (user_id,channel_name,thumbnail,email) VALUES (272,'Stopgame', 'thumbnail', 'mail.com')")
 })
 
 describe("/api/rmpurchase/272", () => {

@@ -1,10 +1,10 @@
 import logger from "../winston/winston.js";
 import nodemailer from "nodemailer";
-import pool from "../db/mk/index.js";
+import mainPool from "../db/mk/index.js";
 import { google } from "googleapis";
 import dotenv from "dotenv";
 
-dotenv.config();
+import "../loadEnv.js"
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
@@ -39,7 +39,7 @@ class MailVerificationModule {
     console.log(email)
 
     if (operationCode === "REGISTRATION" ) {
-      const checkForUser = await pool.query(
+      const checkForUser = await mainPool.query(
         "SELECT 1 FROM users WHERE email = $1 LIMIT 1",
         [email]
       );
@@ -73,7 +73,7 @@ class MailVerificationModule {
     };
 
     try {
-      await pool.query(
+      await mainPool.query(
         `INSERT INTO user_verifications (email,verification_code,verification_expiry) VALUES ($1, $2 , $3) ON CONFLICT (email) DO UPDATE SET verification_code = $2,verification_expiry=$3 RETURNING *`,
         [email, verificationCode, expiryTime]
       );
@@ -91,7 +91,7 @@ class MailVerificationModule {
   async verifyCode(email, code) {
     console.log("кодик :",code)
     try {
-      const verif = await pool.query(
+      const verif = await mainPool.query(
         `SELECT * FROM user_verifications WHERE email = $1 AND verification_code = $2 AND verification_expiry > NOW()`,
         [email, code]
       );
@@ -110,7 +110,7 @@ class MailVerificationModule {
 
   async clearUpVerifCodes(email) {
     try {
-      await pool.query(`DELETE FROM user_verifications WHERE email = $1`, [
+      await mainPool.query(`DELETE FROM user_verifications WHERE email = $1`, [
         email,
       ]);
     } catch (error) {

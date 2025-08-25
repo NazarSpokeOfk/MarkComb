@@ -7,7 +7,7 @@ import runTagsParser from "./tagsParser.js";
 
 import logger from "../winston/winston.js";
 
-dotenv.config({ path: path.resolve(process.cwd(), "./environment/.env") });
+import "../loadEnv.js"
 
 const SECRET_TOKEN = process.env.PARSER_TOKEN;
 const router = express.Router();

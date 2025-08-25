@@ -26,7 +26,10 @@ class YoutuberBlockFunctions {
       return;
     }
 
-    if (!updatedData) return;
+    if (!updatedData) {
+      setError("Log in firstly");
+      return;
+    };
 
     try {
       const response = await dataToDB.getEmail({

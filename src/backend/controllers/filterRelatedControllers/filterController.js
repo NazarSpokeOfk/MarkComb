@@ -1,10 +1,9 @@
-import pool from "../../db/mk_storage/index.js";
+import storagePool from "../../db/mk_storage/index.js";
 import path from "path";
 import dotenv from "dotenv";
 import logger from "../../winston/winston.js"
 
-dotenv.config({ path: path.resolve(process.cwd(), ".././environment/.env") });
-
+import "../../loadEnv.js"
 const apiKey = process.env.GOOGLE_API_KEY;
 
 class ChannelsController {
@@ -41,7 +40,7 @@ class ChannelsController {
 
     try {
       
-      const request = await pool.query(query, params);
+      const request = await storagePool.query(query, params);
       console.log("реквест",request)
       const result = request.rows[0];
 
@@ -93,7 +92,8 @@ class ChannelsController {
     
     let emailRequest
     try {
-        emailRequest = await pool.query(
+      console.log("Pool : ", storagePool.options.database)
+        emailRequest = await storagePool.query(
         `SELECT email FROM channels WHERE channelid = $1`,
         [channelId]
       );

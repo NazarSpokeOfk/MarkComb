@@ -1,11 +1,11 @@
-import pool from "../../db/mk/index.js";
+import mainPool from "../../db/mk/index.js";
 import logger from "../../winston/winston.js"
 class ReviewsController {
   async addReview(req, res) {
     const { reviewText, websiteMark } = req.body;
 
     try {
-       await pool.query(
+       await mainPool.query(
         `INSERT INTO reviews (review,mark) VALUES ($1,$2) RETURNING * `,
         [reviewText, websiteMark]
       );

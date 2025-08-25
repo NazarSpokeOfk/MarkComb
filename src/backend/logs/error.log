@@ -137,3 +137,15 @@ Node.js v20.17.0
 24.08.2025, 13:49:04 + "
 " [ERROR] + "
 " (printf.js:11): Возникла ошибка в createStorageTables :  SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+25.08.2025, 12:58:22 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в setup.js: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+25.08.2025, 12:58:22 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в createStorageTables :  SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+25.08.2025, 13:04:45 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в setup.js: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+25.08.2025, 13:04:45 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в createStorageTables :  SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string

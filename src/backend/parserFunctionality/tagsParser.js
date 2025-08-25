@@ -6,9 +6,9 @@ import dotenv from "dotenv";
 
 import logger from "../winston/winston.js";
 
-import pool from "../db/mk_storage/index.js";
+import storagePool from "../db/mk_storage/index.js";
 
-dotenv.config({ path: path.resolve(process.cwd(), "../environment/.env") });
+import "../loadEnv.js"
 
 const apiKey = process.env.GOOGLE_API_KEY;
 
@@ -105,7 +105,7 @@ async function saveKeywords(category, tags, age_group) {
 
       if (forbiddenTags.includes(tag)) continue;
 
-      await pool.query(
+      await storagePool.query(
         `INSERT INTO tags (tag,content_type,age_group) VALUES ($1,$2,$3) RETURNING *`,
         [tag, category, age_group]
       );
