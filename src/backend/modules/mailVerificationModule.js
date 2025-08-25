@@ -2,7 +2,6 @@ import logger from "../winston/winston.js";
 import nodemailer from "nodemailer";
 import mainPool from "../db/mk/index.js";
 import { google } from "googleapis";
-import dotenv from "dotenv";
 
 import "../loadEnv.js"
 

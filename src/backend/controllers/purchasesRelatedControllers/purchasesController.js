@@ -15,7 +15,7 @@ class PurchasesController {
           .status(404)
           .json({ message: "Не удалось получить покупки пользователя" });
       }
-      res.json(purchases.rows[0]);
+      res.status(200).json(purchases.rows[0]);
     } catch (error) {
       logger.error("Возникла ошибка в getPurchases:", error);
     }
@@ -81,7 +81,7 @@ class PurchasesController {
       );
 
       // Возвращаем результат клиенту
-      res.json({
+      res.status(200).json({
         message: "Вы успешно приобрели данные ютубера",
         purchase: purchase.rows[0],
         remainingUses: updateUses.rows[0].uses,
@@ -115,7 +115,7 @@ class PurchasesController {
           .status(400)
           .json({ message: "Возникла ошибка в удалении покупки." });
       }
-      res.json(deleteOperation.rows[0]);
+      res.status(200).json(deleteOperation.rows[0]);
     } catch (error) {
       logger.error("Ошибка в deletePurchase : ", error);
     }

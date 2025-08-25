@@ -1,5 +1,4 @@
 import bcrypt from "bcrypt";
-import Joi from "joi";
 import crypto from "crypto";
 import logger from "../../winston/winston.js";
 import mainPool from "../../db/mk/index.js";
@@ -12,6 +11,10 @@ import returnCookieModule from "../../modules/returnCookieModule.js";
 import returnCsrftokenModule from "../../modules/returnCsrftokenModule.js";
 import returnUserInformationModule from "../../modules/returnUserInformationModule.js";
 import clearCookie from "../../cookies/clearCookies.js";
+
+import validateInput from "../../validation/validation.js";
+
+import hashPasswordModule from "../../modules/hashPasswordModule.js";
 
 const mailVerificationModule = new MailVerificationModule();
 
@@ -100,10 +103,13 @@ class UserController {
 
       returnCsrftokenModule(csrfToken, res);
 
-      const userInformation = returnUserInformationModule(user, token, csrfToken);
+      const userInformation = returnUserInformationModule(
+        user,
+        token,
+        csrfToken
+      );
 
-
-      res.json({
+      res.status(200).json({
         userInformation,
         channels: userChannels.rows,
       });
@@ -143,7 +149,7 @@ class UserController {
         [user_id]
       );
       const userInformation = returnUserInformationModule(user);
-      res.json({
+      res.status(200).json({
         userInformation,
         channels: userChannels.rows,
       });
@@ -186,8 +192,7 @@ class UserController {
       //     }
       //   });
       // }
-    
-      
+
       // const result = await mailVerificationModule.verifyCode( //закомментировать при тестировании
       //   email,
       //   verification_code
@@ -200,10 +205,10 @@ class UserController {
       // await mailVerificationModule.clearUpVerifCodes(email); //закомментировать при тестировании
 
       // Валидация данных
-      this.validateInput({ email, password, username });
+      validateInput({ email, password, username });
 
       // Хэширование пароля
-      const hashedPassword = await this.hashPassword(password);
+      const hashedPassword = await hashPasswordModule(password);
 
       // Добавление пользователя в базу данных
       const SignIn = await mainPool.query(
@@ -218,13 +223,18 @@ class UserController {
 
       const token = generateJWT(user);
 
-      const userInformation = returnUserInformationModule(user, token, csrfToken);
+      const userInformation = returnUserInformationModule(
+        user,
+        token,
+        csrfToken
+      );
 
-      returnCookieModule(token,res)
-      returnCsrftokenModule(csrfToken,res)
-    
+      returnCookieModule(token, res);
+      returnCsrftokenModule(csrfToken, res);
+
       res.status(200).json({
-        userInformation, status : "ok"
+        userInformation,
+        status: "ok",
       });
     } catch (error) {
       logger.error(error);
@@ -235,7 +245,7 @@ class UserController {
   async updateUser(req, res) {
     const id = parseInt(req.params.id, 10);
     const { newValue, changeMethod } = req.body;
-    console.log("Извините?",newValue,changeMethod)
+    console.log("Извините?", newValue, changeMethod);
     try {
       const userResult = await mainPool.query(
         `SELECT password FROM users WHERE user_id = $1`,
@@ -249,7 +259,7 @@ class UserController {
       }
 
       this.validateInput({ newValue }, "update");
-  
+
       let updateUser;
 
       if (changeMethod === "username") {
@@ -268,7 +278,7 @@ class UserController {
       }
 
       const userInformation = returnUserInformationModule(updateUser.rows[0]);
-      res.json({
+      res.status(200).json({
         message: "Данные пользователя успешно обновлены",
         userInformation,
       });
@@ -314,9 +324,9 @@ class UserController {
         [id]
       );
 
-      clearCookie(req,res)
+      clearCookie(req, res);
 
-      res.json({ message: "Пользователь удален", user: user.rows[0] });
+      res.status(200).json({ message: "Пользователь удален", user: user.rows[0] });
     } catch (error) {
       logger.error("Возникла ошибка в deleteUser:", error);
       res.status(500).json({ message: "Возникла ошибка сервера." });
@@ -347,7 +357,7 @@ class UserController {
         [uses, id]
       );
 
-      res.json({
+      res.status(200).json({
         message: "Покупка успешно оформлена",
         updatedUser: updateUser.rows[0],
       });
@@ -383,7 +393,7 @@ class UserController {
 
     console.log(req.body);
     try {
-      const hashedPassword = await this.hashPassword(newPassword);
+      const hashedPassword = await hashPasswordModule(newPassword);
 
       const changeUserPassword = await mainPool.query(
         `UPDATE users SET password = $1 WHERE email = $2 RETURNING *`,
@@ -436,33 +446,8 @@ class UserController {
     }
   }
 
-  async hashPassword(password) {
-    const saltRounds = 10;
-    return await bcrypt.hash(password, saltRounds);
-  }
-
   async comparePassword(inputPassword, storedHash) {
     return await bcrypt.compare(inputPassword, storedHash);
-  }
-
-  userSchema = Joi.object({
-    email: Joi.string().email().required(),
-    password: Joi.string().min(5).required(),
-    username: Joi.string().alphanum().min(3).max(30).required(),
-  });
-
-  userUpdateSchema = Joi.object({
-    newValue: Joi.string().min(3).required(),
-  });
-
-  validateInput(input, method) {
-    if (method === "update") {
-      const { error } = this.userUpdateSchema.validate(input);
-      if (error) throw new Error(error.details[0].message);
-    } else {
-      const { error } = this.userSchema.validate(input);
-      if (error) throw new Error(error.details[0].message);
-    }
   }
 }
 

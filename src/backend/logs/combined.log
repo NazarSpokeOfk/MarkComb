@@ -281,3 +281,108 @@ Node.js v20.17.0
 25.08.2025, 13:04:45 + "
 " [ERROR] + "
 " (printf.js:11): Возникла ошибка в createStorageTables :  SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+25.08.2025, 14:07:30 + "
+" [ERROR] + "
+" (printf.js:11): (FindChannel) Произошла ошибка:
+25.08.2025, 14:08:13 + "
+" [ERROR] + "
+" (printf.js:11): (FindChannel) Произошла ошибка:
+25.08.2025, 14:08:30 + "
+" [ERROR] + "
+" (printf.js:11): (FindChannel) Произошла ошибка:
+25.08.2025, 14:08:50 + "
+" [ERROR] + "
+" (printf.js:11): (FindChannel) Произошла ошибка:
+25.08.2025, 14:08:53 + "
+" [ERROR] + "
+" (printf.js:11): (FindChannel) Произошла ошибка:
+25.08.2025, 14:09:30 + "
+" [ERROR] + "
+" (printf.js:11): (FindChannel) Произошла ошибка:
+25.08.2025, 14:09:33 + "
+" [ERROR] + "
+" (printf.js:11): (FindChannel) Произошла ошибка:
+25.08.2025, 14:09:45 + "
+" [ERROR] + "
+" (printf.js:11): (FindChannel) Произошла ошибка: Cannot read properties of undefined (reading 'title')
+25.08.2025, 14:11:30 + "
+" [ERROR] + "
+" (printf.js:11): (FindChannel) Произошла ошибка: Cannot read properties of undefined (reading 'title')
+25.08.2025, 14:11:54 + "
+" [ERROR] + "
+" (printf.js:11): (FindChannel) Произошла ошибка: Cannot read properties of undefined (reading 'title')
+25.08.2025, 14:12:46 + "
+" [ERROR] + "
+" (printf.js:11): (FindChannel) Произошла ошибка: Cannot read properties of undefined (reading 'title')
+25.08.2025, 14:13:18 + "
+" [ERROR] + "
+" (printf.js:11): (FindChannel) Произошла ошибка: Cannot read properties of undefined (reading 'title')
+25.08.2025, 14:14:14 + "
+" [ERROR] + "
+" (printf.js:11): (FindChannel) Произошла ошибка: processedData.map is not a function
+25.08.2025, 14:15:50 + "
+" [ERROR] + "
+" (printf.js:11): (FindChannel) Произошла ошибка: processedData.map is not a function
+25.08.2025, 14:16:06 + "
+" [ERROR] + "
+" (printf.js:11): (FindChannel) Произошла ошибка: processedData.map is not a function
+25.08.2025, 14:17:18 + "
+" [ERROR] + "
+" (printf.js:11): (FindChannel) Произошла ошибка: processedData.map is not a function
+25.08.2025, 14:17:56 + "
+" [ERROR] + "
+" (printf.js:11): (FindChannel) Произошла ошибка: processedData.map is not a function
+25.08.2025, 14:19:03 + "
+" [ERROR] + "
+" (printf.js:11):  (getSubsCount) Error fetching subscriber count:
+25.08.2025, 14:19:03 + "
+" [ERROR] + "
+" (printf.js:11):  (getSubsCount) Error fetching subscriber count:
+25.08.2025, 14:19:03 + "
+" [ERROR] + "
+" (printf.js:11):  (getSubsCount) Error fetching subscriber count:
+25.08.2025, 14:20:24 + "
+" [ERROR] + "
+" (printf.js:11):  (FindChannel) Error processing genre:
+25.08.2025, 14:20:24 + "
+" [ERROR] + "
+" (printf.js:11):  (FindChannel) Error processing genre:
+25.08.2025, 14:20:24 + "
+" [ERROR] + "
+" (printf.js:11):  (FindChannel) Error processing genre:
+25.08.2025, 14:20:24 + "
+" [ERROR] + "
+" (printf.js:11):  (getSubsCount) Error fetching subscriber count: Channel data not found.
+25.08.2025, 14:20:24 + "
+" [ERROR] + "
+" (printf.js:11):  (getSubsCount) Error fetching subscriber count: Channel data not found.
+25.08.2025, 14:20:24 + "
+" [ERROR] + "
+" (printf.js:11):  (getSubsCount) Error fetching subscriber count: Channel data not found.
+25.08.2025, 14:21:22 + "
+" [ERROR] + "
+" (printf.js:11):  (getSubsCount) Error fetching subscriber count: Channel data not found.
+25.08.2025, 14:21:22 + "
+" [ERROR] + "
+" (printf.js:11):  (getSubsCount) Error fetching subscriber count: Channel data not found.
+25.08.2025, 14:21:22 + "
+" [ERROR] + "
+" (printf.js:11):  (getSubsCount) Error fetching subscriber count: Channel data not found.
+25.08.2025, 14:21:28 + "
+" [ERROR] + "
+" (printf.js:11):  (getSubsCount) Error fetching subscriber count: Channel data not found.
+25.08.2025, 14:21:28 + "
+" [ERROR] + "
+" (printf.js:11):  (getSubsCount) Error fetching subscriber count: Channel data not found.
+25.08.2025, 14:21:28 + "
+" [ERROR] + "
+" (printf.js:11):  (getSubsCount) Error fetching subscriber count: Channel data not found.
+25.08.2025, 14:22:06 + "
+" [ERROR] + "
+" (printf.js:11):  (getSubsCount) Error fetching subscriber count: Channel data not found.
+25.08.2025, 14:22:06 + "
+" [ERROR] + "
+" (printf.js:11):  (getSubsCount) Error fetching subscriber count: Channel data not found.
+25.08.2025, 14:22:06 + "
+" [ERROR] + "
+" (printf.js:11):  (getSubsCount) Error fetching subscriber count: Channel data not found.

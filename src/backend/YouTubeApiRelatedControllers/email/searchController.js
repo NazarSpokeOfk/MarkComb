@@ -1,6 +1,6 @@
-import logger from "../../winston/winston.js"
-class SearchController{
-    apiKey = process.env.GOOGLE_API_KEY;
+import logger from "../../winston/winston.js";
+class SearchController {
+  apiKey = process.env.GOOGLE_API_KEY;
 
   //Форматировка данных
   transformRes = (result) => {
@@ -30,7 +30,10 @@ class SearchController{
       const subsCount = data.items[0].statistics.subscriberCount;
       return subsCount;
     } catch (error) {
-      logger.error(" (getSubsCount) Error fetching subscriber count:", error.message);
+      logger.error(
+        " (getSubsCount) Error fetching subscriber count:",
+        error.message
+      );
       return null;
     }
   };
@@ -201,7 +204,10 @@ class SearchController{
               targetAudience: genreName[0],
             }; // Добавляем жанр
           } catch (error) {
-            logger.error(" (FindChannel) Error processing genre:", error.message);
+            logger.error(
+              " (FindChannel) Error processing genre:",
+              error.message
+            );
             return { ...channel, genre: "Unknown category" };
           }
         })
@@ -214,8 +220,8 @@ class SearchController{
   };
 
   //Функция исполнения запросов, для передачи в другие файлы.
-  handleSearch = async (req,res) => {
-    const {mainInputValue} = req.body;
+  handleSearch = async (req, res) => {
+    const { mainInputValue } = req.body;
     try {
       const data = await this.FindChannel(mainInputValue);
       if (!data || data.length === 0) {
@@ -228,8 +234,8 @@ class SearchController{
         })
       );
 
-      let updatedData = dataInArr[0]
-      res.json({status : true,updatedData})
+      let updatedData = dataInArr[0];
+      res.json({ status: true, updatedData });
       return;
     } catch (error) {
       logger.error(" (handleSearch) Search error:", error);
@@ -250,23 +256,24 @@ class SearchController{
         videoName
       )}&order=date&key=${this.apiKey}`;
       const resForVideosSearch = await fetch(urlForVideoSearch);
-      
+
       if (!resForVideosSearch.ok) {
         return Promise.reject();
       }
       const videoData = await resForVideosSearch.json();
 
-      let triplet
-      
-      if(videoData?.items?.[0]?.snippet?.title.length > 30){
-         triplet = "..."
+      let triplet;
+
+      if (videoData?.items?.[0]?.snippet?.title.length > 30) {
+        triplet = "...";
       } else {
-        triplet = ""
+        triplet = "";
       }
       const finalVideoData = {
-        channel_name: videoData?.items?.[0]?.snippet?.title.slice(0,35) + triplet,
+        channel_name:
+          videoData?.items?.[0]?.snippet?.title.slice(0, 35) + triplet,
         thumbnail: videoData?.items?.[0]?.snippet?.thumbnails?.medium?.url,
-        videoId : videoData?.items?.[0]?.id?.videoId
+        videoId: videoData?.items?.[0]?.id?.videoId,
       };
       return finalVideoData;
     } catch (error) {
@@ -276,20 +283,20 @@ class SearchController{
 
   getAnalitics = async (videoId) => {
     const urlForAnalitics = `https://www.googleapis.com/youtube/v3/videos?part=statistics,snippet&id=${videoId}&key=${this.apiKey}`;
-    try{
+    try {
       const rawData = await fetch(urlForAnalitics);
 
       const data = await rawData.json();
       const analitics = {
-        views : data?.items?.[0]?.statistics?.viewCount,
-        likes : data?.items?.[0]?.statistics?.likeCount
-      }
-      
-      return analitics
+        views: data?.items?.[0]?.statistics?.viewCount,
+        likes: data?.items?.[0]?.statistics?.likeCount,
+      };
+
+      return analitics;
     } catch (error) {
-      logger.error(" (getAnalitics) Возникла ошибка:",error)
-      return Promise.reject()
+      logger.error(" (getAnalitics) Возникла ошибка:", error);
+      return Promise.reject();
     }
   };
-} 
-export default SearchController
+}
+export default SearchController;

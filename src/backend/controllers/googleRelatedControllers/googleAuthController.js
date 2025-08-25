@@ -1,7 +1,5 @@
 import mainPool from "../../db/mk/index.js";
 
-import bcrypt from "bcrypt";
-
 import crypto from "crypto";
 
 import generateJWT from "../../cookies/generateJWT.js";
@@ -11,10 +9,7 @@ import returnCsrftoken from "../../modules/returnCsrftokenModule.js";
 import returnCookie from "../../modules/returnCookieModule.js";
 import { OAuth2Client } from "google-auth-library";
 
-const hashPassword = async (password) => {
-  const saltRounds = 10;
-  return await bcrypt.hash(password, saltRounds);
-};
+import hashPasswordModule from "../../modules/hashPasswordModule.js";
 
 const googleAuthController = async (req, res) => {
   const { credential } = req.body;
@@ -33,16 +28,16 @@ const googleAuthController = async (req, res) => {
       [payload.email]
     );
 
-    console.log("check")
+    console.log("check");
 
     const user = findUser.rows[0];
 
-    console.log("USer :", user)
+    console.log("USer :", user);
 
     if (!user) {
       const generatedUsername = payload.email.split("@")[0];
       const randomPassword = crypto.randomBytes(16).toString("hex");
-      const hashedPassword = await hashPassword(randomPassword);
+      const hashedPassword = await hashPasswordModule(randomPassword);
 
       try {
         const creatingUser = await mainPool.query(
@@ -74,29 +69,24 @@ const googleAuthController = async (req, res) => {
         return res.status(500).json({ message: "Ошибка сервера" });
       }
     }
-    console.log("check1")
 
     const token = generateJWT(user);
 
-    console.log("check2")
-
     const userId = await findUser.rows[0].user_id;
 
-    console.log("userId",userId)
     const userChannels = await mainPool.query(
       `SELECT channel_name,email,thumbnail,transaction_id FROM purchases_channels WHERE user_id = $1`,
       [userId]
     );
-    
-    console.log("check3")
+
     returnCookie(token, res);
-    console.log("check4")
+
     const csrfToken = crypto.randomBytes(16).toString("hex");
     req.session.csrfToken = csrfToken;
 
     returnCsrftoken(csrfToken, res);
     const userInformation = returnUserInformation(user, token, csrfToken);
-    
+
     res.json({
       userInformation,
       channels: userChannels.rows,

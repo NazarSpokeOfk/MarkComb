@@ -1,19 +1,15 @@
 import storagePool from "../../db/mk_storage/index.js";
-import path from "path";
-import dotenv from "dotenv";
-import logger from "../../winston/winston.js"
+import logger from "../../winston/winston.js";
 
-import "../../loadEnv.js"
+import "../../loadEnv.js";
 const apiKey = process.env.GOOGLE_API_KEY;
 
 class ChannelsController {
   async selectChannel(req, res) {
+    console.log(req.body);
 
-    console.log(req.body)
-    
     const { ageGroup, minSubs, maxSubs, content_type } = req.body;
 
-    
     let query = "SELECT * FROM channels WHERE 1=1";
     let params = [];
     let index = 1; // Переменная для нумерации параметров ($1, $2, $3)
@@ -29,7 +25,7 @@ class ChannelsController {
       params.push(minSubs, maxSubs);
       index += 2;
     }
-    
+
     if (content_type) {
       query += ` AND content_type = $${index}`;
       params.push(content_type);
@@ -39,15 +35,13 @@ class ChannelsController {
     query += " ORDER BY RANDOM() LIMIT 1";
 
     try {
-      
       const request = await storagePool.query(query, params);
-      console.log("реквест",request)
+      console.log("реквест", request);
       const result = request.rows[0];
 
-      
-      console.log("результ в контроллере:",result)
-      if(!result){
-        res.json({status : false})
+      console.log("результ в контроллере:", result);
+      if (!result) {
+        res.json({ status: false });
         return;
       }
 
@@ -57,7 +51,7 @@ class ChannelsController {
         result.age_group
       );
 
-      res.json({ status: true, updatedData });
+      res.status(200).json({ status: true, updatedData });
     } catch (error) {
       logger.error(" (selectChannel) Возникла ошибка в selectChannel:", error);
       res.status(500).json({ error: "Ошибка при выполнении запроса" });
@@ -89,11 +83,11 @@ class ChannelsController {
 
   async returnEmailAndName(req, res) {
     const { channelId } = req.body;
-    
-    let emailRequest
+
+    let emailRequest;
     try {
-      console.log("Pool : ", storagePool.options.database)
-        emailRequest = await storagePool.query(
+      console.log("Pool : ", storagePool.options.database);
+      emailRequest = await storagePool.query(
         `SELECT email FROM channels WHERE channelid = $1`,
         [channelId]
       );
@@ -101,7 +95,7 @@ class ChannelsController {
       console.log("Возникла ошибка в запросе к бд:", error);
     }
 
-    console.log(emailRequest.rows)
+    console.log(emailRequest.rows);
 
     let email = emailRequest.rows?.[0]?.email;
 
@@ -117,8 +111,6 @@ class ChannelsController {
         const response = await request.json();
 
         email = response?.description?.[0];
-
-        console.log("Ответ дешевый:", response, "И почта с ним :", email);
       } catch (error) {
         console.log("Возникла ошибка в альтернативном получении почты:", error);
       }
