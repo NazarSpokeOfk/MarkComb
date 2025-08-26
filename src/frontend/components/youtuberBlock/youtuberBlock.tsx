@@ -77,8 +77,8 @@ const YouTuberBlock = ({
       <div ref={resultBlockRef} className="youtuber__block">
         <div className="youtuber__logo">
           <img
-            src={channelData?.updatedData.thumbnail}
-            alt={`${channelData?.updatedData.channel_name} logo`}
+            src={channelData?.thumbnail}
+            alt={`${channelData?.channel_name} logo`}
             className="youtuber__logo-img"
           />
         </div>
@@ -86,10 +86,10 @@ const YouTuberBlock = ({
         <div className="youtuber__info-block">
           <h1
             className={`youtuber__info-channel_name ${
-              !channelData?.updatedData.channel_name ? "blur-shimmer" : ""
+              !channelData?.channel_name ? "blur-shimmer" : ""
             }`}
           >
-            {channelData?.updatedData.channel_name}
+            {channelData?.channel_name}
           </h1>
 
           <div className="youtuber__info-cards">
@@ -100,7 +100,7 @@ const YouTuberBlock = ({
               </h3>
               <h4 className="youtuber__info-card_subtitle">
                 {channelData
-                  ? t(channelData?.updatedData.targetAudience)
+                  ? t(channelData?.targetAudience)
                   : null}
               </h4>
             </div>
@@ -110,14 +110,14 @@ const YouTuberBlock = ({
                 {t("Number of subs")}
               </h3>
               <h4 className="youtuber__info-card_subtitle">
-                {channelData?.updatedData.subsCount}
+                {channelData?.subsCount}
               </h4>
             </div>
             <div className="youtuber__info-card">
               <div className="youtuber__info-card_head"></div>
               <h3 className="youtuber__info-card_title">{t("Content type")}</h3>
               <h4 className="youtuber__info-card_subtitle">
-                {channelData ? t(channelData?.updatedData.content_type) : null}
+                {channelData ? t(channelData?.content_type) : null}
               </h4>
             </div>
           </div>

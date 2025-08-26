@@ -22,7 +22,7 @@ const handleSuccess = async ({setIsLoggedIn,setUserData,response} : GoogleLogInB
       .then((data) => {
         console.log(data);
         setIsLoggedIn(true)
-        setUserData(data)
+        setUserData(data.data)
       })
       .catch((error) => {
         console.log("Ошибка в google log in:", error);

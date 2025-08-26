@@ -1,6 +1,10 @@
 import storagePool from "../db/mk_storage/index.js";
 import logger from "../winston/winston.js";
 
+import "../loadEnv.js"
+
+const apiKey = process.env.GOOGLE_API_KEY;
+
 export const selectChannel = async (
   ageGroup,
   minSubs,
@@ -33,16 +37,14 @@ export const selectChannel = async (
 
   try {
     const request = await storagePool.query(query, params);
-    console.log("реквест", request);
     const result = request.rows[0];
 
-    console.log("результ в контроллере:", result);
     if (!result) {
       res.json({ status: false });
       return;
     }
 
-    const updatedData = await this.fetchChannelData(
+    const updatedData = await fetchChannelData(
       result.channelid,
       result.content_type,
       result.age_group
@@ -58,8 +60,7 @@ export const selectChannel = async (
 export const fetchChannelData = async (
   channelId,
   content_type,
-  audience,
-  apiKey
+  audience
 ) => {
   try {
     const response = await fetch(
@@ -74,6 +75,7 @@ export const fetchChannelData = async (
         thumbnail: result?.items?.[0]?.snippet?.thumbnails?.medium?.url,
         channelId: channelId,
       };
+
       return updatedData;
     } else {
       return false; //замена
@@ -95,7 +97,6 @@ export const returnEmailAndName = async (apiKey, channelId) => {
     console.log("Возникла ошибка в запросе к бд:", error);
   }
 
-  console.log(emailRequest.rows);
 
   let email = emailRequest.rows?.[0]?.email;
 

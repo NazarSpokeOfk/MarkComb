@@ -329,3 +329,30 @@ Node.js v20.17.0
 26.08.2025, 16:24:50 + "
 " [ERROR] + "
 " (printf.js:11):  (getUserById) ошибка в входе по id User not found
+26.08.2025, 16:43:33 + "
+" [ERROR] + "
+" (printf.js:11):  (getUserById) ошибка в входе по id User not found
+26.08.2025, 16:49:01 + "
+" [ERROR] + "
+" (printf.js:11): Ошибка в activatePromocode: Wrong promocode
+26.08.2025, 16:56:43 + "
+" [ERROR] + "
+" (printf.js:11): Ошибка в activatePromocode: Promocode activated already
+26.08.2025, 16:57:40 + "
+" [ERROR] + "
+" (printf.js:11): Ошибка в activatePromocode: Promocode activated already
+26.08.2025, 16:58:36 + "
+" [ERROR] + "
+" (printf.js:11): Ошибка в activatePromocode: Promocode activated already
+26.08.2025, 16:59:43 + "
+" [ERROR] + "
+" (printf.js:11): Ошибка в activatePromocode: Promocode activated already
+26.08.2025, 17:00:28 + "
+" [ERROR] + "
+" (printf.js:11): Ошибка в activatePromocode: Promocode activated already
+26.08.2025, 17:03:02 + "
+" [ERROR] + "
+" (printf.js:11):  (selectChannel) Возникла ошибка в selectChannel: Cannot read properties of undefined (reading 'fetchChannelData')
+26.08.2025, 17:27:07 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в addPurchase You already bought this contact data

@@ -33,7 +33,6 @@ export const addPurchase = async (
     console.log("Ало?")
     throw new ForbiddenError("Forbidden")
   }
-  console.log("ДДАДАД2")
   try {
     // Проверяем, существует ли пользователь
     const userCheck = await mainPool.query(
@@ -79,7 +78,7 @@ export const addPurchase = async (
     // Возвращаем результат клиенту
     const purchase = request.rows[0];
 
-    return { purchase , updateUses };
+    return { purchase };
   } catch (error) {
     logger.error("Возникла ошибка в addPurchase", error);
     throw new Error("Server error");

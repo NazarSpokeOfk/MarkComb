@@ -27,8 +27,9 @@ const manageFiltersFetch = async ({
     }
 
     const result = await response.json();
-    if (result?.status) {
-      setChannelData(result);
+    if (result?.data) {
+      console.log("result : ",result.data)
+      setChannelData(result.data);
       setIsFiltersFetching(false);
     } else {
       console.error("Возникла ошибка в contentTypeFilter", result);

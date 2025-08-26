@@ -29,39 +29,34 @@ class YoutuberBlockFunctions {
     if (!updatedData) {
       setError("Log in firstly");
       return;
-    };
+    }
 
     try {
       const response = await dataToDB.getEmail({
         csrfToken,
-        channelId: updatedData.updatedData.channelId,
+        channelId: updatedData.channelId,
         setContactDataStatus,
       });
 
-      console.log("response : ",response)
+      console.log("response : ", response.name);
 
       dataToDB.validatePurchaseData({
         data: {
-          thumbnail: channelData?.updatedData?.thumbnail || "",
+          thumbnail: channelData?.thumbnail || "",
           email: response?.email || "",
           channelName: response?.name || "",
         },
         userId: userData.userInformation.user_id,
         csrfToken,
         setError,
-        setContactDataStatus
+        setContactDataStatus,
       });
-
-      if (!channelData) return;
 
       setChannelData((prevState) => {
         if (prevState == null) return null;
         return {
           ...prevState,
-          updatedData: {
-            ...prevState.updatedData,
-            channel_name: response?.name,
-          },
+          channel_name: response.name,
         };
       });
     } catch (error) {
@@ -74,7 +69,7 @@ class YoutuberBlockFunctions {
     contactDataStatus,
     setButtonText,
     buttonRef,
-    setContactDataStatus
+    setContactDataStatus,
   }: ClickAnimationProps) {
     console.log(contactDataStatus);
     if (!contactDataStatus) return;
@@ -94,18 +89,18 @@ class YoutuberBlockFunctions {
 
     let setToDefaultTextTimeout = setTimeout(() => {
       buttonRef.current?.classList.remove("wave__effect");
-    
+
       // Добавим уменьшение
       buttonRef.current?.classList.add("disolving");
-    
+
       // Дождись анимации disolving, прежде чем вернуть текст
       setTimeout(() => {
         setButtonText("get data");
-    
+
         // и сразу увеличим
         buttonRef.current?.classList.remove("disolving");
       }, 700); // длительность твоей анимации уменьшения
-      setContactDataStatus("default")
+      setContactDataStatus("default");
     }, 3000);
     return () => {
       clearTimeout(setToDefaultTextTimeout);

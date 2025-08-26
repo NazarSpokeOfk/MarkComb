@@ -9,21 +9,5 @@ class ProfileFunctions {
       username: value,
     }));
   };
-
-  checkWhatChange = ({ changedData, setChangedData } : CheckWhatChangeProps) => {
-    if (changedData.username != "" && changedData.newPassword === "") {
-      console.log("username");
-      setChangedData((prevData) => ({ ...prevData, changeMethod: "username" }));
-    } else if (changedData.username != "" && changedData.newPassword != "") {
-      setChangedData((prevData) => ({
-        ...prevData,
-        changeMethod: "username&password",
-      }));
-    } else if (changedData.newPassword != "" && changedData.username === "") {
-      setChangedData((prevData) => ({ ...prevData, changeMethod: "password" }));
-    }
-  };
-
-
 }
 export default ProfileFunctions;

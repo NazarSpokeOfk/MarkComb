@@ -376,10 +376,11 @@ export async function activatePromocode(promocode, email) {
     if (rowCount === 0) {
       throw new Error("Promocode activated already");
     }
+
     return { newUses: rows[0].uses };
   } catch (error) {
     logger.error("Ошибка в activatePromocode:", error);
-    throw new Error("Server error");
+    throw new Error(error.message);
   }
 }
 

@@ -107,9 +107,26 @@ class CurtainFunctions {
           promocode: newValue,
           email: userData.userInformation.email,
         });
-        setStatus({ status: result?.status, message: `Успешно! Ваши использования : ${result?.newUses}` });
+        console.log(result);
+        if (result.data) {
+          setStatus({
+            status: result?.status,
+            message: `Успешно`,
+          });
+          setUserData((prevData) => ({
+            ...prevData,
+            userInformation: {
+              ...prevData.userInformation,
+              uses: (prevData.userInformation.uses || 0) + 10,
+            },
+          }));
+        }
         setIsCurtainOpen(false);
         setIsLoading(false);
+        setStatus({
+          status: false,
+          message: result.error.message,
+        });
       } catch (error) {
         setIsLoading(false);
         setStatus({

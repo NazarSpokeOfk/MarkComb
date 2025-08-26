@@ -210,7 +210,9 @@ class DataToDB {
         body: data,
         withToast: false,
       });
-      this.setUserData?.(result);
+      //баг с csrfToken, с сервера он не приходит, и стейт перезаписывает его на null
+      console.log("updateData result : ",result)
+      this.setUserData?.(result.data);
       return { message: "Username was changed", status: true };
     } catch {
       console.log("Не удалось изменить данные аккаунта.");

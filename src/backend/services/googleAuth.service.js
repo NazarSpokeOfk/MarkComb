@@ -42,21 +42,25 @@ export const authThroughGoogle = async (credential) => {
           const token = generateJWT(user);
 
           const csrfToken = crypto.randomBytes(16).toString("hex");
-          req.session.csrfToken = csrfToken;
+          // req.session.csrfToken = csrfToken;
 
-          returnCookieModule(token, res);
+          // returnCookieModule(token, res);
 
-          returnCsrftokenModule(csrfToken, res);
+          // returnCsrftokenModule(csrfToken, res);
 
-          const userInformation = returnUserInformationModule(user, token, csrfToken);
+          const userInformation = returnUserInformationModule(
+            user,
+            token,
+            csrfToken
+          );
 
-          return userInformation
-
+          return { data: { userInformation }, meta: { csrfToken, token } };
         } else {
-          throw new Error("Error creation account through Google")
+          throw new Error("Error creation account through Google");
         }
       } catch (error) {
-        throw new Error("Server error")
+        console.log(error);
+        throw new Error("Server error");
       }
     }
 
@@ -69,19 +73,22 @@ export const authThroughGoogle = async (credential) => {
       [userId]
     );
 
-    returnCookieModule(token, res);
-
     const csrfToken = crypto.randomBytes(16).toString("hex");
-    req.session.csrfToken = csrfToken;
 
-    returnCsrftokenModule(csrfToken, res);
     const userInformation = returnUserInformationModule(user, token, csrfToken);
 
-    res.json({
-      userInformation,
-      channels: userChannels.rows,
-    });
+    return {
+      data: {
+        userInformation,
+        channels: userChannels.rows,
+      },
+      meta: {
+        csrfToken,
+        token,
+      },
+    };
   } catch (error) {
-    throw new Error("Server error")
+    console.log(error);
+    throw new Error("Server error");
   }
 };

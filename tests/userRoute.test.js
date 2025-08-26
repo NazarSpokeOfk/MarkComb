@@ -44,3 +44,8 @@ test("проверка маршрута пользователя", async ({ page
   await page.waitForTimeout(500);
   await expect(page.locator(".purchase__block").first()).toBeHidden();
 });
+
+//Добавить пользование всеми фильтрами (буквально)
+//Добавить смену имени
+//Добавить использование промокода
+

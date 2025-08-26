@@ -230,8 +230,7 @@ export const handleSearch = async (mainInputValue) => {
       })
     );
 
-    let updatedData = dataInArr[0];
-    return { updatedData };
+    return dataInArr[0];
   } catch (error) {
     logger.error(" (handleSearch) Search error:", error);
     throw new Error("Error while searching");
@@ -272,11 +271,10 @@ export const channelAndVideoSearch = async (channel_name, videoName) => {
     };
 
     const analitics = await getAnalitics(finalVideoData.videoId);
-  
+
     return {
       analiticsAndData: {
-        title:
-          videoData?.items?.[0]?.snippet?.title.slice(0, 35) + triplet,
+        title: videoData?.items?.[0]?.snippet?.title.slice(0, 35) + triplet,
         thumbnail: videoData?.items?.[0]?.snippet?.thumbnails?.medium?.url,
         videoId: videoData?.items?.[0]?.id?.videoId,
         analitics,
@@ -288,13 +286,13 @@ export const channelAndVideoSearch = async (channel_name, videoName) => {
 };
 
 const getAnalitics = async (videoId) => {
-  console.log("videoId в getAnalitics : ",videoId)
+  console.log("videoId в getAnalitics : ", videoId);
   const urlForAnalitics = `https://www.googleapis.com/youtube/v3/videos?part=statistics,snippet&id=${videoId}&key=${apiKey}`;
   try {
     const rawData = await fetch(urlForAnalitics);
 
     const data = await rawData.json();
-    console.log("data в getAnalitics : ",data)
+    console.log("data в getAnalitics : ", data);
     return {
       views: data?.items?.[0]?.statistics?.viewCount,
       likes: data?.items?.[0]?.statistics?.likeCount,
