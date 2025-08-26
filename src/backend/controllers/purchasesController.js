@@ -1,9 +1,9 @@
-import sendResponseModule from "../modules/sendResponseModule";
+import sendResponseModule from "../modules/sendResponseModule.js";
 import {
   getPurchases,
   addPurchase,
   deletePurchase,
-} from "../services/purchases.service";
+} from "../services/purchases.service.js";
 
 export async function GetPurchases(req, res) {
   try {
@@ -17,7 +17,7 @@ export async function GetPurchases(req, res) {
 
 export async function AddPurchase(req, res) {
   try {
-    const id = req.params;
+    const { id } = req.params;
     const { thumbnail, email, channelName } = req.body;
 
     const tokenFromClient = req.cookies.csrfToken;
@@ -31,9 +31,11 @@ export async function AddPurchase(req, res) {
       tokenFromClient,
       tokenFromSession
     );
-    sendResponseModule(res, result, data);
+    sendResponseModule(res, result);
   } catch (error) {
-    sendResponseModule(res, null, error);
+    const statusCode = error.statusCode || 500;
+    console.log(error)
+    sendResponseModule(res, null, error, statusCode);
   }
 }
 
@@ -41,7 +43,6 @@ export async function DeletePurchase(req, res) {
   try {
     const { channelName } = req.body;
     const id = req.params.id;
-
     const tokenFromClient = req.cookies.csrfToken;
     const tokenFromSession = req.session.csrfToken;
 
@@ -51,8 +52,9 @@ export async function DeletePurchase(req, res) {
       tokenFromSession,
       id
     );
-    sendResponseModule(res,result)
+    sendResponseModule(res, result);
   } catch (error) {
-    sendResponseModule(res, null, error);
+    const statusCode = error.statusCode || 500;
+    sendResponseModule(res, null, error, statusCode);
   }
 }

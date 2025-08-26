@@ -1,5 +1,5 @@
-import sendResponseModule from "../modules/sendResponseModule";
-import { makeVote } from "../services/vote.service";
+import sendResponseModule from "../modules/sendResponseModule.js";
+import { makeVote } from "../services/vote.service.js";
 
 export async function MakeVote(req,res) {
   try {

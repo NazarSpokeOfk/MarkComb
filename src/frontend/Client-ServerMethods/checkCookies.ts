@@ -11,27 +11,16 @@ const checkCookies = async ({setIsLoggedIn, setUserData, setIsCookieClosed} : Ch
             "x-api-key": import.meta.env.VITE_API_KEY
           }
         });
-      
+    
         if (!response.ok) {
           setIsLoggedIn(false);
           return; 
         }
       
-        const rawResult = await response.json(); 
-
-        console.log("Результат проверки кук : " , rawResult)
-
-        const proccessedResult = {
-          ...rawResult.result, userInformation : {
-            ...rawResult.result.userInformation,
-            uses : Number(rawResult.result.userInformation.uses)
-          }
-        }
-
-        console.log("proccessedResult : ", proccessedResult )
+        const result = await response.json();
 
         setIsLoggedIn(true);
-        setUserData(proccessedResult); 
+        setUserData(result.data); 
         setIsCookieClosed(true)
       } catch (error) {
         setIsLoggedIn(false); 

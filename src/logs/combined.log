@@ -546,3 +546,9 @@ Node.js v20.17.0
 25.08.2025, 13:07:36 + "
 " [ERROR] + "
 " (printf.js:11): duplicate key value violates unique constraint "users_email_key"
+26.08.2025, 16:31:30 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в addPurchase User not found
+26.08.2025, 16:31:30 + "
+" [ERROR] + "
+" (printf.js:11):  (updateUser) Возникла ошибка в updateUser: Wrong password

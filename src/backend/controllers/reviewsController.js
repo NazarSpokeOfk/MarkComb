@@ -1,5 +1,5 @@
-import { addReview } from "../services/reviews.service";
-import sendResponseModule from "../modules/sendResponseModule";
+import { addReview } from "../services/reviews.service.js";
+import sendResponseModule from "../modules/sendResponseModule.js";
 
 async function AddReview(req, res) {
   try {

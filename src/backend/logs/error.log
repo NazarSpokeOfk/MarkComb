@@ -254,3 +254,78 @@ Node.js v20.17.0
 25.08.2025, 14:22:06 + "
 " [ERROR] + "
 " (printf.js:11):  (getSubsCount) Error fetching subscriber count: Channel data not found.
+26.08.2025, 10:14:32 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в logIn: res is not defined
+26.08.2025, 10:18:14 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в logIn: req is not defined
+26.08.2025, 11:08:50 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в addPurchase invalid input syntax for type integer: "{"id":"272"}"
+26.08.2025, 11:10:17 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в addPurchase invalid input syntax for type integer: "{"id":"272"}"
+26.08.2025, 11:10:44 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в addPurchase invalid input syntax for type integer: "{"id":"272"}"
+26.08.2025, 11:11:52 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в addPurchase invalid input syntax for type integer: "{"id":"272"}"
+26.08.2025, 11:12:12 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в addPurchase invalid input syntax for type integer: "{"id":"272"}"
+26.08.2025, 11:12:37 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в addPurchase invalid input syntax for type integer: "{"id":"272"}"
+26.08.2025, 11:16:23 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в addPurchase You already bought this contact data
+26.08.2025, 11:18:50 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в addPurchase You already bought this contact data
+26.08.2025, 11:29:02 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в addPurchase You already bought this contact data
+26.08.2025, 11:46:23 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в addPurchase You already bought this contact data
+26.08.2025, 12:29:59 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в addPurchase You already bought this contact data
+26.08.2025, 15:07:09 + "
+" [ERROR] + "
+" (printf.js:11): bcrypt is not defined
+26.08.2025, 15:09:49 + "
+" [ERROR] + "
+" (printf.js:11): bcrypt is not defined
+26.08.2025, 15:11:50 + "
+" [ERROR] + "
+" (printf.js:11): req is not defined
+26.08.2025, 15:13:53 + "
+" [ERROR] + "
+" (printf.js:11): req is not defined
+26.08.2025, 16:09:00 + "
+" [ERROR] + "
+" (printf.js:11): bcrypt is not defined
+26.08.2025, 16:12:31 + "
+" [ERROR] + "
+" (printf.js:11):  (getUserById) ошибка в входе по id User not found
+26.08.2025, 16:13:51 + "
+" [ERROR] + "
+" (printf.js:11):  (getUserById) ошибка в входе по id User not found
+26.08.2025, 16:18:39 + "
+" [ERROR] + "
+" (printf.js:11):  (getUserById) ошибка в входе по id User not found
+26.08.2025, 16:18:40 + "
+" [ERROR] + "
+" (printf.js:11):  (getUserById) ошибка в входе по id User not found
+26.08.2025, 16:19:38 + "
+" [ERROR] + "
+" (printf.js:11):  (getUserById) ошибка в входе по id User not found
+26.08.2025, 16:20:41 + "
+" [ERROR] + "
+" (printf.js:11):  (getUserById) ошибка в входе по id User not found
+26.08.2025, 16:24:50 + "
+" [ERROR] + "
+" (printf.js:11):  (getUserById) ошибка в входе по id User not found

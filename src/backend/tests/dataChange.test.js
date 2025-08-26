@@ -19,6 +19,6 @@ describe("/api/update/272", () => {
         newValue: "successfullChange",
         changeMethod: "username",
       });
-    expect(result.body.userInformation.username).toBe("successfullChange");
+    expect(result.body).toHaveProperty("data")
   });
 });

@@ -1,6 +1,8 @@
 import mainPool from "../db/mk/index.js";
 import logger from "../winston/winston.js";
 
+import { ForbiddenError } from "../errorHandlers.js"; 
+
 export const getPurchases = async (id) => {
   try {
     const purchases = await mainPool.query(
@@ -28,9 +30,10 @@ export const addPurchase = async (
 ) => {
   //дыра в безопасности, тк undefined === undefined. Нет обоих токенов - покупка совершится
   if (tokenFromClient !== tokenFromSession) {
-    throw new Error("CSRF token mismatch");
+    console.log("Ало?")
+    throw new ForbiddenError("Forbidden")
   }
-
+  console.log("ДДАДАД2")
   try {
     // Проверяем, существует ли пользователь
     const userCheck = await mainPool.query(
@@ -66,7 +69,7 @@ export const addPurchase = async (
     );
 
     // Добавляем покупку в таблицу purchases_channels
-    const purchase = await mainPool.query(
+    const request = await mainPool.query(
       `INSERT INTO purchases_channels (user_id, channel_name, thumbnail, email) 
          VALUES ($1, $2, $3, $4) 
          RETURNING thumbnail, email, channel_name , transaction_id`,
@@ -74,9 +77,9 @@ export const addPurchase = async (
     );
 
     // Возвращаем результат клиенту
-    const result = purchase.rows[0];
+    const purchase = request.rows[0];
 
-    return { result, updateUses };
+    return { purchase , updateUses };
   } catch (error) {
     logger.error("Возникла ошибка в addPurchase", error);
     throw new Error("Server error");
@@ -90,7 +93,7 @@ export const deletePurchase = async (
   id
 ) => {
   if (tokenFromClient !== tokenFromSession) {
-    throw new Error("CSRF token mismatch");
+    throw new ForbiddenError("Session expired")
   }
 
   try {

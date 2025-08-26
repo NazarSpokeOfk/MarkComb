@@ -1,5 +1,5 @@
-import { authThroughGoogle } from "../services/googleAuth.service";
-import sendResponseModule from "../modules/sendResponseModule";
+import { authThroughGoogle } from "../services/googleAuth.service.js";
+import sendResponseModule from "../modules/sendResponseModule.js";
 
 async function AuthThroughGoogle(req, res) {
   try {

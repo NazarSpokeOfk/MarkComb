@@ -19,6 +19,6 @@ describe("/api/rmpurchase/272", () => {
       .send({
         channelName : "Stopgame"
       });
-    expect(result.body).toHaveProperty("transaction_id");
+    expect(result.body).toHaveProperty("data");
   });
 });

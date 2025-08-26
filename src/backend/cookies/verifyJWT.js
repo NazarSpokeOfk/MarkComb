@@ -13,9 +13,6 @@ const verifyJWT = async (req, res) => {
       email: decoded.email,
       user_id: decoded.user_id,
     };
-
-    console.log(process.env.API_URL);
-    console.log("userData.user_id : ", userData.user_id);
     const response = await fetch(
       `${process.env.API_URL}/loginbyid/${userData.user_id}`,
       {
@@ -27,11 +24,10 @@ const verifyJWT = async (req, res) => {
       }
     );
     const result = await response.json();
-
-    result.userInformation.csrfToken = csrfToken;
+    result.data.userInformation.csrfToken = csrfToken;
 
     if (response.ok) {
-      return res.status(200).json({ result });
+      return res.status(200).json(result);
     } else {
       console.log("Ошибка проверки jwt");
     }

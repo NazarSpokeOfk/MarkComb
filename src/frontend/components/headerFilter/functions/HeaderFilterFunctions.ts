@@ -50,8 +50,7 @@ class HeaderFilterFunctions {
         body: JSON.stringify({ mainInputValue }),
       });
       const result = await response.json();
-      console.log(result);
-      setChannelData(result);
+      setChannelData(result.data);
       setIsSearching(false);
     } catch (error) {
       toast.error(

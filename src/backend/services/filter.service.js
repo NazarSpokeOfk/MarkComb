@@ -1,5 +1,5 @@
-import storagePool from "../../db/mk_storage/index.js";
-import logger from "../../winston/winston.js";
+import storagePool from "../db/mk_storage/index.js";
+import logger from "../winston/winston.js";
 
 export const selectChannel = async (
   ageGroup,

@@ -1,7 +1,7 @@
 import { Router } from "express";
 const router = new Router();
 
-import { logInLimiter, registerLimiter, updateLimiter } from "./limiters.js";
+import { logInLimiter, registerLimiter, updateLimiter } from "./limiters/userRouterLimiters.js";
 
 import verifyJWT from "../cookies/verifyJWT.js";
 import clearCookie from "../cookies/clearCookies.js";

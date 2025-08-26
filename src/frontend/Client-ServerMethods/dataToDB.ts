@@ -100,25 +100,20 @@ class DataToDB {
     });
   }
 
-  async getEmail({ csrfToken, channelId , setContactDataStatus }: GetEmailProps) {
-    console.log("Поступившие данные : ", channelId, csrfToken);
+  async getEmail({
+    csrfToken,
+    channelId,
+    setContactDataStatus,
+  }: GetEmailProps) {
     try {
-      const result = await fetch(`${apiBaseUrl}/getemail`, {
+      const result = await this.fetchData({
+        endpoint: `${apiBaseUrl}/getemail`,
         method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-type": "application/json",
-          "x-csrf-token": csrfToken,
-          "x-api-key": import.meta.env.VITE_API_KEY,
-        },
-        body: JSON.stringify({ channelId }),
+        body: { channelId },
+        csrfToken,
+        withToast: false,
       });
-      const response = await result.json();
-      if(!response.email){
-        console.log("кто здесь")
-        setContactDataStatus("fail")
-      }
-      return response
+      return result.data;
     } catch (error) {
       return { message: error, status: false };
     }
@@ -129,7 +124,7 @@ class DataToDB {
     userId,
     csrfToken,
     setError,
-    setContactDataStatus
+    setContactDataStatus,
   }: ValidatePurchaseDataProps) {
     if (!data.email) {
       return;
@@ -141,20 +136,20 @@ class DataToDB {
         body: data,
         csrfToken,
       });
-      if(result.message){
-        setContactDataStatus("success")
+      if (result.success) {
+        setContactDataStatus("success");
       }
-      console.log(result)
+      console.log(result);
       this.setUserData?.((prevData: UserData) => ({
         ...prevData,
-        channels: [...prevData.channels, result.purchase],
+        channels: [...prevData.channels, result.data.purchase],
         userInformation: {
           ...prevData.userInformation,
           uses: prevData.userInformation.uses - 1,
         },
       }));
     } catch (error) {
-      setError("You already bought this data")
+      setError("You already bought this data");
     }
   }
 
@@ -170,21 +165,13 @@ class DataToDB {
           data,
         },
       });
-      console.log("ГОВНО");
-      if (result.status === "ok") {
-        console.log(result)
-        console.log(this.setIsLoggedIn)
+      console.log("Результат регистрации : ", result);
+      if (result.success) {
         this.setIsLoggedIn?.(true);
-        this.setUserData?.(result);
+        this.setUserData?.(result.data);
         return { status: "ok" };
-      } else if (result.status === "exists") {
-        return { status: "exists" };
-      } else if (result.status === "Wrong code") {
-        console.log(result.status);
-        return { status: "wrong" };
-      } else {
-        return { status: "exists" };
       }
+      return { status: "wrong" };
     } catch (error) {
       console.log(error);
       this.setIsLoggedIn?.(false);
@@ -205,22 +192,8 @@ class DataToDB {
         body: data,
       });
 
-      const uses = await request?.userInformation?.uses;
-
-      console.log(uses);
-
-      const numberUses = Number(uses);
-
-      const result = {
-        ...request,
-        userInformation: {
-          ...request?.userInformation,
-          uses: numberUses,
-        },
-      };
-      console.log(request);
       setIsLoggedIn(true);
-      setUserData?.(result);
+      setUserData?.(request.data);
       return { message: true };
     } catch (error) {
       console.log(error);
@@ -238,10 +211,10 @@ class DataToDB {
         withToast: false,
       });
       this.setUserData?.(result);
-      return { message: "Username was changed",status : true};
+      return { message: "Username was changed", status: true };
     } catch {
       console.log("Не удалось изменить данные аккаунта.");
-      return { message: "Username wasn't changed", status : true };
+      return { message: "Username wasn't changed", status: true };
     }
   }
 
@@ -276,7 +249,7 @@ class DataToDB {
     isRegistration = false,
     setRegistrationStatus,
     setStep,
-    operationCode
+    operationCode,
   }: MakeFetchForCodeDBProps): Promise<void> {
     try {
       const response = await fetch(`${apiBaseUrl}/verification`, {
@@ -291,7 +264,7 @@ class DataToDB {
       const data = await response.json();
 
       if (response.ok) {
-        console.log("респонс : ",response)
+        console.log("респонс : ", response);
         return;
       }
 
@@ -338,8 +311,8 @@ class DataToDB {
       },
       withToast: false,
     })
-    .then((): { message: RegistrationStatusKey } => ({ message: "changed" }))
-    .catch((): { message: RegistrationStatusKey } => ({ message: "wrong" }))
+      .then((): { message: RegistrationStatusKey } => ({ message: "changed" }))
+      .catch((): { message: RegistrationStatusKey } => ({ message: "wrong" }));
   }
 
   activatePromocode({ promocode, email }: ActivatePromocodeProps) {
@@ -411,37 +384,22 @@ class DataToDB {
     channelName,
     inputValue,
     videoId,
-    setIsLoading
+    setIsLoading,
   }: CheckStatisticsOfVideoProps) {
-    const bodyData = {
-      channelName: channelName,
-      inputValue: inputValue,
-      videoId: videoId,
-    };
+    console.log(`${apiBaseUrl}/${type}`);
 
     try {
       const response = await this.fetchData({
         endpoint: `${apiBaseUrl}/${type}`,
         method: "POST",
-        body: bodyData,
+        body: { channel_name: channelName, videoName: inputValue },
         withToast: false,
       });
 
-      const finalVideoData = response?.finalVideoData;
+      console.log(response);
 
-      console.log("setVideoData : ", this.setVideoData);
-
-      if (finalVideoData) {
-        setIsLoading(false);
-        this.setVideoData?.(finalVideoData);
-      } else {
-        // setIsLoading(false);
-        const analitics = response?.analitics;
-        this.setVideoData?.((prevData) => ({
-          ...prevData,
-          analitics,
-        }));
-      }
+      setIsLoading(false);
+      this.setVideoData?.(response.data.analiticsAndData);
     } catch (error) {
       console.log("Возникла ошибка при поиске аналитики : ", error);
     }

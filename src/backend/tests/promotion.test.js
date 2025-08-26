@@ -17,6 +17,6 @@ describe("/api/video", () => {
         inputValue: "Обзор Marvel Rivals",
         videoId: null,
       });
-    expect(result.body).toHaveProperty("finalVideoData");
+    expect(result.body).toHaveProperty("data");
   });
 });

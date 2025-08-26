@@ -1,8 +1,8 @@
 import "../loadEnv.js";
 
-import logger from "../../winston/winston.js";
+import logger from "../winston/winston.js";
 
-apiKey = process.env.GOOGLE_API_KEY;
+const apiKey = process.env.GOOGLE_API_KEY;
 
 //Форматировка данных
 const transformRes = (result) => {
@@ -75,7 +75,7 @@ const getGenre = async (videoId) => {
 };
 
 // Выполнение функций получения id видео, и передача этого id в getGenre
-run = async (url) => {
+const run = async (url) => {
   const videoId = await getVideoId(url);
   if (videoId) {
     const genre = await getGenre(videoId);
@@ -270,10 +270,37 @@ export const channelAndVideoSearch = async (channel_name, videoName) => {
       thumbnail: videoData?.items?.[0]?.snippet?.thumbnails?.medium?.url,
       videoId: videoData?.items?.[0]?.id?.videoId,
     };
-    return finalVideoData;
+
+    const analitics = await getAnalitics(finalVideoData.videoId);
+  
+    return {
+      analiticsAndData: {
+        title:
+          videoData?.items?.[0]?.snippet?.title.slice(0, 35) + triplet,
+        thumbnail: videoData?.items?.[0]?.snippet?.thumbnails?.medium?.url,
+        videoId: videoData?.items?.[0]?.id?.videoId,
+        analitics,
+      },
+    };
   } catch (error) {
     logger.error(" (channelAndVideoSearch) Ошибка:", error);
   }
 };
 
+const getAnalitics = async (videoId) => {
+  console.log("videoId в getAnalitics : ",videoId)
+  const urlForAnalitics = `https://www.googleapis.com/youtube/v3/videos?part=statistics,snippet&id=${videoId}&key=${apiKey}`;
+  try {
+    const rawData = await fetch(urlForAnalitics);
 
+    const data = await rawData.json();
+    console.log("data в getAnalitics : ",data)
+    return {
+      views: data?.items?.[0]?.statistics?.viewCount,
+      likes: data?.items?.[0]?.statistics?.likeCount,
+    };
+  } catch (error) {
+    logger.error(" (getAnalitics) Возникла ошибка:", error);
+    throw new Error("Error during getting analitics");
+  }
+};

@@ -38,6 +38,8 @@ class YoutuberBlockFunctions {
         setContactDataStatus,
       });
 
+      console.log("response : ",response)
+
       dataToDB.validatePurchaseData({
         data: {
           thumbnail: channelData?.updatedData?.thumbnail || "",

@@ -103,7 +103,6 @@ const SignUpPage = ({ signInData, setSignInData, setIsLoggedIn,setUserData }: Si
     smoothThumbnail(thumbnailRef);
   }, [registrationStatus]);
 
-  console.log(isLittleMobile)
   return (
     <>
       {step >= 4 ? null : (

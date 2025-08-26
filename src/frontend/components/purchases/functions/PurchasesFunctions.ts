@@ -19,6 +19,12 @@ class PurchasesFunctions {
     contentRefs,
     transaction_id,
   }: RemovePurchaseProps) {
+    console.log("Пропсы в removePurchase : ",user_id,
+    channelName,
+    csrfToken,
+    setUserData,
+    contentRefs,
+    transaction_id)
     const el = contentRefs.current[transaction_id];
     if (el) {
       el.classList.add("fall-off");

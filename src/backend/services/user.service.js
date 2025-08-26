@@ -2,13 +2,11 @@ import bcrypt from "bcrypt";
 import crypto from "crypto";
 import logger from "../winston/winston.js";
 import mainPool from "../db/mk/index.js";
-import verifyCaptcha from "../captchaRelatedControllers/verifyCaptcha.js";
+import verifyCaptchaModule from "../modules/verifyCaptchaModule.js";
 import generateJWT from "../cookies/generateJWT.js";
 import domains from "disposable-email-domains/index.json" assert { type: "json" };
 
 import MailVerificationModule from "../modules/mailVerificationModule.js";
-import returnCookieModule from "../modules/returnCookieModule.js";
-import returnCsrftokenModule from "../modules/returnCsrftokenModule.js";
 import returnUserInformationModule from "../modules/returnUserInformationModule.js";
 import clearCookie from "../cookies/clearCookies.js";
 
@@ -40,14 +38,14 @@ export async function getUserIp() {
   }
 }
 
-export async function getAllUsers(req, res) {
-  try {
-    const users = await mainPool.query(`SELECT * FROM users`);
-    res.json(users.rows);
-  } catch (error) {
-    logger.error("Возникла ошибка в getAllUsers :", error);
-  }
-}
+// export async function getAllUsers(req, res) {
+//   try {
+//     const users = await mainPool.query(`SELECT * FROM users`);
+//     res.json(users.rows);
+//   } catch (error) {
+//     logger.error("Возникла ошибка в getAllUsers :", error);
+//   }
+// }
 
 export async function logIn(email, password) {
   try {
@@ -87,21 +85,17 @@ export async function logIn(email, password) {
       [userId]
     );
 
-    returnCookieModule(token, res);
-
     const csrfToken = crypto.randomBytes(16).toString("hex");
-    req.session.csrfToken = csrfToken;
-
-    returnCsrftokenModule(csrfToken, res);
 
     const userInformation = returnUserInformationModule(user, token, csrfToken);
 
-    return { userInformation, channels: userChannels.rows };
+    return {
+      data: { userInformation, channels: userChannels.rows },
+      meta: { csrfToken , token },
+    };
   } catch (error) {
     logger.error("Возникла ошибка в logIn:", error);
-    res
-      .status(500)
-      .json({ message: "Возникла ошибка при входе", error: error.message });
+    throw new Error("Error during logging in.");
   }
 }
 
@@ -128,7 +122,8 @@ export async function getUserByUserId(user_id) {
       `SELECT channel_name,email,thumbnail,transaction_id FROM purchases_channels WHERE user_id = $1`,
       [user_id]
     );
-    const userInformation = returnUserInformationModule(user);
+    const csrfToken = crypto.randomBytes(16).toString("hex");
+    const userInformation = returnUserInformationModule(user,csrfToken);
     return { userInformation, channels: userChannels.rows };
   } catch (error) {
     logger.error(" (getUserById) ошибка в входе по id", error);
@@ -141,46 +136,43 @@ export async function signIn(
   password,
   username,
   verification_code,
-  recaptchaValue
+  recaptchaValue,
+  req
 ) {
   try {
-    // const domain = email.split("@")[1].toLowerCase(); //закомментировать при тестировании
+    const domain = email.split("@")[1].toLowerCase(); //закомментировать при тестировании
 
-    // if (domains.includes(domain)) { //закомментировать при тестировании
-    //   return res.status(400).json({
-    //     message:
-    //       "У вас не получится зарегистрироваться с временной почтой :(",
-    //     status: false,
-    //   });
-    // }
+    if (domains.includes(domain)) { //закомментировать при тестировании
+      throw new Error("Temp mail not allowed")
+    }
 
-    // if (!req.session.captchaVerified && recaptchaValue) { //закомментировать при тестировании
-    //   // Если капча еще не была проверена
-    //   const isCaptchaValid = await verifyCaptcha(recaptchaValue);
-    //   if (!isCaptchaValid) {
-    //     return res.status(400).json({ status: "invalid" });
-    //   }
+    if (!req.session.captchaVerified && recaptchaValue) { //закомментировать при тестировании
+      // Если капча еще не была проверена
+      const isCaptchaValid = await verifyCaptchaModule(recaptchaValue);
+      if (!isCaptchaValid) {
+        throw new Error("Invalid captcha validation")
+      }
 
-    //   // Если капча прошла, сохраняем в сессии //закомментировать при тестировании
-    //   req.session.captchaVerified = true;
-    //   req.session.save((err) => {
-    //     if (err) {
-    //       logger.error("Ошибка сохранения сессии:", err);
-    //       return;
-    //     }
-    //   });
-    // }
+      // Если капча прошла, сохраняем в сессии //закомментировать при тестировании
+      req.session.captchaVerified = true;
+      req.session.save((err) => {
+        if (err) {
+          logger.error("Ошибка сохранения сессии:", err);
+          return;
+        }
+      });
+    }
 
-    // const result = await mailVerificationModule.verifyCode( //закомментировать при тестировании
-    //   email,
-    //   verification_code
-    // );
+    const result = await mailVerificationModule.verifyCode( //закомментировать при тестировании
+      email,
+      verification_code
+    );
 
-    // if (result.message === "Wrong code" && result.success === false) { //закомментировать при тестировании
-    //   return res.status(400).json({ status: "Wrong code" });
-    // }
+    if (result.message === "Wrong code" && result.success === false) { //закомментировать при тестировании
+     throw new Error("Wrong code")
+    }
 
-    // await mailVerificationModule.clearUpVerifCodes(email); //закомментировать при тестировании
+    await mailVerificationModule.clearUpVerifCodes(email); //закомментировать при тестировании
 
     // Валидация данных
     validateInput({ email, password, username });
@@ -195,7 +187,6 @@ export async function signIn(
     );
 
     const csrfToken = crypto.randomBytes(16).toString("hex");
-    req.session.csrfToken = csrfToken;
 
     const user = SignIn.rows[0];
 
@@ -203,12 +194,13 @@ export async function signIn(
 
     const userInformation = returnUserInformationModule(user, token, csrfToken);
 
-    returnCookieModule(token, res);
-    returnCsrftokenModule(csrfToken, res);
-
-    return { userInformation };
+    return {
+      data: { userInformation , channels : [] },
+      meta: { csrfToken , token },
+    }
   } catch (error) {
     logger.error(error);
+    console.log( "Ошибка signIn :",error)
     throw new Error("Server error");
   }
 }
@@ -387,7 +379,7 @@ export async function activatePromocode(promocode, email) {
     return { newUses: rows[0].uses };
   } catch (error) {
     logger.error("Ошибка в activatePromocode:", error);
-    throw new Error("Server error")
+    throw new Error("Server error");
   }
 }
 

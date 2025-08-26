@@ -43,8 +43,6 @@ class MailVerificationModule {
         [email]
       );
 
-      console.log("Вот такой вот ахуенный пользователь блять:  " , checkForUser.rows[0])
-
       if (checkForUser.rowCount > 0) {
         console.log("Есть уже");
         return Promise.reject("exists");

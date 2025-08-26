@@ -1,5 +1,5 @@
 import sendResponseModule from "../modules/sendResponseModule.js";
-import { handleSearch , channelAndVideoSearch } from "../services/search.service";
+import { handleSearch , channelAndVideoSearch } from "../services/search.service.js";
 
 export async function HandleSearch(req, res) {
   try {

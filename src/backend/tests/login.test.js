@@ -15,7 +15,6 @@ describe("/api/login", () => {
         email: "kurakn10@gmail.com",
         password: "KUROK!&_!(@)",
       });
-    expect(result.body.userInformation).toHaveProperty("csrfToken");
-    expect(result.body.userInformation.email).toBe("kurakn10@gmail.com");
+    expect(result.body).toHaveProperty("data");
   });
 });

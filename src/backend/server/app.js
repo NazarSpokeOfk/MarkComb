@@ -18,13 +18,13 @@ import ParserController from "../parserFunctionality/parsersController.js";
 import "../cron/subscriptionTopUp.js"
 import "../cron/clearingExpiredSubscriptions.js"
 
-import userRouter from "../routers/userRelatedRouters/userRouter.js"
-import purchasesRouter from "../routers/purchasesRelatedRouters/purchasesRouter.js"
-import youtubeApiRouter from "../routers/youtubeApiRelatedRouters/youtubeApiRouter.js"
-import storageRouter from "../routers/mk_storageRelatedRouters/storageRouter.js";
-import reviewsRouter from "../routers/reviewsRelatedRouters/reviewsRouter.js";
-import voteRouter from "../routers/voteRelatedRouters/voteRouter.js";
-import yoomoneyRouter from "../routers/paymentRelatedRouters/yoomoneyRouter.js";
+import userRouter from "../routers/userRouter.js";
+import purchasesRouter from "../routers/purchasesRouter.js"
+import youtubeApiRouter from "../routers/youtubeApiRouter.js";
+import filterRouter from "../routers/filterRouter.js";
+import reviewsRouter from "../routers/reviewsRouter.js";
+import voteRouter from "../routers/voteRouter.js";
+import yoomoneyRouter from "../routers/yoomoneyRouter.js";
 
 import logger from "../winston/winston.js";
 
@@ -84,7 +84,7 @@ app.use("/api", checkApiKey, ParserController);
 app.use("/api", youtubeApiRouter);
 app.use("/api", purchasesRouter);
 app.use("/api", userRouter);
-app.use("/api", storageRouter);
+app.use("/api", filterRouter);
 app.use("/api", reviewsRouter);
 app.use("/api", voteRouter);
 app.use("/api", yoomoneyRouter);

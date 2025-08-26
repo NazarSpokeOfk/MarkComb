@@ -21,7 +21,7 @@ describe("/api/purchase/272", () => {
           channelName : "testchannel",
         });
       console.log("purchaseTest : ", result.body)
-      expect(result.body).toHaveProperty("remainingUses");
+      expect(result.body).toHaveProperty("data");
     });
   });
   

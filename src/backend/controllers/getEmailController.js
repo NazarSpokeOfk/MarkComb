@@ -1,4 +1,4 @@
-import sendResponseModule from "../modules/sendResponseModule";
+import sendResponseModule from "../modules/sendResponseModule.js";
 
 import { getEmail } from "../services/getEmail.service.js";
 
