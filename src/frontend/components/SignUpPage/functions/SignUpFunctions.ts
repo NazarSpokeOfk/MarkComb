@@ -57,7 +57,7 @@ class SignUpFunctions {
       });
       dataToDb.makeFetchForCode({
         email: signInData.email,
-        operationCode: "REGISTRATION",
+        action : "signIn",
         isRegistration: true,
         setRegistrationStatus,
         setStep,

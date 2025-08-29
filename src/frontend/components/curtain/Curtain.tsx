@@ -46,14 +46,14 @@ const Curtain = ({
     }
   }, [status]);
 
-  useEffect(() => {
-    if (action === "password") {
-      curtainFunctions.sendVerificationCode({
-        email: userData.userInformation.email,
-        setIsCodeSent,
-      });
-    }
-  }, [action]);
+  // useEffect(() => {
+  //   if (action === "password") {
+  //     curtainFunctions.sendVerificationCode({
+  //       email: userData.userInformation.email,
+  //       setIsCodeSent,
+  //     });
+  //   }
+  // }, [action]);
   return (
     <>
       <div className={`curtain__flex ${isCurtainOpen ? "open" : ""}`}>

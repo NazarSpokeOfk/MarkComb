@@ -137,7 +137,7 @@ class CurtainFunctions {
     }
   }
 
-  async sendVerificationCode({
+  async deleteUser({
     email,
     setIsCodeSent,
   }: SendVerificationCodeProps) {
@@ -145,8 +145,10 @@ class CurtainFunctions {
       return;
     }
     try {
-      await dataToDb.makeFetchForCode({ email, isRegistration: false });
+      await dataToDb.makeFetchForCode({ email, isRegistration: false, action : "delete",  });
       setIsCodeSent(true);
+
+      //остальной функционал по удалению профиля
     } catch (error) {
       setIsCodeSent(false);
       console.log(error);

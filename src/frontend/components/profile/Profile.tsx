@@ -4,7 +4,7 @@ import "../../fonts/font.css";
 import DataToDB from "../../Client-ServerMethods/dataToDB.js";
 import ProfileFunctions from "./functions/ProfileFunctions";
 
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -122,7 +122,9 @@ const Profile = ({
                     onClick={() => {
                       // setIsCurtainOpen(true);
                       // setAction("password");
-                      alert(t("Function in development.Please,try again later"))
+                      alert(
+                        t("Function in development.Please,try again later")
+                      );
                     }}
                     className="credentials-block__button"
                   >
@@ -167,9 +169,15 @@ const Profile = ({
               ) : null}
 
               <button
-                onClick={() =>
-                  alert(t("Function in development.Please,try again later"))
-                }
+                onClick={() => {
+                  toast.info(t("Confirmation link sent on your email."));
+                  dataToDb.makeFetchForCode({
+                    email : userData.userInformation.email,
+                    isRegistration: false,
+                    action: "delete",
+                    userId : userData.userInformation.user_id
+                  });
+                }}
                 className="delete__account-button fancy-button"
               >
                 {t("Delete account")}

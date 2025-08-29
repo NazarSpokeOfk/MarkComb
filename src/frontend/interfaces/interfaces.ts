@@ -127,6 +127,10 @@ export const statusMessages = {
     title: "Thank you for your purchase.",
     emoji: "✅",
   },
+  successfullDeleting : {
+    title : "We have deleted your account.",
+    emoji : "👨‍💻"
+  }
 } as const;
 
 export interface verificationCode {

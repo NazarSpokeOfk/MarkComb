@@ -25,6 +25,7 @@ import filterRouter from "../routers/filterRouter.js";
 import reviewsRouter from "../routers/reviewsRouter.js";
 import voteRouter from "../routers/voteRouter.js";
 import yoomoneyRouter from "../routers/yoomoneyRouter.js";
+import verificationRouter from "../routers/verificationRouter.js";
 
 import logger from "../winston/winston.js";
 
@@ -88,6 +89,7 @@ app.use("/api", filterRouter);
 app.use("/api", reviewsRouter);
 app.use("/api", voteRouter);
 app.use("/api", yoomoneyRouter);
+app.use("/api", verificationRouter);
 
 app.use((err, req, res, next) => {
   logger.error(`Ошибка: ${err.message}`);

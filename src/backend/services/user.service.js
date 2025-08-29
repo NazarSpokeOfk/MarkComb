@@ -5,8 +5,9 @@ import mainPool from "../db/mk/index.js";
 import verifyCaptchaModule from "../modules/verifyCaptchaModule.js";
 import generateJWT from "../cookies/generateJWT.js";
 import domains from "disposable-email-domains/index.json" assert { type: "json" };
+import { randomUUID } from "crypto";
 
-import MailVerificationModule from "../modules/mailVerificationModule.js";
+import { VerifyValue } from "../controllers/verificationController.js";
 import returnUserInformationModule from "../modules/returnUserInformationModule.js";
 import clearCookie from "../cookies/clearCookies.js";
 
@@ -15,8 +16,6 @@ import validateInput from "../validation/validation.js";
 import hashPasswordModule from "../modules/hashPasswordModule.js";
 
 import "../loadEnv.js";
-
-const mailVerificationModule = new MailVerificationModule();
 
 export async function getUserIp() {
   const ipInfoKey = process.env.IP_INFO_API_KEY;
@@ -91,7 +90,7 @@ export async function logIn(email, password) {
 
     return {
       data: { userInformation, channels: userChannels.rows },
-      meta: { csrfToken , token },
+      meta: { csrfToken, token },
     };
   } catch (error) {
     logger.error("Возникла ошибка в logIn:", error);
@@ -123,11 +122,10 @@ export async function getUserByUserId(user_id) {
       [user_id]
     );
     const csrfToken = crypto.randomBytes(16).toString("hex");
-    const userInformation = returnUserInformationModule(user,csrfToken);
+    const userInformation = returnUserInformationModule(user, csrfToken);
     return { userInformation, channels: userChannels.rows };
   } catch (error) {
     logger.error(" (getUserById) ошибка в входе по id", error);
-    throw new Error("There was an error during log in.");
   }
 }
 
@@ -142,15 +140,17 @@ export async function signIn(
   try {
     const domain = email.split("@")[1].toLowerCase(); //закомментировать при тестировании
 
-    if (domains.includes(domain)) { //закомментировать при тестировании
-      throw new Error("Temp mail not allowed")
+    if (domains.includes(domain)) {
+      //закомментировать при тестировании
+      throw new Error("Temp mail not allowed");
     }
 
-    if (!req.session.captchaVerified && recaptchaValue) { //закомментировать при тестировании
+    if (!req.session.captchaVerified && recaptchaValue) {
+      //закомментировать при тестировании
       // Если капча еще не была проверена
       const isCaptchaValid = await verifyCaptchaModule(recaptchaValue);
       if (!isCaptchaValid) {
-        throw new Error("Invalid captcha validation")
+        throw new Error("Invalid captcha validation");
       }
 
       // Если капча прошла, сохраняем в сессии //закомментировать при тестировании
@@ -163,16 +163,9 @@ export async function signIn(
       });
     }
 
-    const result = await mailVerificationModule.verifyCode( //закомментировать при тестировании
-      email,
-      verification_code
-    );
+    const verification = await VerifyValue(email, verification_code, "signIn");
 
-    if (result.message === "Wrong code" && result.success === false) { //закомментировать при тестировании
-     throw new Error("Wrong code")
-    }
-
-    await mailVerificationModule.clearUpVerifCodes(email); //закомментировать при тестировании
+    if (!verification.isActionDone) return verification;
 
     // Валидация данных
     validateInput({ email, password, username });
@@ -195,12 +188,12 @@ export async function signIn(
     const userInformation = returnUserInformationModule(user, token, csrfToken);
 
     return {
-      data: { userInformation , channels : [] },
-      meta: { csrfToken , token },
-    }
+      data: { userInformation, channels: [] },
+      meta: { csrfToken, token },
+    };
   } catch (error) {
     logger.error(error);
-    console.log( "Ошибка signIn :",error)
+    console.log("Ошибка signIn :", error);
     throw new Error("Server error");
   }
 }
@@ -241,49 +234,30 @@ export async function changeUserName(newValue, changeMethod, id) {
   }
 }
 
-// export async function deleteUser(req, res) {
-//   const id = parseInt(req.params.id, 10);
+export async function deleteUser(token) {
+  console.log("Пропсы : ", token)
 
-//   const tokenFromClient = req.headers["x-csrf-token"];
-//   console.log(req.session);
-//   const tokenFromSession = req.session.csrfToken;
+  try {
+    const verification = await VerifyValue(null, token, "delete");
 
-//   console.log(
-//     "Токен с клиента : ",
-//     tokenFromClient,
-//     "токен с сессии:",
-//     tokenFromSession
-//   );
-
-//   if (tokenFromClient !== tokenFromSession) {
-//     return res.status(403).json({ message: "Несовпадение токенов!" });
-//   }
-
-//   try {
-//     const userResult = await mainPool.query(
-//       `SELECT password FROM users WHERE user_id = $1`,
-//       [id]
-//     );
-
-//     if (userResult.rows.length === 0) {
-//       return res.status(404).json({ message: "Пользователь не найден" });
-//     }
-
-//     const user = await mainPool.query(
-//       `DELETE FROM users WHERE user_id = $1 RETURNING *`,
-//       [id]
-//     );
-
-//     clearCookie(req, res);
-
-//     res
-//       .status(200)
-//       .json({ message: "Пользователь удален", user: user.rows[0] });
-//   } catch (error) {
-//     logger.error("Возникла ошибка в deleteUser:", error);
-//     res.status(500).json({ message: "Возникла ошибка сервера." });
-//   }
-// }
+    if (verification.isActionDone) {
+      const result = await mainPool.query(
+        "DELETE FROM users WHERE user_id = $1 RETURNING *",
+        [verification.row.user_id]
+      );
+      if (result.rowCount > 0) {
+        return { isAccountDeleted: true };
+      } else {
+        return { isAccountDeleted: false };
+      }
+    } else {
+      throw new Error("Token mismatch");
+    }
+  } catch (error) {
+    console.log(error)
+    throw new Error("Error while deleting profile");
+  }
+}
 
 export async function addUses(id, password, uses) {
   try {

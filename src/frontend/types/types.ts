@@ -408,9 +408,8 @@ export type UpdateDataProps = {
   data: ChangedData;
 };
 
-export type DeleteProfileProps = {
-  userId: number;
-  csrfToken: string;
+export type DeletingAccountProps = {
+  email : string
 };
 
 export type MakeFetchForCodeDBProps = {
@@ -418,6 +417,8 @@ export type MakeFetchForCodeDBProps = {
   operationCode?: string;
   isRegistration: boolean;
   setStep?: React.Dispatch<React.SetStateAction<number>>;
+  action : "signIn" | "delete" | "change",
+  userId? : number
 } & PartialSelectProps<TypesOfSets, "setRegistrationStatus">;
 
 export type IsVerificationCodeCorrectProps = {
@@ -729,6 +730,15 @@ export type ScrollLineProps = {
   stringArray: string[];
   toRight : boolean
 } & SelectProps<TypesOfSets,"setIsFilterCTAActive">;
+
+export type DeletingAccountThumbnailProps = {
+  userData : UserData
+}
+
+export type DeleteUserProps = {
+  token : string;
+  setIsDeleting : React.Dispatch<React.SetStateAction<boolean>>
+}
 
 export const defaultUserData: UserData = {
   channels: [],

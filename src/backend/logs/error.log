@@ -356,3 +356,84 @@ Node.js v20.17.0
 26.08.2025, 17:27:07 + "
 " [ERROR] + "
 " (printf.js:11): Возникла ошибка в addPurchase You already bought this contact data
+27.08.2025, 12:40:19 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в setup.js: type "string" does not exist
+27.08.2025, 15:46:54 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в setup.js: createUserVerificationTable is not defined
+27.08.2025, 15:59:45 + "
+" [ERROR] + "
+" (printf.js:11):  (verifyCode) Ошибка при проверке кода: invalid input syntax for type integer: "kurakn10@gmail.com"
+27.08.2025, 16:05:54 + "
+" [ERROR] + "
+" (printf.js:11):  (verifyValue) Ошибка при проверке кода: invalid input syntax for type integer: "kurakn10@gmail.com"
+27.08.2025, 16:08:54 + "
+" [ERROR] + "
+" (printf.js:11):  (verifyValue) Ошибка при проверке кода: invalid input syntax for type integer: "kurakn10@gmail.com"
+27.08.2025, 16:10:00 + "
+" [ERROR] + "
+" (printf.js:11):  (verifyValue) Ошибка при проверке кода: invalid input syntax for type integer: "kurakn10@gmail.com"
+27.08.2025, 16:15:35 + "
+" [ERROR] + "
+" (printf.js:11):  (verifyValue) Ошибка при проверке кода: invalid input syntax for type integer: "kurakn10@gmail.com"
+27.08.2025, 16:20:59 + "
+" [ERROR] + "
+" (printf.js:11):  (verifyValue) Ошибка при проверке кода: invalid input syntax for type integer: "kurakn10@gmail.com"
+29.08.2025, 12:06:21 + "
+" [ERROR] + "
+" (printf.js:11):  (getUserById) ошибка в входе по id User not found
+29.08.2025, 12:10:22 + "
+" [ERROR] + "
+" (printf.js:11):  (getUserById) ошибка в входе по id User not found
+29.08.2025, 12:10:27 + "
+" [ERROR] + "
+" (printf.js:11):  (getUserById) ошибка в входе по id User not found
+29.08.2025, 12:12:36 + "
+" [ERROR] + "
+" (printf.js:11):  (getUserById) ошибка в входе по id User not found
+29.08.2025, 12:14:23 + "
+" [ERROR] + "
+" (printf.js:11):  (getUserById) ошибка в входе по id User not found
+29.08.2025, 12:16:20 + "
+" [ERROR] + "
+" (printf.js:11):  (getUserById) ошибка в входе по id User not found
+29.08.2025, 12:17:56 + "
+" [ERROR] + "
+" (printf.js:11):  (getUserById) ошибка в входе по id User not found
+29.08.2025, 12:18:38 + "
+" [ERROR] + "
+" (printf.js:11):  (getUserById) ошибка в входе по id User not found
+29.08.2025, 12:21:18 + "
+" [ERROR] + "
+" (printf.js:11):  (getUserById) ошибка в входе по id User not found
+29.08.2025, 12:35:44 + "
+" [ERROR] + "
+" (printf.js:11):  (getUserById) ошибка в входе по id User not found
+29.08.2025, 12:35:45 + "
+" [ERROR] + "
+" (printf.js:11):  (getUserById) ошибка в входе по id User not found
+29.08.2025, 12:35:46 + "
+" [ERROR] + "
+" (printf.js:11):  (getUserById) ошибка в входе по id User not found
+29.08.2025, 12:35:55 + "
+" [ERROR] + "
+" (printf.js:11):  (getUserById) ошибка в входе по id User not found
+29.08.2025, 12:37:23 + "
+" [ERROR] + "
+" (printf.js:11):  (getUserById) ошибка в входе по id User not found
+29.08.2025, 12:37:32 + "
+" [ERROR] + "
+" (printf.js:11):  (getUserById) ошибка в входе по id User not found
+29.08.2025, 12:40:22 + "
+" [ERROR] + "
+" (printf.js:11):  (getUserById) ошибка в входе по id User not found
+29.08.2025, 12:41:03 + "
+" [ERROR] + "
+" (printf.js:11):  (getUserById) ошибка в входе по id User not found
+29.08.2025, 12:43:56 + "
+" [ERROR] + "
+" (printf.js:11):  (getUserById) ошибка в входе по id User not found
+29.08.2025, 12:44:18 + "
+" [ERROR] + "
+" (printf.js:11):  (getUserById) ошибка в входе по id User not found

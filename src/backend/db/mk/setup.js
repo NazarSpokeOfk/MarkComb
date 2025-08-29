@@ -10,12 +10,6 @@ async function createTables(pool) {
         PRIMARY KEY(user_id)
         )`;
 
-    const createUserVerificationTable = `CREATE TABLE IF NOT EXISTS user_verifications (
-        email VARCHAR(255) PRIMARY KEY,
-        verification_code VARCHAR(10) NOT NULL,
-        verification_expiry TIMESTAMP NOT NULL 
-        )`;
-
     const createPurchasesTable = `CREATE TABLE IF NOT EXISTS purchases_channels(
             transaction_id SERIAL PRIMARY KEY,
             user_id INTEGER REFERENCES users(user_id) ON DELETE CASCADE,
@@ -43,20 +37,32 @@ async function createTables(pool) {
     title TEXT NOT NULL,
     price INT NOT NULL,
     uses INT NOT NULL
-    )`
+    )`;
+
+    const createVerificationTokensTable = `CREATE TABLE IF NOT EXISTS verification_tokens (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
+    email TEXT,
+    verification_token VARCHAR(50) NOT NULL,
+    action TEXT NOT NULL,
+    expires_at TIMESTAMP NOT NULL,
+    CHECK (
+        (user_id IS NOT NULL AND email IS NULL)
+        OR (user_id IS NULL AND email IS NOT NULL)
+    )
+   );`;
+
+    await pool.query(createVerificationTokensTable);
 
     await pool.query(createUsersTable);
 
     await pool.query(createPurchasesTable);
-
-    await pool.query(createUserVerificationTable);
 
     await pool.query(createReviewsTable);
 
     await pool.query(createVotesTable);
 
     await pool.query(createPackagesTable);
-    
   } catch (error) {
     logger.error("Возникла ошибка в setup.js:", error);
   }

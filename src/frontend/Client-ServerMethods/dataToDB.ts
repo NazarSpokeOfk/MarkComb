@@ -12,7 +12,6 @@ import {
   ValidatePurchaseDataProps,
   ValidateSignInProps,
   UpdateDataProps,
-  DeleteProfileProps,
   MakeFetchForCodeDBProps,
   IsVerificationCodeCorrectProps,
   ChangePasswordProps,
@@ -220,30 +219,19 @@ class DataToDB {
     }
   }
 
-  async deleteProfile({ userId, csrfToken }: DeleteProfileProps) {
-    console.log("Токен в dataToDB:", csrfToken);
-    console.log("ID пользователя в deleteProfile:", userId);
-
-    return this.fetchData({
-      endpoint: `${apiBaseUrl}/user/${userId}`,
-      method: "DELETE",
-      body: { operationCode: 1 },
-      csrfToken,
-      withToast: true,
-    })
-      .then(() => {
-        this.setIsLoggedIn?.(false);
-        this.setUserData?.(defaultUserData);
-        return { message: true };
+  async deleteUser( token : string) {
+    try {
+      const response = await this.fetchData({
+        endpoint : `${apiBaseUrl}/delete`,
+        method : "DELETE",
+        body : { token },
+        withToast : false
       })
-      .catch(async (error) => {
-        try {
-          const errData = await error.json?.();
-          return { message: errData?.message || "Unknown error" };
-        } catch (e) {
-          return { message: "Unknown error" };
-        }
-      });
+      console.log(response);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async makeFetchForCode({
@@ -252,70 +240,50 @@ class DataToDB {
     setRegistrationStatus,
     setStep,
     operationCode,
+    action,
+    userId
   }: MakeFetchForCodeDBProps): Promise<void> {
     try {
-      const response = await fetch(`${apiBaseUrl}/verification`, {
+      const response = await fetch(`${apiBaseUrl}/verification/${action}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "x-api-key": import.meta.env.VITE_API_KEY,
         },
-        body: JSON.stringify({ email, operationCode }),
+        body: JSON.stringify({ email, userId }),
       });
 
       const data = await response.json();
 
-      if (response.ok) {
-        console.log("респонс : ", response);
-        return;
-      }
-
       // Обработка ошибок
       if (isRegistration) {
-        if (data.message === "exists") {
+        console.log(data)
+        if (data.data.isUserExists) {
           setRegistrationStatus?.("exists");
           setStep?.(6);
           return;
         }
       }
 
-      setRegistrationStatus?.("wrong");
     } catch (error) {
       console.error("Ошибка при отправке запроса:", error);
       setRegistrationStatus?.("wrong");
     }
   }
 
-  isVerificationCodeCorrect({
-    email,
-    verificationCode,
-  }: IsVerificationCodeCorrectProps) {
-    return this.fetchData({
-      endpoint: `${apiBaseUrl}/checkCode`,
-      method: "POST",
-      body: {
-        email,
-        verification_code: verificationCode,
-      },
-      withToast: false,
-    })
-      .then(() => ({ message: true }))
-      .catch(() => ({ message: false }));
-  }
-
-  changePassword({ newPassword, email }: ChangePasswordProps) {
-    return this.fetchData({
-      endpoint: `${apiBaseUrl}/changePassword`,
-      method: "PUT",
-      body: {
-        newPassword,
-        email,
-      },
-      withToast: false,
-    })
-      .then((): { message: RegistrationStatusKey } => ({ message: "changed" }))
-      .catch((): { message: RegistrationStatusKey } => ({ message: "wrong" }));
-  }
+  // changePassword({ newPassword, email }: ChangePasswordProps) {
+  //   return this.fetchData({
+  //     endpoint: `${apiBaseUrl}/changePassword`,
+  //     method: "PUT",
+  //     body: {
+  //       newPassword,
+  //       email,
+  //     },
+  //     withToast: false,
+  //   })
+  //     .then((): { message: RegistrationStatusKey } => ({ message: "changed" }))
+  //     .catch((): { message: RegistrationStatusKey } => ({ message: "wrong" }));
+  // }
 
   activatePromocode({ promocode, email }: ActivatePromocodeProps) {
     return this.fetchData({

@@ -9,6 +9,7 @@ import {
   changeUserName,
   addUses,
   activatePromocode,
+  deleteUser,
 } from "../services/user.service.js";
 
 export async function LogIn(req, res) {
@@ -85,5 +86,17 @@ export async function ActivatePromocode(req, res) {
     sendResponseModule(res, result);
   } catch (error) {
     sendResponseModule(res, null, error);
+  }
+}
+
+
+export async function DeleteUser(req,res) {
+  const {token} = req.body;
+  try {
+    const result = await deleteUser(token);
+    sendResponseModule(res,result)
+  } catch (error) {
+    console.log(error)
+    sendResponseModule(res,null,error)
   }
 }

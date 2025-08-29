@@ -41,6 +41,7 @@ import CookiesWindow from "./components/cookiesWindow/CookiesWindow";
 import AuthorizationPage from "./components/authorizationPage/authorizationPage";
 import LogInPage from "./components/logInPage/LogInPage";
 import SignUpPage from "./components/SignUpPage/SignUpPage";
+import DeletingAccountThumbnail from "./components/deletingAccountThumbnail/deletingAccountThumbnail";
 
 import checkCookies from "./Client-ServerMethods/checkCookies";
 import { setGlobalNavigate } from "./utilities/errorHandler";
@@ -112,7 +113,7 @@ function App() {
             path="/"
             element={
               <ErrorBoundary>
-                <MainPage setIsFilterCTAActive={setIsFilterCTAActive}/>
+                <MainPage setIsFilterCTAActive={setIsFilterCTAActive} />
               </ErrorBoundary>
             }
           />
@@ -318,6 +319,14 @@ function App() {
                   setSignInData={setSignInData}
                 />
                 <ToastContainer className="my-toast-container" />
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/delete"
+            element={
+              <ErrorBoundary>
+                <DeletingAccountThumbnail userData={userData}/>
               </ErrorBoundary>
             }
           />
