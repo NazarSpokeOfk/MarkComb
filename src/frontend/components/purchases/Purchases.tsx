@@ -62,10 +62,6 @@ const Purchases = ({ userData, setUserData, csrfToken }: PurchasesProps) => {
     return () => {clearTimeout(timeout)}
   }, [userData.channels]);
 
-  useEffect(() => {
-    console.log(userData.channels)
-  },[userData.channels])
-
   return (
     <>
       <HelmetProvider>

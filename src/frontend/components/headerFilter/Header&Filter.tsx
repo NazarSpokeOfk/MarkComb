@@ -107,10 +107,6 @@ const HeaderFilter = ({
     });
   }, [selectedFilterLabels]);
 
-  useEffect(() => {
-    console.log("userData in HeaderFilter : ", userData);
-  }, [userData]);
-
   return (
     <>
       <HelmetProvider>

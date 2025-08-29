@@ -488,5 +488,7 @@
   "use from your account.":"у вас 1 использование",
   "TRACK THE PROGRESS OF YOUTUBERS' VIDEOS WHOSE EMAILS YOU HAVE RECEIVED":"ОТСЛЕЖИВАЙТЕ ПРОДВИЖЕНИЕ ВИДЕОРОЛИКОВ ЮТУБЕРОВ, EMAIL КОТОРЫХ ВЫ  ПОЛУЧИЛИ",
   "Confirmation link sent on your email.":"Ссылка для подтвержения отправлена на вашу почту.",
-  "We have deleted your account.":"Мы удалили ваш аккаунт."
+  "We have deleted your account.":"Мы удалили ваш аккаунт.",
+  "Password reset":"Сброс пароля",
+  "We're changed your password":"Мы сменили ваш пароль."
 }

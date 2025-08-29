@@ -129,10 +129,6 @@ class CurtainFunctions {
         });
       } catch (error) {
         setIsLoading(false);
-        setStatus({
-          status: false,
-          message: "Не удалось активировать промокод",
-        });
       }
     }
   }

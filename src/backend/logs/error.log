@@ -437,3 +437,24 @@ Node.js v20.17.0
 29.08.2025, 12:44:18 + "
 " [ERROR] + "
 " (printf.js:11):  (getUserById) ошибка в входе по id User not found
+29.08.2025, 15:15:54 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в logIn: Wrong password
+29.08.2025, 15:16:55 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в logIn: Wrong password
+29.08.2025, 15:17:02 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в logIn: Wrong password
+29.08.2025, 15:17:54 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в logIn: Wrong password
+29.08.2025, 15:20:19 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в logIn: Wrong password
+29.08.2025, 15:20:21 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в logIn: Wrong password
+29.08.2025, 15:21:52 + "
+" [ERROR] + "
+" (printf.js:11):  (getUserById) ошибка в входе по id User not found

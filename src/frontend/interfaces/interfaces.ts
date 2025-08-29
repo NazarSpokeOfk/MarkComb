@@ -130,6 +130,10 @@ export const statusMessages = {
   successfullDeleting : {
     title : "We have deleted your account.",
     emoji : "👨‍💻"
+  },
+  successfullReset : {
+    title : "We're changed your password",
+    emoji : "🛠️"
   }
 } as const;
 

@@ -10,6 +10,7 @@ import {
   addUses,
   activatePromocode,
   deleteUser,
+  changePassword,
 } from "../services/user.service.js";
 
 export async function LogIn(req, res) {
@@ -38,7 +39,7 @@ export async function SignIn(req, res) {
   try {
     const { email, password, username, verification_code, recaptchaValue } =
       req.body.data;
-    
+
     const result = await signIn(
       email,
       password,
@@ -89,14 +90,24 @@ export async function ActivatePromocode(req, res) {
   }
 }
 
-
-export async function DeleteUser(req,res) {
-  const {token} = req.body;
+export async function DeleteUser(req, res) {
+  const { token } = req.body;
   try {
     const result = await deleteUser(token);
-    sendResponseModule(res,result)
+    sendResponseModule(res, result);
   } catch (error) {
-    console.log(error)
-    sendResponseModule(res,null,error)
+    console.log(error);
+    sendResponseModule(res, null, error);
+  }
+}
+
+export async function ChangePassword(req, res) {
+  const { newPassword, token } = req.body;
+  try {
+    const result = await changePassword(newPassword, token);
+    sendResponseModule(res, result);
+  } catch (error) {
+    console.log(error);
+    sendResponseModule(res, null, error);
   }
 }

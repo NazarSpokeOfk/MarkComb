@@ -190,14 +190,18 @@ class DataToDB {
         method: "POST",
         body: data,
       });
-
-      setIsLoggedIn(true);
-      setUserData?.(request.data);
-      return { message: true };
+      if(request.data){
+        setIsLoggedIn(true);
+        setUserData?.(request.data);
+        return true
+      } else {
+        setIsLoggedIn(false);
+        return false
+      }
     } catch (error) {
       console.log(error);
       setIsLoggedIn?.(false);
-      return { message: false };
+      return false;
     }
   }
 
@@ -271,21 +275,36 @@ class DataToDB {
     }
   }
 
-  // changePassword({ newPassword, email }: ChangePasswordProps) {
-  //   return this.fetchData({
-  //     endpoint: `${apiBaseUrl}/changePassword`,
-  //     method: "PUT",
-  //     body: {
-  //       newPassword,
-  //       email,
-  //     },
-  //     withToast: false,
-  //   })
-  //     .then((): { message: RegistrationStatusKey } => ({ message: "changed" }))
-  //     .catch((): { message: RegistrationStatusKey } => ({ message: "wrong" }));
-  // }
+  async changePassword({ newPassword, token }: ChangePasswordProps) {
+    return this.fetchData({
+      endpoint: `${apiBaseUrl}/reset`,
+      method: "PUT",
+      body: {
+        newPassword,
+        token,
+      },
+      withToast: false,
+    })
+  }
 
-  activatePromocode({ promocode, email }: ActivatePromocodeProps) {
+  async isVerificationCodeCorrect({
+    email,
+    verificationCode,
+  }: IsVerificationCodeCorrectProps) {
+    return this.fetchData({
+      endpoint: `${apiBaseUrl}/checkCode`,
+      method: "POST",
+      body: {
+        email,
+        verification_code: verificationCode,
+      },
+      withToast: false,
+    })
+      .then(() => ({ message: true }))
+      .catch(() => ({ message: false }));
+  }
+
+  async activatePromocode({ promocode, email }: ActivatePromocodeProps) {
     return this.fetchData({
       endpoint: `${apiBaseUrl}/promocode`,
       method: "PUT",

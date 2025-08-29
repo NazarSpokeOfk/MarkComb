@@ -46,6 +46,7 @@ export type TypesOfSets = {
   setRegistrationStatus: React.Dispatch<
     React.SetStateAction<RegistrationStatusKey | null>
   >;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 type SelectProps<T, K extends keyof T> = Pick<T, K>;
@@ -335,8 +336,7 @@ export type ValidateVideoFindingProps = {
   channelName: string;
   inputValue: string;
   setVideoData: React.Dispatch<React.SetStateAction<VideoData | null>>;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-};
+} & SelectProps<TypesOfSets, "setIsLoading">;
 
 export type RemovePurchaseProps = {
   user_id: number;
@@ -409,7 +409,7 @@ export type UpdateDataProps = {
 };
 
 export type DeletingAccountProps = {
-  email : string
+  email: string;
 };
 
 export type MakeFetchForCodeDBProps = {
@@ -417,8 +417,8 @@ export type MakeFetchForCodeDBProps = {
   operationCode?: string;
   isRegistration: boolean;
   setStep?: React.Dispatch<React.SetStateAction<number>>;
-  action : "signIn" | "delete" | "change",
-  userId? : number
+  action: "signIn" | "delete" | "reset";
+  userId?: number;
 } & PartialSelectProps<TypesOfSets, "setRegistrationStatus">;
 
 export type IsVerificationCodeCorrectProps = {
@@ -428,8 +428,13 @@ export type IsVerificationCodeCorrectProps = {
 
 export type ChangePasswordProps = {
   newPassword: string;
-  email: string;
+  token: string;
 };
+
+export type ChangePasswordWrapperProps = {
+  setShow: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsReseted : React.Dispatch<React.SetStateAction<boolean>>
+} & SelectProps<TypesOfSets, "setIsLoading"> & ChangePasswordProps;
 
 export type ActivatePromocodeProps = {
   promocode: string;
@@ -457,8 +462,7 @@ export type CheckStatisticsOfVideoProps = {
   channelName: string;
   inputValue: string;
   videoId: string | null;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-};
+} & SelectProps<TypesOfSets, "setIsLoading">;
 
 export type SignUpPageProps = {
   signInData: SignInData;
@@ -555,8 +559,10 @@ export type LogInFunctionProps = {
   setLogInStatus: React.Dispatch<
     React.SetStateAction<string | "success" | "fail">
   >;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-} & SelectProps<TypesOfSets, "setUserData" | "setIsLoggedIn" | "setError">;
+} & SelectProps<
+  TypesOfSets,
+  "setUserData" | "setIsLoggedIn" | "setError" | "setIsLoading"
+>;
 
 export type ForgotPasswordProps = {
   email: string;
@@ -626,7 +632,6 @@ export type MainFormProps = {
   setLogInStatus: React.Dispatch<
     React.SetStateAction<string | "success" | "fail">
   >;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   isLoading: boolean;
   loading: string;
 } & SelectProps<
@@ -636,6 +641,7 @@ export type MainFormProps = {
   | "setIsLoggedIn"
   | "setIsPasswordWillBeReset"
   | "setError"
+  | "setIsLoading"
 >;
 
 export type InputProps = {
@@ -656,16 +662,15 @@ export type SaveChangesProps = {
   newValue: string;
   userData: UserData;
   setStatus: React.Dispatch<React.SetStateAction<Status | null>>;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   setIsCurtainOpen: React.Dispatch<React.SetStateAction<boolean>>;
-} & SelectProps<TypesOfSets, "setUserData">;
+} & SelectProps<TypesOfSets, "setUserData"> &
+  SelectProps<TypesOfSets, "setIsLoading">;
 
 export type ValidateUserName = {
   prevUsername: string;
   newUsername: string;
   setStatus: React.Dispatch<React.SetStateAction<Status | null>>;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-};
+} & SelectProps<TypesOfSets, "setIsLoading">;
 
 export type SendVerificationCodeProps = {
   email: string;
@@ -710,8 +715,7 @@ export type ValidatePaymentProps = {
   user_id: number;
   packageId: number;
   userEmail: string;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-} & SelectProps<TypesOfSets, "setError">;
+} & SelectProps<TypesOfSets, "setError" | "setIsLoading">;
 
 export type ClickAnimationProps = {
   contactDataStatus: "default" | "success" | "fail";
@@ -728,17 +732,17 @@ export type MobileMenuProps = {
 
 export type ScrollLineProps = {
   stringArray: string[];
-  toRight : boolean
-} & SelectProps<TypesOfSets,"setIsFilterCTAActive">;
+  toRight: boolean;
+} & SelectProps<TypesOfSets, "setIsFilterCTAActive">;
 
 export type DeletingAccountThumbnailProps = {
-  userData : UserData
-}
+  userData: UserData;
+};
 
 export type DeleteUserProps = {
-  token : string;
-  setIsDeleting : React.Dispatch<React.SetStateAction<boolean>>
-}
+  token: string;
+  setIsDeleting: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
 export const defaultUserData: UserData = {
   channels: [],

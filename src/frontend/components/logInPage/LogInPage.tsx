@@ -158,8 +158,6 @@ const LogInPage = ({
                   verification_code: code,
                 }));
 
-                console.log(code);
-
                 logInPageFunctions.isVerificationCodeCorrect({
                   email: logInData.email,
                   verificationCode: code,
@@ -172,54 +170,6 @@ const LogInPage = ({
             />
           </div>
         </>
-      ) : null}
-
-      {isVerificationCodeCorrect ? (
-        <div className="sign__up-block">
-          <img src={decoration} alt="" className="decoration" />
-
-          <div className="sign__up-main_flex">
-            <h1 className="sign__up-title">
-              <TypeWriterComponent words={["Enter your new password"]} />
-            </h1>
-
-            <div className="sign__up-flex">
-              <input
-                value={newPassword}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  setNewPassword(value);
-                }}
-                type="text"
-                className="input"
-              />
-              <button
-                onClick={() => {
-                  logInPageFunctions.setNewPassword({
-                    email: logInData.email,
-                    newPassword,
-                    setError,
-                    setIsPasswordChangedSuccessfully,
-                    setIsVerificationCodeCorrect,
-                  });
-                }}
-                className="continue__btn"
-              >
-                {t("Continue")}
-              </button>
-            </div>
-          </div>
-        </div>
-      ) : null}
-
-      {isPasswordChangedSuccessfully !== null ? (
-        <div className="password__change-block_result">
-          <AuthorizationThumbnail
-            thumbnailRef={thumbnailRef}
-            statusMessages={statusMessages}
-            status={isPasswordChangedSuccessfully}
-          />
-        </div>
       ) : null}
     </>
   );

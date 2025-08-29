@@ -35,8 +35,6 @@ export const sendVerification = async (value, action, email, user_id) => {
 
   const expiryTime = new Date(Date.now() + 10 * 60 * 1000);
 
-  console.log("Пропсы в сервисе :" , value, action, email, user_id)
-  console.log(typeof(action));
   const text =
     action === "signIn"
       ? `Ваш код подтверждения: ${value}`
@@ -52,7 +50,7 @@ export const sendVerification = async (value, action, email, user_id) => {
   const actionToColumn = {
     signIn : "email",
     delete : "user_id",
-    change : "user_id"
+    reset : "user_id"
   }
 
   const column = actionToColumn[action];
@@ -107,7 +105,7 @@ export const verifyValue = async (email, value, action) => {
              AND expires_at > NOW()`,
         [email, value, action]
       );
-    } else if (action === "delete" || action === "change") {
+    } else if (action === "delete" || action === "reset") {
       // Проверка только по token + action
       result = await mainPool.query(
         `SELECT * FROM verification_tokens 

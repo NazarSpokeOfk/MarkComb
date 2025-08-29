@@ -33,15 +33,14 @@ class LogInPageFunctions {
       return setError("full in all fields");
     }
     setIsLoading(true);
-    const logInRequest = await dataToDb.validateLogIn({
+    const request = await dataToDb.validateLogIn({
       data: logInData,
       setUserData,
       setIsLoggedIn,
     });
-    console.log(logInRequest);
-    if (logInRequest.message === true) {
+    console.log(request);
+    if (request) {
       setIsLoading(false);
-      console.log("Пенис")
       return setLogInStatus("success");
     } else {
       setIsLoading(false);
@@ -49,16 +48,7 @@ class LogInPageFunctions {
       return setLogInStatus("fail");
     }
   }
-
-  async forgotPassword({ email, setError, setIsPasswordWillBeReset }: ForgotPasswordProps) {
-    if (!email) {
-      setError("Enter your mail in the input field");
-      return;
-    }
-    setIsPasswordWillBeReset(true)
-    await dataToDb.makeFetchForCode({ email, isRegistration: false });
-  }
-
+  
   async isVerificationCodeCorrect({
     email,
     verificationCode,
@@ -79,22 +69,6 @@ class LogInPageFunctions {
       setError(null);
       setTimeout(() => setError("Wrong verification code"), 0);
     }
-  }
-
-  async setNewPassword ({email,newPassword,setError,setIsPasswordChangedSuccessfully,setIsVerificationCodeCorrect} : SetNewPasswordProps){
-    if(!email && !newPassword){
-        setError("Oops, we lost your credentials. Please, try again a little later")
-    }
-
-    if(!newPassword){
-      return
-    }
-
-    const settingNewPassword = await dataToDb.changePassword({newPassword,email})
-
-    console.log("MTMMT",settingNewPassword)
-    setIsPasswordChangedSuccessfully(await settingNewPassword.message)
-    setIsVerificationCodeCorrect(false)
   }
 }
 

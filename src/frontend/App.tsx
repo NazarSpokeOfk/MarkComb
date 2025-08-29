@@ -42,6 +42,7 @@ import AuthorizationPage from "./components/authorizationPage/authorizationPage"
 import LogInPage from "./components/logInPage/LogInPage";
 import SignUpPage from "./components/SignUpPage/SignUpPage";
 import DeletingAccountThumbnail from "./components/deletingAccountThumbnail/deletingAccountThumbnail";
+import ResetPasswordPage from "./components/resetPasswordPage/resetPasswordPage";
 
 import checkCookies from "./Client-ServerMethods/checkCookies";
 import { setGlobalNavigate } from "./utilities/errorHandler";
@@ -329,6 +330,14 @@ function App() {
                 <DeletingAccountThumbnail userData={userData}/>
               </ErrorBoundary>
             }
+          />
+          <Route
+          path="/reset"
+          element = {
+            <ErrorBoundary>
+              <ResetPasswordPage/>
+            </ErrorBoundary>
+          }
           />
         </Routes>
         <CookiesWindow

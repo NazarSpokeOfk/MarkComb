@@ -234,6 +234,31 @@ export async function changeUserName(newValue, changeMethod, id) {
   }
 }
 
+export async function changePassword(newPassword,token){
+  try {
+    const verification = await VerifyValue(null, token, "reset");
+
+    const hashedPassword = await hashPasswordModule(newPassword);
+
+    if (verification.isActionDone) {
+      const result = await mainPool.query(
+        "UPDATE users SET password = $1 WHERE user_id = $2 RETURNING *",
+        [hashedPassword,verification.row.user_id]
+      );
+      if (result.rowCount > 0) {
+        return { isPasswordChanged: true };
+      } else {
+        return { isPasswordChanged: false };
+      }
+    } else {
+      throw new Error("Token mismatch");
+    }
+  } catch (error) {
+    console.log(error)
+    throw new Error("Error during changing password")
+  }
+}
+
 export async function deleteUser(token) {
   console.log("Пропсы : ", token)
 

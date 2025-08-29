@@ -120,11 +120,13 @@ const Profile = ({
                 <div className="credentials-block__buttons">
                   <button
                     onClick={() => {
-                      // setIsCurtainOpen(true);
-                      // setAction("password");
-                      alert(
-                        t("Function in development.Please,try again later")
-                      );
+                      toast.info(t("Confirmation link sent on your email."));
+                      dataToDb.makeFetchForCode({
+                        email : userData.userInformation.email,
+                        isRegistration: false,
+                        action: "reset",
+                        userId : userData.userInformation.user_id
+                      });
                     }}
                     className="credentials-block__button"
                   >

@@ -15,8 +15,6 @@ export async function SendVerification(req, res) {
       value = randomUUID();
     }
 
-    console.log("Пропсы в контроллере : " , email, value, action)
-
     const result = await sendVerification(value, action, email, userId);
     sendResponseModule(res, result);
   } catch (error) {

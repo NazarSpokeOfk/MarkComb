@@ -1,9 +1,11 @@
+import {toast} from "react-toastify";
 import TypeWriterComponent from "../../../headerFilter/functions/TypeWriterComponent";
 import GoogleLoginButton from "../../../googleLogInButton/GoogleLogInButton";
 import LogInPageFunctions from "../../functions/LogInPageFunctions";
 
 import { useTranslation } from "react-i18next";
 import { MainFormProps } from "../../../../types/types";
+import DataToDB from "../../../../Client-ServerMethods/dataToDB";
 
 const MainForm = ({
   logInData,
@@ -16,8 +18,10 @@ const MainForm = ({
   isLoading,
   loading,
   setIsPasswordWillBeReset,
-} : MainFormProps) => {
-  const {t} = useTranslation();
+  userData,
+}: MainFormProps) => {
+  const dataToDb = new DataToDB();
+  const { t } = useTranslation();
   const logInPageFunctions = new LogInPageFunctions();
   return (
     <>
@@ -68,7 +72,7 @@ const MainForm = ({
                 setIsLoggedIn,
                 setLogInStatus,
                 setIsLoading,
-                setError
+                setError,
               });
             }}
             className="fancy-button"
@@ -85,11 +89,14 @@ const MainForm = ({
 
         <button
           onClick={async () => {
-            await logInPageFunctions.forgotPassword({
-              email: logInData.email,
-              setError,
-              setIsPasswordWillBeReset
-            });
+            // if(!logInData.email){return toast.error(t("Enter your email in field."))}
+            // toast.info(t("Confirmation link sent on your email."));
+            // dataToDb.makeFetchForCode({
+            //   email: logInData.email,
+            //   isRegistration: false,
+            //   action: "reset",
+            //   userId: userData.userInformation.user_id,
+            // });
           }}
           id="forgot"
           className="button"
@@ -103,7 +110,11 @@ const MainForm = ({
           <div className="divider"></div>
         </div>
 
-        <GoogleLoginButton  setIsLoggedIn={setIsLoggedIn} setUserData={setUserData} setLogInStatus={setLogInStatus}/>
+        <GoogleLoginButton
+          setIsLoggedIn={setIsLoggedIn}
+          setUserData={setUserData}
+          setLogInStatus={setLogInStatus}
+        />
       </div>
     </>
   );
