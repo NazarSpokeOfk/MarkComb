@@ -1,7 +1,7 @@
 import {
   HandleNameChangeProps,
   CheckWhatChangeProps,
-  DeleteUserProps,
+  DeleteUserPropsWrapper,
 } from "../../../types/types";
 import DataToDB from "../../../Client-ServerMethods/dataToDB";
 
@@ -21,10 +21,10 @@ class ProfileFunctions {
     }));
   };
 
-  async deleteUser({token,setIsDeleting} : DeleteUserProps){
+  async deleteUser({token,setIsDeleting} : DeleteUserPropsWrapper){
     try {
       dataToDB.logOut();
-      const response = await dataToDB.deleteUser(token)
+      const response = await dataToDB.deleteUser({token})
       console.log(response)
       if(response.data.isAccountDeleted){
         setIsDeleting(false);

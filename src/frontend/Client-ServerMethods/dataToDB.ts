@@ -20,6 +20,7 @@ import {
   MakeVoteProps,
   AddReviewProps,
   CheckStatisticsOfVideoProps,
+  DeleteUserProps,
 } from "../types/types";
 
 import { RegistrationStatusKey } from "../interfaces/interfaces";
@@ -223,7 +224,7 @@ class DataToDB {
     }
   }
 
-  async deleteUser( token : string) {
+  async deleteUser({token} : DeleteUserProps) {
     try {
       const response = await this.fetchData({
         endpoint : `${apiBaseUrl}/delete`,
@@ -243,9 +244,7 @@ class DataToDB {
     isRegistration = false,
     setRegistrationStatus,
     setStep,
-    operationCode,
-    action,
-    userId
+    action
   }: MakeFetchForCodeDBProps): Promise<void> {
     try {
       const response = await fetch(`${apiBaseUrl}/verification/${action}`, {
@@ -254,7 +253,7 @@ class DataToDB {
           "Content-Type": "application/json",
           "x-api-key": import.meta.env.VITE_API_KEY,
         },
-        body: JSON.stringify({ email, userId }),
+        body: JSON.stringify({ email }),
       });
 
       const data = await response.json();
@@ -275,13 +274,13 @@ class DataToDB {
     }
   }
 
-  async changePassword({ newPassword, token }: ChangePasswordProps) {
+  async changePassword({ newPassword, token  }: ChangePasswordProps) {
     return this.fetchData({
       endpoint: `${apiBaseUrl}/reset`,
       method: "PUT",
       body: {
         newPassword,
-        token,
+        token
       },
       withToast: false,
     })

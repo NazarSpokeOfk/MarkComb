@@ -23,9 +23,9 @@ export async function SendVerification(req, res) {
   }
 }
 
-export async function VerifyValue(email,value,action,user_id) {
+export async function VerifyValue(value,action) {
   try {
-    const result = await verifyValue(email, value, action, user_id);
+    const result = await verifyValue(value, action);
     return result
   } 
   catch (error) {

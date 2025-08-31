@@ -590,3 +590,6 @@ Node.js v20.17.0
 29.08.2025, 15:21:52 + "
 " [ERROR] + "
 " (printf.js:11):  (getUserById) ошибка в входе по id User not found
+31.08.2025, 13:07:24 + "
+" [ERROR] + "
+" (printf.js:11):  (getUserById) ошибка в входе по id User not found

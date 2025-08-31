@@ -38,7 +38,7 @@ router.put("/update/:id", updateLimiter, (req, res) =>
   ChangeUserName(req, res)
 );
 
-router.put("/reset", changePasswordLimiter, (req, res) =>
+router.put("/reset", (req, res) =>
   ChangePassword(req, res)
 );
 

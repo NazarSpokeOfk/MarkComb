@@ -414,11 +414,9 @@ export type DeletingAccountProps = {
 
 export type MakeFetchForCodeDBProps = {
   email: string;
-  operationCode?: string;
   isRegistration: boolean;
   setStep?: React.Dispatch<React.SetStateAction<number>>;
   action: "signIn" | "delete" | "reset";
-  userId?: number;
 } & PartialSelectProps<TypesOfSets, "setRegistrationStatus">;
 
 export type IsVerificationCodeCorrectProps = {
@@ -428,7 +426,7 @@ export type IsVerificationCodeCorrectProps = {
 
 export type ChangePasswordProps = {
   newPassword: string;
-  token: string;
+  token : string
 };
 
 export type ChangePasswordWrapperProps = {
@@ -739,10 +737,13 @@ export type DeletingAccountThumbnailProps = {
   userData: UserData;
 };
 
+export type DeleteUserPropsWrapper = {
+  setIsDeleting: React.Dispatch<React.SetStateAction<boolean>>;
+} & DeleteUserProps;
+
 export type DeleteUserProps = {
   token: string;
-  setIsDeleting: React.Dispatch<React.SetStateAction<boolean>>;
-};
+}
 
 export const defaultUserData: UserData = {
   channels: [],

@@ -41,15 +41,10 @@ async function createTables(pool) {
 
     const createVerificationTokensTable = `CREATE TABLE IF NOT EXISTS verification_tokens (
     id SERIAL PRIMARY KEY,
-    user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
-    email TEXT,
+    email TEXT NOT NULL,
     verification_token VARCHAR(50) NOT NULL,
     action TEXT NOT NULL,
-    expires_at TIMESTAMP NOT NULL,
-    CHECK (
-        (user_id IS NOT NULL AND email IS NULL)
-        OR (user_id IS NULL AND email IS NOT NULL)
-    )
+    expires_at TIMESTAMP NOT NULL
    );`;
 
     await pool.query(createVerificationTokensTable);

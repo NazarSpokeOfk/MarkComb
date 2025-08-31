@@ -558,3 +558,9 @@ Node.js v20.17.0
 26.08.2025, 17:33:51 + "
 " [ERROR] + "
 " (printf.js:11):  (updateUser) Возникла ошибка в updateUser: Wrong password
+31.08.2025, 13:13:24 + "
+" [ERROR] + "
+" (printf.js:11):  (updateUser) Возникла ошибка в updateUser: Wrong password
+31.08.2025, 13:13:25 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в addPurchase User not found

@@ -31,7 +31,16 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export const sendVerification = async (value, action, email, user_id) => {
+export const sendVerification = async (value, action, email) => {
+  if (!email) {
+    throw new Error("Email is required for verification");
+  }
+
+  const checkUser = await mainPool.query("SELECT * FROM users WHERE email = $1",[email])
+
+  if(checkUser.rowCount > 0){
+    return {isUserExists : true}
+  }
 
   const expiryTime = new Date(Date.now() + 10 * 60 * 1000);
 
@@ -47,95 +56,45 @@ export const sendVerification = async (value, action, email, user_id) => {
     text,
   };
 
-  const actionToColumn = {
-    signIn : "email",
-    delete : "user_id",
-    reset : "user_id"
-  }
-
-  const column = actionToColumn[action];
-
-  if (!column) {
-    throw new Error("Unknown action");
-  }
-
-  let definedValue;
-
-  if (column === "email") {
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      throw new Error("Incorrect email");
-    }
-    definedValue = email;
-    const checkForUser = await mainPool.query(
-      "SELECT 1 FROM users WHERE email = $1 LIMIT 1",
-      [email]
-    );
-    if (checkForUser.rowCount > 0) {
-      return { isVerificationSent : false , isUserExists : true}
-    }
-  } else {
-    definedValue = user_id;
-  }
-
   try {
     await mainPool.query(
-      `INSERT INTO verification_tokens (${column}, expires_at, verification_token, action) 
+      `INSERT INTO verification_tokens (email, expires_at, verification_token, action) 
            VALUES ($1, $2, $3, $4) RETURNING *`,
-      [definedValue, expiryTime, value, action]
+      [email, expiryTime, value, action]
     );
     await transporter.sendMail(mailOptions);
-    return { isVerificationSent: true , isUserExists : false};
+    return { isVerificationSent: true, isUserExists: false };
   } catch (error) {
     console.error("(sendVerification) Error:", error);
     throw new Error("Error sending verification");
   }
 };
 
-export const verifyValue = async (email, value, action) => {
+export const verifyValue = async (value, action) => {
   try {
-    let result;
-
-    if (action === "signIn") {
-      // Проверка по email + token
-      result = await mainPool.query(
-        `SELECT * FROM verification_tokens 
-           WHERE email = $1 
-             AND verification_token = $2 
-             AND action = $3 
+    const result = await mainPool.query(
+      `SELECT * FROM verification_tokens 
+           WHERE verification_token = $1
+             AND action = $2
              AND expires_at > NOW()`,
-        [email, value, action]
-      );
-    } else if (action === "delete" || action === "reset") {
-      // Проверка только по token + action
-      result = await mainPool.query(
-        `SELECT * FROM verification_tokens 
-           WHERE verification_token = $1 
-             AND action = $2 
-             AND expires_at > NOW()`,
-        [value, action]
-      );
-    } else {
-      throw new Error("Unknown action");
-    }
+      [value,action]
+    );
 
     if (result.rowCount === 0) {
       return { isActionDone: false, message: "Token is invalid or expired" };
     }
 
     // Удаляем использованный токен
-    await mainPool.query(
-      `DELETE FROM verification_tokens WHERE id = $1`,
-      [result.rows[0].id]
-    );
+    await mainPool.query(`DELETE FROM verification_tokens WHERE id = $1`, [
+      result.rows[0].id,
+    ]);
 
-    return { isActionDone: true,row: result.rows[0] };
+    return { isActionDone: true, row: result.rows[0] };
   } catch (error) {
     logger.error("(verifyValue) Ошибка при проверке кода:", error);
     throw new Error("Server error while verifying token");
   }
 };
-
-
 
 // export const clearUpVerifCodes = async (email) => {
 //   try {

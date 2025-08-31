@@ -89,14 +89,13 @@ const MainForm = ({
 
         <button
           onClick={async () => {
-            // if(!logInData.email){return toast.error(t("Enter your email in field."))}
-            // toast.info(t("Confirmation link sent on your email."));
-            // dataToDb.makeFetchForCode({
-            //   email: logInData.email,
-            //   isRegistration: false,
-            //   action: "reset",
-            //   userId: userData.userInformation.user_id,
-            // });
+            if(!logInData.email){return toast.error(t("Enter your email in field."))}
+            toast.info(t("Confirmation link sent on your email."));
+            dataToDb.makeFetchForCode({
+              email: logInData.email,
+              isRegistration: false,
+              action: "reset"
+            });
           }}
           id="forgot"
           className="button"

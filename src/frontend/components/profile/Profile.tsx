@@ -122,10 +122,9 @@ const Profile = ({
                     onClick={() => {
                       toast.info(t("Confirmation link sent on your email."));
                       dataToDb.makeFetchForCode({
-                        email : userData.userInformation.email,
+                        email: userData.userInformation.email,
                         isRegistration: false,
                         action: "reset",
-                        userId : userData.userInformation.user_id
                       });
                     }}
                     className="credentials-block__button"
@@ -174,10 +173,9 @@ const Profile = ({
                 onClick={() => {
                   toast.info(t("Confirmation link sent on your email."));
                   dataToDb.makeFetchForCode({
-                    email : userData.userInformation.email,
+                    email: userData.userInformation.email,
                     isRegistration: false,
                     action: "delete",
-                    userId : userData.userInformation.user_id
                   });
                 }}
                 className="delete__account-button fancy-button"

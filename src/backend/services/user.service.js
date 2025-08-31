@@ -138,34 +138,34 @@ export async function signIn(
   req
 ) {
   try {
-    const domain = email.split("@")[1].toLowerCase(); //закомментировать при тестировании
+    // const domain = email.split("@")[1].toLowerCase(); //закомментировать при тестировании
 
-    if (domains.includes(domain)) {
-      //закомментировать при тестировании
-      throw new Error("Temp mail not allowed");
-    }
+    // if (domains.includes(domain)) {
+    //   //закомментировать при тестировании
+    //   throw new Error("Temp mail not allowed");
+    // }
 
-    if (!req.session.captchaVerified && recaptchaValue) {
-      //закомментировать при тестировании
-      // Если капча еще не была проверена
-      const isCaptchaValid = await verifyCaptchaModule(recaptchaValue);
-      if (!isCaptchaValid) {
-        throw new Error("Invalid captcha validation");
-      }
+    // if (!req.session.captchaVerified && recaptchaValue) {
+    //   //закомментировать при тестировании
+    //   // Если капча еще не была проверена
+    //   const isCaptchaValid = await verifyCaptchaModule(recaptchaValue);
+    //   if (!isCaptchaValid) {
+    //     throw new Error("Invalid captcha validation");
+    //   }
 
-      // Если капча прошла, сохраняем в сессии //закомментировать при тестировании
-      req.session.captchaVerified = true;
-      req.session.save((err) => {
-        if (err) {
-          logger.error("Ошибка сохранения сессии:", err);
-          return;
-        }
-      });
-    }
+    //   // Если капча прошла, сохраняем в сессии //закомментировать при тестировании
+    //   req.session.captchaVerified = true;
+    //   req.session.save((err) => {
+    //     if (err) {
+    //       logger.error("Ошибка сохранения сессии:", err);
+    //       return;
+    //     }
+    //   });
+    // }
 
-    const verification = await VerifyValue(email, verification_code, "signIn");
+    // const verification = await VerifyValue(verification_code, "signIn");
 
-    if (!verification.isActionDone) return verification;
+    // if (!verification.isActionDone) return verification;
 
     // Валидация данных
     validateInput({ email, password, username });
@@ -235,15 +235,16 @@ export async function changeUserName(newValue, changeMethod, id) {
 }
 
 export async function changePassword(newPassword,token){
+  console.log("Пропсы в changePassword : " , newPassword,token)
   try {
-    const verification = await VerifyValue(null, token, "reset");
+    const verification = await VerifyValue(token, "reset");
 
     const hashedPassword = await hashPasswordModule(newPassword);
 
     if (verification.isActionDone) {
       const result = await mainPool.query(
-        "UPDATE users SET password = $1 WHERE user_id = $2 RETURNING *",
-        [hashedPassword,verification.row.user_id]
+        "UPDATE users SET password = $1 WHERE email = $2 RETURNING *",
+        [hashedPassword,verification.row.email]
       );
       if (result.rowCount > 0) {
         return { isPasswordChanged: true };
@@ -260,15 +261,14 @@ export async function changePassword(newPassword,token){
 }
 
 export async function deleteUser(token) {
-  console.log("Пропсы : ", token)
-
+  console.log("Пропсы в deleteUser : " , token)
   try {
-    const verification = await VerifyValue(null, token, "delete");
+    const verification = await VerifyValue(token, "delete");
 
     if (verification.isActionDone) {
       const result = await mainPool.query(
-        "DELETE FROM users WHERE user_id = $1 RETURNING *",
-        [verification.row.user_id]
+        "DELETE FROM users WHERE email = $1 RETURNING *",
+        [verification.row.email]
       );
       if (result.rowCount > 0) {
         return { isAccountDeleted: true };

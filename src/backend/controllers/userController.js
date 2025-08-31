@@ -91,9 +91,9 @@ export async function ActivatePromocode(req, res) {
 }
 
 export async function DeleteUser(req, res) {
-  const { token } = req.body;
+  const { token , email } = req.body;
   try {
-    const result = await deleteUser(token);
+    const result = await deleteUser(token,email);
     sendResponseModule(res, result);
   } catch (error) {
     console.log(error);
@@ -102,9 +102,9 @@ export async function DeleteUser(req, res) {
 }
 
 export async function ChangePassword(req, res) {
-  const { newPassword, token } = req.body;
+  const { newPassword, token , email } = req.body;
   try {
-    const result = await changePassword(newPassword, token);
+    const result = await changePassword(newPassword, token, email);
     sendResponseModule(res, result);
   } catch (error) {
     console.log(error);
