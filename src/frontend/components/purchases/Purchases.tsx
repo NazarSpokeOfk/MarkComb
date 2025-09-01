@@ -132,6 +132,7 @@ const Purchases = ({ userData, setUserData, csrfToken }: PurchasesProps) => {
                               />
                             </div>
                             <img
+                             referrerPolicy="no-referrer"
                               src={purchase.thumbnail}
                               alt=""
                               className="purchase__channelthumbnail"

@@ -119,6 +119,7 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
           </div>
 
           <img
+            referrerPolicy="no-referrer"
             src={videoData.thumbnail}
             alt=""
             className="result__block-videoimage"

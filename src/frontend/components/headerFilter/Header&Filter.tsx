@@ -57,24 +57,24 @@ const HeaderFilter = ({
   const filterRef = useRef<HTMLDivElement | null>(null);
 
   const audienceButtonLabels = [
-    {label : "Kids" , emoji : "👶"},
-    {label : "Adults" , emoji : "👨"},
-    {label : "Teenagers" , emoji : "🧑"},
-    {label : "OlderGen" , emoji : "👨‍🦳"}
+    { label: "Kids", emoji: "👶" },
+    { label: "Adults", emoji: "👨" },
+    { label: "Teenagers", emoji: "🧑" },
+    { label: "OlderGen", emoji: "👨‍🦳" },
   ];
   const contentButtonLabels = [
-    {label : "Comedy" , emoji : "🎭"},
-    {label : "Vlogs" , emoji : "📸"},
-    {label : "Animation" , emoji : "✏️"},
-    {label : "Education" , emoji : "📚"},
-    {label : "Entertainment" , emoji : "🎢"},
-    {label : "Fitness" , emoji : "💪"},
-    {label : "Health" , emoji : "⚕️"},
-    {label : "Music" , emoji : "🎶"},
-    {label : "News" , emoji : "📰"},
-    {label : "Gaming" , emoji : "🎮"},
-    {label : "Travel" , emoji : "🗺️"},
-    {label : "Fashion" , emoji : "👕"}
+    { label: "Comedy", emoji: "🎭" },
+    { label: "Vlogs", emoji: "📸" },
+    { label: "Animation", emoji: "✏️" },
+    { label: "Education", emoji: "📚" },
+    { label: "Entertainment", emoji: "🎢" },
+    { label: "Fitness", emoji: "💪" },
+    { label: "Health", emoji: "⚕️" },
+    { label: "Music", emoji: "🎶" },
+    { label: "News", emoji: "📰" },
+    { label: "Gaming", emoji: "🎮" },
+    { label: "Travel", emoji: "🗺️" },
+    { label: "Fashion", emoji: "👕" },
   ];
   const subscribersButtonLabels = {
     "0-1K": [0, 1000],
@@ -146,18 +146,14 @@ const HeaderFilter = ({
               className="maininput"
               onSubmit={(e) => {
                 e.preventDefault();
-                if (isLoggedIn) {
-                  headerFilterFunctions.searchFetch({
-                    e,
-                    mainInputValue,
-                    setIsSearching,
-                    csrfToken,
-                    setChannelData,
-                  });
-                } else {
-                  headerFilterFunctions.logInFirstly();
-                  setIsSearching(false);
-                }
+
+                headerFilterFunctions.searchFetch({
+                  e,
+                  mainInputValue,
+                  setIsSearching,
+                  csrfToken,
+                  setChannelData,
+                });
               }}
             >
               <div className="Header__input-flex">
@@ -205,7 +201,7 @@ const HeaderFilter = ({
 
         <section ref={filterRef} className="filters">
           <div className="container">
-            { isLittleMobile ? null : <hr className="filter__divider" />}
+            {isLittleMobile ? null : <hr className="filter__divider" />}
             {/* <div className="multifilter__block">
               <h2 className="multifilter__title">
                 {t("Multi - ")}
@@ -294,7 +290,7 @@ const HeaderFilter = ({
               <div className="target__audence">
                 <h2 className="target-audence__title text">{t("audience")}</h2>
                 <div className="target-audence__blocks">
-                  {audienceButtonLabels.map(({label,emoji}) => (
+                  {audienceButtonLabels.map(({ label, emoji }) => (
                     <button
                       key={label}
                       className={`filter__block ${
@@ -312,18 +308,15 @@ const HeaderFilter = ({
                           max: null,
                         };
                         setSelectedFilter(newFilter);
-                        if (isLoggedIn) {
-                          manageFiltersFetch({
-                            content_type: null,
-                            setChannelData,
-                            ageGroup: label,
-                            minSubs: null,
-                            maxSubs: null,
-                            setIsFiltersFetching,
-                          });
-                        } else {
-                          headerFilterFunctions.logInFirstly();
-                        }
+
+                        manageFiltersFetch({
+                          content_type: null,
+                          setChannelData,
+                          ageGroup: label,
+                          minSubs: null,
+                          maxSubs: null,
+                          setIsFiltersFetching,
+                        });
                       }}
                     >
                       {t(label)} {emoji}
@@ -372,18 +365,15 @@ const HeaderFilter = ({
                           }
 
                           setSelectedFilter(newFilter);
-                          if (isLoggedIn) {
-                            manageFiltersFetch({
-                              content_type: null,
-                              setChannelData,
-                              ageGroup: null,
-                              minSubs: label?.[1]?.[0],
-                              maxSubs: label?.[1]?.[1],
-                              setIsFiltersFetching,
-                            });
-                          } else {
-                            headerFilterFunctions.logInFirstly();
-                          }
+
+                          manageFiltersFetch({
+                            content_type: null,
+                            setChannelData,
+                            ageGroup: null,
+                            minSubs: label?.[1]?.[0],
+                            maxSubs: label?.[1]?.[1],
+                            setIsFiltersFetching,
+                          });
                         }}
                       >
                         {label[0]}
@@ -399,7 +389,7 @@ const HeaderFilter = ({
                   <span> {t("type")}</span>
                 </h2>
                 <div className="content__type__blocks">
-                  {contentButtonLabels.map(({label, emoji}) => (
+                  {contentButtonLabels.map(({ label, emoji }) => (
                     <button
                       key={label}
                       className={`filter__block ${
@@ -428,21 +418,18 @@ const HeaderFilter = ({
                           return;
                         }
                         setSelectedFilter(newFilter);
-                        if (isLoggedIn) {
-                          manageFiltersFetch({
-                            content_type: label,
-                            setChannelData,
-                            ageGroup: null,
-                            minSubs: null,
-                            maxSubs: null,
-                            setIsFiltersFetching,
-                          });
-                        } else {
-                          headerFilterFunctions.logInFirstly();
-                        }
+                        manageFiltersFetch({
+                          content_type: label,
+                          setChannelData,
+                          ageGroup: null,
+                          minSubs: null,
+                          maxSubs: null,
+                          setIsFiltersFetching,
+                        });
                       }}
                     >
-                      {t(label)}{emoji}
+                      {t(label)}
+                      {emoji}
                     </button>
                   ))}
                 </div>

@@ -2,6 +2,8 @@
 
 import manageFiltersFetch from "../../../Client-ServerMethods/filterFetches";
 
+import { handleHttpError } from "../../../utilities/errorHandler";
+
 const apiBaseUrl = import.meta.env.VITE_API_URL;
 
 import { toast } from "react-toastify";
@@ -49,8 +51,12 @@ class HeaderFilterFunctions {
         },
         body: JSON.stringify({ mainInputValue }),
       });
+      if (!response.ok) {
+        handleHttpError(response);
+        throw response;
+      }
       const result = await response.json();
-      console.log(result)
+      console.log(result);
       setChannelData(result.data);
       setIsSearching(false);
     } catch (error) {

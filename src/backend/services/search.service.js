@@ -2,13 +2,15 @@ import "../loadEnv.js";
 
 import logger from "../winston/winston.js";
 
+import returnWorkingThumbnailURL from "../modules/returnWorkingThumbnailURL.js";
+
 const apiKey = process.env.GOOGLE_API_KEY;
 
 //Форматировка данных
 const transformRes = (result) => {
   return {
     channel_name: result.snippet.title,
-    thumbnail: result.snippet.thumbnails.high.url,
+    thumbnail: returnWorkingThumbnailURL(result.snippet.thumbnails.high.url),
     channelId: result.snippet.channelId,
   };
 };
@@ -266,7 +268,9 @@ export const channelAndVideoSearch = async (channel_name, videoName) => {
     const finalVideoData = {
       channel_name:
         videoData?.items?.[0]?.snippet?.title.slice(0, 35) + triplet,
-      thumbnail: videoData?.items?.[0]?.snippet?.thumbnails?.medium?.url,
+        thumbnail: returnWorkingThumbnailURL(
+        videoData?.items?.[0]?.snippet?.thumbnails?.medium?.url
+      ),
       videoId: videoData?.items?.[0]?.id?.videoId,
     };
 
@@ -275,7 +279,9 @@ export const channelAndVideoSearch = async (channel_name, videoName) => {
     return {
       analiticsAndData: {
         title: videoData?.items?.[0]?.snippet?.title.slice(0, 35) + triplet,
-        thumbnail: videoData?.items?.[0]?.snippet?.thumbnails?.medium?.url,
+        thumbnail: returnWorkingThumbnailURL(
+          videoData?.items?.[0]?.snippet?.thumbnails?.medium?.url
+        ),
         videoId: videoData?.items?.[0]?.id?.videoId,
         analitics,
       },

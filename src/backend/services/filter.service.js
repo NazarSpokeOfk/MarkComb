@@ -1,6 +1,8 @@
 import storagePool from "../db/mk_storage/index.js";
 import logger from "../winston/winston.js";
 
+import returnWorkingThumbnailURL from "../modules/returnWorkingThumbnailURL.js"
+
 import "../loadEnv.js"
 
 const apiKey = process.env.GOOGLE_API_KEY;
@@ -72,7 +74,7 @@ export const fetchChannelData = async (
         subsCount: result?.items?.[0]?.statistics?.subscriberCount,
         content_type: content_type,
         targetAudience: audience,
-        thumbnail: result?.items?.[0]?.snippet?.thumbnails?.medium?.url,
+        thumbnail: returnWorkingThumbnailURL(result?.items?.[0]?.snippet?.thumbnails?.medium?.url),
         channelId: channelId,
       };
 

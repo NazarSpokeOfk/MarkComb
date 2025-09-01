@@ -2,7 +2,7 @@ import rateLimit from "../../node_modules/express-rate-limit/dist/index.cjs"
 
 const searchLimiter = rateLimit({
     windowMs: 10 * 60 * 1000,
-    max : 15,
+    max : 10,
     handler : (req,res) => {
         res.status(429).json({
             status : 429,

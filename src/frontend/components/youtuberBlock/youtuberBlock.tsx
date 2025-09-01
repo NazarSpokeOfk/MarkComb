@@ -80,6 +80,7 @@ const YouTuberBlock = ({
             src={channelData?.thumbnail}
             alt={`${channelData?.channel_name} logo`}
             className="youtuber__logo-img"
+            referrerPolicy="no-referrer"
           />
         </div>
 
