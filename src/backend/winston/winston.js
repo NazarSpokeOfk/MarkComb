@@ -1,5 +1,12 @@
 import winston from "winston";
 import path from "path"
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+
+const logsPath = path.resolve(__dirname, "../logs");
+
 
 const getCallerInfo = () => {
     const obj = {}
@@ -23,10 +30,10 @@ const logger = winston.createLogger({
             return `${timestamp} + "\n" [${level.toUpperCase()}] + "\n" (${getCallerInfo()}): ${message}`;
         })
     ),
-    transports : [
-        new winston.transports.File({ filename : "../logs/error.log" , level : "error"}),
-        new winston.transports.File({ filename : "../logs/combined.log" }),
-    ],
+    transports: [
+    new winston.transports.File({ filename: path.join(logsPath, "error.log"), level: "error" }),
+    new winston.transports.File({ filename: path.join(logsPath, "combined.log") }),
+  ],
 })
 
 if (process.env.NODE_ENV !== "production") {
