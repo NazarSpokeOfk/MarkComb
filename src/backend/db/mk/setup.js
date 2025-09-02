@@ -6,7 +6,7 @@ async function createTables(pool) {
         email VARCHAR(255) NOT NULL UNIQUE,
         password VARCHAR(255) NOT NULL,
         username VARCHAR(50),
-        uses BigInt DEFAULT 0,
+        uses BigInt DEFAULT 5,
         PRIMARY KEY(user_id)
         )`;
 

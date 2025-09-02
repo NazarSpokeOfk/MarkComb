@@ -188,6 +188,7 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
                         className={`card item`}
                       >
                         <img
+                          referrerPolicy="no-referrer"
                           src={channel.thumbnail}
                           alt=""
                           className="card__image"
