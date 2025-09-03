@@ -464,3 +464,6 @@ Node.js v20.17.0
 02.09.2025, 12:11:35 + "
 " [ERROR] + "
 " (printf.js:11): Возникла ошибка в logIn: Wrong password
+03.09.2025, 09:40:57 + "
+" [ERROR] + "
+" (printf.js:11):  (getUserById) ошибка в входе по id User not found

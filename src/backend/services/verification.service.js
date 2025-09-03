@@ -32,14 +32,23 @@ const transporter = nodemailer.createTransport({
 });
 
 export const sendVerification = async (value, action, email) => {
+
   if (!email) {
     throw new Error("Email is required for verification");
   }
 
-  const checkUser = await mainPool.query("SELECT * FROM users WHERE email = $1",[email])
+  const checkUser = await mainPool.query("SELECT * FROM users WHERE email = $1",[email]);
 
-  if(checkUser.rowCount > 0){
-    return {isUserExists : true}
+  if(action === "change" || action === "delete"){
+    if(checkUser.rowCount < 0){
+      return {isUserExists : false}
+    }
+  }
+
+  if(action === "signIn"){
+    if(checkUser.rowCount > 0){
+      return {isUserExists : true}
+    }
   }
 
   const expiryTime = new Date(Date.now() + 10 * 60 * 1000);

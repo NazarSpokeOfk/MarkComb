@@ -156,22 +156,9 @@ const getCatById = (id) => {
 //Основная функция по поиску канала по данным, полученным из формы.
 const FindChannel = async (mainInputValue) => {
   try {
-    // const form = document.querySelector(`.${selector}`);
-    // if (!form) {
-    //   console.error("Форма не найдена");
-    //   return null;
-    // }
-
-    // const input = form.querySelector("input.search__main");
-    // if (!input) {
-    //   console.error("Поле ввода не найдено");
-    //   return null;
-    // }
-
     const query = mainInputValue.trim();
     if (!query) {
       alert("Введите запрос");
-      // setIsSearching(false)
       return null;
     }
 
@@ -183,7 +170,7 @@ const FindChannel = async (mainInputValue) => {
     //Получаем название, картинку канала. 100квот
     const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(
       query
-    )}&type=channels&maxResults=1&key=${apiKey}`;
+    )}&type=channel&maxResults=1&key=${apiKey}`;
 
     // Получаем данные о канале
     const res = await fetch(url);

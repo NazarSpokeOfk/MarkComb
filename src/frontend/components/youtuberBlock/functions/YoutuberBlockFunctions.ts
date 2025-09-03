@@ -37,8 +37,10 @@ class YoutuberBlockFunctions {
         channelId: updatedData.channelId,
         setContactDataStatus,
       });
-
-      console.log("response : ", response.name);
+      if(!response.email){
+        setContactDataStatus("fail")
+      }
+      console.log("response : ", response);
 
       dataToDB.validatePurchaseData({
         data: {
