@@ -37,15 +37,6 @@ export async function getUserIp() {
   }
 }
 
-// export async function getAllUsers(req, res) {
-//   try {
-//     const users = await mainPool.query(`SELECT * FROM users`);
-//     res.json(users.rows);
-//   } catch (error) {
-//     logger.error("Возникла ошибка в getAllUsers :", error);
-//   }
-// }
-
 export async function logIn(email, password) {
   try {
     const userResult = await mainPool.query(

@@ -104,7 +104,7 @@ header {
 
 .logo {
   img {
-    width: 150px;
+    width: 170px;
     height: 25px;
   }
   color: white;
@@ -232,7 +232,7 @@ header.active .header__sublinks {
   }
   .logo{
     img{
-      width: 101px;
+      width: 112px;
       height: 17px;
     }
   }

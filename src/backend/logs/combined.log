@@ -599,3 +599,12 @@ Node.js v20.17.0
 03.09.2025, 09:40:57 + "
 " [ERROR] + "
 " (printf.js:11):  (getUserById) ошибка в входе по id User not found
+04.09.2025, 18:43:17 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в addPurchase User not found
+04.09.2025, 18:43:17 + "
+" [ERROR] + "
+" (printf.js:11):  (updateUser) Возникла ошибка в updateUser: Wrong password
+04.09.2025, 18:48:10 + "
+" [ERROR] + "
+" (printf.js:11):  (getUserById) ошибка в входе по id User not found

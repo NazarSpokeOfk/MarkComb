@@ -65,7 +65,7 @@ const Footer = () => {
       </div>
       <div className="footer__divider" />
 
-      <p className="footer__last-text">{t("© 2025 MarkComb. All rights reserved")}</p>
+      <p className="footer__last-text">{t("2025 MarkComb™")}</p>
     </section>
   );
 };
