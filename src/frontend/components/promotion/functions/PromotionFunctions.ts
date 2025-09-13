@@ -12,17 +12,17 @@ class PromotionsFunctions {
     inputValue,
     setVideoData,
     setIsLoading,
+    setCurrentAnalytics
   }: ValidateVideoFindingProps) {
     const dataToDb = new DataToDB({ setVideoData });
 
     if (channelName && inputValue) {
       setIsLoading(true);
-      dataToDb.checkStatisticsOfVideo({
-        type: "video",
+      dataToDb.collectAnalytics({
         channelName,
         inputValue,
-        videoId: null,
         setIsLoading,
+        setCurrentAnalytics
       });
     } else {
       return;

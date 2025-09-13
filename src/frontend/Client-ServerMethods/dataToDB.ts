@@ -367,27 +367,23 @@ class DataToDB {
       .catch(() => ({ message: false }));
   }
 
-  async checkStatisticsOfVideo({
-    type,
+  async collectAnalytics({
     channelName,
     inputValue,
-    videoId,
     setIsLoading,
+    setCurrentAnalytics
   }: CheckStatisticsOfVideoProps) {
-    console.log(`${apiBaseUrl}/${type}`);
-
     try {
       const response = await this.fetchData({
-        endpoint: `${apiBaseUrl}/${type}`,
+        endpoint: `${apiBaseUrl}/collect-analytics`,
         method: "POST",
         body: { channel_name: channelName, videoName: inputValue },
         withToast: false,
       });
 
-      console.log(response);
-
       setIsLoading(false);
-      this.setVideoData?.(response.data.analiticsAndData);
+      this.setVideoData?.(response.data.videoData);
+      setCurrentAnalytics(response.data.currentAnalytics)
     } catch (error) {
       console.log("Возникла ошибка при поиске аналитики : ", error);
     }

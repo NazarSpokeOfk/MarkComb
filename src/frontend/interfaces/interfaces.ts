@@ -2,10 +2,12 @@ export interface VideoData {
   title: string;
   thumbnail: string;
   videoId: string;
-  analitics?: {
+}
+
+export interface CurrentAnalytics {
     views: number;
     likes: number;
-  };
+    comments : number;
 }
 
 export interface DataToDBParams {

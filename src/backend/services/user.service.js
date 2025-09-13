@@ -75,8 +75,6 @@ export async function logIn(email, password) {
       [userId]
     );
 
-    console.log("Каналы пользователя : ",userChannels.rows)
-
     const csrfToken = crypto.randomBytes(16).toString("hex");
 
     const userInformation = returnUserInformationModule(user, token, csrfToken);

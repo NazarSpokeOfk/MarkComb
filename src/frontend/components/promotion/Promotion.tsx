@@ -4,7 +4,6 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import "./Promotion.css";
 
-import DataToDB from "../../Client-ServerMethods/dataToDB";
 import PromotionFunctions from "./functions/PromotionFunctions";
 
 import smoothScrollContainer from "../../utilities/smoothHorizontalScroll";
@@ -12,7 +11,7 @@ import SmoothVerticalScroll from "../../utilities/smoothVerticalScroll";
 
 import { CommonTypes } from "../../types/types";
 
-import { VideoData } from "../../interfaces/interfaces";
+import { CurrentAnalytics, VideoData } from "../../interfaces/interfaces";
 
 import searchIcon from "../../icons/searchIcon.png";
 import promotionThumbnail from "../../icons/promotionThumbnail.png";
@@ -27,14 +26,10 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
   const [showSearch, setShowSearch] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showResults, setShowResults] = useState(false);
+  const [currentAnalytics,setCurrentAnalytics] = useState<CurrentAnalytics | null>(null)
 
   const searchSectionRef = useRef<HTMLInputElement | null>(null);
   const resultBlockRef = useRef<HTMLDivElement | null>(null);
-  const thumbnailRef = useRef<HTMLDivElement | null>(null);
-
-  const dataToDb = new DataToDB({
-    setVideoData,
-  });
 
   const titleRef = useRef<HTMLHeadingElement | null>(null);
 
@@ -52,7 +47,6 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
   useEffect(() => {
     if (userData.channels.length <= 0) {
       const observer = SmoothVerticalScroll({});
-
       return () => {
         observer.disconnect();
       };
@@ -79,15 +73,6 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
       timeout = setTimeout(() => {
         resultBlockRef.current?.classList.add("appearing");
       }, 100);
-    }
-    if (!videoData?.analitics && videoData?.videoId) {
-      dataToDb.checkStatisticsOfVideo({
-        type: "analitics",
-        channelName,
-        inputValue,
-        videoId: videoData?.videoId,
-        setIsLoading,
-      });
     }
     return () => {
       clearTimeout(timeout);
@@ -129,7 +114,7 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
             <div className="card-top"></div>
             <h2 className="result__block-title_promotion">{t("Likes")}</h2>
             <h3 className="result__block-subtitle_promotion">
-              {videoData.analitics?.likes}
+              {currentAnalytics?.likes}
             </h3>
           </div>
 
@@ -137,7 +122,7 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
             <div className="card-top"></div>
             <h2 className="result__block-title_promotion">{t("Views")}</h2>
             <h3 className="result__block-subtitle_promotion">
-              {videoData.analitics?.views}
+              {currentAnalytics?.views}
             </h3>
           </div>
         </div>
@@ -239,6 +224,7 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
                     inputValue,
                     setVideoData,
                     setIsLoading,
+                    setCurrentAnalytics
                   });
                 }}
                 className="promotion__search-btn"

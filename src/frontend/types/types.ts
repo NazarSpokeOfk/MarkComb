@@ -19,6 +19,7 @@ import {
   Status,
   CodeStatus,
   PurchasedChannelData,
+  CurrentAnalytics,
 } from "../interfaces/interfaces";
 import { NavigateFunction } from "react-router-dom";
 
@@ -47,6 +48,7 @@ export type TypesOfSets = {
     React.SetStateAction<RegistrationStatusKey | null>
   >;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  setCurrentAnalytics : React.Dispatch<React.SetStateAction<CurrentAnalytics | null>>
 };
 
 type SelectProps<T, K extends keyof T> = Pick<T, K>;
@@ -336,7 +338,7 @@ export type ValidateVideoFindingProps = {
   channelName: string;
   inputValue: string;
   setVideoData: React.Dispatch<React.SetStateAction<VideoData | null>>;
-} & SelectProps<TypesOfSets, "setIsLoading">;
+} & SelectProps<TypesOfSets, "setIsLoading" | "setCurrentAnalytics">;
 
 export type RemovePurchaseProps = {
   user_id: number;
@@ -456,11 +458,9 @@ export type AddReviewProps = {
 };
 
 export type CheckStatisticsOfVideoProps = {
-  type: string;
   channelName: string;
   inputValue: string;
-  videoId: string | null;
-} & SelectProps<TypesOfSets, "setIsLoading">;
+} & SelectProps<TypesOfSets, "setIsLoading" | "setCurrentAnalytics">;
 
 export type SignUpPageProps = {
   signInData: SignInData;
