@@ -13,7 +13,7 @@ export async function collectAnalytics(channel_name, videoName) {
     //     videoId: 'v0qspoyYdiA',
     //     analitics: { views: '424918', likes: '15388' }
     //     }
-    if (!currentAnalytics) {
+    if (!currentAnalytics || !videoData) {
       throw new Error("Can't find analytics.");
     }
   } catch (error) {
@@ -22,8 +22,10 @@ export async function collectAnalytics(channel_name, videoName) {
   }
 
   try {
+    await storagePool.query("INSERT INTO videos (video_id) VALUES ($1) ON CONFLICT DO NOTHING", [videoData.videoId]);
+    await storagePool.query("INSERT INTO analytics_meta (video_id) VALUES ($1) ON CONFLICT (video_id) DO UPDATE SET points_of_interest = analytics_meta.points_of_interest + 1" , [videoData.videoId]);
     const insertAnalytics = await storagePool.query(
-      "INSERT INTO analytics(video_id,views,likes,comments) VALUES ($1,$2,$3,$4) ON CONFLICT (video_id, date) DO UPDATE SET views = EXCLUDED.views, likes = EXCLUDED.likes, comments = EXCLUDED.comments,points_of_interest = analytics.points_of_interest + 1 RETURNING video_id",
+      "INSERT INTO analytics(video_id,views,likes,comments) VALUES ($1,$2,$3,$4) ON CONFLICT (video_id, date) DO UPDATE SET views = EXCLUDED.views, likes = EXCLUDED.likes, comments = EXCLUDED.comments RETURNING video_id",
       [
         videoData.videoId,
         currentAnalytics.views,

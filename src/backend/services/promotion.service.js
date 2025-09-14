@@ -59,7 +59,7 @@ export const channelAndVideoSearch = async (channel_name, videoName) => {
   }
 };
 
-const getAnalitics = async (videoId) => {
+export const getAnalitics = async (videoId) => {
   const urlForAnalitics = `https://www.googleapis.com/youtube/v3/videos?part=statistics,snippet&id=${videoId}&key=${apiKey}`;
   try {
     const rawData = await fetch(urlForAnalitics);

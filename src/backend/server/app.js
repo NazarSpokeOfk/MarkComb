@@ -17,6 +17,7 @@ import ParserController from "../parserFunctionality/parsersController.js";
 
 import "../cron/subscriptionTopUp.js"
 import "../cron/clearingExpiredSubscriptions.js"
+import "../cron/keeper.js";
 
 import userRouter from "../routers/userRouter.js";
 import purchasesRouter from "../routers/purchasesRouter.js"

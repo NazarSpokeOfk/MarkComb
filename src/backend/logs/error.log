@@ -500,3 +500,21 @@ Node.js v20.17.0
 13.09.2025, 09:38:39 + "
 " [ERROR] + "
 " (printf.js:11): Возникла ошибка в createStorageTables :  syntax error at or near "IF"
+14.09.2025, 12:53:01 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в createStorageTables :  syntax error at or near ")"
+14.09.2025, 12:53:22 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в createStorageTables :  there is no unique constraint matching given keys for referenced table "analytics"
+14.09.2025, 14:23:00 + "
+" [ERROR] + "
+" (printf.js:11): Ошибка при работе с полученными метаданными :  column "videoid" does not exist
+14.09.2025, 14:24:00 + "
+" [ERROR] + "
+" (printf.js:11): Ошибка при работе с полученными метаданными :  column "interest_coef" of relation "analytics" does not exist
+14.09.2025, 14:31:00 + "
+" [ERROR] + "
+" (printf.js:11): Ошибка при работе с полученными метаданными :  Cannot read properties of undefined (reading 'rows')
+14.09.2025, 14:34:01 + "
+" [ERROR] + "
+" (printf.js:11): Ошибка при работе с полученными метаданными :  numeric field overflow

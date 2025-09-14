@@ -21,6 +21,12 @@ async function createStorageTables(pool) {
             content_type VARCHAR(255) NOT NULL
             )`;
 
+    const createVideosTable = `
+    CREATE TABLE IF NOT EXISTS videos (
+    video_id VARCHAR(64) PRIMARY KEY
+    );
+    `
+    
     const createAnaliticsTable = `
     CREATE TABLE IF NOT EXISTS analytics (
     id BIGSERIAL PRIMARY KEY,
@@ -29,13 +35,21 @@ async function createStorageTables(pool) {
     views BIGINT NOT NULL,
     likes BIGINT NOT NULL,
     comments BIGINT,
-    points_of_interest INT DEFAULT 1.2,
-    interest_coef NUMERIC(4,2) DEFAULT 1.00
+    CONSTRAINT uq_video_date UNIQUE(video_id, date),
+    FOREIGN KEY (video_id) REFERENCES videos(video_id) ON DELETE CASCADE
     );
-    CREATE INDEX IF NOT EXISTS idx_analytics_video ON analytics(video_id, date)
     `;
-    //     ALTER TABLE analytics
-    // ADD CONSTRAINT uq_video_date UNIQUE (video_id, date);
+
+    const createAnalyticsMetaTable = `
+    CREATE TABLE IF NOT EXISTS analytics_meta (
+    video_id VARCHAR(64) PRIMARY KEY,
+    points_of_interest INT DEFAULT 1,
+    interest_coef NUMERIC(4,2) DEFAULT 1.00,
+    FOREIGN KEY (video_id) REFERENCES videos(video_id) ON DELETE CASCADE
+    );
+    `;
+
+    await pool.query(createVideosTable);
 
     await pool.query(createChannelsTable);
 
@@ -44,6 +58,8 @@ async function createStorageTables(pool) {
     await pool.query(createPairsTable);
 
     await pool.query(createAnaliticsTable);
+
+    await pool.query(createAnalyticsMetaTable);
   } catch (error) {
     logger.error("Возникла ошибка в createStorageTables : ", error);
   }
