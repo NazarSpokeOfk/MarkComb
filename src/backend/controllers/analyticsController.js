@@ -1,23 +1,33 @@
 import sendResponseModule from "../modules/sendResponseModule.js"
-import { getAnalyticsByDay, getAnalyticsByRande } from "../services/analytics.service.js"
+import { getAnalyticsTotal, getAnalyticsYesterday, getAnalyticsBetween } from "../services/analytics.service.js"
 
-export async function GetAnalyticsByRande (req,res) {
-    const {videoId,startDate,endDate} = req.body;
+export async function GetAnalyticsTotal(req,res) {
+    const {videoId} = req.body;
     try {
-        const result = await getAnalyticsByRande(videoId,startDate,endDate)
-        sendResponseModule(res,result)
+        const result = await getAnalyticsTotal(videoId)
+        sendResponseModule(res,result);
     } catch (error) {
-        console.log("Ошибка в GetAnalyticsByRande : ",error)
+        console.log("Ошибка в GetAnalyticsTotal : ",error)
+        sendResponseModule(res,null,err)
+    }
+}
+export async function GetAnalyticsYesterday(req,res) {
+    const {videoId} = req.body;
+    try {
+        const result = await getAnalyticsYesterday(videoId)
+        sendResponseModule(res,result);
+    } catch (error) {
+        console.log("Ошибка в GetAnalyticsYesterday : ",error)
         sendResponseModule(res,null,error)
     }
 }
-export async function GetAnalyticsByDay (req,res) {
-    const {videoId,date} = req.body;
-    try {
-        const result = await getAnalyticsByDay(videoId,date)
-        sendResponseModule(res,result)
+export async function GetAnalyticsBetween(req,res) {
+    const {startDate,endDate,videoId} = req.body;
+    try {  
+        const result = await getAnalyticsBetween(startDate,endDate,videoId);
+        sendResponseModule(res,result);
     } catch (error) {
-        console.log("Возникла ошибка в GetAnalyticsByDay : ", error)
+        console.log("Ошибка в GetAnalyticsBetween : ",error)
         sendResponseModule(res,null,error)
     }
 }

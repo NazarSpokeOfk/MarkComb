@@ -38,12 +38,12 @@ export async function collectAnalytics(channel_name, videoName) {
 
     const checkIsHasPreviousAnalytics = await storagePool.query("SELECT * FROM analytics WHERE video_id = $1 AND date  < CURRENT_DATE ORDER BY date DESC LIMIT 1",[videoId]);
 
-    const oldAnalytics = checkIsHasPreviousAnalytics.rows[0] || null;
+    const hasOldAnalytics = checkIsHasPreviousAnalytics.rows.length > 0;
 
     // 1 fe93fkq 13.09.2025 1000 500 15 1
     // 2 fe93fkq 14.09.2025 1267 570 20 2
     // 3 fe93fkq 15.09.2025 1000 500 15 1
-    return {videoData,currentAnalytics,oldAnalytics}
+    return {videoData,currentAnalytics,hasOldAnalytics}
   } catch (error) {
     console.log(error)
     throw new Error("There was an error during collecting analytics.")

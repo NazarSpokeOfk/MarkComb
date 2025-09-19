@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { GetAnalyticsByDay, GetAnalyticsByRande } from "../controllers/analyticsController.js";
+import { GetAnalyticsTotal, GetAnalyticsBetween , GetAnalyticsYesterday } from "../controllers/analyticsController.js";
 const router = new Router();
 
-router.post("/analytics/range", (req,res) =>  GetAnalyticsByRande(req,res));
-router.post("/analytics/day" , (req,res) => GetAnalyticsByDay(req,res));
+router.post("/analytics/between", (req,res) =>  GetAnalyticsBetween(req,res));
+router.post("/analytics/total" , (req,res) => GetAnalyticsTotal(req,res));
+router.post("/analytics/yesterday" , (req,res) => GetAnalyticsYesterday(req,res));
 
 export default router;
