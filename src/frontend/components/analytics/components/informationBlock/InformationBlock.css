@@ -1,0 +1,28 @@
+.information__block{
+    border : 1px solid black;
+    width: 220px;
+    height: 220px;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+}
+.dotted {
+    border : 1px dotted black;
+}
+.black { 
+}
+.information__block-black_plus{
+    width: 45px;
+    height: 45px;
+}
+.information__block-text_flex{
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+.information__block-number{
+    margin: 0;
+}
+.information__block-typeof--data{
+    margin: 0;
+}

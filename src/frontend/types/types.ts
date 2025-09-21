@@ -20,6 +20,7 @@ import {
   CodeStatus,
   PurchasedChannelData,
   CurrentAnalytics,
+  InformationBlock,
 } from "../interfaces/interfaces";
 import { NavigateFunction } from "react-router-dom";
 
@@ -743,6 +744,12 @@ export type DeleteUserPropsWrapper = {
 
 export type DeleteUserProps = {
   token: string;
+}
+
+export type InformationBlockProps = {
+  information : InformationBlock
+  isDotted : "dotted" | ""
+  isBlack : "black" | "" 
 }
 
 export const defaultUserData: UserData = {

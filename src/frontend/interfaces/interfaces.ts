@@ -153,6 +153,10 @@ export interface IsDataChanged {
   whatChanged: keyof NewUserData | null;
 }
 
+export interface InformationBlock {
+  number : number
+}
+
 export interface Status {
   status: boolean;
   message: string;
@@ -163,4 +167,5 @@ export interface CodeStatus {
   code: string | null;
   isCodeSent: boolean | null;
 }
+
 export type RegistrationStatusKey = keyof typeof statusMessages;

@@ -9,6 +9,8 @@ import PromotionFunctions from "./functions/PromotionFunctions";
 import smoothScrollContainer from "../../utilities/smoothHorizontalScroll";
 import SmoothVerticalScroll from "../../utilities/smoothVerticalScroll";
 
+import Analytics from "../analytics/Analytics"
+
 import { CommonTypes } from "../../types/types";
 
 import { CurrentAnalytics, VideoData } from "../../interfaces/interfaces";
@@ -140,6 +142,8 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
             content="Here you can see how the content maker's video has progressed"
           />
         </Helmet>
+
+        <Analytics/>
 
         <section className="list">
           {userData.channels.length > 0 ? (
