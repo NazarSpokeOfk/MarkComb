@@ -50,6 +50,7 @@ export type TypesOfSets = {
   >;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   setCurrentAnalytics : React.Dispatch<React.SetStateAction<CurrentAnalytics | null>>
+  setHasOldAnalytics : React.Dispatch<React.SetStateAction<boolean>>
 };
 
 type SelectProps<T, K extends keyof T> = Pick<T, K>;
@@ -339,7 +340,7 @@ export type ValidateVideoFindingProps = {
   channelName: string;
   inputValue: string;
   setVideoData: React.Dispatch<React.SetStateAction<VideoData | null>>;
-} & SelectProps<TypesOfSets, "setIsLoading" | "setCurrentAnalytics">;
+} & SelectProps<TypesOfSets, "setIsLoading" | "setCurrentAnalytics" | "setHasOldAnalytics">;
 
 export type RemovePurchaseProps = {
   user_id: number;
@@ -461,7 +462,7 @@ export type AddReviewProps = {
 export type CheckStatisticsOfVideoProps = {
   channelName: string;
   inputValue: string;
-} & SelectProps<TypesOfSets, "setIsLoading" | "setCurrentAnalytics">;
+} & SelectProps<TypesOfSets, "setIsLoading" | "setCurrentAnalytics" | "setHasOldAnalytics">;
 
 export type SignUpPageProps = {
   signInData: SignInData;
@@ -747,9 +748,19 @@ export type DeleteUserProps = {
 }
 
 export type InformationBlockProps = {
-  information : InformationBlock
-  isDotted : "dotted" | ""
+  differencesInNumbers : number
+  differencesInPercents : number
   isBlack : "black" | "" 
+}
+
+export type TopPartProps = {
+  thumbnail : string
+  title : string
+  videoId : string
+}
+
+export type DividerProps = {
+  text : string
 }
 
 export const defaultUserData: UserData = {

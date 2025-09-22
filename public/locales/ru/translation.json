@@ -490,5 +490,6 @@
   "Confirmation link sent on your email.":"Ссылка для подтвержения отправлена на вашу почту.",
   "We have deleted your account.":"Мы удалили ваш аккаунт.",
   "Password reset":"Сброс пароля",
-  "We're changed your password":"Мы сменили ваш пароль."
+  "We're changed your password":"Мы сменили ваш пароль.",
+  "Comments":"Комментарии"
 }

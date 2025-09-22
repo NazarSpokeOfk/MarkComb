@@ -12,7 +12,8 @@ class PromotionsFunctions {
     inputValue,
     setVideoData,
     setIsLoading,
-    setCurrentAnalytics
+    setCurrentAnalytics,
+    setHasOldAnalytics
   }: ValidateVideoFindingProps) {
     const dataToDb = new DataToDB({ setVideoData });
 
@@ -22,7 +23,8 @@ class PromotionsFunctions {
         channelName,
         inputValue,
         setIsLoading,
-        setCurrentAnalytics
+        setCurrentAnalytics,
+        setHasOldAnalytics
       });
     } else {
       return;

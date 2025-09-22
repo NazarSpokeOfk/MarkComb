@@ -1,11 +1,7 @@
 import "./Analytics.css";
-import InformationBlock from "./components/informationBlock/InformationBlock";
+import TopPart from "./components/topPart/TopPart";
 
-const Analytics = ({}) => {
-    return (
-        <>
-            <InformationBlock/>
-        </>
-    )
-}
+const Analytics = () => {
+  return <TopPart />;
+};
 export default Analytics;

@@ -8,13 +8,13 @@ const calculateDifference = (firstDay, lastDay) => {
     differencesInPercents: {
       views: parseFloat(
         ((lastDay.views - firstDay.views) / firstDay.views) * 100
-      ).toFixed(4) + "%",
+      ).toFixed(4),
       likes: parseFloat(
         ((lastDay.likes - firstDay.likes) / firstDay.likes) * 100
-      ).toFixed(1) + "%",
+      ).toFixed(1),
       comments: parseFloat(
         ((lastDay.comments - firstDay.comments) / firstDay.comments) * 100
-      ).toFixed(1) + "%",
+      ).toFixed(1),
     },
   };
 };

@@ -9,7 +9,7 @@ import PromotionFunctions from "./functions/PromotionFunctions";
 import smoothScrollContainer from "../../utilities/smoothHorizontalScroll";
 import SmoothVerticalScroll from "../../utilities/smoothVerticalScroll";
 
-import Analytics from "../analytics/Analytics"
+import Analytics from "../analytics/Analytics";
 
 import { CommonTypes } from "../../types/types";
 
@@ -27,8 +27,10 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
   const [videoData, setVideoData] = useState<VideoData | null>(null);
   const [showSearch, setShowSearch] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [hasOldAnalytics, setHasOldAnalytics] = useState<boolean>(false);
   const [showResults, setShowResults] = useState(false);
-  const [currentAnalytics,setCurrentAnalytics] = useState<CurrentAnalytics | null>(null)
+  const [currentAnalytics, setCurrentAnalytics] =
+    useState<CurrentAnalytics | null>(null);
 
   const searchSectionRef = useRef<HTMLInputElement | null>(null);
   const resultBlockRef = useRef<HTMLDivElement | null>(null);
@@ -53,9 +55,7 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
         observer.disconnect();
       };
     }
-  }, [userData.channels]);
-
-  useEffect(() => {
+    // delay for correct display of blocks
     let timeout: ReturnType<typeof setTimeout>;
     timeout = setTimeout(() => {
       smoothScrollContainer({
@@ -66,7 +66,7 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
     return () => {
       clearTimeout(timeout);
     };
-  }, []);
+  }, [userData.channels]);
 
   useEffect(() => {
     let timeout: ReturnType<typeof setTimeout>;
@@ -81,27 +81,22 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
     };
   }, [videoData?.videoId]);
 
-  useEffect(() => {
-    if (showSearch === true) {
-      searchSectionRef.current?.classList.add("appearing");
-    }
-  }, [showSearch]);
-
   const resultBlock = (videoData: VideoData) => {
     return (
       <>
         <div ref={resultBlockRef} className="result__block-promotion">
-          <div id="first__subblock" className="result__block-subblock">
+          <div className="result__title-block">
             <h2 className="result__block-title_promotion">{t("Title")}</h2>
             <h3 className="result__block-subtitle_promotion">
               {videoData.title}
             </h3>
           </div>
 
-          <div id="second__subblock" className="result__block-subblock">
-            <h2 className="result__block-title_promotion">{t("Statistic")}</h2>
+          <div className="result__block-subblock">
+            <div className="card-top"></div>
+            <h2 className="result__block-title_promotion">{t("Views")}</h2>
             <h3 className="result__block-subtitle_promotion">
-              {t("On today")}
+              {currentAnalytics?.views}
             </h3>
           </div>
 
@@ -112,7 +107,7 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
             className="result__block-videoimage"
           />
 
-          <div id="third__subblock" className="result__block-subblock">
+          <div className="result__block-subblock">
             <div className="card-top"></div>
             <h2 className="result__block-title_promotion">{t("Likes")}</h2>
             <h3 className="result__block-subtitle_promotion">
@@ -120,13 +115,19 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
             </h3>
           </div>
 
-          <div id="fourth__subblock" className="result__block-subblock">
+          <div className="result__block-subblock">
             <div className="card-top"></div>
-            <h2 className="result__block-title_promotion">{t("Views")}</h2>
+            <h2 className="result__block-title_promotion">{t("Comments")}</h2>
             <h3 className="result__block-subtitle_promotion">
-              {currentAnalytics?.views}
+              {currentAnalytics?.comments}
             </h3>
           </div>
+
+          {hasOldAnalytics ? (
+            <button id="detailed__analytics-button" className="fancy-button">
+              view detailed analytics
+            </button>
+          ) : null}
         </div>
       </>
     );
@@ -145,7 +146,7 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
 
         <Analytics/>
 
-        <section className="list">
+        {/* <section className="list">
           {userData.channels.length > 0 ? (
             <>
               <h1 ref={titleRef} className="title_promotion none">
@@ -204,7 +205,10 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
           )}
         </section>
 
-        <section ref={searchSectionRef} className="promotion-search">
+        <section
+          ref={searchSectionRef}
+          className={`promotion-search ${showSearch ? "appearing" : ""}`}
+        >
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -228,7 +232,8 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
                     inputValue,
                     setVideoData,
                     setIsLoading,
-                    setCurrentAnalytics
+                    setCurrentAnalytics,
+                    setHasOldAnalytics,
                   });
                 }}
                 className="promotion__search-btn"
@@ -247,7 +252,7 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
           ref={resultBlockRef}
         >
           {videoData && resultBlock(videoData)}
-        </div>
+        </div> */}
       </HelmetProvider>
     </>
   );

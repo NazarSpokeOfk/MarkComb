@@ -40,9 +40,9 @@ import TooManyRequestsThumbnail from "./components/tooManyRequestsThumbnail/tooM
 import CookiesWindow from "./components/cookiesWindow/CookiesWindow";
 import AuthorizationPage from "./components/authorizationPage/authorizationPage";
 import LogInPage from "./components/logInPage/LogInPage";
-import SignUpPage from "./components/SignUpPage/SignUpPage";
+import SignUpPage from "./components/signUpPage/SignUpPage";
 import DeletingAccountThumbnail from "./components/deletingAccountThumbnail/deletingAccountThumbnail";
-import ResetPasswordPage from "./components/resetPasswordPage/resetPasswordPage";
+import ResetPasswordPage from "./components/resetPasswordPage/ResetPasswordPage";
 
 import checkCookies from "./Client-ServerMethods/checkCookies";
 import { setGlobalNavigate } from "./utilities/errorHandler";

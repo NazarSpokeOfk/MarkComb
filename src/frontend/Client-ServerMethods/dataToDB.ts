@@ -371,7 +371,8 @@ class DataToDB {
     channelName,
     inputValue,
     setIsLoading,
-    setCurrentAnalytics
+    setCurrentAnalytics,
+    setHasOldAnalytics
   }: CheckStatisticsOfVideoProps) {
     try {
       const response = await this.fetchData({
@@ -380,9 +381,10 @@ class DataToDB {
         body: { channel_name: channelName, videoName: inputValue },
         withToast: false,
       });
-
+      console.log("response : ",response)
       setIsLoading(false);
       this.setVideoData?.(response.data.videoData);
+      setHasOldAnalytics(response.data.hasOldAnalytics);
       setCurrentAnalytics(response.data.currentAnalytics)
     } catch (error) {
       console.log("Возникла ошибка при поиске аналитики : ", error);
