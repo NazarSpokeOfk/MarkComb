@@ -1,136 +1,44 @@
-import { useTranslation } from "react-i18next";
-import { useRef, useEffect, useState, TimeHTMLAttributes } from "react";
+import { useState } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
-import "./Promotion.css";
+import { useTranslation } from "react-i18next";
 
-import PromotionFunctions from "./functions/PromotionFunctions";
+import { motion, AnimatePresence } from "framer-motion";
 
-import smoothScrollContainer from "../../utilities/smoothHorizontalScroll";
-import SmoothVerticalScroll from "../../utilities/smoothVerticalScroll";
-
-import Analytics from "../analytics/Analytics";
+import Analytics from "./components/analytics/Analytics";
+import PromotionInner from "./components/promotionInner/PromotionInner";
 
 import { CommonTypes } from "../../types/types";
 
-import { CurrentAnalytics, VideoData } from "../../interfaces/interfaces";
+import "./Promotion.css";
 
-import searchIcon from "../../icons/searchIcon.png";
-import promotionThumbnail from "../../icons/promotionThumbnail.png";
-
-import Loading from "../../images/loading-gif.gif";
-
-const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
-  const promotionFunctions = new PromotionFunctions();
-  const [channelName, setChannelName] = useState("");
-  const [inputValue, setInputValue] = useState("");
-  const [videoData, setVideoData] = useState<VideoData | null>(null);
-  const [showSearch, setShowSearch] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [hasOldAnalytics, setHasOldAnalytics] = useState<boolean>(false);
-  const [showResults, setShowResults] = useState(false);
-  const [currentAnalytics, setCurrentAnalytics] =
-    useState<CurrentAnalytics | null>(null);
-
-  const searchSectionRef = useRef<HTMLInputElement | null>(null);
-  const resultBlockRef = useRef<HTMLDivElement | null>(null);
-
-  const titleRef = useRef<HTMLHeadingElement | null>(null);
-
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const contentRefs = useRef<HTMLDivElement[]>([]);
-
+const Promotion = ({ userData }: CommonTypes) => {
   const { t } = useTranslation();
+  const [page, setPage] = useState(0);
+  const [isAnimating, setIsAnimating] = useState<boolean>(false);
 
-  setInterval(() => {
-    if (titleRef.current) {
-      titleRef.current.classList.add("titleActive");
-    }
-  }, 50);
+  const containerVariants = {
+    initial: { opacity: 0, y: 200 },
+    animate: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.1,
+        when: "beforeChildren",
+        staggerChildren: 0.08,
+      },
+    },
+    exit: { opacity: 0, y: 800, transition: { duration: 0.6 } },
+  };
 
-  useEffect(() => {
-    if (userData.channels.length <= 0) {
-      const observer = SmoothVerticalScroll({});
-      return () => {
-        observer.disconnect();
-      };
-    }
-    // delay for correct display of blocks
-    let timeout: ReturnType<typeof setTimeout>;
-    timeout = setTimeout(() => {
-      smoothScrollContainer({
-        containerRef: scrollContainerRef,
-        contentRefs,
-      });
-    }, 100);
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [userData.channels]);
-
-  useEffect(() => {
-    let timeout: ReturnType<typeof setTimeout>;
-    if (videoData) {
-      setShowResults(true);
-      timeout = setTimeout(() => {
-        resultBlockRef.current?.classList.add("appearing");
-      }, 100);
-    }
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [videoData?.videoId]);
-
-  const resultBlock = (videoData: VideoData) => {
-    return (
-      <>
-        <div ref={resultBlockRef} className="result__block-promotion">
-          <div className="result__title-block">
-            <h2 className="result__block-title_promotion">{t("Title")}</h2>
-            <h3 className="result__block-subtitle_promotion">
-              {videoData.title}
-            </h3>
-          </div>
-
-          <div className="result__block-subblock">
-            <div className="card-top"></div>
-            <h2 className="result__block-title_promotion">{t("Views")}</h2>
-            <h3 className="result__block-subtitle_promotion">
-              {currentAnalytics?.views}
-            </h3>
-          </div>
-
-          <img
-            referrerPolicy="no-referrer"
-            src={videoData.thumbnail}
-            alt=""
-            className="result__block-videoimage"
-          />
-
-          <div className="result__block-subblock">
-            <div className="card-top"></div>
-            <h2 className="result__block-title_promotion">{t("Likes")}</h2>
-            <h3 className="result__block-subtitle_promotion">
-              {currentAnalytics?.likes}
-            </h3>
-          </div>
-
-          <div className="result__block-subblock">
-            <div className="card-top"></div>
-            <h2 className="result__block-title_promotion">{t("Comments")}</h2>
-            <h3 className="result__block-subtitle_promotion">
-              {currentAnalytics?.comments}
-            </h3>
-          </div>
-
-          {hasOldAnalytics ? (
-            <button id="detailed__analytics-button" className="fancy-button">
-              view detailed analytics
-            </button>
-          ) : null}
-        </div>
-      </>
-    );
+  const itemVariants = {
+    initial: { opacity: 0, y: 20 },
+    animate: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5 },
+    },
+    exit: { opacity: 0, y: 40, transition: { duration: 0.5 } },
   };
 
   return (
@@ -143,116 +51,51 @@ const Promotion = ({ isLoggedIn, userData }: CommonTypes) => {
             content="Here you can see how the content maker's video has progressed"
           />
         </Helmet>
-
-        <Analytics/>
-
-        {/* <section className="list">
-          {userData.channels.length > 0 ? (
-            <>
-              <h1 ref={titleRef} className="title_promotion none">
-                {t("promo")}
-                <span>{t("tion")}</span>
-              </h1>
-              <div className="cards__overflow-wrapper">
-                <div ref={scrollContainerRef} className="cards__flex-container">
-                  {userData.channels.map((channel, index) => {
-                    return (
-                      <div
-                        onClick={() => {
-                          promotionFunctions.onCardClickActions({
-                            resultBlockRef,
-                            setVideoData,
-                            setInputValue,
-                            setChannelName,
-                            channel,
-                            setShowSearch,
-                            contentRefs,
-                            index,
-                            setShowResults,
-                          });
-                        }}
-                        ref={(el) => {
-                          if (el) contentRefs.current[index] = el;
-                        }}
-                        key={index}
-                        className={`card item`}
-                      >
-                        <img
-                          referrerPolicy="no-referrer"
-                          src={channel.thumbnail}
-                          alt=""
-                          className="card__image"
-                        />
-                        <h3 className="card__name">{channel.channel_name}</h3>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </>
-          ) : (
-            <div className="promotion__thumbnail-flex moving__in-class_initial-state">
-              <img
-                src={promotionThumbnail}
-                className="promotion__thumbnail"
-                alt=""
-              />
-              <h1 className="promotion__thumbnail-title">
-                {t("You can check out")} <br />{" "}
-                <span>{t("youtubers' video stats here")}.</span>
-              </h1>
-            </div>
-          )}
-        </section>
-
-        <section
-          ref={searchSectionRef}
-          className={`promotion-search ${showSearch ? "appearing" : ""}`}
-        >
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-            }}
-            action="submit"
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={page}
+            variants={containerVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            onAnimationComplete={() => setIsAnimating(false)}
           >
-            <div className="promotion__input-block">
-              <input
-                value={inputValue}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  setInputValue(value);
-                }}
-                type="text"
-                className="promotion__input"
-              />
-              <button
-                onClick={() => {
-                  promotionFunctions.validateVideoFinding({
-                    channelName,
-                    inputValue,
-                    setVideoData,
-                    setIsLoading,
-                    setCurrentAnalytics,
-                    setHasOldAnalytics,
-                  });
-                }}
-                className="promotion__search-btn"
+            {page === 0 && (
+              <motion.div
+                key="promotion-inner"
+                variants={containerVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                onAnimationComplete={() => setIsAnimating(false)}
               >
-                <img
-                  className="promotion__search-btn_img"
-                  src={isLoading ? Loading : searchIcon}
-                  alt=""
-                />
-              </button>
-            </div>
-          </form>
-        </section>
-        <div
-          className={`result__wrapper ${showResults ? "expanded" : ""}`}
-          ref={resultBlockRef}
-        >
-          {videoData && resultBlock(videoData)}
-        </div> */}
+                <motion.div variants={itemVariants}>
+                  <PromotionInner
+                    userData={userData}
+                    isAnimating={isAnimating}
+                    setIsAnimating={setIsAnimating}
+                    setPage={setPage}
+                  />
+                </motion.div>
+              </motion.div>
+            )}
+
+            {page === 1 && (
+              <motion.div
+                key="analytics"
+                variants={containerVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                onAnimationComplete={() => setIsAnimating(false)}
+              >
+                <motion.div variants={itemVariants}>
+                  <Analytics page={page} setPage={setPage} />
+                </motion.div>
+              </motion.div>
+            )}
+          </motion.div>
+        </AnimatePresence>
       </HelmetProvider>
     </>
   );

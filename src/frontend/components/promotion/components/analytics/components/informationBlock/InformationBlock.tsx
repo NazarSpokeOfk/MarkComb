@@ -4,11 +4,11 @@ import { useTranslation } from "react-i18next";
 
 import { useState } from "react";
 
-import percentIcon from "../../../../icons/percentIcon.png";
-import backToNumbersIcon from "../../../../icons/backToNumbersIcon.png";
-import blackPlusIcon from "../../../../icons/blackPlusIcon.png";
-import whitePlusIcon from "../../../../icons/whitePlusIcon.png";
-import { InformationBlockProps } from "../../../../types/types";
+import percentIcon from "../../../../../../icons/percentIcon.png"
+import backToNumbersIcon from "../../../../../../icons/backToNumbersIcon.png";
+import blackPlusIcon from "../../../../../../icons/blackPlusIcon.png";
+import whitePlusIcon from "../../../../../../icons/whitePlusIcon.png";
+import { InformationBlockProps } from "../../../../../../types/types";
 
 const InformationBlock = ({
   differencesInNumbers,

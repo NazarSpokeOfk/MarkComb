@@ -51,6 +51,8 @@ export type TypesOfSets = {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   setCurrentAnalytics : React.Dispatch<React.SetStateAction<CurrentAnalytics | null>>
   setHasOldAnalytics : React.Dispatch<React.SetStateAction<boolean>>
+  setPage : React.Dispatch<React.SetStateAction<number>>;
+  setIsAnimating : React.Dispatch<React.SetStateAction<boolean>>
 };
 
 type SelectProps<T, K extends keyof T> = Pick<T, K>;
@@ -757,11 +759,20 @@ export type TopPartProps = {
   thumbnail : string
   title : string
   videoId : string
-}
+  isAnimating : boolean
+} & SelectProps<TypesOfSets,"setPage" | "setIsAnimating">
 
 export type DividerProps = {
   text : string
 }
+
+export type AnalyticsProps = {
+  page : number
+} & SelectProps<TypesOfSets,"setPage">
+
+export type HandleProps = {
+  isAnimating : boolean
+} & SelectProps<TypesOfSets,"setIsAnimating" | "setPage">
 
 export const defaultUserData: UserData = {
   channels: [],

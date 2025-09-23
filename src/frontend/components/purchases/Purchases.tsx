@@ -38,18 +38,18 @@ const Purchases = ({ userData, setUserData, csrfToken }: PurchasesProps) => {
     }
   },[userData.channels]);
 
-  useEffect(() => {
-    let timers: number[] = [];
+  // useEffect(() => {
+  //   let timers: number[] = [];
 
-    titlesRef.current.forEach((title, index) => {
-      const timer = window.setInterval(() => {
-        title.classList.add("active");
-      }, 50 * index);
-      timers.push(timer);
-    });
+  //   titlesRef.current.forEach((title, index) => {
+  //     const timer = window.setInterval(() => {
+  //       title.classList.add("active");
+  //     }, 50 * index);
+  //     timers.push(timer);
+  //   });
 
-    return () => timers.forEach(clearInterval);
-  }, []);
+  //   return () => timers.forEach(clearInterval);
+  // }, []);
 
   useEffect(() => {
     let timeout : ReturnType<typeof setTimeout>

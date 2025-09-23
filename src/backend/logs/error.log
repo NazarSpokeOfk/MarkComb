@@ -518,3 +518,6 @@ Node.js v20.17.0
 14.09.2025, 14:34:01 + "
 " [ERROR] + "
 " (printf.js:11): Ошибка при работе с полученными метаданными :  numeric field overflow
+23.09.2025, 21:08:55 + "
+" [ERROR] + "
+" (printf.js:11): Возникла ошибка в addPurchase You already bought this contact data

@@ -194,6 +194,7 @@
   }
 
   .loading{
+    margin: 0 auto;
     width: 5%;
     height: 5%;
   }

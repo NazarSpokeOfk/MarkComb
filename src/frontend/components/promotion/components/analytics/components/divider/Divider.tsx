@@ -1,4 +1,4 @@
-import { DividerProps } from "../../../../types/types";
+import { DividerProps } from "../../../../../../types/types";
 import "./Divider.css"
 
 import { useTranslation } from "react-i18next";

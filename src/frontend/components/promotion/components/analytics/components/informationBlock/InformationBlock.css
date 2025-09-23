@@ -30,10 +30,12 @@
   height: 30px;
 }
 .information__block-number {
+  z-index: 0;
   font-size: 55px;
   margin: 0;
 }
 .information__block-typeof--data {
+  z-index: 0;
   margin: 0; 
   display: block;
   align-self: flex-end;

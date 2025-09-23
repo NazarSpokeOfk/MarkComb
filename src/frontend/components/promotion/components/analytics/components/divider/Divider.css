@@ -1,0 +1,19 @@
+.divider__block{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 930px;
+    margin: 0 auto;
+    margin-top: 27px;
+    .divider{
+        margin: 0;
+        margin-left: 27px;
+        width: 100%
+    }
+}
+
+.divider__text{
+    text-transform: uppercase;
+    margin: 0;
+    white-space: nowrap;
+}

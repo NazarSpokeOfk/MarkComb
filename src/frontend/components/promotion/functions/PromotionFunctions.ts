@@ -1,6 +1,7 @@
 import DataToDB from "../../../Client-ServerMethods/dataToDB";
 
 import {
+  HandleProps,
   OnCardClickActionsProps,
   ValidateVideoFindingProps,
 } from "../../../types/types";
@@ -57,5 +58,17 @@ class PromotionsFunctions {
     const currentEl = contentRefs.current[index];
     if (currentEl) currentEl.classList.add("pressed");
   };
+
+  handleNext = ({isAnimating,setIsAnimating,setPage} : HandleProps) => {
+    if(isAnimating) return;
+    setIsAnimating(true);
+    setPage((p) => p + 1);
+  }
+
+  handlePrevious = ({isAnimating,setIsAnimating,setPage} : HandleProps) => {
+    if(isAnimating) return;
+    setIsAnimating(true);
+    setPage((p) => p === 0 ? 0 : p - 1);
+  }
 }
 export default PromotionsFunctions;
