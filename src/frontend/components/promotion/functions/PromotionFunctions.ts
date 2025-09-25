@@ -2,6 +2,7 @@ import DataToDB from "../../../Client-ServerMethods/dataToDB";
 
 import {
   HandleProps,
+  HideAndShowComponentsProps,
   OnCardClickActionsProps,
   ValidateVideoFindingProps,
 } from "../../../types/types";
@@ -59,16 +60,38 @@ class PromotionsFunctions {
     if (currentEl) currentEl.classList.add("pressed");
   };
 
-  handleNext = ({isAnimating,setIsAnimating,setPage} : HandleProps) => {
-    if(isAnimating) return;
-    setIsAnimating(true);
-    setPage((p) => p + 1);
-  }
-
-  handlePrevious = ({isAnimating,setIsAnimating,setPage} : HandleProps) => {
-    if(isAnimating) return;
-    setIsAnimating(true);
-    setPage((p) => p === 0 ? 0 : p - 1);
-  }
+  hideAndShowComponents = ({ containerToHide, containerToShow, time }: HideAndShowComponentsProps) => {
+    const toHide = containerToHide.current;
+    const toShow = containerToShow.current;
+  
+    if (!toHide || !toShow) return;
+  
+    // Сбросим старые классы перед стартом
+    toHide.classList.remove("slide-in", "slide-out", "hide");
+    toShow.classList.remove("slide-in", "slide-out", "hide");
+  
+    // Запускаем анимацию скрытия
+    toHide.classList.add("slide-out");
+  
+    const onHideEnd = () => {
+      toHide.classList.remove("slide-out"); // убираем класс анимации
+      toHide.style.display = "none";        // окончательно скрываем
+  
+      // Подготавливаем показываемый блок
+      toShow.style.display = "block";
+      toShow.classList.add("slide-in");
+  
+      const onShowEnd = () => {
+        toShow.classList.remove("slide-in"); // убираем класс после анимации
+        toShow.removeEventListener("transitionend", onShowEnd);
+      };
+  
+      toShow.addEventListener("transitionend", onShowEnd);
+      toHide.removeEventListener("transitionend", onHideEnd);
+    };
+  
+    toHide.addEventListener("transitionend", onHideEnd);
+  };
+  
 }
 export default PromotionsFunctions;

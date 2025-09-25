@@ -760,19 +760,36 @@ export type TopPartProps = {
   title : string
   videoId : string
   isAnimating : boolean
-} & SelectProps<TypesOfSets,"setPage" | "setIsAnimating">
+  containerToHide : RefObject<HTMLDivElement | null>
+  containerToShow : RefObject<HTMLDivElement | null>
+} & SelectProps<TypesOfSets,"setIsAnimating">
 
 export type DividerProps = {
   text : string
 }
 
 export type AnalyticsProps = {
-  page : number
-} & SelectProps<TypesOfSets,"setPage">
+  containerToHide : RefObject<HTMLDivElement | null>
+  containerToShow : RefObject<HTMLDivElement | null>
+}
 
 export type HandleProps = {
   isAnimating : boolean
-} & SelectProps<TypesOfSets,"setIsAnimating" | "setPage">
+}
+ & SelectProps<TypesOfSets,"setIsAnimating" | "setPage">
+
+export type HideAndShowComponentsProps = {
+  containerToHide : RefObject<HTMLDivElement | null>
+  containerToShow : RefObject<HTMLDivElement | null>
+  time : number
+}
+
+export type PromotionInnerProps = {
+  userData : UserData
+  isAnimating : boolean
+  containerToHide : RefObject<HTMLDivElement | null>
+  containerToShow : RefObject<HTMLDivElement | null>
+} & SelectProps<TypesOfSets,"setIsAnimating">
 
 export const defaultUserData: UserData = {
   channels: [],

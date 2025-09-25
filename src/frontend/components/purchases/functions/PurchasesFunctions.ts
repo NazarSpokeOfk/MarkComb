@@ -1,10 +1,6 @@
-import { toast } from "react-toastify";
-import i18n from "i18next";
-
 import DataToDB from "../../../Client-ServerMethods/dataToDB";
 
 import {
-  HandleDeleteProps,
   RemovePurchaseProps,
 } from "../../../types/types";
 

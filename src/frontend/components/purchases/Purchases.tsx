@@ -24,42 +24,42 @@ const Purchases = ({ userData, setUserData, csrfToken }: PurchasesProps) => {
   const titlesRef = useRef<HTMLElement[]>([]);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const contentRefs = useRef<HTMLDivElement[]>([]);
-  const thumbnailRef = useRef<HTMLDivElement | null>(null);
+
+  const containerVariants = {
+    initial: { opacity: 0, y: 50 },
+    animate: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+      },
+    },
+    exit: { opacity: 0, y: 800, transition: { duration: 0.6 } },
+  };
 
   const { t } = useTranslation();
 
   useEffect(() => {
     if (userData.channels.length <= 0) {
       const observer = SmoothVerticalScroll({});
-      
+
       return () => {
         observer.disconnect();
-      }
+      };
     }
-  },[userData.channels]);
-
-  // useEffect(() => {
-  //   let timers: number[] = [];
-
-  //   titlesRef.current.forEach((title, index) => {
-  //     const timer = window.setInterval(() => {
-  //       title.classList.add("active");
-  //     }, 50 * index);
-  //     timers.push(timer);
-  //   });
-
-  //   return () => timers.forEach(clearInterval);
-  // }, []);
+  }, [userData.channels]);
 
   useEffect(() => {
-    let timeout : ReturnType<typeof setTimeout>
+    let timeout: ReturnType<typeof setTimeout>;
     timeout = setTimeout(() => {
       smoothScrollContainer({
         containerRef: scrollContainerRef,
         contentRefs,
       });
-    },100)
-    return () => {clearTimeout(timeout)}
+    }, 100);
+    return () => {
+      clearTimeout(timeout);
+    };
   }, [userData.channels]);
 
   return (
@@ -73,92 +73,99 @@ const Purchases = ({ userData, setUserData, csrfToken }: PurchasesProps) => {
           />
         </Helmet>
 
-        <section className="recent">
-          {userData.channels.length > 0 ? (
-            <div className="container">
-              <h2
-                ref={(el) => {
-                  if (el) titlesRef.current[0] = el as HTMLDivElement;
-                }}
-                className="title none"
-              >
-                {t("purch")}
-                <span>{t("ases")}</span>
-              </h2>
+        <AnimatePresence>
+          <motion.div
+          variants={containerVariants}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          >
+            <section className="recent">
+              {userData.channels.length > 0 ? (
+                <div className="container">
+                  <h2
+                    ref={(el) => {
+                      if (el) titlesRef.current[0] = el as HTMLDivElement;
+                    }}
+                    className="title none"
+                  >
+                    {t("purch")}
+                    <span>{t("ases")}</span>
+                  </h2>
 
-              <div ref={scrollContainerRef} className="scroll-container">
-                <div className="purchases__flex-container">
-                  <AnimatePresence>
-                    {userData.channels.map((purchase) => {
-                      return (
-                        <motion.div
-                          key={purchase.transaction_id}
-                          layout
-                          exit={{ opacity: 0, y: 40 }}
-                          transition={{ duration: 0.3 }}
-                        >
-                          <div
-                            key={purchase.email}
-                            ref={(el) => {
-                              if (el)
-                                contentRefs.current[purchase.transaction_id] =
-                                  el;
-                            }}
-                            className="purchase__block item"
+                  <div ref={scrollContainerRef} className="scroll-container">
+                    <div className="purchases__flex-container">
+                      {userData.channels.map((purchase) => {
+                        return (
+                          <motion.div
+                            key={purchase.transaction_id}
+                            layout
+                            exit={{ opacity: 0, y: 40 }}
+                            transition={{ duration: 0.3 }}
                           >
-                            <div className="purchase__block-subflex">
-                              <div className="name_and_email__flex">
-                                <h2 className="purchase__channelname">
-                                  {purchase.channel_name}
-                                </h2>
-                                <h2 className="purchase__email">
-                                  {purchase.email}
-                                </h2>
+                            <div
+                              key={purchase.email}
+                              ref={(el) => {
+                                if (el)
+                                  contentRefs.current[purchase.transaction_id] =
+                                    el;
+                              }}
+                              className="purchase__block item"
+                            >
+                              <div className="purchase__block-subflex">
+                                <div className="name_and_email__flex">
+                                  <h2 className="purchase__channelname">
+                                    {purchase.channel_name}
+                                  </h2>
+                                  <h2 className="purchase__email">
+                                    {purchase.email}
+                                  </h2>
+                                </div>
+                                <img
+                                  onClick={() =>
+                                    purchasesFunctions.removePurchase({
+                                      user_id: userData.userInformation.user_id,
+                                      channelName: purchase.channel_name,
+                                      csrfToken,
+                                      setUserData,
+                                      contentRefs,
+                                      transaction_id: purchase.transaction_id,
+                                    })
+                                  }
+                                  src={removeIcon}
+                                  alt=""
+                                  className="remove__btn"
+                                />
                               </div>
                               <img
-                                onClick={() =>
-                                  purchasesFunctions.removePurchase({
-                                    user_id: userData.userInformation.user_id,
-                                    channelName: purchase.channel_name,
-                                    csrfToken,
-                                    setUserData,
-                                    contentRefs,
-                                    transaction_id: purchase.transaction_id,
-                                  })
-                                }
-                                src={removeIcon}
+                                referrerPolicy="no-referrer"
+                                src={purchase.thumbnail}
                                 alt=""
-                                className="remove__btn"
+                                className="purchase__channelthumbnail"
                               />
                             </div>
-                            <img
-                              referrerPolicy="no-referrer"
-                              src={purchase.thumbnail}
-                              alt=""
-                              className="purchase__channelthumbnail"
-                            />
-                          </div>
-                        </motion.div>
-                      );
-                    })}
-                  </AnimatePresence>
+                          </motion.div>
+                        );
+                      })}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          ) : (
-            <div className="purchases__thumbnail-flex moving__in-class_initial-state">
-              <img
-                src={purchasesThumbnail}
-                className="purchases__thumbnail"
-                alt=""
-              />
-              <h1 className="purchases__thumbnail-title">
-                {t("Your")} <br /> {t("purchases")} <br />{" "}
-                <span>{t("will be here")}.</span>
-              </h1>
-            </div>
-          )}
-        </section>
+              ) : (
+                <div className="purchases__thumbnail-flex moving__in-class_initial-state">
+                  <img
+                    src={purchasesThumbnail}
+                    className="purchases__thumbnail"
+                    alt=""
+                  />
+                  <h1 className="purchases__thumbnail-title">
+                    {t("Your")} <br /> {t("purchases")} <br />{" "}
+                    <span>{t("will be here")}.</span>
+                  </h1>
+                </div>
+              )}
+            </section>
+          </motion.div>
+        </AnimatePresence>
       </HelmetProvider>
     </>
   );

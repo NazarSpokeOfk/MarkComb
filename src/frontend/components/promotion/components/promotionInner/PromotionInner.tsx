@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
 import PromotionFunctions from "../../functions/PromotionFunctions";
@@ -6,11 +7,12 @@ import PromotionFunctions from "../../functions/PromotionFunctions";
 import smoothScrollContainer from "../../../../utilities/smoothHorizontalScroll";
 import SmoothVerticalScroll from "../../../../utilities/smoothVerticalScroll";
 
+import { VideoData, CurrentAnalytics } from "../../../../interfaces/interfaces";
 import {
-  VideoData,
-  CurrentAnalytics,
-} from "../../../../interfaces/interfaces";
-import { CommonTypes, HandleProps } from "../../../../types/types";
+  CommonTypes,
+  HandleProps,
+  PromotionInnerProps,
+} from "../../../../types/types";
 
 import "./PromotionInner.css";
 
@@ -22,8 +24,9 @@ const PromotionInner = ({
   userData,
   isAnimating,
   setIsAnimating,
-  setPage,
-}: CommonTypes & HandleProps) => {
+  containerToHide,
+  containerToShow,
+}: PromotionInnerProps) => {
   const promotionFunctions = new PromotionFunctions();
   const [channelName, setChannelName] = useState("");
   const [inputValue, setInputValue] = useState("");
@@ -45,12 +48,30 @@ const PromotionInner = ({
 
   const { t } = useTranslation();
 
-  setInterval(() => {
-    if (titleRef.current) {
-      titleRef.current.classList.add("titleActive");
-    }
-  }, 50);
+  const itemVariants = {
+    initial: { opacity: 0, y: 20 },
+    animate: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5 },
+    },
+    exit: { opacity: 0, y: 40, transition: { duration: 0.5 } },
+  };
 
+  // do not touch, resultBlock display will fall off
+  useEffect(() => {
+    let timeout: ReturnType<typeof setTimeout>;
+    if (videoData) {
+      setShowResults(true);
+      timeout = setTimeout(() => {
+        resultBlockRef.current?.classList.add("appearing");
+      }, 100);
+    }
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [videoData?.videoId]);
+  // do not touch
   useEffect(() => {
     if (userData.channels.length <= 0) {
       const observer = SmoothVerticalScroll({});
@@ -70,7 +91,6 @@ const PromotionInner = ({
       clearTimeout(timeout);
     };
   }, [userData.channels]);
-
 
   const resultBlock = (videoData: VideoData) => {
     return (
@@ -116,13 +136,14 @@ const PromotionInner = ({
 
           {hasOldAnalytics ? (
             <button
-              onClick={() =>
-                promotionFunctions.handleNext({
-                  isAnimating,
-                  setIsAnimating,
-                  setPage,
-                })
-              }
+              onClick={() => {
+                if (!containerToHide || !containerToShow) return;
+                promotionFunctions.hideAndShowComponents({
+                  containerToHide,
+                  containerToShow,
+                  time: 600,
+                });
+              }}
               id="detailed__analytics-button"
               className="fancy-button"
             >
@@ -136,109 +157,111 @@ const PromotionInner = ({
 
   return (
     <>
-      <section className="list">
-        {userData.channels.length > 0 ? (
-          <>
-            <h1 ref={titleRef} className="title_promotion none">
-              {t("promo")}
-              <span>{t("tion")}</span>
-            </h1>
-            <div className="cards__overflow-wrapper">
-              <div ref={scrollContainerRef} className="cards__flex-container">
-                {userData.channels.map((channel, index) => {
-                  return (
-                    <div
-                      onClick={() => {
-                        promotionFunctions.onCardClickActions({
-                          resultBlockRef,
-                          setVideoData,
-                          setInputValue,
-                          setChannelName,
-                          channel,
-                          setShowSearch,
-                          contentRefs,
-                          index,
-                          setShowResults,
-                        });
-                      }}
-                      ref={(el) => {
-                        if (el) contentRefs.current[index] = el;
-                      }}
-                      key={index}
-                      className={`card item`}
-                    >
-                      <img
-                        referrerPolicy="no-referrer"
-                        src={channel.thumbnail}
-                        alt=""
-                        className="card__image"
-                      />
-                      <h3 className="card__name">{channel.channel_name}</h3>
-                    </div>
-                  );
-                })}
+      <motion.div initial="initial" animate="animate" variants={itemVariants}>
+        <section className="list">
+          {userData.channels.length > 0 ? (
+            <>
+              <h1 ref={titleRef} className="title_promotion none">
+                {t("promo")}
+                <span>{t("tion")}</span>
+              </h1>
+              <div className="cards__overflow-wrapper">
+                <div ref={scrollContainerRef} className="cards__flex-container">
+                  {userData.channels.map((channel, index) => {
+                    return (
+                      <div
+                        onClick={() => {
+                          promotionFunctions.onCardClickActions({
+                            resultBlockRef,
+                            setVideoData,
+                            setInputValue,
+                            setChannelName,
+                            channel,
+                            setShowSearch,
+                            contentRefs,
+                            index,
+                            setShowResults,
+                          });
+                        }}
+                        ref={(el) => {
+                          if (el) contentRefs.current[index] = el;
+                        }}
+                        key={index}
+                        className={`card item`}
+                      >
+                        <img
+                          referrerPolicy="no-referrer"
+                          src={channel.thumbnail}
+                          alt=""
+                          className="card__image"
+                        />
+                        <h3 className="card__name">{channel.channel_name}</h3>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          </>
-        ) : (
-          <div className="promotion__thumbnail-flex moving__in-class_initial-state">
-            <img
-              src={promotionThumbnail}
-              className="promotion__thumbnail"
-              alt=""
-            />
-            <h1 className="promotion__thumbnail-title">
-              {t("You can check out")} <br />{" "}
-              <span>{t("youtubers' video stats here")}.</span>
-            </h1>
-          </div>
-        )}
-      </section>
-
-      <section
-        ref={searchSectionRef}
-        className={`promotion-search ${showSearch ? "appearing" : ""}`}
-      >
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-          }}
-          action="submit"
-        >
-          <div className="promotion__input-block">
-            <input
-              value={inputValue}
-              onChange={(e) => {
-                const value = e.target.value;
-                setInputValue(value);
-              }}
-              type="text"
-              className="promotion__input"
-            />
-            <button
-              onClick={() => {
-                promotionFunctions.validateVideoFinding({
-                  channelName,
-                  inputValue,
-                  setVideoData,
-                  setIsLoading,
-                  setCurrentAnalytics,
-                  setHasOldAnalytics,
-                });
-              }}
-              className="promotion__search-btn"
-            >
+            </>
+          ) : (
+            <div className="promotion__thumbnail-flex moving__in-class_initial-state">
               <img
-                className="promotion__search-btn_img"
-                src={isLoading ? loading : searchIcon}
+                src={promotionThumbnail}
+                className="promotion__thumbnail"
                 alt=""
               />
-            </button>
-          </div>
-        </form>
-      </section>
+              <h1 className="promotion__thumbnail-title">
+                {t("You can check out")} <br />{" "}
+                <span>{t("youtubers' video stats here")}.</span>
+              </h1>
+            </div>
+          )}
+        </section>
+
+        <section
+          ref={searchSectionRef}
+          className={`promotion-search ${showSearch ? "appearing" : ""}`}
+        >
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+            }}
+            action="submit"
+          >
+            <div className="promotion__input-block">
+              <input
+                value={inputValue}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setInputValue(value);
+                }}
+                type="text"
+                className="promotion__input"
+              />
+              <button
+                onClick={() => {
+                  promotionFunctions.validateVideoFinding({
+                    channelName,
+                    inputValue,
+                    setVideoData,
+                    setIsLoading,
+                    setCurrentAnalytics,
+                    setHasOldAnalytics,
+                  });
+                }}
+                className="promotion__search-btn"
+              >
+                <img
+                  className="promotion__search-btn_img"
+                  src={isLoading ? loading : searchIcon}
+                  alt=""
+                />
+              </button>
+            </div>
+          </form>
+        </section>
+      </motion.div>
       <div
-        className={`result__wrapper ${showResults ? "expanded" : ""}`}
+        className={`result__wrapper ${showSearch ? "expanded" : ""}`}
         ref={resultBlockRef}
       >
         {videoData && resultBlock(videoData)}

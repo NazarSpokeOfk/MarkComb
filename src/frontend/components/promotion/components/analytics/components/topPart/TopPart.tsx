@@ -15,9 +15,10 @@ const TopPart = ({
   thumbnail,
   title,
   videoId,
-  setPage,
   isAnimating,
   setIsAnimating,
+  containerToHide,
+  containerToShow,
 }: TopPartProps) => {
   const promotionFunctions = new PromotionsFunctions();
   return (
@@ -29,10 +30,10 @@ const TopPart = ({
         </h3>
         <button
           onClick={() =>
-            promotionFunctions.handlePrevious({
-              setPage,
-              isAnimating,
-              setIsAnimating,
+            promotionFunctions.hideAndShowComponents({
+              containerToHide,
+              containerToShow,
+              time: 600,
             })
           }
           className="first__block-back_to-promotion--button"
