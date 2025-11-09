@@ -46,7 +46,7 @@ const createPayment = async (req, res) => {
       },
       confirmation: {
         type: "redirect",
-        return_url: "https://markcomb.com/paymentsuccess",
+        return_url: "🤫",
       },
       capture: true,
       description: `Пакет ${title}, кол-во использований : ${uses}`,
