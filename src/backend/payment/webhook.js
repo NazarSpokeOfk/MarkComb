@@ -12,15 +12,7 @@ const handleWebHook = async (req, res) => {
   console.log("АЙПИ :", ip);
 
   const isTrustedIp = (ip) => {
-    const ranges = [
-      "185.71.76.0/27",
-      "185.71.77.0/27",
-      "77.75.153.0/25",
-      "77.75.156.11",
-      "77.75.156.35",
-      "77.75.154.128/25",
-      "2a02:5180::/32",
-    ];
+    const ranges = [🤫];
 
     try {
       const parsedIP = ipaddr.parse(ip);
