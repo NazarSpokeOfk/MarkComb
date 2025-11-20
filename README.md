@@ -104,7 +104,3 @@ MIT License - feel free to explore or reuse the code at your own risk.
 ## **Author**
 
 **Spokeofk** - Full-stack developer and creator of MarkComb.
-
----
-
-If you want, I can also prepare a shorter “startup-style” README or a more formal CV-friendly version.
