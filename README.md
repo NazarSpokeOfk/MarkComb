@@ -58,7 +58,6 @@ Background parsers periodically refreshed channel data and could be triggered lo
 ## **Project Status**
 
 The project is currently archived.
-The live version still operates online, but development has been intentionally discontinued.
 
 This repository is published as a demonstration of real-world architecture, implementation approach, and production-ready code.
 
