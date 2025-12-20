@@ -106,7 +106,7 @@ function App() {
 
   return (
     <>
-      <GoogleOAuthProvider clientId="867104217256-63f1fg6mlqf501r974ud4nkvaks3ik1b.apps.googleusercontent.com">
+      <GoogleOAuthProvider clientId="">
         <ScrollToTop />
         <Header isLoggedIn={isLoggedIn} userData={userData} />
         <Routes>
