@@ -1,71 +1,55 @@
-# **MarkComb**
+# 🪮 **MarkComb**
 
-A tool for discovering and analyzing YouTube channels for advertisers.
-MarkComb was built as a full solo project - from concept and design to backend, frontend, deployment, and maintenance.
+Инструмент для поиска и анализа каналов YouTube, предназначенный для рекламодателей.
 
----
+## **Суть проекта**
 
-## **Overview**
+MarkComb помогает рекламодателям быстро находить подходящих авторов на YouTube и получать доступ к важной информации об их каналах.
 
-MarkComb helps advertisers quickly find relevant YouTube creators and access key information about their channels.
-The main goal was to simplify the discovery process and provide actionable data in one place.
+## 🚀 **Основные функции:**
 
-**Core features included:**
+* Поиск по категориям и нишам
+* Многофункциональные фильтры (анимация, влоги, музыка и т. д.)
+* Аналитика каналов и структурированные результаты
+* Доступ к контактным данным авторов
+* Упрощенный рабочий процесс, напоминающий CRM, для управления выбранными канала
 
-* Search by categories and niches
-* Multifaceted filters (Animation, Vlogs, Music, etc.)
-* Channel analytics and structured results
-* Access to creators’ contact information
-* Lightweight CRM-like workflow for managing selected channels
-
----
-
-## **Tech Stack**
+## 🛠️ **Стэк**
 
 **Frontend:**
 
-* React (SPA)
-* React Router
+* React + React Router
 
 **Backend:**
 
 * Node.js (Express)
 * PostgreSQL
-* JWT authentication
-* Rate limiters, CORS, protected routes
-* External API integrations
 
-**Infrastructure:**
+**API's:**
+* YooMoney
+* Youtube API
 
-* Docker
+**Инфраструктура:**
+
 * Nginx
-* VPS deployment
-* Git-based data update pipeline
+* Деплой на VPS
 
----
+## 🏛️ **Архитектура**
 
-## **Architecture**
+Система разделена на два независимых слоя:
 
-The system is split into two independent layers:
+* **Frontend** - клиент, отвечающий за интерфейс пользователя, фильтрацию, поиск и отображение данных
+* **Backend** - REST API с контроллерами, сервисами, доступом к базе данных и настраиваемыми парсерами
 
-* **Frontend** - a single-page application responsible for UI, filtering, searching, and data display
-* **Backend** - REST API with controllers, services, database access, and custom parsers
+Фоновые парсеры периодически обновляют данные каналов и могут запускаться локально или удаленно через защищенный канал.
 
-Background parsers periodically refreshed channel data and could be triggered locally or remotely through a protected route.
+## 📊 **Статус проекта**
 
----
+В данный момент проект остановлен
 
-## **Project Status**
+## 🚀 **Настройка и запуск**
 
-The project is currently archived.
-
-This repository is published as a demonstration of real-world architecture, implementation approach, and production-ready code.
-
----
-
-## **Setup and launch**
-
-Simply copy and use these commands to install and run the application.
+Просто скопируйте и используйте эти команды для установки и запуска приложения.
 
 ```bash
 git clone https://github.com/NazarSpokeOfk/markcomb
@@ -74,50 +58,47 @@ npm i
 npm start
 ```
 
-### Start only Backend
-in /MarkComb directory 
+### Запустить только backend
+в директории /MarkComb 
 
 ```bash
 npm run dev
 ```
 
-### Start only Frontend
-in /MarkComb directory 
+### Запустить только Frontend
+в директории /MarkComb 
 
 ```bash
 npm run react
 ```
 
-Environment variable structure can be found in `.env.example`. <br>
-This file contains placeholder variables that you will need to replace yourself. I have described what you need to do to create your own API keys, what to replace the URLs with, etc.
+Структуру переменных среды можно найти в файле `.env.example`. <br>
+Этот файл содержит переменные-заглушки, которые вам нужно будет заменить самостоятельно. Я описал, что нужно сделать для создания собственных ключей API, чем заменить URL-адреса и т. д.
 
----
-
-## **Preview**
+## **Предварительный просмотр**
 
 
 https://github.com/user-attachments/assets/1073ad74-684d-415f-9a38-116b29a74357
 
-## **Screenshots**
+## 📺 **Скриншоты**
 
-### Welcome page
+### Домашняя страница
 <img width="1427" height="814" alt="Снимок экрана 2025-12-15 в 3 25 05 PM" src="https://github.com/user-attachments/assets/97ec42b8-22ab-4f5c-81fd-126b7e230e4e" />
 
-### Main page
+### Главная страница
 <img width="1425" height="814" alt="main_page" src="https://github.com/user-attachments/assets/21ecce56-39c3-4b38-a7a3-7c0e75a78e32" />
 
-### Purchases
+### Покупки
 <img width="1423" height="812" alt="Снимок экрана 2025-12-15 в 3 29 48 PM" src="https://github.com/user-attachments/assets/3dd00674-6c9c-469e-bb82-9fb6c6e1d2b1" />
 
-### Profile
+### Профиль
 <img width="1423" height="812" alt="Снимок экрана 2025-12-15 в 3 31 30 PM" src="https://github.com/user-attachments/assets/5b67025c-2c5c-46bb-a7a7-dcafb3bc9ed7" />
 
-## **License**
+## 🪪 **Лицензия**
 
-MIT License - feel free to explore or reuse the code at your own risk.
+Лицензия MIT - не стесняйтесь изучать или использовать этот код на свой страх и риск.
 
----
 
-## **Author**
+## **Автор**
 
-**Spokeofk** - Full-stack developer and creator of MarkComb.
+**Spokeofk**
