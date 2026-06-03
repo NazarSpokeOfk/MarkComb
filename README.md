@@ -82,8 +82,8 @@ https://github.com/user-attachments/assets/1073ad74-684d-415f-9a38-116b29a74357
 
 ## 📺 **Screenshots**
 
-### Home Page
-<img width="1427" height="814" alt=“Screenshot taken on 12/15/2025 at 3:25:05 PM” src="https://github.com/user-attachments/assets/97ec42b8-22ab-4f5c-81fd-126b7e230e4e" />
+### Welcome Page
+<img width="1427" height="814" src="https://github.com/user-attachments/assets/97ec42b8-22ab-4f5c-81fd-126b7e230e4e" />
 
 ### Home Page
 <img width="1425" height="814" alt="main_page" src="https://github.com/user-attachments/assets/21ecce56-39c3-4b38-a7a3-7c0e75a78e32" />
@@ -92,7 +92,7 @@ https://github.com/user-attachments/assets/1073ad74-684d-415f-9a38-116b29a74357
 <img width="1423" height=“812” alt="Screenshot 2025-12-15 at 3:29:48 PM" src="https://github.com/user-attachments/assets/3dd00674-6c9c-469e-bb82-9fb6c6e1d2b1" />
 
 ### Profile
-<img width="1423" height="812" alt="Screenshot taken on 2025-12-15 at 3:31:30 PM" src="https://github.com/user-attachments/assets/5b67025c -2c5c-46bb-a7a7-dcafb3bc9ed7" />
+<img width="1423" height="812" src="https://github.com/user-attachments/assets/5b67025c-2c5c-46bb-a7a7-dcafb3bc9ed7" />
 
 ## 🪪 **License**
 
