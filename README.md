@@ -1,6 +1,6 @@
 # 🪮 **MarkComb**
 
-A tool for searching and analyzing YouTube channels, designed for advertisers.
+YouTube channel search platform for advertisers — fullstack MVP with auth, payments, and real users
 
 ## **Project Overview**
 
@@ -45,7 +45,7 @@ Background parsers periodically update channel data and can be run locally or re
 
 ## 📊 **Project Status**
 
-The project is currently on hold
+MVP completed. Currently paused while I focus on gaining professional experience.
 
 ## 🚀 **Setup and Launch**
 
@@ -74,6 +74,11 @@ npm run react
 
 The structure of the environment variables can be found in the `.env.example` file. <br>
 This file contains placeholder variables that you will need to replace yourself. I have described what you need to do to create your own API keys, what to replace the URLs with, etc.
+
+## 📈 Launch Results
+- Deployed and publicly accessible
+- Onboarded first real users
+- Processed live payments via YooMoney
 
 ## **Preview**
 
